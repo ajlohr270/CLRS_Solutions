@@ -8,8 +8,7 @@
 \usepackage{algorithmicx}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
-\input{latexdefs}
-
+\usepackage{amssymb}
 	
 \pagestyle{fancy}
 \rhead{Andrew Lohr}
@@ -49,48 +48,32 @@
 \begin{document}
 \maketitle
 
-\begin{th1}\label{ex1}
-3.1-1
-\end{th1}
-\begin{proof}
+\noindent\textbf{Exercise 3.1-1}\\
 Since we are requiring both $f$ and $g$ to be aymptotically non-negative, suppose that we are past some $n_1$ where both are non-negative (take the max of the two bounds on the n corresponding to both $f$ and $g$). Let $c_1=.5$ and $c_2=1$.
 \[
 0\le .5(f(n)+g(n)) \le .5(\max(f(n),g(n)) + \max(f(n),g(n))) \]\[= \max(f(n),g(n)) \le \max(f(n),g(n))+\min(f(n),g(n)) = (f(n)+g(n))
-\]
-\end{proof}
+\]\\
 
-\begin{th1}\label{ex2}
-3.1-3
-\end{th1}
-\begin{proof}
-There are a ton of different funtions that have growth rate less than or equal to $n^2$. In particular, functions that are constant or shrink to zero arbitrarily fast. Saying that you grow more quickly than a function that shrinks to zero quickly means nothing. 
-\end{proof}
+\noindent\textbf{Exercise 3.1-3}\\
 
-\begin{th1}\label{ex3}
-3.1-5
-\end{th1}
-\begin{proof}
+There are a ton of different funtions that have growth rate less than or equal to $n^2$. In particular, functions that are constant or shrink to zero arbitrarily fast. Saying that you grow more quickly than a function that shrinks to zero quickly means nothing. \\
+
+\noindent\textbf{Exercise 3.1-5}\\
+
 Suppose $f(n)\in \Theta(g(n))$, then $\exists c_1,c_2,n_0, \forall n\ge n_0, 0\le c_1 g(n) \le f(n) \le c_2 g(n)$, if we just look at these inequalities saparately, we have $c_1 g(n) \le f(n)$ ($f(n) \in \Omega(g(n))$) and $f(n) \le c_2 g(n)$ ($f(n)\in O(g(n))$).
 
-Suppose that we had $\exists n_1, c_1, \forall n\ge n_1, c_1 g(n) \le f(n)$ and $\exists n_2,c_2, \forall n\ge n_2, f(n)\le c_2g(n)$. Putting these together, and letting $n_0 = \max(n_1,n_2)$, we have $\forall n\ge n_0, c_1 g(n) \le f(n) \le c_2 g(n)$. 
-\end{proof}
+Suppose that we had $\exists n_1, c_1, \forall n\ge n_1, c_1 g(n) \le f(n)$ and $\exists n_2,c_2, \forall n\ge n_2, f(n)\le c_2g(n)$. Putting these together, and letting $n_0 = \max(n_1,n_2)$, we have $\forall n\ge n_0, c_1 g(n) \le f(n) \le c_2 g(n)$. \\
 
-\begin{th1}\label{ex4}
-3.1-7
-\end{th1}
-\begin{proof}
+\noindent\textbf{Exercise 3.1-7}\\
+
 Suppose we had some $f(n) \in o(g(n)) \cap \omega(g(n))$. Then, we have
 \[
 0 = \lim_{n\rightarrow \infty} \frac{f(n)}{g(n)} = \infty
 \]
-a contradiction.
+a contradiction.\\
 
-\end{proof}
+\noindent\textbf{Exercise 3.2-1}\\
 
-\begin{th1}\label{ex5}
-3.2-1
-\end{th1}
-\begin{proof}
 Let $n_1 < n_2$ be arbitrary. From $f$ and $g$ being monatonic increasing, we know $f(n_1)< f(n_2)$ and $g(n_1) < g(n_2)$. So
 \[
 f(n_1)+g(n_1) < f(n_2) + g(n_1) < f(n_2)+g(n_2)
@@ -99,12 +82,10 @@ Since $g(n_1)<g(n_2)$, we have $f(g(n_1))<f(g(n_2))$. Lastly, if both are nonega
 \[
 f(n_1)g(n_1) = f(n_2)g(n_1) + (f(n_2)-f(n_1))g(n_1) \]\[= f(n_2)g(n_2) + f(n_2)(g(n_2)-g(n_1)) +(f(n_2)-f(n_1))g(n_1) 
 \]
-Since $f(n_1)\ge 0$, $f(n_2)>0$, so, the second term in this expression is greater than zero. The third term is nonnegative, so, the whole thing is$<f(n_2)g(n_2)$.
-\end{proof}
-\begin{th1}\label{ex6}
-3.2-3
-\end{th1}
-\begin{proof}
+Since $f(n_1)\ge 0$, $f(n_2)>0$, so, the second term in this expression is greater than zero. The third term is nonnegative, so, the whole thing is$<f(n_2)g(n_2)$.\\
+
+\noindent\textbf{Exercise 3.2-3}\\
+
 As the int suggests, we will apply stirling's approximation
 
 \[
@@ -122,13 +103,10 @@ If we restrict to $n> 4e$, then this is
 
 \[
 \lim_{n\rightarrow\infty} \frac{n^n}{n!} = \lim_{n\rightarrow\infty} \frac{1}{\sqrt{2\pi n}(1+\Theta(\frac{1}{n}))}e^n =  \lim_{n\rightarrow\infty} O(n^{-.5})e^n \ge \lim_{n\rightarrow\infty} \frac{e^n}{c_1\sqrt{n}}\]\[ \ge\lim_{n\rightarrow\infty} \frac{e^n}{c_1n} =  \lim_{n\rightarrow\infty} \frac{e^n}{c_1} = \infty
-\]
+\]\\
 
-\end{proof}
-\begin{th1}\label{ex7}
-3.2-5
-\end{th1}
-\begin{proof}
+\noindent\textbf{Exercise 3.2-5}\\
+
 Note that $\lg^*(2^n) = 1+ \lg^*(n)$, so, 
 \begin{align*}
 \lim_{n\rightarrow \infty} \frac{\lg(\lg^*(n))}{\lg^*(\lg(n))}&= \lim_{n\rightarrow \infty} \frac{\lg(\lg^*(2^n))}{\lg^*(\lg(2^n))}\\
@@ -138,21 +116,16 @@ Note that $\lg^*(2^n) = 1+ \lg^*(n)$, so,
 &= 0
 \end{align*}
 
-So, we have that $\lg^*(\lg(n))$ grows more quickly
-\end{proof}
-\begin{th1}\label{ex8}
-3.2-7
-\end{th1}
-\begin{proof}
+So, we have that $\lg^*(\lg(n))$ grows more quickly\\
+
+\noindent\textbf{Exercise 3.2-7}\\
+
 First, we show that $1+\phi = \frac{6+2\sqrt{5}}{4} = \phi^2$. So, for every $i$, $\phi^{i-1}+ \phi^{i-2} = \phi^{i-2}(\phi+1) = \phi^i$. Similarly for $\hat\phi$.
 
-For $i=0$, $\frac{\phi^0 - \hat\phi^0}{\sqrt{5}} = 0$. For $i=1$, $\frac{\frac{1+\sqrt{5}}{2} - \frac{1-\sqrt{5}}{2}}{\sqrt{5}} = \frac{\sqrt{5}}{\sqrt{5}} = 1$. Then, by induction, $F_i = F_{i-1}+F_{i-2} = \frac{\phi^{i-1}+\phi^{i-2} - (\hat\phi^{i-1} +\hat\phi^{i-2})}{\sqrt{5}} = \frac{\phi^i - \hat\phi^i}{\sqrt{5}}$.
+For $i=0$, $\frac{\phi^0 - \hat\phi^0}{\sqrt{5}} = 0$. For $i=1$, $\frac{\frac{1+\sqrt{5}}{2} - \frac{1-\sqrt{5}}{2}}{\sqrt{5}} = \frac{\sqrt{5}}{\sqrt{5}} = 1$. Then, by induction, $F_i = F_{i-1}+F_{i-2} = \frac{\phi^{i-1}+\phi^{i-2} - (\hat\phi^{i-1} +\hat\phi^{i-2})}{\sqrt{5}} = \frac{\phi^i - \hat\phi^i}{\sqrt{5}}$.\\
 
-\end{proof}
-\begin{th1}\label{ex9}
-3-1
-\end{th1}
-\begin{proof}
+\noindent\textbf{Problem 3-1}\\
+
 \begin{enumerate}[a)]
 \item
 If we pick any $c>0$, then, the end behavior of $cn^k -p(n)$ is going to infinity, in particular, there is an $n_0$ so that for every $n\ge n_0$, it is positive, so, we can add $p(n)$ to both sides to get $p(n)<cn^k$.
@@ -175,11 +148,9 @@ We have by the previous parts that $p(n) = O(n^k)$ and $p(n)= \Omega(n^k)$. So, 
 \]
 
 \end{enumerate}
-\end{proof}
-\begin{th1}\label{ex10}
-3-3
-\end{th1}
-\begin{proof}
+
+\noindent\textbf{Problem 3-3}\\
+\begin{enumerate}[a)]
 \item
 $
 \begin{array}{|c c|}
@@ -218,11 +189,10 @@ The terms are in decreasing growth hrate by row. Functions in the same row are $
 \[
 f(n) = \left\{\begin{array}{c c}g_1(n)!& n\mod 2=0 \\0 &n\mod 2 =1\end{array}\right.
 \]
-\end{proof}
-\begin{th1}\label{ex11}
-3-5
-\end{th1}
-\begin{proof}
+\end{enumerate}
+
+\noindent\textbf{Problem 3-5}\\
+
 \begin{enumerate}[a)]
 \item
 Suppose that we do not have that $f=O(g(n))$. This means that $\forall c>0,n_0, \exists n\ge n_0, f(n) > c g(n)$. Since this holds for every $c$, we can let it be arbitrary, say 1. Initially, we set $n_0=1$, then, the resulting $n$ we will call $a_1$. Then, in general, let $n_0= a_i+1$ and let $a_{i+1}$ be the resulting value of $n$. Then, on the infinite set $\{a_1,a_2,\ldots\}$, we have $f(n)>g(n)$, and so, $f = \overset{\infty}{\Omega}(g(n))$
@@ -242,6 +212,5 @@ Now for the other direction. Suppose that we had $\exists n_1, c_1,k_1 \forall n
 
 
 \end{enumerate}
-\end{proof}
 
 \end{document}
