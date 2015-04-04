@@ -9,7 +9,7 @@
 
 	
 \pagestyle{fancy}
-\rhead{Andrew Lohr}
+%\rhead{Andrew Lohr}
 \title{Chapter 1}
 \author{Michelle Bodnar, Andrew Lohr}
 
@@ -46,55 +46,48 @@
 \begin{document}
 \maketitle
 
-\begin{th1}\label{ex1}
-1.1-1
-\end{th1}
-\begin{proof}
-An example of a real world situation that would require sorting would be if you wanted to keep track of a bunch of people's file folders and be able to look up a given name quickly. A convex hull might be needed if you needed to secure a wildlife santuary with fencing and had to contain a bunch of specific nesting locations.
-\end{proof}
+\noindent\textbf{Exercise 1.1-1}\\
 
-\begin{th1}
-1.1-2
-\end{th1}
+An example of a real world situation that would require sorting would be if you wanted to keep track of a bunch of people's file folders and be able to look up a given name quickly. A convex hull might be needed if you needed to secure a wildlife santuary with fencing and had to contain a bunch of specific nesting locations.\\
+
+
+
+\noindent\textbf{Exercise 1.1-2}\\
+
 One might measure memory usage of an algorithm, or number of people required to carry out a single task.\\
 
 
-\begin{th1}\label{ex2}
-1.1-3
-\end{th1}
-\begin{proof}
-An array. It has the limitation of requiring a lot of copying when resizing, inserting, and removing elements. 
-\end{proof}
+\noindent\textbf{Exercise 1.1-3} \\
 
-\begin{th1}\label{ex3}
-1.1-5
-\end{th1}
-\begin{proof}
-If you were for example keeping track of terror watch suspects, it would be unacceptable to have it occasionally bringing up a wrong decision as to whether a person is on the list or not. It would be fine to only have an approximate solution to the shortest route on which to drive, an extra little bit of driving is not that bad.
-\end{proof}
-\begin{th1}\label{ex4}
-1.2-1
-\end{th1}
-\begin{proof}
-A program that would pick out which music a user would like to listen to next. They would need to use a bunch of information from historical and popular preferences in order to maximize.
-\end{proof}
+An array. It has the limitation of requiring a lot of copying when resizing, inserting, and removing elements. \\
 
-\begin{th1}\label{ex5}
-1.2-3
-\end{th1}
-\begin{proof}
-We want that $100n^2<2^n$. note that if $n=14$, this becomes $100(14)^2=19600 > 2^14  = 16384$. For $n=15$ it is $100(15)^2 = 22500 < 2^{15} = 32768$. So, the answer is $n=15$.
+\noindent\textbf{Exercise 1.1-4} \\
 
-\end{proof}
-\begin{th1}\label{ex6}
-1-1
-\end{th1}
-\begin{proof}
-We assume a 30 dday month and 365 day year.
+They are similar since both problems can be modeled by a graph with weighted edges and involve minimizing distance, or weight, of a walk on the graph.  They are different because the shortest path problem considers only two vertices, whereas the traveling salesman problem considers minimizing the weight of a path that must include many vertices and end where it began. \\
+
+\noindent\textbf{Exercise 1.1-5} \\
+
+If you were for example keeping track of terror watch suspects, it would be unacceptable to have it occasionally bringing up a wrong decision as to whether a person is on the list or not. It would be fine to only have an approximate solution to the shortest route on which to drive, an extra little bit of driving is not that bad. \\
+
+\noindent\textbf{Exercise 1.2-1} \\
+
+A program that would pick out which music a user would like to listen to next. They would need to use a bunch of information from historical and popular preferences in order to maximize. \\
+
+\noindent\textbf{Exercise 1.2-2}\\
+
+We wish to determine for which values of $n$ the inequality $8n^2 < 64n \log_2(n)$ holds.  This happens when $n < 8 \log_2(n)$, or when $n \leq 43$.  In other words, insertion sort runs faster when we're sorting at most 43 items.  Otherwise merge sort is faster. \\
+
+\noindent\textbf{Exercise 1.2-3} \\
+
+We want that $100n^2<2^n$. note that if $n=14$, this becomes $100(14)^2=19600 > 2^14  = 16384$. For $n=15$ it is $100(15)^2 = 22500 < 2^{15} = 32768$. So, the answer is $n=15$. \\
+
+\noindent\textbf{Problem 1-1} \\
+
+We assume a 30 dday month and 365 day year. \\
 
 $
 \begin{array}{c|c|c|c|c|c|c|c|}
-&1 Second&1 Minute &1 Hour&1 Day&1 Month&1 Year&1 Century\\
+&1 \mbox{ Second}&1 \mbox{ Minute} &1 \mbox{ Hour}&1 \mbox{ Day}&1 \mbox{ Month}&1 \mbox{ Year}&1 \mbox{ Century}\\
 \hline
 \lg n& 2^{1\times10^6}&2^{6\times10^7} &2^{3.6\times10^9} &2^{8.64\times10^{10}} &2^{2.592\times10^{12}} & 2^{3.1536\times10^{13} } & 2^{3.15576\times10^{15}} \\
 \hline
@@ -114,5 +107,5 @@ n! & 9&11 & 12& 13& 15& 16& 17\\
 \hline
 \end{array}
 $
-\end{proof}
+
 \end{document}
