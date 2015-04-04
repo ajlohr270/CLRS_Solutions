@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage{fancyhdr}
 \usepackage{amsthm}
+\usepackage{amssymb}
 \usepackage{etoolbox}
 \usepackage{verbatim}
 \usepackage{enumerate}
@@ -8,7 +9,6 @@
 \usepackage{algorithmicx}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
-\input{latexdefs}
 
 	
 \pagestyle{fancy}
@@ -49,24 +49,13 @@
 \begin{document}
 \maketitle
 
-\begin{th1}\label{ex1}
-4.1-1
-\end{th1}
-\begin{proof}
-It will return the least negative position. As each of the cross sums are computed, the most positive one must have the shorest possible lengths. The algoritm doesn't consider length zero sub arrays, so it must have length 1.
-\end{proof}
+\noindent\textbf{Exercise 4.1-1}\\
+It will return the least negative position. As each of the cross sums are computed, the most positive one must have the shorest possible lengths. The algoritm doesn't consider length zero sub arrays, so it must have length 1.\\
 
-\begin{th1}\label{ex2}
-4.1-3
-\end{th1}
-\begin{proof}
-Will be done later. 
-\end{proof}
+\noindent\textbf{Exercise 4.1-3}\\
+Will be done later. \\
 
-\begin{th1}\label{ex3}
-4.1-5
-\end{th1}
-\begin{proof}
+\noindent\textbf{Exercise 4.1-5}\\
 \begin{algorithm}
 \begin{algorithmic}[1]
 \State $M =-\infty$
@@ -89,14 +78,9 @@ Will be done later.
 
 
 \end{algorithmic}
-\end{algorithm}
-\end{proof}
+\end{algorithm}\\
 
-
-\begin{th1}\label{ex4}
-4.2-1
-\end{th1}
-\begin{proof}
+\noindent\textbf{Exercise 4.2-1}\\
 \begin{align*}
 S_1 &= 8-2=6\\
 S_2 &= 1+3 = 4\\
@@ -128,13 +112,9 @@ So, we get the final result:
 
 \[
 \left(\begin{array}{c c}18&14\\62&66\end{array}\right)
-\]
-\end{proof}
+\]\\
 
-\begin{th1}\label{ex5}
-4.2-3
-\end{th1}
-\begin{proof}
+\noindent\textbf{Exercise 4.2-3}\\
 you could pad out the input matrices to be powers of two and then run the given algorithm. Padding out the the next largest power of two (call it $m$) will at most double the value of n because each power of two is off from wach other by a factor of two. So, this will have runtime
 \[
 m^{\lg 7} \le (2n)^{\lg 7} = 7 n^{\lg 7} \in O(n^{\lg 7})
@@ -143,27 +123,19 @@ and
 \[
 m^{\lg 7} \ge n^{\lg 7} \in \Omega(n^{\lg 7})
 \]
-Putting these together, we get the runtime is $\Theta(n^{\lg 7})$.
+Putting these together, we get the runtime is $\Theta(n^{\lg 7})$.\\
 
-\end{proof}
-\begin{th1}\label{ex6}
-4.2-5
-\end{th1}
-\begin{proof}
+\noindent\textbf{Exercise 4.2-5}\\
 If we take the three algorithms and divide the number of multiplications by the side length of the matrices raised to $\lg(7)$, we approximately get the following values
 \begin{align*}
 &3745\\
 &3963\\
 &4167\\
 \end{align*}
-This means that, if used as base cases for a Strassen Algorithm, the first one will perform best for very large matrices.
-\end{proof}
+This means that, if used as base cases for a Strassen Algorithm, the first one will perform best for very large matrices.\\
 
 
-\begin{th1}\label{ex5}
-4.2-7
-\end{th1}
-\begin{proof}
+\noindent\textbf{Exercise 4.2-7}\\
 We can see that the final result should be
 \[
 (a+bi)(c+di) = ac-bd +(cb+ad) i
@@ -176,23 +148,15 @@ P_2 &= b(c+d) = bc+bd
 P_3&= (a-b)d = ad+bd
 \end{align*}
 
-Then, we can recover the real part by taking $P_1 - P_2$ and the imaginary part by taking $P_2+P_3$.
+Then, we can recover the real part by taking $P_1 - P_2$ and the imaginary part by taking $P_2+P_3$.\\
 
-\end{proof}
-\begin{th1}\label{ex5}
-4.3-1
-\end{th1}
-\begin{proof}
+\noindent\textbf{Exercise 4.3-1}\\
 Inductively assume $T(n)\le c n^2$, were $c$ is taken to be $\max(1,T(1))$ then
 \[
 T(n) = T(n-1)+n \le c(n-1)^2 +n = c n^2 +(1-2c)n + 1 \le c n^2 +2-2c \le c n^2
 \]
-The first inequality comes from the inductive hypothesis, the second from the fact that $n\ge 1$ and $1-2c <0$. The last from the fact that $c\ge 1$.
-\end{proof}
-\begin{th1}\label{ex5}
-4.3-3
-\end{th1}
-\begin{proof}
+The first inequality comes from the inductive hypothesis, the second from the fact that $n\ge 1$ and $1-2c <0$. The last from the fact that $c\ge 1$.\\
+\noindent\textbf{Exercise 4.3-3}\\
 Inductively assume that $T(n) \le cn\lg n$ where $c = \max(T(2)/2,1)$. Then, 
 \[
 T(n) = 2 T(\lfloor n/2\rfloor) + n \le 2 c\lfloor n/2 \rfloor \lg(\lfloor n/2\rfloor) +n
@@ -212,15 +176,10 @@ T(n) = 2 T(\lfloor n/2 \rfloor) +n \ge 2c'\lfloor n/2 \rfloor \lg(\lfloor n/2 \r
 \[
 \ge c'n(\lg(n)-2 + \frac{1}{c'} - \frac{(\lg(n-1) - 1 )}{n}) \ge c'n(\lg(n)-3 + \frac{1}{c'}) \ge c'n\lg(n)
 \]
-So, $T(n)\in \Omega(n)$. Together with the first part of this problem, we get that $T(n)\in \Theta(n)$.
-\end{proof}
-\begin{th1}\label{ex5}
-4.3-5
-\end{th1}
-\begin{proof}
-Will be done later
-\end{proof}
-\begin{th1}\label{ex5}
+So, $T(n)\in \Omega(n)$. Together with the first part of this problem, we get that $T(n)\in \Theta(n)$.\\
+\noindent\textbf{Exercise 4.3-5}\\
+Will be done later\\
+\noindent\textbf{Exercise 4.3-7}\\
 We first try the substitution proof $T(n) \le cn^{\log_34}$.
 \[
 T(n) = 4T(n/3)+n \le 4 c(n/3)^{\log_34}+n = 4cn^{\log_34}+n
@@ -231,14 +190,8 @@ Now, suppose instead that we make our inductive hypothesis $T(n) \le cn^{\log_34
 \[
 T(n) = 4T(n/3)+n \le 4(c(n/3)^{\log_34}-n) +n = cn^{\log_34} - 4n + n =cn^{\log_34} - 3n 
 \]
-as desired.
-\end{th1}
-\begin{proof}
-\end{proof}
-\begin{th1}\label{ex5}
-4.3-9
-\end{th1}
-\begin{proof}
+as desired.\\
+\noindent\textbf{Exercise 4.3-9}\\
 Consider $n$ of the form $2^k$. Then, the recurrence becomes
 \[
 T(2^k) = 3 T(2^(k/2)) +k
@@ -255,12 +208,8 @@ as desired. Similarly, we show that $S(k) \ge (S(1)+2) k^{\log_23} -2k$
 \[
 S(k) = 3S(k/2) +k \ge (S(1)+2)k^{\log_23} -2k
 \]
-So, we have that $S(k) = (S(1)+2)k^{\log_23}-2k$. Translating this back to $T$, $T(2^k) = (T(2)+2) k^{\log_23} -2k$. So, $T(n) = (T(2)+2)(\lg(n))^{\log_23} - 2\lg(n)$.
-\end{proof}
-\begin{th1}\label{ex5}
-4.5-1
-\end{th1}
-\begin{proof}
+So, we have that $S(k) = (S(1)+2)k^{\log_23}-2k$. Translating this back to $T$, $T(2^k) = (T(2)+2) k^{\log_23} -2k$. So, $T(n) = (T(2)+2)(\lg(n))^{\log_23} - 2\lg(n)$.\\
+\noindent\textbf{Exercise 4.5-1}\\
 \begin{enumerate}[a)]
 \item
 $\Theta(\sqrt{n})$
@@ -270,45 +219,24 @@ $\Theta(\sqrt{n}\lg(n))$
 $\Theta(n)$
 \item
 $\Theta(n^2)$
-\end{enumerate}
-\end{proof}
-\begin{th1}\label{ex5}
-4.5-3
-\end{th1}
-\begin{proof}
-Applying the method with $a=1,b=2$, we have that $\Theta(n^{\log_1 2}) = \Theta(1)$. So, we are in the second case, so, we have a final result of $\Theta(n^{\log_1 2}\lg(n)) = \Theta(\lg(n))$.
-\end{proof}
-\begin{th1}\label{ex5}
-4.5-5
-\end{th1}
-\begin{proof}
+\end{enumerate}\\
+\noindent\textbf{Exercise 4.5-3}\\
+Applying the method with $a=1,b=2$, we have that $\Theta(n^{\log_1 2}) = \Theta(1)$. So, we are in the second case, so, we have a final result of $\Theta(n^{\log_1 2}\lg(n)) = \Theta(\lg(n))$.\\
+\noindent\textbf{Exercise 4.5-5}\\
 Let $\epsilon = a=1,b=3$, and $f = 3n + 2^{3n} \chi_{\{2^i:i\in\mathbb{N}\}}$ where $\chi_A$ is the indicator function of the set $A$. Then, we have that for any number $n$ which is three times a power of 2, we know that 
 \[
 f(n) = 3n < 2^n + n = f(n/3)
 \]
-And so, it fails the regularity condition, even though $f \in \Omega(n) =\Omega(n^{\log_b(a) + \epsilon})$.
-\end{proof}
-\begin{th1}\label{ex5}
-4.6-1
-\end{th1}
-\begin{proof}
-$n_j$ is obtained by shifting the base $b$ representation $j$ positions to the right, and adding 1 if any of the $j$ least significant positions are non-zero.
-\end{proof}
-\begin{th1}\label{ex5}
-4.6-3
-\end{th1}
-\begin{proof}
+And so, it fails the regularity condition, even though $f \in \Omega(n) =\Omega(n^{\log_b(a) + \epsilon})$.\\
+\noindent\textbf{Exercise 4.6-1}\\
+$n_j$ is obtained by shifting the base $b$ representation $j$ positions to the right, and adding 1 if any of the $j$ least significant positions are non-zero.\\
+\noindent\textbf{Exercise 4.6-3}\\
 Suppose that $f$ satisfies the regularity condition, we want that $\exists \epsilon, d,k$,$\forall n\ge k$, we have $f(n) \ge d n^{\log_b a +\epsilon}$. By the regularity condition, we have that for sufficiently large $n$, $af(n/b) \le cf(n)$. In particular, it is true for all $n\ge bk$. Let this be our $k$ from above, also, $\epsilon= -\log_b(c)$. Finally let $d$ be the largest value of $f(n)/n^{\log_b(a)+\epsilon}$ between $bk$ and $b^2k$. Then, we will prove by induction on the highest $i$ so that $b^i k$ is less than $n$ that for every $n\ge k, f(n) \ge d n^{\log_b a +\epsilon}$. By our definition of $d$, we have it is true for $i= 1$. So, suppose we have $b^{i-1}k < n \le b^i k$. Then, by regularity and the inductive hypothesis,  $cf(n) \ge a f(n/b) \ge ad \left(\frac{n}{b}\right)^{\log_b(a) +\epsilon}$. Solving for $f(n)$, we have
 \[
 f(n) \ge \frac{ad}{c} \left(\frac{n}{b}\right)^{\log_b{a/c}} = \frac{a/c}{b^{\log_b(a/c)}} d n^{\log_b(a) + \epsilon} =  d n^{\log_b(a) + \epsilon}
 \]
-Completing the induction. 
-
-\end{proof}
-\begin{th1}\label{ex5}
-4-1
-\end{th1}
-\begin{proof}
+Completing the induction. \\
+\noindent\textbf{Problem 4-1}\\
 \begin{enumerate}[a)]
 \item
 By Master Theorem, $T(n) \in \Theta(n^4)$
@@ -336,11 +264,7 @@ Let $d = m\mod 2$, we can easily see that the exact value of $T(n)$ is
 This has a leading term of $n^3/6$, and so $T(n) \in \Theta(n^3)$
 
 \end{enumerate}
-\end{proof}
-\begin{th1}\label{ex5}
-4-3
-\end{th1}
-\begin{proof}
+\noindent\textbf{Problem 4-3}\\
 \begin{enumerate}[a)]
 \item
 By Master Theorem, $T(n) \in \Theta(n^{\log_3(4)})$
@@ -400,11 +324,7 @@ T(n) = n^{1 - \frac{1}{2^i}} T(2) + n + n \sum_{j=1}^i 1 \in \Theta(n\lg(\lg(n))
 
 
 \end{enumerate}
-\end{proof}
-\begin{th1}\label{ex5}
-4-5
-\end{th1}
-\begin{proof}
+\noindent\textbf{Problem 4-5}\\
 \begin{enumerate}[a)]
 
 \item
@@ -422,8 +342,6 @@ T(n) \le T(n/2) + n/2
 This has solution $\Theta(n)$ by the Master Theorem. So, we have the problem can be solved in $O(n)$ pairwise tests. Since we also neccesarily need to look at at least half of the chips, we know that the problem is also $\Omega(n)$.
 
 \end{enumerate}
-
-\end{proof}
 
 
 
