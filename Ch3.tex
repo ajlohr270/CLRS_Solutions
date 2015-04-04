@@ -1,0 +1,247 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\input{latexdefs}
+
+	
+\pagestyle{fancy}
+\rhead{Andrew Lohr}
+\title{Chapter 3}
+\author{Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+%\newtheorem{ex1}{Exercise}
+%\newenvironment{exercise}{\pgfmathparse{\curnum +1}\def\curnum{\pgfmathresult}\newtheorem{ex\curnum}{Exercise}\label{lbl\curnum}\label{last}\begin{ex\curnum}}{\end{ex\curnum}}
+%\newenvironment{exercise}{\stepcounter{curnum}
+%\newtheorem{ex\value{curnum}}{Exercise}\label{lbl\value{curnum}}\begin{ex\value{curnum}}}{\end{ex\value{curnum}}}
+
+%\newcommand{\scoretable}{
+%\begin{center}\begin{tabular}{|c|c|c|}
+%\hline
+%Problem Number& Page Number& Score \\
+%\hline
+%\newcounter{myi}
+%\setcounter{myi}{1}
+%\loop
+%\myi&\pageref{\myi} &  \\
+%\stepcounter{myi}
+%\ifnum \myi < \curnum
+%\repeat
+% \hline
+%\end{tabular}
+%\end{center}
+%}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+\begin{document}
+\maketitle
+
+\begin{th1}\label{ex1}
+3.1-1
+\end{th1}
+\begin{proof}
+Since we are requiring both $f$ and $g$ to be aymptotically non-negative, suppose that we are past some $n_1$ where both are non-negative (take the max of the two bounds on the n corresponding to both $f$ and $g$). Let $c_1=.5$ and $c_2=1$.
+\[
+0\le .5(f(n)+g(n)) \le .5(\max(f(n),g(n)) + \max(f(n),g(n))) \]\[= \max(f(n),g(n)) \le \max(f(n),g(n))+\min(f(n),g(n)) = (f(n)+g(n))
+\]
+\end{proof}
+
+\begin{th1}\label{ex2}
+3.1-3
+\end{th1}
+\begin{proof}
+There are a ton of different funtions that have growth rate less than or equal to $n^2$. In particular, functions that are constant or shrink to zero arbitrarily fast. Saying that you grow more quickly than a function that shrinks to zero quickly means nothing. 
+\end{proof}
+
+\begin{th1}\label{ex3}
+3.1-5
+\end{th1}
+\begin{proof}
+Suppose $f(n)\in \Theta(g(n))$, then $\exists c_1,c_2,n_0, \forall n\ge n_0, 0\le c_1 g(n) \le f(n) \le c_2 g(n)$, if we just look at these inequalities saparately, we have $c_1 g(n) \le f(n)$ ($f(n) \in \Omega(g(n))$) and $f(n) \le c_2 g(n)$ ($f(n)\in O(g(n))$).
+
+Suppose that we had $\exists n_1, c_1, \forall n\ge n_1, c_1 g(n) \le f(n)$ and $\exists n_2,c_2, \forall n\ge n_2, f(n)\le c_2g(n)$. Putting these together, and letting $n_0 = \max(n_1,n_2)$, we have $\forall n\ge n_0, c_1 g(n) \le f(n) \le c_2 g(n)$. 
+\end{proof}
+
+\begin{th1}\label{ex4}
+3.1-7
+\end{th1}
+\begin{proof}
+Suppose we had some $f(n) \in o(g(n)) \cap \omega(g(n))$. Then, we have
+\[
+0 = \lim_{n\rightarrow \infty} \frac{f(n)}{g(n)} = \infty
+\]
+a contradiction.
+
+\end{proof}
+
+\begin{th1}\label{ex5}
+3.2-1
+\end{th1}
+\begin{proof}
+Let $n_1 < n_2$ be arbitrary. From $f$ and $g$ being monatonic increasing, we know $f(n_1)< f(n_2)$ and $g(n_1) < g(n_2)$. So
+\[
+f(n_1)+g(n_1) < f(n_2) + g(n_1) < f(n_2)+g(n_2)
+\]
+Since $g(n_1)<g(n_2)$, we have $f(g(n_1))<f(g(n_2))$. Lastly, if both are nonegative, then, 
+\[
+f(n_1)g(n_1) = f(n_2)g(n_1) + (f(n_2)-f(n_1))g(n_1) \]\[= f(n_2)g(n_2) + f(n_2)(g(n_2)-g(n_1)) +(f(n_2)-f(n_1))g(n_1) 
+\]
+Since $f(n_1)\ge 0$, $f(n_2)>0$, so, the second term in this expression is greater than zero. The third term is nonnegative, so, the whole thing is$<f(n_2)g(n_2)$.
+\end{proof}
+\begin{th1}\label{ex6}
+3.2-3
+\end{th1}
+\begin{proof}
+As the int suggests, we will apply stirling's approximation
+
+\[
+\lg(n!) = \lg\left(\sqrt{(2\pi n}\left(\frac{n}{e}\right)^n\left( 1 + \Theta\left(\frac{1}{n}\right)\right)\right) \]\[= \frac{1}{2}\lg(2\pi n) + n\lg(n) - n \lg (e) + \lg\left(\Theta\left(\frac{n+1}{n}\right)\right)
+\]
+Note that this last term is $O(\lg(n))$ if we just add the two expression we get when we break up the $\lg$ instead of subtract them. So, the whole expression is dominated by $n\lg(n)$. So, we have that $\lg(n!) = \Theta(n\lg(n))$.
+
+\[
+\lim_{n\rightarrow\infty} \frac{2^n}{n!} = \lim_{n\rightarrow\infty} \frac{1}{\sqrt{2\pi n}(1+\Theta(\frac{1}{n}))} \left(\frac{2e}{n}\right)^n \le  \lim_{n\rightarrow\infty} \left(\frac{2e}{n}\right)^n
+\]
+If we restrict to $n> 4e$, then this is 
+\[
+\le \lim_{n\rightarrow\infty} \frac{1}{2^n} = 0
+\]
+
+\[
+\lim_{n\rightarrow\infty} \frac{n^n}{n!} = \lim_{n\rightarrow\infty} \frac{1}{\sqrt{2\pi n}(1+\Theta(\frac{1}{n}))}e^n =  \lim_{n\rightarrow\infty} O(n^{-.5})e^n \ge \lim_{n\rightarrow\infty} \frac{e^n}{c_1\sqrt{n}}\]\[ \ge\lim_{n\rightarrow\infty} \frac{e^n}{c_1n} =  \lim_{n\rightarrow\infty} \frac{e^n}{c_1} = \infty
+\]
+
+\end{proof}
+\begin{th1}\label{ex7}
+3.2-5
+\end{th1}
+\begin{proof}
+Note that $\lg^*(2^n) = 1+ \lg^*(n)$, so, 
+\begin{align*}
+\lim_{n\rightarrow \infty} \frac{\lg(\lg^*(n))}{\lg^*(\lg(n))}&= \lim_{n\rightarrow \infty} \frac{\lg(\lg^*(2^n))}{\lg^*(\lg(2^n))}\\
+& = \lim_{n\rightarrow \infty} \frac{\lg(1+\lg^*(n))}{\lg^*(n)} \\
+&= \lim_{n\rightarrow \infty} \frac{\lg(1+n)}{n} \\
+&= \lim_{n\rightarrow \infty} \frac{1}{1+n} \\
+&= 0
+\end{align*}
+
+So, we have that $\lg^*(\lg(n))$ grows more quickly
+\end{proof}
+\begin{th1}\label{ex8}
+3.2-7
+\end{th1}
+\begin{proof}
+First, we show that $1+\phi = \frac{6+2\sqrt{5}}{4} = \phi^2$. So, for every $i$, $\phi^{i-1}+ \phi^{i-2} = \phi^{i-2}(\phi+1) = \phi^i$. Similarly for $\hat\phi$.
+
+For $i=0$, $\frac{\phi^0 - \hat\phi^0}{\sqrt{5}} = 0$. For $i=1$, $\frac{\frac{1+\sqrt{5}}{2} - \frac{1-\sqrt{5}}{2}}{\sqrt{5}} = \frac{\sqrt{5}}{\sqrt{5}} = 1$. Then, by induction, $F_i = F_{i-1}+F_{i-2} = \frac{\phi^{i-1}+\phi^{i-2} - (\hat\phi^{i-1} +\hat\phi^{i-2})}{\sqrt{5}} = \frac{\phi^i - \hat\phi^i}{\sqrt{5}}$.
+
+\end{proof}
+\begin{th1}\label{ex9}
+3-1
+\end{th1}
+\begin{proof}
+\begin{enumerate}[a)]
+\item
+If we pick any $c>0$, then, the end behavior of $cn^k -p(n)$ is going to infinity, in particular, there is an $n_0$ so that for every $n\ge n_0$, it is positive, so, we can add $p(n)$ to both sides to get $p(n)<cn^k$.
+
+\item
+If we pick any $c>0$, then, the end behavior of $p(n)- cn^k$ is going to infinity, in particular, there is an $n_0$ so that for every $n\ge n_0$, it is positive, so, we can add $cn^k$ to both sides to get $p(n)>cn^k$.
+
+\item
+We have by the previous parts that $p(n) = O(n^k)$ and $p(n)= \Omega(n^k)$. So, by Theorem 3.1, we have that $p(n) = \Theta(n^k)$.
+
+\item
+\[
+\lim_{n\rightarrow\infty} \frac{p(n)}{n^k} = \lim_{n\rightarrow\infty} \frac{n^d(a_d + o(1))}{n^k} < \lim_{n\rightarrow\infty} \frac{2a_dn^d}{n^k} = 2a_d\lim_{n\rightarrow\infty} n^{d-k} = 0
+\]
+
+
+\item
+\[
+\lim_{n\rightarrow\infty} \frac{n^k}{p(n)} = \lim_{n\rightarrow\infty} \frac{n^k}{n^d O(1)} < \lim_{n\rightarrow\infty} \frac{n^k}{n^d} = \lim_{n\rightarrow\infty} n^{k-d} = 0
+\]
+
+\end{enumerate}
+\end{proof}
+\begin{th1}\label{ex10}
+3-3
+\end{th1}
+\begin{proof}
+\item
+$
+\begin{array}{|c c|}
+2^{2^{n+1}}&\\
+2^{2^n}&\\
+(n+1)!&\\
+n!&\\
+n2^n&\\
+e^n&\\
+2^n&\\
+\left(\frac{3}{2}\right)^n&\\
+(\lg(n))!&\\
+ n^{\lg(\lg(n))}&\lg(n)^{\lg(n)}\\
+ n^3&\\
+  n^2& 4^{\lg(n)}\\
+  n\lg(n)&\lg(n!)\\
+  2^{\lg(n)}&n\\
+  (\sqrt{2})^{\lg(n)}&\\
+  2^{\sqrt{2\lg(n)}}&\\
+  \lg^2(n)&\\
+  \lg(n)&\\
+  \sqrt{\lg(n)}&\\
+  \ln(\ln(n))&\\
+  2^{\lg^*(n)}&\\
+  \lg^*(n) &\lg^*(\lg(n))\\
+  \lg(\lg^*(n)&\\
+  1&n^{1/\lg(n)}
+
+\end{array}
+$
+
+
+The terms are in decreasing growth hrate by row. Functions in the same row are $\Theta$ of eachother.
+\item
+
+\[
+f(n) = \left\{\begin{array}{c c}g_1(n)!& n\mod 2=0 \\0 &n\mod 2 =1\end{array}\right.
+\]
+\end{proof}
+\begin{th1}\label{ex11}
+3-5
+\end{th1}
+\begin{proof}
+\begin{enumerate}[a)]
+\item
+Suppose that we do not have that $f=O(g(n))$. This means that $\forall c>0,n_0, \exists n\ge n_0, f(n) > c g(n)$. Since this holds for every $c$, we can let it be arbitrary, say 1. Initially, we set $n_0=1$, then, the resulting $n$ we will call $a_1$. Then, in general, let $n_0= a_i+1$ and let $a_{i+1}$ be the resulting value of $n$. Then, on the infinite set $\{a_1,a_2,\ldots\}$, we have $f(n)>g(n)$, and so, $f = \overset{\infty}{\Omega}(g(n))$
+
+This is not the case for the usual definition of $\Omega$. Suppose we had $f(n) = n^2(n\mod 2)$ and $g(n) = n$. On all the even values, $g(n)$ is larger, but on all the odd values, $f(n)$ grows more quickly.
+
+\item
+The advvantage is that you get the result of part a which is a nice property. A disadantage is that the infinite set of points on which you are making claims of the behavior could  be very sparse. Also, there is nothing said about the behavior when outside of this infinite set, it can do whatever it wants.
+
+\item
+A function $f$ can only be in $\Theta(g(n))$ if $f(n)$ has an infinite tail that is non--negative. In this case, the definition of $O(g(n))$ agrees with $O'(g(n))$. Similarly, for a funtion to be in $\Omega(g(n))$, we need that $f(n)$ is non-negative for some infinite tail, on which $O(g(n))$ is identical to $O'(g(n))$. So, we have athat in both directions, changing $O$ to $O'$ does not change anything.
+
+\item
+Suppose $f(n)\in \overset{\sim}{\Theta}(g(n))$, then $\exists c_1,c_2,k_1,k_2,n_0, \forall n\ge n_0, 0\le \frac{c_1 g(n)}{\lg^{k_1}(n)} \le f(n) \le c_2 g(n)\lg^{k_2}(n)$, if we just look at these inequalities saparately, we have $\frac{c_1 g(n)}{\lg^{k_1}(n)} \le f(n)$ ($f(n) \in \overset{\sim}{\Omega}(g(n))$) and $f(n) \le c_2 g(n)\lg^{k_2}(n)$ ($f(n)\in \overset{\sim}{O}(g(n))$).
+
+Now for the other direction. Suppose that we had $\exists n_1, c_1,k_1 \forall n\ge n_1, \frac{c_1 g(n)}{\lg^{k_1}(n)} \le f(n)$ and $\exists n_2,c_2,k_2, \forall n\ge n_2, f(n)\le c_2g(n)\lg^{k_2}(n)$. Putting these together, and letting $n_0 = \max(n_1,n_2)$, we have $\forall n\ge n_0, \frac{c_1 g(n)}{\lg^{k_1}(n)} \le f(n) \le c_2 g(n)\lg^{k_2}(n)$. 
+
+
+\end{enumerate}
+\end{proof}
+
+\end{document}

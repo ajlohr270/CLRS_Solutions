@@ -1,0 +1,430 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\input{latexdefs}
+
+	
+\pagestyle{fancy}
+\rhead{Andrew Lohr}
+\title{Chapter 4}
+\author{Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+%\newtheorem{ex1}{Exercise}
+%\newenvironment{exercise}{\pgfmathparse{\curnum +1}\def\curnum{\pgfmathresult}\newtheorem{ex\curnum}{Exercise}\label{lbl\curnum}\label{last}\begin{ex\curnum}}{\end{ex\curnum}}
+%\newenvironment{exercise}{\stepcounter{curnum}
+%\newtheorem{ex\value{curnum}}{Exercise}\label{lbl\value{curnum}}\begin{ex\value{curnum}}}{\end{ex\value{curnum}}}
+
+%\newcommand{\scoretable}{
+%\begin{center}\begin{tabular}{|c|c|c|}
+%\hline
+%Problem Number& Page Number& Score \\
+%\hline
+%\newcounter{myi}
+%\setcounter{myi}{1}
+%\loop
+%\myi&\pageref{\myi} &  \\
+%\stepcounter{myi}
+%\ifnum \myi < \curnum
+%\repeat
+% \hline
+%\end{tabular}
+%\end{center}
+%}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+\begin{document}
+\maketitle
+
+\begin{th1}\label{ex1}
+4.1-1
+\end{th1}
+\begin{proof}
+It will return the least negative position. As each of the cross sums are computed, the most positive one must have the shorest possible lengths. The algoritm doesn't consider length zero sub arrays, so it must have length 1.
+\end{proof}
+
+\begin{th1}\label{ex2}
+4.1-3
+\end{th1}
+\begin{proof}
+Will be done later. 
+\end{proof}
+
+\begin{th1}\label{ex3}
+4.1-5
+\end{th1}
+\begin{proof}
+\begin{algorithm}
+\begin{algorithmic}[1]
+\State $M =-\infty$
+\State $low_M, high_M = null$
+\State $M_r = 0$
+\State $low_r = 1$
+\For{$i$ from 1 to A.length}
+\State $M_r += A[i]$
+\If {$M_r>M$}
+\State $low_M = low_r$
+\State $high_M = i$
+\State $M= M_r$
+\EndIf
+\If {$M_r <0$}
+\State $M_r = 0$
+\State $low_r = i+1$
+\EndIf
+\State \Return $(low_M,high_M,M)$
+\EndFor
+
+
+\end{algorithmic}
+\end{algorithm}
+\end{proof}
+
+
+\begin{th1}\label{ex4}
+4.2-1
+\end{th1}
+\begin{proof}
+\begin{align*}
+S_1 &= 8-2=6\\
+S_2 &= 1+3 = 4\\
+S_3 &=7+5 = 12\\
+S_4 &=4-6 = -2\\
+S_5 &=1+5=6\\
+S_6 &=6+2=8\\
+S_7 &=3-5=-2\\
+S_8 &=4 +2=6\\
+S_9 &=1-7 = -6\\
+S_{10} &=6+8=14
+\end{align*}
+\begin{align*}
+P_1 &=6\\
+P_2 &=8\\
+P_3 &=72\\
+P_4 &=-10\\
+P_5 &=48\\
+P_6 &=-12\\
+P_7 &=-84
+\end{align*}
+\begin{align*}
+C_{11} &=48 -10-8-12 = 18\\
+C_{12} &= 6+8 = 14\\
+C_{21} &= 72-10 = 62\\
+C_{22} &=48+6-72+84 = 66
+\end{align*}
+So, we get the final result:
+
+\[
+\left(\begin{array}{c c}18&14\\62&66\end{array}\right)
+\]
+\end{proof}
+
+\begin{th1}\label{ex5}
+4.2-3
+\end{th1}
+\begin{proof}
+you could pad out the input matrices to be powers of two and then run the given algorithm. Padding out the the next largest power of two (call it $m$) will at most double the value of n because each power of two is off from wach other by a factor of two. So, this will have runtime
+\[
+m^{\lg 7} \le (2n)^{\lg 7} = 7 n^{\lg 7} \in O(n^{\lg 7})
+\]
+and
+\[
+m^{\lg 7} \ge n^{\lg 7} \in \Omega(n^{\lg 7})
+\]
+Putting these together, we get the runtime is $\Theta(n^{\lg 7})$.
+
+\end{proof}
+\begin{th1}\label{ex6}
+4.2-5
+\end{th1}
+\begin{proof}
+If we take the three algorithms and divide the number of multiplications by the side length of the matrices raised to $\lg(7)$, we approximately get the following values
+\begin{align*}
+&3745\\
+&3963\\
+&4167\\
+\end{align*}
+This means that, if used as base cases for a Strassen Algorithm, the first one will perform best for very large matrices.
+\end{proof}
+
+
+\begin{th1}\label{ex5}
+4.2-7
+\end{th1}
+\begin{proof}
+We can see that the final result should be
+\[
+(a+bi)(c+di) = ac-bd +(cb+ad) i
+\]
+
+We will be multiplying 
+\begin{align*}
+P_1 &= (a+b)c = ac+bc
+P_2 &= b(c+d) = bc+bd
+P_3&= (a-b)d = ad+bd
+\end{align*}
+
+Then, we can recover the real part by taking $P_1 - P_2$ and the imaginary part by taking $P_2+P_3$.
+
+\end{proof}
+\begin{th1}\label{ex5}
+4.3-1
+\end{th1}
+\begin{proof}
+Inductively assume $T(n)\le c n^2$, were $c$ is taken to be $\max(1,T(1))$ then
+\[
+T(n) = T(n-1)+n \le c(n-1)^2 +n = c n^2 +(1-2c)n + 1 \le c n^2 +2-2c \le c n^2
+\]
+The first inequality comes from the inductive hypothesis, the second from the fact that $n\ge 1$ and $1-2c <0$. The last from the fact that $c\ge 1$.
+\end{proof}
+\begin{th1}\label{ex5}
+4.3-3
+\end{th1}
+\begin{proof}
+Inductively assume that $T(n) \le cn\lg n$ where $c = \max(T(2)/2,1)$. Then, 
+\[
+T(n) = 2 T(\lfloor n/2\rfloor) + n \le 2 c\lfloor n/2 \rfloor \lg(\lfloor n/2\rfloor) +n
+\]
+\[
+\le cn \lg(n/2) +n = cn (\lg(n) - 1) +n = cn(\lg(n) -1+\frac{1}{c}) \le cn\lg(n)
+\]
+And so, $T(n)\in O(n\lg(n))$.
+
+Now, inductively assume that $T(n)\ge c'n\lg(n)$ where $c' = \min(1/3, T(2)/2)$. 
+\[
+T(n) = 2 T(\lfloor n/2 \rfloor) +n \ge 2c'\lfloor n/2 \rfloor \lg(\lfloor n/2 \rfloor) + n \ge c'(n-1) \lg((n-1)/2) +n
+\]
+\[
+= c'(n-1)(\lg(n) - 1 - \lg(n/(n-1))) +n\]\[ = c' n (\lg(n) -1 -\lg(n/(n-1)) + \frac{1}{c'}) - c'(\lg(n) - 1 -\lg(n/(n-1)))
+\]
+\[
+\ge c'n(\lg(n)-2 + \frac{1}{c'} - \frac{(\lg(n-1) - 1 )}{n}) \ge c'n(\lg(n)-3 + \frac{1}{c'}) \ge c'n\lg(n)
+\]
+So, $T(n)\in \Omega(n)$. Together with the first part of this problem, we get that $T(n)\in \Theta(n)$.
+\end{proof}
+\begin{th1}\label{ex5}
+4.3-5
+\end{th1}
+\begin{proof}
+Will be done later
+\end{proof}
+\begin{th1}\label{ex5}
+We first try the substitution proof $T(n) \le cn^{\log_34}$.
+\[
+T(n) = 4T(n/3)+n \le 4 c(n/3)^{\log_34}+n = 4cn^{\log_34}+n
+\]
+This clearly will not be $\le cn^{\log_34}$ as required.
+
+Now, suppose instead that we make our inductive hypothesis $T(n) \le cn^{\log_34} -3n$.
+\[
+T(n) = 4T(n/3)+n \le 4(c(n/3)^{\log_34}-n) +n = cn^{\log_34} - 4n + n =cn^{\log_34} - 3n 
+\]
+as desired.
+\end{th1}
+\begin{proof}
+\end{proof}
+\begin{th1}\label{ex5}
+4.3-9
+\end{th1}
+\begin{proof}
+Consider $n$ of the form $2^k$. Then, the recurrence becomes
+\[
+T(2^k) = 3 T(2^(k/2)) +k
+\]
+We define $S(k) = T(2^k)$. So,
+\[
+S(k) =3S(k/2)+k
+\]
+We use the inductive hypothesis $S(k)\le (S(1)+2) k^{\log_23} - 2k$
+\[
+S(k) = 3S(k/2)+k \le 3(S(1)+2)(k/2)^{\log_23} -3k+k = (S(1)+2)k^{\log_23} - 2k
+\]
+as desired. Similarly, we show that $S(k) \ge (S(1)+2) k^{\log_23} -2k$
+\[
+S(k) = 3S(k/2) +k \ge (S(1)+2)k^{\log_23} -2k
+\]
+So, we have that $S(k) = (S(1)+2)k^{\log_23}-2k$. Translating this back to $T$, $T(2^k) = (T(2)+2) k^{\log_23} -2k$. So, $T(n) = (T(2)+2)(\lg(n))^{\log_23} - 2\lg(n)$.
+\end{proof}
+\begin{th1}\label{ex5}
+4.5-1
+\end{th1}
+\begin{proof}
+\begin{enumerate}[a)]
+\item
+$\Theta(\sqrt{n})$
+\item
+$\Theta(\sqrt{n}\lg(n))$
+\item
+$\Theta(n)$
+\item
+$\Theta(n^2)$
+\end{enumerate}
+\end{proof}
+\begin{th1}\label{ex5}
+4.5-3
+\end{th1}
+\begin{proof}
+Applying the method with $a=1,b=2$, we have that $\Theta(n^{\log_1 2}) = \Theta(1)$. So, we are in the second case, so, we have a final result of $\Theta(n^{\log_1 2}\lg(n)) = \Theta(\lg(n))$.
+\end{proof}
+\begin{th1}\label{ex5}
+4.5-5
+\end{th1}
+\begin{proof}
+Let $\epsilon = a=1,b=3$, and $f = 3n + 2^{3n} \chi_{\{2^i:i\in\mathbb{N}\}}$ where $\chi_A$ is the indicator function of the set $A$. Then, we have that for any number $n$ which is three times a power of 2, we know that 
+\[
+f(n) = 3n < 2^n + n = f(n/3)
+\]
+And so, it fails the regularity condition, even though $f \in \Omega(n) =\Omega(n^{\log_b(a) + \epsilon})$.
+\end{proof}
+\begin{th1}\label{ex5}
+4.6-1
+\end{th1}
+\begin{proof}
+$n_j$ is obtained by shifting the base $b$ representation $j$ positions to the right, and adding 1 if any of the $j$ least significant positions are non-zero.
+\end{proof}
+\begin{th1}\label{ex5}
+4.6-3
+\end{th1}
+\begin{proof}
+Suppose that $f$ satisfies the regularity condition, we want that $\exists \epsilon, d,k$,$\forall n\ge k$, we have $f(n) \ge d n^{\log_b a +\epsilon}$. By the regularity condition, we have that for sufficiently large $n$, $af(n/b) \le cf(n)$. In particular, it is true for all $n\ge bk$. Let this be our $k$ from above, also, $\epsilon= -\log_b(c)$. Finally let $d$ be the largest value of $f(n)/n^{\log_b(a)+\epsilon}$ between $bk$ and $b^2k$. Then, we will prove by induction on the highest $i$ so that $b^i k$ is less than $n$ that for every $n\ge k, f(n) \ge d n^{\log_b a +\epsilon}$. By our definition of $d$, we have it is true for $i= 1$. So, suppose we have $b^{i-1}k < n \le b^i k$. Then, by regularity and the inductive hypothesis,  $cf(n) \ge a f(n/b) \ge ad \left(\frac{n}{b}\right)^{\log_b(a) +\epsilon}$. Solving for $f(n)$, we have
+\[
+f(n) \ge \frac{ad}{c} \left(\frac{n}{b}\right)^{\log_b{a/c}} = \frac{a/c}{b^{\log_b(a/c)}} d n^{\log_b(a) + \epsilon} =  d n^{\log_b(a) + \epsilon}
+\]
+Completing the induction. 
+
+\end{proof}
+\begin{th1}\label{ex5}
+4-1
+\end{th1}
+\begin{proof}
+\begin{enumerate}[a)]
+\item
+By Master Theorem, $T(n) \in \Theta(n^4)$
+
+\item
+By Master Theorem, $T(n) \in \Theta(n)$
+
+\item
+By Master Theorem, $T(n) \in \Theta(n^2\lg(n))$
+
+\item
+By Master Theorem, $T(n) \in \Theta(n^2)$
+
+\item
+By Master Theorem, $T(n) \in \Theta(n^{\lg(7)})$
+
+\item
+By Master Theorem, $T(n) \in \Theta(n^{1/2}\lg(n))$
+
+\item
+Let $d = m\mod 2$, we can easily see that the exact value of $T(n)$ is
+\[
+\sum_{j=1}^{j=n/2} (2j+d)^2 = \sum_{j=1}^{n/2}4j^2 + 4jd + d^2 = \frac{n(n+2)(n+1)}{6} + \frac{n(n+2)d}{2} + \frac{d^2n}{2}
+\]
+This has a leading term of $n^3/6$, and so $T(n) \in \Theta(n^3)$
+
+\end{enumerate}
+\end{proof}
+\begin{th1}\label{ex5}
+4-3
+\end{th1}
+\begin{proof}
+\begin{enumerate}[a)]
+\item
+By Master Theorem, $T(n) \in \Theta(n^{\log_3(4)})$
+
+\item
+
+\item
+By Master Theorem, $T(n) \in \Theta(n^{2.5})$
+
+
+\item
+
+\item
+
+\item
+
+\item
+Recall that $\chi_A$ denotes the indicator function of $A$, then, we see that the sum is
+\[
+T(0) + \sum_{j=1}^{n} \frac{1}{j} = T(0) + \int_{1}^{n+1} \sum_{j=1}^{n+1} \frac{\chi_{(j,j+1)}(x)}{j} dx 
+\]
+However, since $\frac{1}{x}$ is monatonically decreasing, we have that for every $i\in \mathbb{Z}^+$,
+\[
+\sup_{x\in (i,i+1)}  \sum_{j=1}^{n+1} \frac{\chi_{(j,j+1)}(x)}{j}  - \frac{1}{x} = \frac{1}{i}  - \frac{1}{i+1} = \frac{1}{i(i+1)}
+\]
+So, our expression for $T(n)$ becomes
+\[
+T(N) = T(0)+ \int_1^{n+1} \left(\frac{1}{x} + O(\frac{1}{\lfloor x\rfloor(\lfloor x\rfloor+1)}\right)dx
+\]
+We deal with the error term by first chopping out the constant amount between 1 and 2 and then bound the error term by $O(\frac{1}{x(x-1)})$ which has an antiderivative (by method of partial fractions) that is $O(\frac{1}{n})$. so,
+
+\[
+T(N) = \int_1^{n+1} \frac{dx}{x} + O(\frac{1}{n} = \lg(n) + T(0) + \frac{1}{2} + O(\frac{1}{n})
+\]
+This gets us our final answer of $T(n) \in \Theta(\lg(n))$
+\item
+we see that we explicity have
+\[
+T(n) = T(0) +\sum_{j=1}^n \lg(j) = T(0) + \int_1^{n+1} \sum_{j=1}^{n+1} \chi_{(j,j+1)}(x)\lg(j) dx 
+\]
+Similarly to above, we will relate this sum to the integral of $\lg(x)$. 
+\[
+\sup_{x\in (i,i+1)}  \left|\sum_{j=1}^{n+1} \chi_{(j,j+1)}(x)\lg(j)  - \lg(x)\right| = \lg(j+1) - \lg(j) = \lg\left(\frac{j+1}{j}\right)
+\]
+So, 
+\[
+T(n) \le \int_{i}^n \lg(x+2) + \lg(x) - \lg(x+1) dx  = (1  + O(\frac{1}{\lg(n)}))\Theta(n\lg(n))
+\]
+\item
+See the approach used in the previous two parts, we will get $T(n) \in \Theta(li(n))= \Theta( \frac{n}{\lg(n)})$
+\item
+Let $i$ be the smallest $i$ so that $n^{\frac{1}{2^i}}<2$. We recall from a previous exercise that this is $\lg(\lg(n))$ Expanding the recurrence, we have that it is 
+\[
+T(n) = n^{1 - \frac{1}{2^i}} T(2) + n + n \sum_{j=1}^i 1 \in \Theta(n\lg(\lg(n)))
+\]
+
+
+
+\end{enumerate}
+\end{proof}
+\begin{th1}\label{ex5}
+4-5
+\end{th1}
+\begin{proof}
+\begin{enumerate}[a)]
+
+\item
+The strategy for the bad chips is to always say that other bad chips are good and other good chips are bad. This mirrors the strategy used by the good chips, and so, it would be impossible to distinguish
+
+\item
+Arbitrarily pair up the chips. Look only at the pairs for which both chips said the other was good. Since we have at least half of the chips being good, we know that there will be at least one such pair which claims the other is good. We also know that at least half of the pairs which claim both are good are actually good. Then, just arbirarily pick a chip from each pair and let these be the chips that make up the sub-instance of the problem
+
+\item
+Once we have indentified a single good chip, we can just use it to query every other chip. 
+The recurrence from before for the number of tests to find a good chip was
+\[
+T(n) \le T(n/2) + n/2
+\]
+This has solution $\Theta(n)$ by the Master Theorem. So, we have the problem can be solved in $O(n)$ pairwise tests. Since we also neccesarily need to look at at least half of the chips, we know that the problem is also $\Omega(n)$.
+
+\end{enumerate}
+
+\end{proof}
+
+
+
+\end{document}

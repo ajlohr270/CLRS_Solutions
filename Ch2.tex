@@ -1,0 +1,251 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\input{latexdefs}
+
+	
+\pagestyle{fancy}
+\rhead{Andrew Lohr}
+\title{Chapter 2}
+\author{Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+%\newtheorem{ex1}{Exercise}
+%\newenvironment{exercise}{\pgfmathparse{\curnum +1}\def\curnum{\pgfmathresult}\newtheorem{ex\curnum}{Exercise}\label{lbl\curnum}\label{last}\begin{ex\curnum}}{\end{ex\curnum}}
+%\newenvironment{exercise}{\stepcounter{curnum}
+%\newtheorem{ex\value{curnum}}{Exercise}\label{lbl\value{curnum}}\begin{ex\value{curnum}}}{\end{ex\value{curnum}}}
+
+%\newcommand{\scoretable}{
+%\begin{center}\begin{tabular}{|c|c|c|}
+%\hline
+%Problem Number& Page Number& Score \\
+%\hline
+%\newcounter{myi}
+%\setcounter{myi}{1}
+%\loop
+%\myi&\pageref{\myi} &  \\
+%\stepcounter{myi}
+%\ifnum \myi < \curnum
+%\repeat
+% \hline
+%\end{tabular}
+%\end{center}
+%}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+\begin{document}
+\maketitle
+
+\begin{th1}\label{ex1}
+2.1-1
+\end{th1}
+\begin{proof}
+$
+\begin{array}{|c|c|c|c|c|c|}
+\hline
+31&41&59&26&41&58\\
+\hline
+31&41&59&26&41&58\\
+\hline
+31&41&59&26&41&58\\
+\hline
+26&31&41&59&41&58\\
+\hline
+26&31&41&41&59&58\\
+\hline
+26&31&41&41&58&59\\
+\hline
+\end{array}
+$
+\end{proof}
+
+\begin{th1}\label{ex2}
+2.1-3
+\end{th1}
+\begin{proof}
+\begin{algorithm} \begin{algorithmic}[1]
+ \State $i=NIL$
+ \For $j = 1$ to $A.length$
+ \If $A[j] = v$
+ \State $i = j$
+ \State End
+ \EndIf 
+ \EndFor
+ \end{algorithmic}
+\end{algorithm}
+On each iteration of the loop body, the invariant upon entering is that there is no index $k<j$ so that $A[k]=v$. in order to procede to the next iteration of the loop, we need that for the current value of $j$, we do not have $A[j] =v$. If the loop is exited by line 5, then we have just placed an acceptable value in $i$ on the orevious line. If the loop is exitedby exhausting all possible values of $j$, then we know that there is no index that has value $j$, and so leaving $NIL$ in $i$ is correct. 
+\end{proof}
+
+\begin{th1}\label{ex3}
+\end{th1}
+2.2-1
+\begin{proof}
+$n^3/1000 - 100n^2-100n +3 \in \Theta(n^3)$
+\end{proof}
+\begin{th1}\label{ex4}
+2.2-3
+\end{th1}
+\begin{proof}
+Suppose that every entry has probability $p$ of being the element looked for. Then, we will only check $k$ elements if the previous $k-1$ positiions were not the element being looked for, and the $k$th position is the desired value. taking the expected value of this distribution we get it to be
+\[
+(1-p)^{A.length} + \sum_{k=1}^{A.length} k(1-p)^{k-1}p^k
+\]
+\end{proof}
+
+\begin{th1}\label{ex5}
+2.3-1
+\end{th1}
+\begin{proof}
+If we start with reading accross the bottom of the tree and then go up level by level.
+$
+\begin{array}{|c|c|c|c|c|c|c|c|}
+\hline
+3&41&52&26&38&57&9&49\\
+\hline
+3&41&26&52&38&57&9&49\\
+\hline
+3&26&41&52&9&38&49&57\\
+\hline
+3&9&26&38&41&49&52&57\\
+\hline
+\end{array}
+$
+\end{proof}
+\begin{th1}\label{ex6}
+2.3-3
+\end{th1}
+\begin{proof}
+Since $n$ is a power of two, we may write $n= 2^k$. If $k=1$, $T(2) = 2 = 2\lg(2)$. Suppose it is true for $k$, we will show it is true for $k+1$.
+\[
+T(2^{k+1}) = 2T\left(\frac{2^{k+1}}{2}\right) + 2^{k+1} = 2T\left(2^{k}\right) + 2^{k+1} = 2(2^k\lg(2^k)) + 2^{k+1} \]\[= k2^{k+1}+ 2^{k+1} = (k+1)2^{k+1} = 2^{k+1} \lg(2^{k+1}) = n\lg(n)
+\]
+\end{proof}
+\begin{th1}\label{ex7}
+2.3-5
+\end{th1}
+\begin{proof}
+The following recursive algorithm gives the desired result when called with $a=1$ and $b=n$.
+
+\begin{algorithm}\begin{algorithmic}[1]
+\State BinSearch(a,b,v)
+\If $a>b$
+\State return NIL
+\EndIf
+\State $m = \lfloor \frac{a+b}{2}\rfloor$
+\If $m=v$
+\State return $m$
+\EndIf
+\If $m<v$
+\State return BinSearch(a,m,v)
+\EndIf
+\State return BinSearch(m+1,b,v)
+\end{algorithmic}
+\end{algorithm}
+Note that the initial call should be $BinSearch(1,n,v)$. Each call results in a constant number of operations plus a call to a problem instance where the quantity $b-a$ falls by at least a factor of two. So, the runtime satisfies the recurrence $T(n)= T(n/2)+c$. So, $T(n)\in\Theta(\lg(n))$
+\end{proof}
+\begin{th1}\label{ex8}
+2.3-7
+\end{th1}
+\begin{proof}
+\begin{algorithm} \begin{algorithmic}[1]
+ \State Use Merge Sort to sort the array $A$ in time $\Theta(n\lg(n))$
+\State $i=1$
+\State $j = n$
+ \While{$i<j$}
+ \If{$A[j] + A[j] = S$}
+ \State return true
+ \EndIf
+ \If{$A[i]+A[j] < S$}
+ \State $ i = i+1$
+ \EndIf 
+ \If{$A[i]+A[j] > S$}
+ \State $ j = j-1$
+ \EndIf 
+ \EndWhile
+ \State return false
+ \end{algorithmic}
+\end{algorithm}
+We can see that the while loop gets run at most $O(n)$ times, as the quantity $j-i$ starts at $n-1$ and decreeases at each step. Also, since the body only consists of a constant amount of work, all of lines 2-15 takes only $O(n)$ time. So, the runtime is dominated by the time to perform the sort, which is $\Theta(n\lg(n))$. We will prove correctness by a mutual induction. Let $m_{i,j}$ be the proposition $A[i]+A[j]<S$ and $M_{i,j}$ be the proposition $A[i]+A[j]>S$. Note that because the array is sorted, $m_{i,j} \Rightarrow \forall k<j, m_{i,k}$, and $M_{i,j} \Rightarrow \forall k>i, M_{k,j}$. 
+
+Our program will obviously only output true in the case that there is a valid $i$ and $j$. Now, suppose that our program output false, even though there were some $i,j$ that was not considered for which $A[i]+A[j]=S$. If we have $i>j$, then swap the two, and the sum will not change, so, assume $i\le j$. we now have two cases:
+
+Case 1 $\exists k, (i,k)$ was considered and $j<k$. In this case, we take the smallest such $k$. The fact that this is nonzero meant that immediately after considering it, we considered (i+1,k) which means $m_{i,k}$ this means $m_{i,j}$
+
+Case 2 $\exists k, (k,j)$ was considered and $k<i$. In this case, we take the largest such $k$. The fact that this is nonzero meant that immediately after considering it, we considered (k,j-1) which means $M_{k,j}$ this means $M_{i,j}$
+
+Note that one of these two cases must be true since the set of considered points separates $\{(m,m'): m\le m'<n\}$ into at most two regions. If you are in the region that contains $(1,1)$(if nonempty) then you are in Case 1. If you are in the region that contains $(n,n)$ (if non-empty) then you are in case 2.
+\end{proof}
+
+\begin{th1}\label{ex9}
+2-1
+\end{th1}
+\begin{proof}
+\begin{enumerate}[a)]
+\item
+The time for insertion sort to sort a single list of length $k$ is $\Theta(k^2)$, so, $n/k$ of them will take time $\Theta(\frac{n}{k}k^2) = \Theta(nk)$.
+
+\item
+Suppose we have coarseness $k$. This meas we can just start using the usual merging procedure, except starting it at the level in which each array has size at most $k$. This means that the depth of the merge tree is $\lg(n) - \lg(k) = \lg(n/k)$. Each level of merging is still time $cn$, so putting it together, the merging takes time $\Theta(n\lg(n/k))$.
+
+
+\item
+Viewing $k$ as a function of $n$, as long as $k(n)\in O(\lg(n))$, it has the same asymptotics. In particular, for any constant choice of $k$, the asymptotics are the same.
+
+\item
+If we optimize the previous expression using our calculus 1 skills to get $k$, we have that $c_1n- \frac{nc_2}{k} = 0$ where $c_1$ and $c_2$ are the coeffients of $nk$ and $n\lg(n/k)$ hidden by the asymptotics notation. In particular, a constant choice of $k$ is optimal. In practice we could find the best choice of this $k$ by just trying and timing  for various values for sufficiently large $n$.
+
+\end{enumerate}
+\end{proof}
+\begin{th1}\label{ex10}
+2-3
+\end{th1}
+\begin{proof}
+\begin{enumerate}[a)]
+\item
+
+If we assume that the arithmeticcan all  be done in constant time, then since  the loop is being executed $n$ times, it has runtime $\Theta(n)$.
+
+\item
+\begin{algorithm}
+\begin{algorithmic}[1]
+\State $y=0$
+\For{i=0 to n}
+\State $y_i = x$
+\For{j=1 to n}
+\State $y_i = y_i  x$ 
+\EndFor
+\State $y = y+ a_i  y_i$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+This code has runtime $\Theta(n^2)$ because it has to compute each of the powers of $x$. This is slower than Horner's rule.
+
+\item
+Initially, $i=n$, so, the upper bound of the summation is $-1$, so the sum evaluates to $0$, which is the value of $y$. For preservation, suppose it is true for an $i$, then, 
+\[
+ y = a_{i} + x \sum_{k=0}^{n-(i+1)} a_{k+i+1} x^k = a_i + x\sum_{k=1}^{n-i} a_{k+i} x^{k-1} = \sum_{k=0}^{n-i} a_{k+i}x^k
+ \]
+  At termination, $i=0$, so is summing up to $n-1$, so executing the body of the loop a last time gets us  the desired final result.
+
+\item
+We just showed that the algorithm evaluated $\Sigma_{k=0}^n a_kx^k$. This is the value of the polynomial evaluated at $x$.
+
+
+\end{enumerate}
+\end{proof}
+
+\end{document}
