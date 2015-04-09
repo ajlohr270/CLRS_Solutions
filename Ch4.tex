@@ -9,36 +9,15 @@
 \usepackage{algorithmicx}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{tikz}
 
 	
 \pagestyle{fancy}
-\rhead{Andrew Lohr}
 \title{Chapter 4}
-\author{Andrew Lohr}
+\author{Michelle Bodnar, Andrew Lohr}
 
 \newcounter{curnum}
 \setcounter{curnum}{0}
-%\newtheorem{ex1}{Exercise}
-%\newenvironment{exercise}{\pgfmathparse{\curnum +1}\def\curnum{\pgfmathresult}\newtheorem{ex\curnum}{Exercise}\label{lbl\curnum}\label{last}\begin{ex\curnum}}{\end{ex\curnum}}
-%\newenvironment{exercise}{\stepcounter{curnum}
-%\newtheorem{ex\value{curnum}}{Exercise}\label{lbl\value{curnum}}\begin{ex\value{curnum}}}{\end{ex\value{curnum}}}
-
-%\newcommand{\scoretable}{
-%\begin{center}\begin{tabular}{|c|c|c|}
-%\hline
-%Problem Number& Page Number& Score \\
-%\hline
-%\newcounter{myi}
-%\setcounter{myi}{1}
-%\loop
-%\myi&\pageref{\myi} &  \\
-%\stepcounter{myi}
-%\ifnum \myi < \curnum
-%\repeat
-% \hline
-%\end{tabular}
-%\end{center}
-%}
 
 \newtheorem{th1}{Exercise} 
 \newcommand{\calH}{\mathcal{H}}
@@ -50,12 +29,42 @@
 \maketitle
 
 \noindent\textbf{Exercise 4.1-1}\\
+
 It will return the least negative position. As each of the cross sums are computed, the most positive one must have the shorest possible lengths. The algoritm doesn't consider length zero sub arrays, so it must have length 1.\\
 
+\noindent\textbf{Exercise 4.1-2}\\
+
+\begin{algorithm}
+\caption{Brute Force Algorithm to Solve Maximum Subarray Problem}
+\begin{algorithmic}
+\State $left = 1$
+\State $right = 1$
+\State $max = A[1]$
+\State $curSum = 0$
+\For{$i=1$ to $n$} // Increment left end of subarray
+	\State $curSum = 0$
+	\For{$j=i$ to $n$} // Increment right end of subarray
+		\State $curSum = curSum + A[j]$
+		\If{$curSum > max$}
+			\State $max = curSum$
+			\State $left = i$
+			\State $right = j$
+		\EndIf
+	\EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
 \noindent\textbf{Exercise 4.1-3}\\
+
 Will be done later. \\
 
+\noindent\textbf{Exercise 4.1-4}\\
+
+First do a linear scan of the input array to see if it contains any positive entries.  If it does, run the algorithm as usual.  Otherwise, return the empty subarray with sum 0 and terminate the algorithm. \\
+
 \noindent\textbf{Exercise 4.1-5}\\
+
 \begin{algorithm}
 \begin{algorithmic}[1]
 \State $M =-\infty$
@@ -78,9 +87,10 @@ Will be done later. \\
 
 
 \end{algorithmic}
-\end{algorithm}\\
+\end{algorithm}
 
 \noindent\textbf{Exercise 4.2-1}\\
+
 \begin{align*}
 S_1 &= 8-2=6\\
 S_2 &= 1+3 = 4\\
@@ -114,7 +124,52 @@ So, we get the final result:
 \left(\begin{array}{c c}18&14\\62&66\end{array}\right)
 \]\\
 
+\noindent\textbf{Exercise 4.2-2}\\
+
+As usual, we will assume that $n$ is an exact power of 2 and $A$ and $B$ are $n$ by $n$ matrices.  Let $A[i..j][k..m]$ denote the submatrix of $A$ consisting of rows $i$ through $j$ and columns $k$ through $m$. \\
+\begin{algorithm}
+\caption{Strassen(A, B)}
+\begin{algorithmic}
+\If{$A.length == 1$}
+	\State \Return $A[1]\cdot B[1]$
+\EndIf
+\State Let $C$ be a new $n$ by $n$ matrix
+\State $A11 = A[1..n/2][1..n/2]$
+\State $A12 = A[1..n/2][n/2+1..n]$
+\State $A21 = A[n/2+1..n][1..n/2]$
+\State $A22 = A[n/2+1..n][n/2+1..n]$
+\State $B11 = B[1..n/2][1..n/2]$
+\State $B12 = B[1..n/2][n/2+1..n]$
+\State $B21 = B[n/2+1..n][1..n/2]$
+\State $B22 = B[n/2+1..n][n/2+1..n]$
+\State $S_1 = B12-B22$
+\State $S_2 = A11+A12$
+\State $S_3 = A21 + A22$
+\State $S_4 = B21-B11$
+\State $S_5 = A11 + A22$
+\State $S_6 = B11 + B22$
+\State $S_7 = A12 - A22$
+\State $S_8 = B21 + B22$
+\State $S_9 = A11 - A21$
+\State $S_{10} = B11 + B12$
+\State $P_1 = Strassen(A11, S_1)$
+\State $P_2 = Strassen(S_2, B22)$
+\State $P_3 = Strassen(S_3, B11)$
+\State $P_4 = Strassen(A22, S_4)$
+\State $P_5 = Strassen(S_5, S_6)$
+\State $P_6 = Strassen(S_7, S_8)$
+\State $P_7 = Strassen(S_9, S_{10})$
+\State $C[1..n/2][1..n/2] = P_5 + P_4 - P_2 + P_6$
+\State $C[1..n/2][n/2+1..n] = P_1 + P_2$
+\State $C[n/2+1..n][1..n/2] = P_3 + P_4$
+\State $C[n/2+1..n][n/2+1..n] = P_5 + P_1 - P_3 - P_7$ 
+\State \Return $C$
+\end{algorithmic}
+\end{algorithm}
+
+
 \noindent\textbf{Exercise 4.2-3}\\
+
 you could pad out the input matrices to be powers of two and then run the given algorithm. Padding out the the next largest power of two (call it $m$) will at most double the value of n because each power of two is off from wach other by a factor of two. So, this will have runtime
 \[
 m^{\lg 7} \le (2n)^{\lg 7} = 7 n^{\lg 7} \in O(n^{\lg 7})
@@ -125,7 +180,12 @@ m^{\lg 7} \ge n^{\lg 7} \in \Omega(n^{\lg 7})
 \]
 Putting these together, we get the runtime is $\Theta(n^{\lg 7})$.\\
 
+\noindent\textbf{Exercise 4.2-4}\\
+
+Assume that $n = 3^m$ for some $m$.  Then, using block matrix multiplication, we obtain the recursive running time $T(n) = kT(n/3) + O(1)$.  Using the Master theorem, we need the largest integer $k$ such that $\log_3 k < \lg 7$.  This is given by $k=21$.\\
+
 \noindent\textbf{Exercise 4.2-5}\\
+
 If we take the three algorithms and divide the number of multiplications by the side length of the matrices raised to $\lg(7)$, we approximately get the following values
 \begin{align*}
 &3745\\
@@ -134,8 +194,12 @@ If we take the three algorithms and divide the number of multiplications by the 
 \end{align*}
 This means that, if used as base cases for a Strassen Algorithm, the first one will perform best for very large matrices.\\
 
+\noindent\textbf{Exercise 4.2-6}\\
+
+By considering block matrix multiplication and using Strassen's algorithm as a subroutine, we can multiply a $kn \times n$ matrix by an $n \times kn$ matrix in $\Theta(k^2n^{\log 7})$ time.  With the order reversed, we can do it in $\Theta(k n^{\log 7})$ time. \\
 
 \noindent\textbf{Exercise 4.2-7}\\
+
 We can see that the final result should be
 \[
 (a+bi)(c+di) = ac-bd +(cb+ad) i
@@ -151,12 +215,27 @@ P_3&= (a-b)d = ad+bd
 Then, we can recover the real part by taking $P_1 - P_2$ and the imaginary part by taking $P_2+P_3$.\\
 
 \noindent\textbf{Exercise 4.3-1}\\
+
 Inductively assume $T(n)\le c n^2$, were $c$ is taken to be $\max(1,T(1))$ then
 \[
 T(n) = T(n-1)+n \le c(n-1)^2 +n = c n^2 +(1-2c)n + 1 \le c n^2 +2-2c \le c n^2
 \]
 The first inequality comes from the inductive hypothesis, the second from the fact that $n\ge 1$ and $1-2c <0$. The last from the fact that $c\ge 1$.\\
+
+\noindent\textbf{Exercise 4.3-2}\\
+
+We'll show $T(n) \leq 3 \log n - 1$, which will imply $T(n) = O(\log n)$.
+\begin{align*}
+T(n) &= T(\lceil n/2 \rceil) + 1 \\
+&\leq 3\log(\lceil n/2 \rceil) - 1 + 1 \\
+&\leq 3\log(3n/4) \\
+&= 3 \log n + 3 \log(3/4) \\
+&\leq 3 \log n  + \log(1/2) \\
+& = 3 \log n - 1. 
+\end{align*}
+
 \noindent\textbf{Exercise 4.3-3}\\
+
 Inductively assume that $T(n) \le cn\lg n$ where $c = \max(T(2)/2,1)$. Then, 
 \[
 T(n) = 2 T(\lfloor n/2\rfloor) + n \le 2 c\lfloor n/2 \rfloor \lg(\lfloor n/2\rfloor) +n
@@ -177,9 +256,37 @@ T(n) = 2 T(\lfloor n/2 \rfloor) +n \ge 2c'\lfloor n/2 \rfloor \lg(\lfloor n/2 \r
 \ge c'n(\lg(n)-2 + \frac{1}{c'} - \frac{(\lg(n-1) - 1 )}{n}) \ge c'n(\lg(n)-3 + \frac{1}{c'}) \ge c'n\lg(n)
 \]
 So, $T(n)\in \Omega(n)$. Together with the first part of this problem, we get that $T(n)\in \Theta(n)$.\\
+
+\noindent\textbf{Exercise 4.3-4}\\
+
+We'll use the induction hypothesis $T(n) \leq 2n \log n + 1$. First observe that this means $T(1) = 1$, so the base case is satisfied.  Then we have
+\begin{align*}
+T(n) &= 2T(\lfloor n/2 \rfloor) + n\\
+&\leq 2((2n/2)\log(n/2) + 1) + n \\
+&= 2n\log(n) - 2n \log 2 + 2 + n \\
+&= 2n \log(n) + 1 + n + 1 - 2n \\
+& \leq 2n \log(n) + 1.
+\end{align*}
+
 \noindent\textbf{Exercise 4.3-5}\\
+
 Will be done later\\
+
+\noindent\textbf{Exercise 4.3-6}\\
+
+Choose $n_1$ such that $n \geq n_1$ implies $n/2 + 17 \leq 3n/4$.  We'll find $c$ and $d$ such that $T(n) \leq cn\log n - d$.
+\begin{align*}
+T(n) &= 2T(\lfloor n/2 \rfloor + 17) + n \\
+&\leq 2(c(n/2 + 17)\log(n/2 + 17) - d) + n \\
+&\leq cn\log(n/2 + 17) + 17c\log(n/2 + 17) - 2d + n \\
+&\leq cn\log(3n/4) + 17c\log(3n/4) - 2d + n\\
+&= cn\log n - d +cn\log(3/4) + 17c\log(3n/4) - d + n.
+\end{align*}
+
+Take $c = -2/\log(3/4)$ and $d =34$.  Then we have $T(n) \leq cn\log n - d + 17c\log(n) - n$.  Since $\log(n) = o(n)$, there exists $n_2$ such that $n \geq n_2$ implies $n \geq 17c\log(n)$.  Letting $n_0 = \max\{n_1, n_2\}$ we have that $n \geq n_0$ implies $T(n) \leq cn\log n - d$.  Therefore $T(n) = O(n \log n)$. \\
+
 \noindent\textbf{Exercise 4.3-7}\\
+
 We first try the substitution proof $T(n) \le cn^{\log_34}$.
 \[
 T(n) = 4T(n/3)+n \le 4 c(n/3)^{\log_34}+n = 4cn^{\log_34}+n
@@ -191,7 +298,27 @@ Now, suppose instead that we make our inductive hypothesis $T(n) \le cn^{\log_34
 T(n) = 4T(n/3)+n \le 4(c(n/3)^{\log_34}-n) +n = cn^{\log_34} - 4n + n =cn^{\log_34} - 3n 
 \]
 as desired.\\
+
+
+\noindent\textbf{Exercise 4.3-8} \\
+
+Suppose we want to use substitution to show $T(n) \leq cn^2$ for some $c$.  Then we have
+\begin{align*}
+T(n) &= 4T(n/2) + n \\
+&\leq 4(c(n/2)^2) + n \\
+&= cn^2 + n,
+\end{align*}
+which fails to be less than $cn^2$ for any $c > 0$.  Next we'll attempt to show $T(n) \leq cn^2 - n$.
+\begin{align*}
+T(n)&= 4T(n/2) + n\\
+& \leq 4(c(n/2)^2 - n) + n \\
+&= cn^2 - 4cn + n \\
+&\leq cn^2 
+\end{align*}
+provided that $c \geq 1/4$.  \\
+
 \noindent\textbf{Exercise 4.3-9}\\
+
 Consider $n$ of the form $2^k$. Then, the recurrence becomes
 \[
 T(2^k) = 3 T(2^(k/2)) +k
@@ -209,7 +336,53 @@ as desired. Similarly, we show that $S(k) \ge (S(1)+2) k^{\log_23} -2k$
 S(k) = 3S(k/2) +k \ge (S(1)+2)k^{\log_23} -2k
 \]
 So, we have that $S(k) = (S(1)+2)k^{\log_23}-2k$. Translating this back to $T$, $T(2^k) = (T(2)+2) k^{\log_23} -2k$. So, $T(n) = (T(2)+2)(\lg(n))^{\log_23} - 2\lg(n)$.\\
+
+\noindent\textbf{Exercise 4.4-2}\\
+
+As we construct the tree, there is only one node at depth $d$, and its weight is $n^2/(2^d)^2$.  Since the tree has $\log(n)$ levels, we guess that the solution is roughly $\sum_{i=0}^{\log n} \frac{n^2}{4^i} = O(n^2)$.  Next we use the substitution method to verify that $T(n) \leq cn^2$.  
+\begin{align*}
+T(n) &= T(n/2) + n^2 \\
+& \leq c(n/2)^2 + n^2 \\
+& = (\frac{c}{4} + 1)n^2 \\
+&\leq cn^2
+\end{align*}
+provided that $c \geq 4/3$.  \\
+
+\noindent\textbf{Exercise 4.4-4}\\
+
+The recursion tree looks like a complete binary tree of height $n$ with cost 1 at each node.  Thus we guess that the solution is $O(2^n)$.  We'll use the substitution method to verify that $T(n) \leq 2^n - 1$. 
+\begin{align*}
+T(n) &= 2T(n-1) + 1 \\
+&\leq 2(2^{n-1} - 1) + 1 \\
+&= 2^n - 1.
+\end{align*}
+
+\noindent\textbf{Exercise 4.4-6}\\
+
+Examining the tree in figure 4.6 we observe that the cost at each level of the tree is exactly $cn$.  To find a lower bound on the cost of the algorithm, we need a lower bound on the height of the tree.  The shortest simple path from root to leaf is found by following the left child at each node.  Since we divide by 3 at each step, we see that this path has length $\log_3 n$, so the cost of the algorithm is $cn(\log_3 n + 1) \geq cn\log_3 n = \frac{c}{log 3} n \log n = \Omega(n \log n)$. \\
+
+\noindent\textbf{Exercise 4.4-8}\\
+
+\begin{tikzpicture}
+\path (0,10) node (a) {$T(a) + cn$}
+(0,8) node (b) {$T(a) + c(n-a)$}
+(0,6) node (c) {$T(a) + c(n-2a)$}
+(0,4) node (d) {$T(1)$};
+
+\draw (0,9.5) -- (0,8.5);
+\draw (0,6.5) -- (0,7.5);
+\draw[dashed] (0,4.5) -- (0,5.5);
+\end{tikzpicture}
+
+Since each node of the recursion tree has only one child, the cost at each level is just the cost of the node.  Moreover, there are $\lceil n/a \rceil$ levels in the tree.  Summing the cost at each level we see that the total cost of the algorithm is 
+\[ \sum_{i=0}^{\lceil n/a \rceil - 1} T(a) + c(n-ia) = \lceil n/a \rceil T(a) + c\lceil n/a \rceil n - ca \frac{\lceil n/a \rceil(\lceil n/a \rceil - 1)}{2}.\]
+
+To compute the asymptotoics we can assume $n$ is divisible by $a$ and ignore the ceiling functions.  Then this becomes
+\[ \frac{c}{2a}n^2 + (T(a)/a + c/2)n = \Theta(n^2).\]\\
+
+
 \noindent\textbf{Exercise 4.5-1}\\
+
 \begin{enumerate}[a)]
 \item
 $\Theta(\sqrt{n})$
@@ -219,24 +392,56 @@ $\Theta(\sqrt{n}\lg(n))$
 $\Theta(n)$
 \item
 $\Theta(n^2)$
-\end{enumerate}\\
+\end{enumerate}
+
+\noindent\textbf{Exercise 4.5-2}\\
+
+Recall that Strassen's algorithm has running time $\Theta(n^{\lg 7})$.  We'll choose $a = 48$.  This is the largest integer such that $\log_4(a) < \lg 7$.  Moreover, $2 < \log_4(48)$ so there exists $\epsilon > 0$ such that $n^2 < n^{\log_4(48) - \epsilon}$.  By case 1 of the Master theorem, $T(n) = \Theta(n^{\log_4(48)})$ which is asymptotically better than $\Theta(n^{\lg 7})$. \\
+
 \noindent\textbf{Exercise 4.5-3}\\
+
 Applying the method with $a=1,b=2$, we have that $\Theta(n^{\log_1 2}) = \Theta(1)$. So, we are in the second case, so, we have a final result of $\Theta(n^{\log_1 2}\lg(n)) = \Theta(\lg(n))$.\\
+
+\noindent\textbf{Exercise 4.5-4}\\
+
+The master method cannot be applied here.  Observe that $\log_b a = \log_2 4 = 2$ and $f(n) = n^2 \lg n$.  It is clear that cases 1 and 2 do not apply.  Furthermore, although $f$ is asymptotically larger than $n^2$, it is not polynomially larger, so case 3 does not apply either.  We'll show $T(n) = O(n^2\lg^2 n)$.  To do this, we'll prove inductively that $T(n) \leq n^2\lg^2 n$.  
+\begin{align*}
+T(n) & = 4T(n/2)+n^2\lg n \\
+& \leq 4((n/2)^2\lg^2(n/2)) + n^2 \lg n \\
+&= n^2(\lg n - \lg 2)^2 + n^2 \lg n \\
+&= n^2\lg^2 n - n^2(2\lg n - 1 - \lg n) \\
+&= n^2\lg^2 n - n^2(\lg n - 1) \\
+&\leq n^2\lg^2 n
+\end{align*}
+provided that $n \geq 2$.  
+
 \noindent\textbf{Exercise 4.5-5}\\
+
 Let $\epsilon = a=1,b=3$, and $f = 3n + 2^{3n} \chi_{\{2^i:i\in\mathbb{N}\}}$ where $\chi_A$ is the indicator function of the set $A$. Then, we have that for any number $n$ which is three times a power of 2, we know that 
 \[
 f(n) = 3n < 2^n + n = f(n/3)
 \]
 And so, it fails the regularity condition, even though $f \in \Omega(n) =\Omega(n^{\log_b(a) + \epsilon})$.\\
+
+
 \noindent\textbf{Exercise 4.6-1}\\
+
 $n_j$ is obtained by shifting the base $b$ representation $j$ positions to the right, and adding 1 if any of the $j$ least significant positions are non-zero.\\
+
+
+
 \noindent\textbf{Exercise 4.6-3}\\
+
 Suppose that $f$ satisfies the regularity condition, we want that $\exists \epsilon, d,k$,$\forall n\ge k$, we have $f(n) \ge d n^{\log_b a +\epsilon}$. By the regularity condition, we have that for sufficiently large $n$, $af(n/b) \le cf(n)$. In particular, it is true for all $n\ge bk$. Let this be our $k$ from above, also, $\epsilon= -\log_b(c)$. Finally let $d$ be the largest value of $f(n)/n^{\log_b(a)+\epsilon}$ between $bk$ and $b^2k$. Then, we will prove by induction on the highest $i$ so that $b^i k$ is less than $n$ that for every $n\ge k, f(n) \ge d n^{\log_b a +\epsilon}$. By our definition of $d$, we have it is true for $i= 1$. So, suppose we have $b^{i-1}k < n \le b^i k$. Then, by regularity and the inductive hypothesis,  $cf(n) \ge a f(n/b) \ge ad \left(\frac{n}{b}\right)^{\log_b(a) +\epsilon}$. Solving for $f(n)$, we have
 \[
 f(n) \ge \frac{ad}{c} \left(\frac{n}{b}\right)^{\log_b{a/c}} = \frac{a/c}{b^{\log_b(a/c)}} d n^{\log_b(a) + \epsilon} =  d n^{\log_b(a) + \epsilon}
 \]
 Completing the induction. \\
+
+
+
 \noindent\textbf{Problem 4-1}\\
+
 \begin{enumerate}[a)]
 \item
 By Master Theorem, $T(n) \in \Theta(n^4)$
@@ -264,7 +469,11 @@ Let $d = m\mod 2$, we can easily see that the exact value of $T(n)$ is
 This has a leading term of $n^3/6$, and so $T(n) \in \Theta(n^3)$
 
 \end{enumerate}
+
+
+
 \noindent\textbf{Problem 4-3}\\
+
 \begin{enumerate}[a)]
 \item
 By Master Theorem, $T(n) \in \Theta(n^{\log_3(4)})$
@@ -321,10 +530,12 @@ Let $i$ be the smallest $i$ so that $n^{\frac{1}{2^i}}<2$. We recall from a prev
 T(n) = n^{1 - \frac{1}{2^i}} T(2) + n + n \sum_{j=1}^i 1 \in \Theta(n\lg(\lg(n)))
 \]
 
-
-
 \end{enumerate}
+
+
+
 \noindent\textbf{Problem 4-5}\\
+
 \begin{enumerate}[a)]
 
 \item
