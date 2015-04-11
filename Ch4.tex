@@ -413,7 +413,7 @@ T(n) & = 4T(n/2)+n^2\lg n \\
 &= n^2\lg^2 n - n^2(\lg n - 1) \\
 &\leq n^2\lg^2 n
 \end{align*}
-provided that $n \geq 2$.  
+provided that $n \geq 2$.  \\
 
 \noindent\textbf{Exercise 4.5-5}\\
 
@@ -428,7 +428,19 @@ And so, it fails the regularity condition, even though $f \in \Omega(n) =\Omega(
 
 $n_j$ is obtained by shifting the base $b$ representation $j$ positions to the right, and adding 1 if any of the $j$ least significant positions are non-zero.\\
 
+\noindent\textbf{Exercise 4.6-2}\\
 
+Assume that $n = b^m$ for some $m$.  Let $c_1$ and $c_2$ be such that $c_2n^{\log_b a}\lg^k n \leq f(n) \leq c_1 n^{\log_b a}\lg^k n$.  We'll first prove by strong induction that $T(n) \leq n^{\log_b a}\lg^{k+1}n - d n^{\log_b a}\lg^k n$ for some choice of $d \geq 0$.  Equivalently, that $T(b^m) \leq a^m \ln^{k+1}(b^m) - da^m\lg^k(b^m)$.  
+\begin{align*}
+T(b^m) &= aT(b^m/b) + f(b^m) \\
+&\leq a(a^{m-1} \lg^{k+1}(b^{m-1}) - da^{m-1}\lg^k b^{m-1}) + c_1 a^m\lg^k (b^m) \\
+&= \leq a^m \lg^{k+1}(b^{m-1}) - da^m\lg^k b^{m-1} + c_1 a^m\lg^k (b^m) \\
+&= \leq a^m [\lg(b^m) - \lg b]^{k+1} -  da^m[\lg b^m - \lg b]^k + c_1 a^m\lg^k (b^m)\\
+&= a^m\lg^{k+1}(b^m) -  da^md\lg^k b^m -a^m \left(d \sum_{r=0}^{k-1}{k \choose r}\lg^r(b^m)(-\lg b)^{k-r} + \sum_{r = 0}^k {k+1 \choose r} \lg^r(b^m)(-\lg(b))^{k+1-r}  + c_1 \lg^k (b^m)\right) \\
+&=  a^m\lg^{k+1}(b^m) -  da^m\lg^k b^m - a^m\left((c_1 - k\lg b)\lg^k(b^m) + \sum_{r = 0}^{k-1} {k+1 \choose r} \lg^r(b^m)(-\lg(b))^{k+1-r} + d \sum_{r=0}^{k-1}{k \choose r}\lg^r(b^m)(-\lg b)^{k-r}\right) \\
+& \leq a^m\lg^{k+1}(b^m) -  da^m\lg^k b^m
+\end{align*}
+for $c_1 \geq k \lg b$.  Thus $T(n) = O(n^{\log_b a}\lg^{k+1}n)$.  A similar analysis shows $T(n) = \Omega(n^{\log_b a}\lg^{k+1}n)$.\\
 
 \noindent\textbf{Exercise 4.6-3}\\
 
@@ -470,7 +482,23 @@ This has a leading term of $n^3/6$, and so $T(n) \in \Theta(n^3)$
 
 \end{enumerate}
 
+\noindent\textbf{Problem 4-2}\\
 
+a. \\
+
+1. $T(n) = T(n/2) + \Theta(1)$.  Solving the recursion we have $T(N) = \Theta(\lg N)$.
+
+2. $T(n) = T(n/2) + \Theta(N)$.  Solving the recursion we have $T(N) = \Theta(N \lg N)$.
+
+3. $T(n) = T(n/2) + \Theta(n/2)$. Solving the recursion we have $T(N) = \Theta(N)$. \\
+
+b.\\
+
+  1. $T(n) = 2T(n/2) + cn$. Solving the recursion we have $T(N) = \Theta(N\lg N)$.
+
+2. $T(n) = 2T(n/2) + cn + 2\Theta(N)$.  Solving the recursion we have $T(N) = \Theta(N\lg N) + \Theta(N^2) = \Theta(N^2)$.
+
+3. $T(n) = 2T(n/2) + cn + 2c'n/2$.  Solving the recursion we have $T(N) = \Theta(N\ln N)$. \\
 
 \noindent\textbf{Problem 4-3}\\
 
@@ -532,7 +560,29 @@ T(n) = n^{1 - \frac{1}{2^i}} T(2) + n + n \sum_{j=1}^i 1 \in \Theta(n\lg(\lg(n))
 
 \end{enumerate}
 
+\noindent\textbf{Problem 4-4}\\
 
+a. Recall that $F_0 = 0$, $F_1 = 1$, and $F_i = F_{i-1} + F_{i-2}$ for $i \geq 2$.  Then we have
+\begin{align*}
+\mathcal{F}(z) &= \sum_{i=0}^\infty F_i z^i \\
+&= F_0 + F_1z + \sum_{i=2}^\infty (F_{i-1} + F_{i-2})z^i \\
+&= z + z\sum_{i=2}^\infty F_{i-1}z^{i-1} + z^2\sum_{i=2}^\infty F_{i-2}z^{i-2} \\
+&= z + z\sum_{i=1}^\infty F_{i}z^{i} + z^2\sum_{i=0}^\infty F_{i}z^{i} \\
+&= z + z\mathcal{F}(z) + z^2\mathcal{F}(z).
+\end{align*}
+
+b. Manipulating the equation given in part (a) we have $\mathcal{F}(z) - z\mathcal{F}(z) - z^2\mathcal{F}(z) = z$, so factoring and dividing gives 
+\[ \mathcal{F}(z) = \frac{z}{1-z-z^2}.\]
+Factoring the denominator with the quadratic formula shows $1 - z - z^2 = (1-\phi z)(1 - \hat{\phi} z)$, and the final equality comes from a partial fraction decomposition. \\
+
+c. From part (b) and our knowledge of geometric series we have
+\begin{align*}
+ \mathcal{F}(z) &= \frac{1}{\sqrt{5}}\left(\frac{1}{1-\phi z} - \frac{1}{1-\hat{\phi}z}\right) \\
+&= \frac{1}{\sqrt{5}}\left(\sum_{i=0}^\infty (\phi z)^i - \sum_{i=0}^\infty (\hat{\phi}z)^i \right) \\
+&=\sum_{i=0}^\infty  \frac{1}{\sqrt{5}} (\phi^i - \hat{\phi}^i)z^i.
+\end{align*}
+
+d. From the definition of the generating function, $F_i$ is the coefficient of $z^i$ in $\mathcal{F}(z)$.  By part (c) this is given by $\frac{1}{\sqrt{5}} (\phi^i - \hat{\phi}^i)$. Since $|\hat{\phi}| < 1$ we must have $| \frac{\hat{\phi}^i}{\sqrt{5}} | < | \frac{\hat{\phi}}{\sqrt{5}} | < \frac{1}{2}$.  Finally, since the Fibonacci numbers are integers we see that the exact solution must be the approximated solution $\frac{\phi^i}{\sqrt{5}}$ rounded to the nearest integer. \\
 
 \noindent\textbf{Problem 4-5}\\
 
@@ -554,6 +604,35 @@ This has solution $\Theta(n)$ by the Master Theorem. So, we have the problem can
 
 \end{enumerate}
 
+\noindent\textbf{Problem 4-6}\\
 
+a. If an array $A$ is Monge then trivially it must satisfy the inequality by taking $k = i+1$ and $l = j+1$.  Now suppose $A[i,j] + A[i+1,j+1] \leq A[i,j+1] + A[i+1,j]$.  We'll use induction on rows and columns to show that the array is Monge.  The base cases are each covered by the given inequality.  Now fix $i$ and $j$, let $r \geq 1$, and suppose that $A[i,j] + A[i+1,j+r] \leq A[i,j+r] + A[i+1,j]$.  By applying the induction hypothesis and given inequality we have
+\begin{align*}
+A[i,j] + A[i+1,j+r+1] &\leq  A[i,j+r] + A[i+1,j] -  A[i+1,j+r] + A[i, j+r+1] + A[i+1, j+r] - A[i, j+r] \\
+&=  A[i+1,j] + A[i, j+r+1]  \\
+\end{align*}
+so it follows that we can extend columns and preserve the Monge property.  Next we induct on rows.  Suppose that $A[i,j] + A[k,l] \leq A[i,l] + A[k,j]$.  Then we have
+\begin{align*}
+A[i,j] + A[k+1,l] &\leq A[i,l] + A[k,j] - A[k,l] +  A[k+1,l] \hspace{4.2cm} \mbox{by assumption} \\
+&\leq  A[i,l] + A[k,j] - A[k,l] + A[k,l] + A[k+1,l-1] - A[k,l-1] \mbox{ by given inequality} \\
+&=  A[i,l] + (A[k,j] + A[k+1,l-1]) - A[k,l-1] \\
+&\leq A[i,l] + A[k,l-1] + A[k+1,j] - A[k,l-1] \hspace{3cm} \mbox{ by row proof} \\
+&= A[i,l] + A[k+1,j].
+\end{align*}
+
+b. Change the 7 to a 5. \\
+
+c. Suppose that there exist $i$ and $k$ such that $i < k$ but $f(i) > f(k)$.  Since $A$ is Monge we must have $A[i,f(k)] + A[k,f(i)] \leq A[k,f(k)] + A[i,f(i)]$. Since $f(i)$ gives the position of the leftmost minimum element in row $i$, this implies that $A[i,f(k)] > A[i,f(i)]$.  Moreover, $A[k, f(k)] \leq A[k,f(i)]$.  Combining these with the Monge inequality implies $A[i,f(i)] + A[k,f(i)] < A[k,f(i)] + A[i,f(i)]$, which is impossible since the two sides are equal.  Therefore no such $i$ and $k$ can exist. \\
+
+d.  Linearly scan row 1 indices 1 through $f(2)$ for the minimum element of row 1 and record as $f(1)$.  Next linearly scan indices $f(2)$ through $f(4)$ of row 3 for the minimum element of row 3.  In general, we need only scan indices $f(2k)$ through $f(2k+2)$ of row $2k+1$ to find the leftmost minimum element of row $2k+1$.  If $m$ is odd, we'll need to search indices $f(m-1)$ through $n$ to find the leftmost minimum in row $m$.  By part (c) we know that the indices of the leftmost minimum elements are increasing, so we are guaranteed to find the desired minimum from among the indices scanned. An element of column $j$ will be scanned $N_j + 1$ times, where $N_j$ is the number of $i$ such that $f(i) = j$. Since $\sum_{j=1}^n = n$, the total number of comparisons is $m + n$, giving a running time of $O(m+n)$. \\
+
+e. Let $T(m,n)$ denote the running time of the algorithm applied to an $m$ by $n$ matrix.  $T(m,n) = T(m/2,n) + c(m+n)$ for some constant $c$.  We'll show $T(m,n) \leq c(m + n\log m) - 2cm$.
+\begin{align*}
+T(m,n) &= T(m/2,n) + c(m+n)\\
+&\leq c(m/2 + n\log(m/2)) - 2cm + c(m+n) \\
+&= c(m/2 + n\log m) - cn + cn - cm \\
+& \leq c(m+n\log m) - cm
+\end{align*}
+so by induction we have $T(m,n) = O(m+n\log m)$.
 
 \end{document}
