@@ -11,33 +11,12 @@
 
 	
 \pagestyle{fancy}
-\rhead{Andrew Lohr}
 \title{Chapter 5}
-\author{Andrew Lohr}
+\author{Michelle Bodnar, Andrew Lohr}
 
 \newcounter{curnum}
 \setcounter{curnum}{0}
-%\newtheorem{ex1}{Exercise}
-%\newenvironment{exercise}{\pgfmathparse{\curnum +1}\def\curnum{\pgfmathresult}\newtheorem{ex\curnum}{Exercise}\label{lbl\curnum}\label{last}\begin{ex\curnum}}{\end{ex\curnum}}
-%\newenvironment{exercise}{\stepcounter{curnum}
-%\newtheorem{ex\value{curnum}}{Exercise}\label{lbl\value{curnum}}\begin{ex\value{curnum}}}{\end{ex\value{curnum}}}
 
-%\newcommand{\scoretable}{
-%\begin{center}\begin{tabular}{|c|c|c|}
-%\hline
-%Problem Number& Page Number& Score \\
-%\hline
-%\newcounter{myi}
-%\setcounter{myi}{1}
-%\loop
-%\myi&\pageref{\myi} &  \\
-%\stepcounter{myi}
-%\ifnum \myi < \curnum
-%\repeat
-% \hline
-%\end{tabular}
-%\end{center}
-%}
 
 \newtheorem{th1}{Exercise} 
 \newcommand{\calH}{\mathcal{H}}
@@ -49,9 +28,32 @@
 \maketitle
 
 \noindent\textbf{Exercise 5.1-1}\\
+
 We may of been presented the candidates in increasing order of goodness. This would mean that we can apply transitivity to determine our preference between any two candidates\\
 
+\noindent\textbf{Exercise 5.1-2}\\
+
+\begin{algorithm}
+\caption{RANDOM(a,b)}
+\begin{algorithmic}[1]
+\State $n = \lceil \lg(b-a+1) \rceil$
+\State Initialize an array $A$ of length $n$
+\While{true}
+	\For{$i=1$ to $n$}
+		\State $A[i] = RANDOM(0,1)$
+	\EndFor
+	\If{$A$ holds the binary representation of one of the numbers in $a$ through $b$}
+		\State \Return number represented by $A$
+	\EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+Each iteration of the while loop takes $n$ time to run. The probability that the while loop stops on a given iteration is $(b-a+1) / 2^n$.  Thus the expected running time is the expected number of times run times $n$.  This is given by:
+\[ n\sum_{i \geq 1}  i\left(1-\frac{b-a+1}{2^n}\right)^{i-1}\left(\frac{b-a+1}{2^n}\right) = n\left(\frac{b-a+1}{2^n}\right) \left(\frac{2^n}{b-a+1}\right)^2 = n\frac{2^n}{b-a+1} = O(\lg(b-a)).\]
+
 \noindent\textbf{Exercise 5.1-3}\\
+
 \begin{algorithm}
 \begin{algorithmic}[1]
 \For{all eternity}
@@ -75,10 +77,17 @@ Note that the formula used for the sum of $j\alpha^j$ can be obtained by differe
 
 
 \noindent\textbf{Exercise 5.2-1}\\
+
 You will hire exactly one time if the best candidate is presented first. There are $(n-1)!$ orderings with the best candidate first, so, it is with probability $\frac{(n-1)!}{n!} = \frac{1}{n}$ that you only hire once.
 You will hire exactly $n$ times if the candidates are presented in increasing order. This fixes the ordering to a single one, and so this will occur with probability $\frac{1}{n!}$.\\
 
+\noindent\textbf{Exercise 5.2-2}\\
+
+Since the first candidate is always hired, we need to compute the probability that that exactly one additional candidate is hired.  Since we view the cadidate ranking as reading an random permutation, this is equivalent to the probability that a random permutation is a decreasing sequence followed by an increase, followed by another decreasing sequence.  Such a permutation can be thought of as a partition of $[n]$ into 2 parts.  One of size $k$ and the other of size $n-k$, where $1 \leq k \leq n-1$.  For each such partition, we obtain a permutation with a single increase by ordering the numbers each partition in decreasing order, then concatenating these sequences.  The only thing that can go wrong is if the numbers $n$ through $n - k + 1$ are in the first partition.  Thus there are ${n \choose k} - 1$ permutations which correspond to hiring the second and final person on step $k+1$.  Summing, we see that the probability you hire exactly twice is
+\[ \frac{\sum_{k=1}^{n-1} {n \choose k} - 1}{n!} = \frac{2^n - 2 - (n-1)}{n!} = \frac{2^n - n - 1}{n!}.\]
+
 \noindent\textbf{Exercise 5.2-3}\\
+
 Let $X_j$ be the indicator of a dice coming up $j$. So, the expected value of a single dice roll $X$ is 
 \[
 E[X] = \sum_{j=1}^{6} j \Pr(X_j) = \frac{1}{6} \sum_{j=1}^6 j 
@@ -92,12 +101,19 @@ E[nX] = nE[X] = \frac{n}{6} \sum_{j=1}^6 j = \frac{n 6(6+1)}{12} = 3.5 n
 
 
 \noindent\textbf{Exercise 5.2-5}\\
+
 Let $X_{i,j}$ for $i<j$ be the indicator of $A[i] > A[j]$. Then, we have that the expected number of inversions is
 \[
 E\left[\sum_{i<j} X_{i,j}\right] = \sum_{i<j} E[X_{i,j}] = \sum_{i=1}^{n-1} \sum_{j=i+1}^n \Pr(A[i] > A[j]) = \frac{1}{2} \sum_{i=1}^{n-1} n-i \]\[= \frac{n(n-1)}{2} - \frac{n(n-1)}{4} = \frac{n(n-1)}{4}  
 \]\\
 
+\noindent\textbf{Exercise 5.2-4}\\
+
+Let $X$ be the number of customers who get back their own hat and $X_i$ be the indicator random variable that customer $i$ gets his hat back.  The probability that an individual gets his hat back is $\frac{1}{n}$.  Then we have
+\[ E[X] = E\left[ \sum_{i=1}^n X_i \right] = \sum_{i=1}^n E[X_i] = \sum_{i=1}^n \frac{1}{n} = 1.\]
+
 \noindent\textbf{Exercise 5.3-1}\\
+
 We modify the algorithm by unrolling the $i=1$ case.
 \begin{algorithm}
 \begin{algorithmic}[1]
@@ -110,9 +126,21 @@ We modify the algorithm by unrolling the $i=1$ case.
 
 
 Modify the proof of the lemma by starting with $i=2$ instead of $i=1$. This entirely sidesteps the issue of talking about $0$- permutations.\\
+
+\noindent\textbf{Exercise 5.3-2}\\
+
+The code does not do what he intends.  Suppose $A = [1,2,3]$.  If the algorithm worked as proposed, then with nonzero probability the algorithm should output $[3,2,1]$.  On the first iteration we swap $A[1]$ with either $A[2]$ or $A[3]$.  Since we want $[3,2,1]$ and will never again alter $A[1]$, we must necessarily swap with $A[3]$.  Now the current array is $[3,2,1]$.  On the second (and final) iteration, we have no choice but to swap $A[2]$ with $A[3]$, so the resulting array is $[3,1,2]$.  Thus, the procedure cannot possibly be producing random non-identity permutations. \\
+
 \noindent\textbf{Exercise 5.3-3}\\
+
 Consider the case of $n=3$ in running the algorithm, three IID choices will be made, and so you'll end up having 27 possible end states each with equal probability. There are $3!=6$ possible orderings, these shuld appear equally often, but this can't happen because 6 does not divide 27\\
+
+\noindent\textbf{Exercise 5.3-4}\\
+
+Fix a position $j$ and an index $i$.  We'll show that the probability that $A[i]$ winds up in position $j$ is $1/n$.  The probability $B[j] = A[i]$ is the probability that $dest = j$, which is the probability that $i + o\!f\!\!f\!set$ or $i + o\!f\!\!f\!set - n$ is equal to $j$, which is $1/n$.  This algorithm can't possibly return a random permutation because it doesn't change the relative positions of the elements; it merely cyclically permutes the whole permutation.  For instance, suppose $A = [1,2,3]$.  If $o\!f\!\!f\!set = 1$, $B = [3,2,1]$.  If $o\!f\!\!f\!set = 2$, $B = [2,3,1]$.  If $v = 3$, $B = [1,2,3]$.  Thus, the algorithm will never produce $B = [1,3,2]$, so the resulting permutation cannot be uniformly random. \\
+
 \noindent\textbf{Exercise 5.3-5}\\
+
 Let $X_{i,j}$ be the event that $P[i] = P[j]$. Then, the event that all are unique is the compliment of there being some pair that are equal, so, we must show that $\Pr(\cup_{i,j} X_{i,j}) \le 1/n$. We start by applying a union bound
 \[
 \Pr(\cup_{i<k} X_{i,j}) \le \sum_{i=1}^{n-1} \sum_{j=i+1}^n \Pr(X_{i,j}) = \sum_{i=1}^{n-1} \sum_{j=i+1}^n \frac{1}{n^3}
@@ -122,9 +150,18 @@ Where we use the fact that any two indices will be equal with probability equal 
  = \sum_{i=1}^{n-1} \frac{n-i}{n^3} = \frac{n(n-1)}{n^3} - \frac{n(n-1)}{2n^3} = \frac{n-1}{2n^2} < \frac{1}{n}
 \]\\
 
+\noindent\textbf{Exercise 5.3-6}\\
+
+After the completion of the for loop, check whether or not two or more priorities are identical.  Suppose that $k$ of them are identical.  Then call $RANDOM(1,k^3)$ $k$ times to introduce a relative ordering on the $k$ identical entries.  Some entries $m$ may still be identical, so simply call $RANDOM(1,m^3)$ that many times to introduce a relative ordering on these indentical entries.  For example, if the first sequence of numbers we get is $1, 1, 1, 3, 4, 5, 5$, we'll need to order the 1's and the 5's.  For the 1's, we'll call $RANDOM(1,27)$ 3 times.  Suppose it produces $23, 14, 23$.  Then we'll call $RANDOM(1,8)$ twice to sort the 23's.  Suppose it gives $3, 5$. Then the relative ordering of $23, 14, 23$ becomes $2, 1, 3$, so the new relative ordering on the original array is $2, 1, 3, 4, 5, 6, 6$.  Now we call $RANDOM(1,8)$ twice to sort the 6's.  If the first number is larger than the second, our final array will be $2, 1, 3, 4, 5, 7, 6$. \\
+
 \noindent\textbf{Exercise 5.3-7}\\
+
 We prove that it produces a rawndom $m$ subset by induction on $m$. It is obviously true if $m=0$ as there is only one size $m$ subset of $[n]$. Suppose $S$ is a uniform $m-1$ subset of $n-1$, that is, $\forall j\in[n-1], \Pr[j\in S] = \frac{m-1}{n-1}$. Then, if we let $S'$ denote the returned set, suppose first $j\in [n-1]$, $\Pr[j\in S'] = \Pr[j\in S] + \Pr[j\not\in S \wedge  i=j] = \frac{m-1}{n-1} + \Pr[j\not\in S]\Pr[i=j] = \frac{m-1}{n-1} + \left(1 - \frac{m-1}{n-1}\right)\frac{1}{n} = \frac{n(m-1) +n-m}{(n-1)n} = \frac{nm -m}{(n-1)n} = \frac{m}{n}$. Since the constructed subset contains each of $[n-1]$ with the correct probability, it must also contain $n$ with the correct probability because the probabilities sum to 1.\\
+
+
+
 \noindent\textbf{Exercise 5.4-1}\\
+
 The probability that none of $n$ people have the same birthday as you is $(1-\frac{1}{365})^n= \frac{364^n}{365^n}$. This falls below zero when $n\ge \log_{\frac{364}{365}}(.5) \approx 252.6$ so, when $n=253$. Since you are also a person in the room, we add one to get the final anwer of $254$.
 
 The probability that k of the n people have july 4 as a birthday is $\binom{n}{k} \frac{364^{n-k}}{365}$. In particular, for $k=0$ it is $\frac{364^n}{365^n}$ and for $k=1$ it is $\frac{n364^{n-1}}{365^n}$. Adding these up and solving for $n$ to have the sum drop less than a half, we get
@@ -132,14 +169,25 @@ The probability that k of the n people have july 4 as a birthday is $\binom{n}{k
 \left(\frac{364}{365}\right)^n \left( 1 + \frac{n}{364}\right) <.5
 \]
 This is difficult to solve analytically, but  because of the LHS's monotonicity, the answer can be found rather quickly by using a gallop search to be $n=612$.\\
+
+
+
 \noindent\textbf{Exercise 5.4-3}\\
+
 Pairwise independence is sufficient. All the independence is used for is to show that $\Pr(b_i=r \wedge b_j=r) = \Pr(b_i=r)\Pr(b_j=r)$. This is a result of pairwise independence.\\
+
+
 \noindent\textbf{Exercise 5.4-5}\\
+
 Since to be a k-permutation, we need that no letter appears repeated, it is equivalent to the birthday problem with k people and n days. So, this probability is given on the top of page 132 to be:
 \[
 \prod_{i=1}^{k-1} \left(1-\frac{i}{n}\right)
 \]\\
+
+
+
 \noindent\textbf{Exercise 5.4-7}\\
+
 We split up the $n$ flips into $n/s$ groups where we pick $s = \lg(n) - 2\lg(\lg(n))$. We will show that at least one of these groups comes up all heads with probability at least $\frac{n-1}{n}$. So, the probability the group starting in position $i$ comes up all heads is:
 \[
 \Pr(A_{i,\lg(n)- 2\lg(\lg(n))}) =\frac{1}{2^{\lg(n)- 2\lg(\lg(n))}} = \frac{\lg(n)^2}{n}
@@ -153,7 +201,11 @@ Since the groups are based of of disjoint sets of IID coinflips, these probabili
 \]
 Showing that the probability that there is no run of length at least $\lg(n) - 2\lg(\lg(n))$ to be $<\frac{1}{n}$.\\
 
+
+
+
 \noindent\textbf{Problem 5-1}\\
+
 \begin{enumerate}[a)]
 \item
 Let $P_{j,i}$ be the probability that the counter reads $j$ after $i$ steps. The rule for incrementing the counter says exactly that
