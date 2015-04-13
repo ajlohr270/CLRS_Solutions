@@ -170,12 +170,40 @@ The probability that k of the n people have july 4 as a birthday is $\binom{n}{k
 \]
 This is difficult to solve analytically, but  because of the LHS's monotonicity, the answer can be found rather quickly by using a gallop search to be $n=612$.\\
 
+\noindent\textbf{Exercise 5.4-2}\\
 
+We compute directly from the definition of expectation. Let $X$ denote the number of balls tossed until some bin contains two balls. 
+\[E[X] = \sum_{i=2}^{b+1}iP(X=i).\]
+The probability that $i$ tosses are required is the probability that the first $i-1$ tosses go into unique bins, so we have
+\[ P(X=i) = 1\cdot \left(\frac{b-1}{b}\right)\left(\frac{b-2}{b}\right) \cdots \left(\frac{b-i+2}{b}\right)\left(\frac{i-1}{b}\right).\]
+Thus
+\begin{align*}
+ E[X] &=  \sum_{i=2}^{b+1}i\left(\frac{b-1}{b}\right)\left(\frac{b-2}{b}\right) \cdots \left(\frac{b-i+2}{b}\right)\left(\frac{i-1}{b}\right) \\
+&=\sum_{i=2}^{b+1}i\left(1-\frac{1}{b}\right)\left(1-\frac{2}{b}\right) \cdots \left(1-\frac{i-2}{b}\right)\left(\frac{i-1}{b}\right). \\
+\end{align*}
 
 \noindent\textbf{Exercise 5.4-3}\\
 
 Pairwise independence is sufficient. All the independence is used for is to show that $\Pr(b_i=r \wedge b_j=r) = \Pr(b_i=r)\Pr(b_j=r)$. This is a result of pairwise independence.\\
 
+\noindent\textbf{Exercise 5.4-4}\\
+
+We can compute "likely" in two ways.  The probability that at least three people share the same birthday is 1 minus the probability that none share the same birthday, minus the probability that any number of pairs of people share the same birthday.  Let $n=365$ denote the number of days in a year and $k$ be the number of people at the party.  As computed earlier in the section, we have
+\[ P(\mbox{all unique birthdays}) = 1 \cdot \left(\frac{n-1}{n}\right)\left(\frac{n-2}{n}\right)\cdots \left(\frac{n-k+1}{n}\right) \leq e^{-k(k-1)/2n}.\]
+
+Next we compute the probability that exactly $i$ pairs of people share a birthday.  There are ${k \choose 2}{k-2 \choose 2} \cdots {k-2i+2 \choose 2}$ ways to choose an ordered collection of $i$ pairs from the $k$ people, ${n \choose i}$ ways to select the set of birthdays the pairs will share, and the probability that any such ordered subset has these precise birthdays is $(1/n^2)^i$.  Multiplying by the probability that the rest of the birthdays are different and unique we have
+\begin{align*}
+ P(\mbox{exactly $i$ pairs of people share birthdays}) &= \frac{{k \choose 2}{k-2 \choose 2} \cdots {k-2i+2 \choose 2}{n \choose i}}{n^{2i}} \left(\frac{n-i}{n}\right)\left(\frac{n-i-1}{n}\right) \cdots \left(\frac{n-k+i+1}{n}\right)\\
+&\leq \frac{k! {n \choose i}}{2^i (k-2i)! n^{2i}}\left(1 - \frac{i}{n} \right)\left(1 - \frac{i+1}{n} \right) \cdots \left(1 - \frac{k-i-1}{n}\right) \\
+&\leq \frac{k! {n \choose i}}{2^i (k-2i)! n^{2i}} e^{-(k-1)(k-2i-1)/2n}
+\end{align*}
+ Thus, 
+\[ P(\geq 3 \mbox{ people share a birthday}) \leq 1 - e^{-k(k-1)/2n} - \frac{k! {n \choose i}}{2^i (k-2i)! n^{2i}} e^{-(k-1)(k-2i-1)/2n}.\]
+
+This is pretty messy, even with the simplifying inequality $1+x \leq e^x$, so we'll do another analysis, this time on expectation.  We'll determine the value of $k$ required such that the expected number of triples $(i,j,m)$ where person $i$, person $j$, and person $m$ share a birthday is at least 1.  Let $X_{ijm}$ be the indicator variable that this triple of people share a birthday and $X$ denote the total number of triples of birthday-sharers.  Then we have
+\[ E[X] = \sum_{\mbox{distinct triples }(i,j,m)} E[X_{ijm}] = {k \choose 3}\frac{1}{n^2}.\]
+
+To make $E[X]$ exceed 1 we need to find the smallest $k$ such that $k(k-1)(k-2) \geq 6(365)^2$, which happens when $k = 94$.\\
 
 \noindent\textbf{Exercise 5.4-5}\\
 
@@ -184,7 +212,14 @@ Since to be a k-permutation, we need that no letter appears repeated, it is equi
 \prod_{i=1}^{k-1} \left(1-\frac{i}{n}\right)
 \]\\
 
+\noindent\textbf{Problem 5.4-6}\\
 
+Let $X_i$ be the indicator variable that bin $i$ is empty after all balls are tossed and $X$ be the random variable that gives the number of empty bins.  Then we have
+\[ E[X] = \sum_{i=1}^n E[X_i] = \sum_{i=1}^n \left(\frac{n-1}{n}\right)^n = n\left(\frac{n-1}{n}\right)^n.\]
+
+Now let $X_i$ be the indicator variable that bin $i$ contains exactly 1 ball after all balls are tossed and $X$ be the random variable that gives the number of bins containing exactly 1 ball.  Then we have
+\[ E[X] = \sum_{i=1}^n E[X_i] = \sum_{i=1}^n {n \choose 1}\left(\frac{n-1}{n}\right)^{n-1}\frac{1}{n} = n\left(\frac{n-1}{n}\right)^{n-1} \]
+because we need to choose which toss will go into bin $i$, then multiply by the probability that that toss goes into that bin and the remaining $n-1$ tosses avoid it.
 
 \noindent\textbf{Exercise 5.4-7}\\
 
@@ -200,8 +235,6 @@ Since the groups are based of of disjoint sets of IID coinflips, these probabili
 = n^{-1 - \frac{2\lg(\lg(n))}{\lg(n) - 2\lg(\lg(n))}} < n^{-1}
 \]
 Showing that the probability that there is no run of length at least $\lg(n) - 2\lg(\lg(n))$ to be $<\frac{1}{n}$.\\
-
-
 
 
 \noindent\textbf{Problem 5-1}\\
@@ -221,6 +254,56 @@ And we are to show that the expected value after $j$ steps is $j$, that is,
 
 \end{enumerate}
 
+\noindent\textbf{Problem 5-2}\\
 
+a. Assume that $A$ has $n$ elements.  Our algorithm will use an array $P$ to track the elements which have been seen, and add to a counter $c$ each time a new element is checked.  Once this counter reaches $n$, we will know that every element has been checked.  Let $RI(A)$ be the function that returns a random index of $A$.
+\begin{algorithm}
+\caption{RANDOM-SEARCH}
+\begin{algorithmic}
+\State Initialize an array $P$ of size $n$ containing all zeros 
+\State Initialize integers $c$ and $i$ to $0$
+\While{$c \neq n$}
+	\State $i = RI(A)$
+	\If{$A[i] == x$}
+		\State \Return $i$
+	\EndIf
+	\If{$P[i] == 0$}
+		\State $P[i] = 1$
+		\State $c = c+1$
+	\EndIf
+\EndWhile
+\State \Return A does not contain $x$
+\end{algorithmic}
+\end{algorithm}
+
+b. Let $N$ be the random variable for the number of searches required.  Then
+\begin{align*}
+ E[N] &= \sum_{i\geq 1} iP(i \mbox{ iterations are required}) \\
+&= \sum_{i\geq 1} i \left(\frac{n-1}{n}\right)^{i-1}\left(\frac{1}{n}\right) \\
+&=\frac{1}{n} \frac{1}{\left(1 - \frac{n-1}{n}\right)^2} \\
+&= n.
+\end{align*}
+
+c.  Let $N$ be the random variable for the number of searches required.  Then
+\begin{align*}
+ E[N] &= \sum_{i\geq 1} iP(i \mbox{ iterations are required}) \\
+&= \sum_{i\geq 1} i \left(\frac{n-k}{n}\right)^{i-1}\left(\frac{k}{n}\right) \\
+&=\frac{k}{n} \frac{1}{\left(1 - \frac{n-k}{n}\right)^2} \\
+&= \frac{n}{k}.
+\end{align*}
+
+d. This is identical to the "How many balls must we toss until every bin contains at least one ball?" problem solved in section 5.4.2, whose solution is $b(\ln b + O(1))$.\\
+
+e. The average case running time is $(n+1)/2$ and the worst case running time is $n$. \\
+
+f. Let $X$ be the random variable which gives the number of elements examined before the algorithm terminates.  Let $X_i$ be the indicator variable that the $i^{th}$ element of the array is examined.  If $i$ is an index such that $A[i] \neq x$ then $P(X_i) = \frac{1}{k+1}$ since we examine it only if it occurs before every one of the $k$ indices that contains $x$.  If $i$ is an index such that $A[i] = x$ then $P(X_i) = \frac{1}{k}$ since only one of the indices corresponding to a solution will be examined.  Let $S = \{i | A[i] = x\}$ and $S' = \{i | A[i] \neq x\}$.  Then we have
+\[E[X] = \sum_{i=1}^n E[X_i] = \sum_{i \in S} P(X_i) + \sum_{i \in S'}P(X_i) = \frac{k}{k} + \frac{n-k}{k+1} = \frac{n+1}{k+1}.\]
+Thus the average case running time is $\frac{n+1}{k+1}$.  The worst case happens when every occurrence of $x$ is in the last $k$ positions of the array.  This has running time $n-k+1$.\\
+
+g. The average and worst case running times are both $n$. \\
+
+h. SCRAMBLE-SEARCH works identically to DETERMINISTIC-SEARCH, except that we add to the running time the time it takes to randomize the input array. \\
+
+i. I would use DETERMINISTIC-SEARCH since it has the best expected runtime and is guaranteed to terminate after $n$ steps, unlike RANDOM-SEARCH.  Moreover, in the time it takes SCRAMBLE-SEARCH to randomly permute the input array we could have performed a linear search anyway.
 
 \end{document}
