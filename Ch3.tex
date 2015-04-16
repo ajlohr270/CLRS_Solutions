@@ -11,33 +11,11 @@
 \usepackage{amssymb}
 	
 \pagestyle{fancy}
-\rhead{Andrew Lohr}
 \title{Chapter 3}
-\author{Andrew Lohr}
+\author{Michelle Bodnar, Andrew Lohr}
 
 \newcounter{curnum}
 \setcounter{curnum}{0}
-%\newtheorem{ex1}{Exercise}
-%\newenvironment{exercise}{\pgfmathparse{\curnum +1}\def\curnum{\pgfmathresult}\newtheorem{ex\curnum}{Exercise}\label{lbl\curnum}\label{last}\begin{ex\curnum}}{\end{ex\curnum}}
-%\newenvironment{exercise}{\stepcounter{curnum}
-%\newtheorem{ex\value{curnum}}{Exercise}\label{lbl\value{curnum}}\begin{ex\value{curnum}}}{\end{ex\value{curnum}}}
-
-%\newcommand{\scoretable}{
-%\begin{center}\begin{tabular}{|c|c|c|}
-%\hline
-%Problem Number& Page Number& Score \\
-%\hline
-%\newcounter{myi}
-%\setcounter{myi}{1}
-%\loop
-%\myi&\pageref{\myi} &  \\
-%\stepcounter{myi}
-%\ifnum \myi < \curnum
-%\repeat
-% \hline
-%\end{tabular}
-%\end{center}
-%}
 
 \newtheorem{th1}{Exercise} 
 \newcommand{\calH}{\mathcal{H}}
@@ -49,20 +27,36 @@
 \maketitle
 
 \noindent\textbf{Exercise 3.1-1}\\
+
 Since we are requiring both $f$ and $g$ to be aymptotically non-negative, suppose that we are past some $n_1$ where both are non-negative (take the max of the two bounds on the n corresponding to both $f$ and $g$). Let $c_1=.5$ and $c_2=1$.
 \[
 0\le .5(f(n)+g(n)) \le .5(\max(f(n),g(n)) + \max(f(n),g(n))) \]\[= \max(f(n),g(n)) \le \max(f(n),g(n))+\min(f(n),g(n)) = (f(n)+g(n))
 \]\\
 
+\noindent\textbf{Exercise 3.1-2}\\
+
+Let $c = 2^b$ and $n_0 \geq 2a$.  Then for all $n \geq n_0$ we have $(n+a)^b \leq (2n)^b = cn^b$ so $(n+a)^b = O(n^b)$.  Now let $n_0 \geq \frac{-a}{1-1/2^{1/b}}$ and $c = \frac{1}{2}$.  Then $n \geq n_0 \geq \frac{-a}{1-1/2^{1/b}}$ if and only if $n - \frac{n}{2^{1/b}} \geq -a$ if and only if $n+a \geq (1/2)^{a/b}n$ if and only if $(n+a)^b \geq cn^b$.  Therefore $(n+a)^b = \Omega(n^b)$.  By Theorem 3.1, $(n+a)^b = \Theta(n^b)$.\\
+
 \noindent\textbf{Exercise 3.1-3}\\
 
 There are a ton of different funtions that have growth rate less than or equal to $n^2$. In particular, functions that are constant or shrink to zero arbitrarily fast. Saying that you grow more quickly than a function that shrinks to zero quickly means nothing. \\
+
+\noindent\textbf{Exercise 3.1-4}\\
+
+$2^{n+1} \geq 2\cdot 2^n$ for all $n \geq 0$, so $2^{n+1} = O(2^n)$.  However, $2^{2n}$ is not $O(2^n)$.  If it were, there would exist $n_0$ and $c$ such that $n \geq n_0$ implies $2^n \cdot 2^n = 2^{2n} \leq c2^n$, so $2^n \leq c$ for $n \geq n_0$ which is clearly impossible since $c$ is a constant.  \\
+
 
 \noindent\textbf{Exercise 3.1-5}\\
 
 Suppose $f(n)\in \Theta(g(n))$, then $\exists c_1,c_2,n_0, \forall n\ge n_0, 0\le c_1 g(n) \le f(n) \le c_2 g(n)$, if we just look at these inequalities saparately, we have $c_1 g(n) \le f(n)$ ($f(n) \in \Omega(g(n))$) and $f(n) \le c_2 g(n)$ ($f(n)\in O(g(n))$).
 
 Suppose that we had $\exists n_1, c_1, \forall n\ge n_1, c_1 g(n) \le f(n)$ and $\exists n_2,c_2, \forall n\ge n_2, f(n)\le c_2g(n)$. Putting these together, and letting $n_0 = \max(n_1,n_2)$, we have $\forall n\ge n_0, c_1 g(n) \le f(n) \le c_2 g(n)$. \\
+
+\noindent\textbf{Exercise 3.1-6}\\
+
+Suppose the running time is $\Theta(g(n))$.  By Theorem 3.1, the running time is $O(g(n))$, which implies that for any input of size $n \geq n_0$ the running time is bounded above by $c_1g(n)$ for some $c_1$. This includes the running time on the worst-case input.  Theorem 3.1 also imlpies the running time is $\Omega(g(n))$, which implies that for any input of size $n \geq n_0$ the running time is bounded below by $c_2g(n)$ for some $c_2$.  This includes the running time of the best-case input.  
+
+On the other hand, the running time of any input is bounded above by the worst-case running time and bounded below by the best-case running time.  If the worst-case and best-case running times are $O(g(n))$ and $\Omega(g(n))$ respectively, then the running time of any input of size $n$ must be $O(g(n))$ and $\Omega(g(n))$.  Theorem 3.1 implies that the running time is $\Theta(g(n))$. \\
 
 \noindent\textbf{Exercise 3.1-7}\\
 
@@ -71,6 +65,18 @@ Suppose we had some $f(n) \in o(g(n)) \cap \omega(g(n))$. Then, we have
 0 = \lim_{n\rightarrow \infty} \frac{f(n)}{g(n)} = \infty
 \]
 a contradiction.\\
+
+\noindent\textbf{Exercise 3.1-8}\\
+
+\begin{align*}
+ \Omega(g(n,m)) = \{ f(n,m) &: \mbox{there exist positive constants } c, n_0, \mbox{ and }m_0 \mbox{ such that } f(n,m) \geq cg(n,m) \\
+&\mbox{ for all } n \geq n_0 \mbox{ or } m \geq m_0 \}
+\end{align*}
+
+\begin{align*}
+\Theta(g(n,m)) = \{ f(n,m) &: \mbox{there exist positive constants } c_1, c_2, n_0, \mbox{ and }m_0 \mbox{ such that } c_1g(n,m) \leq f(n,m) \\
+&\leq c_2g(n,m) \mbox{ for all } n \geq n_0 \mbox{ or } m \geq m_0 \}
+\end{align*}
 
 \noindent\textbf{Exercise 3.2-1}\\
 
@@ -84,9 +90,13 @@ f(n_1)g(n_1) = f(n_2)g(n_1) + (f(n_2)-f(n_1))g(n_1) \]\[= f(n_2)g(n_2) + f(n_2)(
 \]
 Since $f(n_1)\ge 0$, $f(n_2)>0$, so, the second term in this expression is greater than zero. The third term is nonnegative, so, the whole thing is$<f(n_2)g(n_2)$.\\
 
+\noindent\textbf{Exercise 3.2-2}\\
+
+\[ a^{\log_b(c)} = a^{\frac{\log_a(c)}{\log_a(b)}} = c^{\frac{1}{\log_a(b)}} = c^{\log_b(a)}.\]
+
 \noindent\textbf{Exercise 3.2-3}\\
 
-As the int suggests, we will apply stirling's approximation
+As the hint suggests, we will apply stirling's approximation
 
 \[
 \lg(n!) = \lg\left(\sqrt{(2\pi n}\left(\frac{n}{e}\right)^n\left( 1 + \Theta\left(\frac{1}{n}\right)\right)\right) \]\[= \frac{1}{2}\lg(2\pi n) + n\lg(n) - n \lg (e) + \lg\left(\Theta\left(\frac{n+1}{n}\right)\right)
@@ -105,6 +115,14 @@ If we restrict to $n> 4e$, then this is
 \lim_{n\rightarrow\infty} \frac{n^n}{n!} = \lim_{n\rightarrow\infty} \frac{1}{\sqrt{2\pi n}(1+\Theta(\frac{1}{n}))}e^n =  \lim_{n\rightarrow\infty} O(n^{-.5})e^n \ge \lim_{n\rightarrow\infty} \frac{e^n}{c_1\sqrt{n}}\]\[ \ge\lim_{n\rightarrow\infty} \frac{e^n}{c_1n} =  \lim_{n\rightarrow\infty} \frac{e^n}{c_1} = \infty
 \]\\
 
+\noindent\textbf{Exercise 3.2-4}\\
+
+The function $\lceil \log n \rceil !$ is not polynomially bounded.  If it were, there would exist constants $c$, $a$, and $n_0$ such that for all $n \geq n_0$ the inequality $\lceil \log n \rceil ! \leq cn^a$ would hold.  In particular, it would hold when $n=2^k$ for $k \in \mathbb{N}$.  Then this becomes $k! \leq c(2^a)^k$, a contradiction since the factorial function is not exponentially bounded.
+
+We'll show that $\lceil \log \log n \rceil ! \leq n$.  Without loss of generality assume $n=2^{2^k}$.  Then this becomes equivalent to showing $k! \leq 2^{2^k}$, or $1 \cdot 2 \cdots (k-1) \cdot k \leq 4 \cdot 16 \cdot 2^8 \cdots 2^{2^k}$, which is clearly true for $k \geq 1$.  Therefore it is polynomially bounded.
+
+
+
 \noindent\textbf{Exercise 3.2-5}\\
 
 Note that $\lg^*(2^n) = 1+ \lg^*(n)$, so, 
@@ -118,11 +136,25 @@ Note that $\lg^*(2^n) = 1+ \lg^*(n)$, so,
 
 So, we have that $\lg^*(\lg(n))$ grows more quickly\\
 
+\noindent\textbf{Exercise 3.2-6}\\
+
+\[ \phi^2 = \left(\frac{1 + \sqrt{5}}{2} \right)^2 = \frac{6 + 2\sqrt{5}}{4} = 1 + \frac{1 + \sqrt{5}}{2} = 1 + \phi\]
+
+\[ \hat{\phi}^2 = \left(\frac{1 - \sqrt{5}}{2} \right)^2 = \frac{6 - 2\sqrt{5}}{4} = 1 + \frac{ 1- \sqrt{5}}{2} = 1 + \hat{\phi} \]
+
 \noindent\textbf{Exercise 3.2-7}\\
 
 First, we show that $1+\phi = \frac{6+2\sqrt{5}}{4} = \phi^2$. So, for every $i$, $\phi^{i-1}+ \phi^{i-2} = \phi^{i-2}(\phi+1) = \phi^i$. Similarly for $\hat\phi$.
 
 For $i=0$, $\frac{\phi^0 - \hat\phi^0}{\sqrt{5}} = 0$. For $i=1$, $\frac{\frac{1+\sqrt{5}}{2} - \frac{1-\sqrt{5}}{2}}{\sqrt{5}} = \frac{\sqrt{5}}{\sqrt{5}} = 1$. Then, by induction, $F_i = F_{i-1}+F_{i-2} = \frac{\phi^{i-1}+\phi^{i-2} - (\hat\phi^{i-1} +\hat\phi^{i-2})}{\sqrt{5}} = \frac{\phi^i - \hat\phi^i}{\sqrt{5}}$.\\
+
+\noindent\textbf{Exercise 3.2-8}\\
+
+Let $c_1$ and $c_2$ be such that $ c_1 n \leq k \ln k \leq c_2 n$.  Then we have $ \ln c_1 + \ln n= \ln(c_1 n) \leq \ln(k \ln k) = \ln k + \ln ( \ln k)$ so $\ln n = O(\ln k)$.  Let $c_3$ be such that $\ln n \leq c_3 \ln k$.  Then 
+\[ \frac{n}{\ln n} \geq \frac{n}{c_3 \ln k} \geq \frac{k}{c_2 c_3} \]
+so that $\frac{n}{\ln n} = \Omega(k)$.  Similarly, we have $ \ln k + \ln ( \ln k) = \ln (k \ln k) \leq \ln(c_2 n) = \ln(c_2) + \ln(n)$ so $\ln(n) = \Omega(\ln k)$.  Let $c_4$ be such that $\ln n \geq c_4 \ln k$.  Then
+\[ \frac{n}{\ln n} \leq \frac{n}{c_4 \ln k} \leq \frac{k}{c_1 c_4} \]
+so that $\frac{n}{\ln n} = O(k)$.  By Theorem 3.1 this implies $\frac{n}{\ln n} = \Theta(k)$.  By symmetry, $k = \Theta\left(\frac{n}{\ln n}\right)$. \\
 
 \noindent\textbf{Problem 3-1}\\
 
@@ -148,6 +180,18 @@ We have by the previous parts that $p(n) = O(n^k)$ and $p(n)= \Omega(n^k)$. So, 
 \]
 
 \end{enumerate}
+
+\noindent\textbf{Problem 3-2}\\
+
+\begin{tabular}{c|c|c|c|c|c|c|}
+$A$ & $B$ & $O$ & $o$ & $\Omega$ & $\omega$ & $\Theta$ \\ \hline
+$\lg^k n$ & $n^\epsilon$ & yes & yes & no & no & no \\ \hline
+$n^k$ & $c^n$ & yes & yes & no & no & no \\ \hline 
+$\sqrt{n}$ & $n^{\sin n}$ & no & no & no & no & no \\ \hline
+$2^n$ & $2^{n/2}$ & no & no & yes & yes & no \\ \hline
+$n^{\log c}$ & $c^{\log n}$ & yes & no & yes & no & yes \\ \hline
+$\log(n!)$ & $\log(n^n)$ & yes & no & yes & no & yes \\ \hline
+\end{tabular} \\
 
 \noindent\textbf{Problem 3-3}\\
 \begin{enumerate}[a)]
@@ -191,6 +235,24 @@ f(n) = \left\{\begin{array}{c c}g_1(n)!& n\mod 2=0 \\0 &n\mod 2 =1\end{array}\ri
 \]
 \end{enumerate}
 
+\noindent\textbf{Problem 3-4}\\
+
+a. False.  Counterexample: $n = O(n^2)$ but $n^2 \neq O(n)$. \\
+
+b. False.  Counterexample: $n + n^2 \neq \Theta(n)$. \\
+
+c. True.  Since $f(n) = O(g(n))$ there exist $c$ and $n_0$ sucht hat $n \geq n_0$ implies $f(n) \leq cg(n)$ and $f(n) \geq 1$.  This means that $\log(f(n)) \leq \log(cg(n)) = \log(c) + \log(g(n))$.  Note that the inequality is preserved after taking logs because $f(n) \geq 1$.  Now we need to find $d$ such that $f(n) \leq d\log(g(n))$.  It will suffice to make $\log(c) + \log(g(n)) \leq d\log(g(n))$, which is achieved by taking $d = \log(c) + 1$, since $\log(g(n)) \geq 1$.\\
+
+d. False.  Counterexample: $2n = O(n)$ but $2^{2n} \neq 2^{n}$ as shown in exercise 3.1-4. \\
+
+e. False.  Counterexample: Let $f(n) = \frac{1}{n}$. Suppose that $c$ is such that $\frac{1}{n} \leq c \frac{1}{n^2}$ for $n \geq n_0$.  Choose $k$ such that $kc \geq n_0$ and $k > 1$.  Then this implies $\frac{1}{kc} \leq \frac{c}{k^2c^2} = \frac{1}{k^2 c}$, a contradiction.  \\
+
+f. True.  Since $f(n) = O(g(n))$ there exist $c$ and $n_0$ such that $n \geq n_0$ implies $f(n) \leq c g(n)$.  Thus $g(n) \geq \frac{1}{c} f(n)$, so $g(n) = \Omega(f(n))$. \\
+
+g. False.  Counterexample: Let $f(n) = 2^{2n}$.  By exercise 3.1-4, $2^{2n} \neq O(2^n)$. \\
+
+h. True.  Let $g$ be any function such that $g(n) = o(f(n))$.  Since $g$ is asymptotically positive let $n_0$ be such that $n \geq n_0$ implies $g(n) \geq 0$.  Then $f(n) + g(n) \geq f(n)$ so $f(n) + o(f(n)) = \Omega(f(n))$.  Next, choose $n_1$ such that $n \geq n_1$ implies $g(n) \leq f(n)$.  Then $f(n) + g(n) \leq f(n) + f(n) = 2f(n)$ so $f(n) + o(f(n)) = O(f(n))$.  By Theorem 3.1, this implies $f(n) + o(f(n)) = \Theta(f(n))$. \\
+
 \noindent\textbf{Problem 3-5}\\
 
 \begin{enumerate}[a)]
@@ -210,7 +272,21 @@ Suppose $f(n)\in \overset{\sim}{\Theta}(g(n))$, then $\exists c_1,c_2,k_1,k_2,n_
 
 Now for the other direction. Suppose that we had $\exists n_1, c_1,k_1 \forall n\ge n_1, \frac{c_1 g(n)}{\lg^{k_1}(n)} \le f(n)$ and $\exists n_2,c_2,k_2, \forall n\ge n_2, f(n)\le c_2g(n)\lg^{k_2}(n)$. Putting these together, and letting $n_0 = \max(n_1,n_2)$, we have $\forall n\ge n_0, \frac{c_1 g(n)}{\lg^{k_1}(n)} \le f(n) \le c_2 g(n)\lg^{k_2}(n)$. 
 
-
 \end{enumerate}
+
+
+\noindent\textbf{Problem 3-6}\\
+
+\begin{tabular}{c|c|c|}
+$f(n)$ & $c$ & $f_c^*(n)$ \\ \hline
+$n-1$ & 0 & $\lceil n \rceil $ \\ \hline
+$\log n$ & 1 & $\log^*n$ \\ \hline
+$n/2$ & 1 &  $\lceil \log(n) \rceil $ \\ \hline
+$n/2$ & $2$ & $\lceil \log(n) \rceil - 1$ \\ \hline
+$\sqrt{n}$ & 2 & $\log \log n$ \\ \hline
+$\sqrt{n}$ & 1 & undefined \\ \hline
+$n^{1/3}$ & 2 & $\log_3 \log_2(n)$ \\ \hline
+$n / \log n$ & 2 & $\Omega\left(\frac{\log n}{\log(\log n)} \right)$ \\ \hline
+\end{tabular}\\
 
 \end{document}
