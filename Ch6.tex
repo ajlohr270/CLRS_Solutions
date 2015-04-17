@@ -267,6 +267,131 @@ $
 \end{array}
 $\\
 
+\noindent\textbf{Exercise 6.5-2}\\
+
+The following sequence of pictures shows how 10 is inserted into the heap, then swapped with parent nodes until the max-heap property is restored.  The node containing the new key is heavily shaded.
+
+\begin{enumerate}
+\item  Original heap:
+
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
+\node [circle,draw] (z){15}
+  child {node [circle,draw] (a) {13}
+    child {node [circle,draw] (b) {5}
+      child {node [circle,draw] (c) {4}
+	}
+      child {node [circle,draw] (d) {0}
+	}
+    }
+    child {node [circle,draw] (g) {12}
+	child {node [circle,draw] (c) {6}}
+      child {node [circle,draw] (d) {2}}
+  }}
+  child {node [circle,draw] (a) {9}
+    child {node [circle,draw] (b) {8}
+      child {node [circle,draw] (c) {1}
+	}
+    }
+    child {node [circle,draw] (g) {7}
+  }};
+\end{tikzpicture}
+\item MAX-HEAP-INSERT(A,10) is called, so we first append a node assigned value $-\infty$:
+
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
+\node [circle,draw] (z){15}
+  child {node [circle,draw] (a) {13}
+    child {node [circle,draw] (b) {5}
+      child {node [circle,draw] (c) {4}
+	}
+      child {node [circle,draw] (d) {0}
+	}
+    }
+    child {node [circle,draw] (g) {12}
+	child {node [circle,draw] (c) {6}}
+      child {node [circle,draw] (d) {2}}
+  }}
+  child {node [circle,draw] (a) {9}
+    child {node [circle,draw] (b) {8}
+      child {node [circle,draw] (c) {1}
+	}
+	child{node [circle,draw,scale=.7, fill=black!40] (c) {$-\infty$}}
+    }
+    child {node [circle,draw] (g) {7}
+  }};
+\end{tikzpicture}
+\item The key value of the new node is updated:
+
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
+\node [circle,draw] (z){15}
+  child {node [circle,draw] (a) {13}
+    child {node [circle,draw] (b) {5}
+      child {node [circle,draw] (c) {4}
+	}
+      child {node [circle,draw] (d) {0}
+	}
+    }
+    child {node [circle,draw] (g) {12}
+	child {node [circle,draw] (c) {6}}
+      child {node [circle,draw] (d) {2}}
+  }}
+  child {node [circle,draw] (a) {9}
+    child {node [circle,draw] (b) {8}
+      child {node [circle,draw] (c) {1}
+	}
+	child{node [circle,draw,scale=.7, fill=black!40] (c) {10}}
+    }
+    child {node [circle,draw] (g) {7}
+  }};
+\end{tikzpicture}
+\item Since the parent key is smaller than 10, the nodes are swapped:
+
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
+\node [circle,draw] (z){15}
+  child {node [circle,draw] (a) {13}
+    child {node [circle,draw] (b) {5}
+      child {node [circle,draw] (c) {4}
+	}
+      child {node [circle,draw] (d) {0}
+	}
+    }
+    child {node [circle,draw] (g) {12}
+	child {node [circle,draw] (c) {6}}
+      child {node [circle,draw] (d) {2}}
+  }}
+  child {node [circle,draw] (a) {9}
+    child {node [circle,draw ,scale=.8, fill=black!40] (b) {10}
+      child {node [circle,draw] (c) {1}
+	}
+	child{node [circle,draw] (c) {8}}
+    }
+    child {node [circle,draw] (g) {7}
+  }};
+\end{tikzpicture}
+\item Since the parent node is smaller than 10, the nodes are swapped:
+
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
+\node [circle,draw] (z){15}
+  child {node [circle,draw] (a) {13}
+    child {node [circle,draw] (b) {5}
+      child {node [circle,draw] (c) {4}
+	}
+      child {node [circle,draw] (d) {0}
+	}
+    }
+    child {node [circle,draw] (g) {12}
+	child {node [circle,draw] (c) {6}}
+      child {node [circle,draw] (d) {2}}
+  }}
+  child {node [circle,draw ,scale=.8, fill=black!40] (a) {10}
+    child {node [circle,draw] (b) {9}
+      child {node [circle,draw] (c) {1}
+	}
+	child{node [circle,draw] (c) {8}}
+    }
+    child {node [circle,draw] (g) {7}
+  }};
+\end{tikzpicture}
+\end{enumerate}
 
 \noindent\textbf{Exercise 6.5-3}\\
 
