@@ -439,18 +439,34 @@ Min-Heap-Insert(A,key)
 \end{algorithmic}
 \end{algorithm}\\
 
+\noindent\textbf{Exercise 6.5-4}\\
 
+If we don't make an assignment to $A[A.heap-size]$ then it could contain any value. In particular, when we call HEAP-INCREASE-KEY, it might be the case that $A[A.heap-size]$ initially contains a value larger than key, causeing an error.  By assigning $-\infty$ to $A[A.heap-size]$ we guarantee that no error will occur.  However, we could have assigned any value less than or equal to $key$ to $A[A.heap-size]$ and the algorithm would still work. \\
 
 \noindent\textbf{Exercise 6.5-5}\\
 
 Initially, we hve a heap and then only change the value at $i$ to make it larger. This can't invalidate the ordering between $i$ and it's children, the only other thing that needs to be related to $i$ is that $i$ is less than it's parent, which may be false. Thus we have the invariant is true at initalization. Then, when we swap $i$ with its parent if it is larger, since it is larger than it's parent, it must also be larger than it's sibling, also, since it's parent was initally above its kids in the heap, we know that it's parent is larger than it's kids. The only relation in question is then the new $i$ and it's parent. At termination, $i$ is the root, so it has no parent, so the heap property must be satisfied everywhere.\\
 
+\noindent\textbf{Exercise 6.5-6}\\
+
+Replace $A[i]$ by $key$ in the while condition, and replace line 5 by ``$A[i] = A[PARENT(i)]$.''  After the end of the while loop, add the line $A[i] = key$.  Since the key value doesn't change, there's no sense in assigning it until we know where it belongs in the heap.  Instead, we only make the assignement of the parent to the child node.  At the end of the while loop, $i$ is equal to the position where $key$ belongs since it is either the root, or the parent is at least $key$, so we make the assignment. \\
 
 \noindent\textbf{Exercise 6.5-7}\\
 
 Have a field in the structure that is just a count of the total number of elements ever added. When adding an element, use the current value of that counter as the key.\\
 
+\noindent\textbf{Exercise 6.5-8}\\
 
+The algorithm works as follows:  Replace the node to be deleted by the last node of the heap.  Update the size of the heap, then call MAX-HEAPIFY to move that node into its proper position and maintain the max-heap property.  This has running time $O(\lg n)$ since the number of times MAX-HEAPIFY is recursively called is as most the height of the heap, which is $\lfloor \lg n \rfloor$.
+
+\begin{algorithm}
+\caption{HEAP-DELETE(A,i)}
+\begin{algorithmic}[1]
+\State $A[i] = A[A.heap-size]$ 
+\State $A.heap-size = A.heap-size + 1$
+\State MAX-HEAPIFY(A,i)
+\end{algorithmic}
+\end{algorithm}
 
 \noindent\textbf{Exercise 6.5-9}\\
 
@@ -549,5 +565,74 @@ Find(Y,key). Let Check(y,key,i,j) mean to return true if $Y[i,j]=key$, otherwise
 \end{algorithm}
 \end{enumerate}
 
+\noindent\textbf{Problem 6-2}\\
+
+a. It will suffice to show how to access parent and child nodes.  In a $d$-ary array, PARENT$(i) = \lfloor i/d \rfloor$, and CHILD$(k,i) = di - d + 1 + k$, where CHILD$(k,i)$ gives the $k^{th}$ child of the node indexed by $i$. \\
+
+b. The height of a $d$-ary heap of $n$ elements is with 1 of $\log_d n$. \\
+
+c.  The following is an implementation of HEAP-EXTRACT-MAX for a $d$-ary heap.  An implementation of DMAX-HEAPIFY is also given, which is the analog of MAX-HEAPIFY for $d$-ary heap.  HEAP-EXTRACT-MAX consists of constant time operations, followed by a call to DMAX-HEAPIFY.  The number of times this recursively calls itself is bounded by the height of the $d$-ary heap, so the running time is $O(d\log_d n)$.  Note that the CHILD function is meant to be the one described in part (a).\\
+
+\begin{algorithm}
+\caption{HEAP-EXTRACT-MAX(A) for a $d$-ary heap}
+\begin{algorithmic}[1]
+\If{$A.heap-size < 1$}
+	\State \textbf{error} ``heap underflow''
+\EndIf
+\State $max = A[1]$
+\State $A[1] = A[A.heap-size]$
+\State $A.heap-size = A.heap-size - 1$
+\State DMAX-HEAPIFY(A,1)
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{DMAX-HEAPIFY(A,i)}
+\begin{algorithmic}[1]
+\State $largest = i$
+\For{$k=1$ to $d$}
+	\If{$CHILD(k,i) \leq A.heap-size$ and $A[CHILD(k,i)] > A[i]$}
+		\If{$A[CHILD(k,i)] > largest$}
+			\State $largest = A[CHILD(k,i)]$
+		\EndIf
+	\EndIf
+\EndFor
+\If{$largest \neq i$}
+	\State exchange $A[i]$ with $A[largest]$
+	\State DMAX-HEAPIFY$(A,largest)$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+d.  The runtime of this implementation of INSERT is $O(\log_d n)$ since the while loop runs at most as many times as the height of the $d$-ary array.  Note that when we call PARENT, we mean it as defined in part (a).\\
+
+\begin{algorithm}
+\caption{INSERT(A,key)}
+\begin{algorithmic}[1]
+\State $A.heap-size = A.heap-size + 1$
+\State $A[A.heap-size] = key$
+\State $i = A.heap-size$
+\While{$i > 1$ and $A[PARENT(i) < A[i]$}
+	\State exchange $A[i]$ with $A[PARENT(i)]$
+	\State $i = PARENT(i)$
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+e. This is identical to the implementation of HEAP-INCREASE-KEY for 2-ary heaps, but with the PARENT function interpreted as in part (a).  The runtime is $O(\log_d n)$ since the while loop runs at most as many times as the height of the $d$-ary array.\\
+
+\begin{algorithm}
+\caption{INCREASE-KEY(A,i,key)}
+\begin{algorithmic}[1]
+\If{$key < A[i]$}
+	\State \textbf{error} ``new key is smaller than current key ''
+\EndIf
+\State $A[i] = key$
+\While{$i > 1$ and $A[PARENT(i) < A[i]$}
+	\State exchange $A[i]$ with $A[PARENT(i)]$
+	\State $i = PARENT(i)$
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
 
 \end{document}
