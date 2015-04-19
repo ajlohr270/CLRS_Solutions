@@ -48,7 +48,43 @@ Let's say that by ``almost sorted'' we mean that $A[i]$ is at most $c$ positions
 
 \noindent\textbf{Exercise 7.2-6}\\
 
-Without loss of generality, assume that the entries of the input array are distinct.  Since only the relative sizes of the entries matter, we may assume that $A$ contains a random permutation of the numbers 1 through $n$.  Now fix $0 < \alpha \leq 1/2$.  Let $k$ denote the number of entries of $A$ which are less than $A[n]$. PARTITION produces a split more balanced than $1-\alpha$ to $\alpha$ if and only if $\alpha n \leq k \leq (1-\alpha)n$.  This happens with probability $\frac{(1-\alpha)n - \alpha n + 1}{n} = 1-2\alpha + 1/n \approx 1 - 2\alpha$.
+Without loss of generality, assume that the entries of the input array are distinct.  Since only the relative sizes of the entries matter, we may assume that $A$ contains a random permutation of the numbers 1 through $n$.  Now fix $0 < \alpha \leq 1/2$.  Let $k$ denote the number of entries of $A$ which are less than $A[n]$. PARTITION produces a split more balanced than $1-\alpha$ to $\alpha$ if and only if $\alpha n \leq k \leq (1-\alpha)n$.  This happens with probability $\frac{(1-\alpha)n - \alpha n + 1}{n} = 1-2\alpha + 1/n \approx 1 - 2\alpha$.\\
+
+\noindent\textbf{Exercise 7.3-2}\\
+
+In the worst case, RANDOM returns the index of the largest element each time it's called, so $\Theta(n)$ calls are made.  In the best case, RANDOM returns the index of the element in the middle of the array and the array has distinct elements, so $\Theta(\lg n)$ calls are made. \\
+
+\noindent\textbf{Exercise 7.4-2}\\
+
+We'll use the substitution method to show that the best-case running time is $\Omega(n \lg n)$.  Let $T(n)$ be the best-case time for the procedure QUICKSORT on an input of size $n$.  We have the recurrence
+\[ T(n) = \min_{1 \leq q \leq n-1} (T(q) + T(n-q-1)) + \Theta(n).\]
+Suppose that $T(n) \geq c(n\lg n + 2n)$ for some constant $c$.  Substituting this guess into the recurrence gives
+\begin{align*}
+T(n) &\geq \min_{1 \leq q \leq n-1} (cq\lg q + 2cq + c(n-q-1)\lg(n-q-1) + 2c(n-q-1)) + \Theta(n) \\
+&= \frac{cn}{2}\lg(n/2) + cn + c(n/2 - 1)\lg(n/2 - 1) + cn - 2c+ \Theta(n) \\
+&\geq (cn/2)\lg n - cn/2 + c(n/2 - 1)(\lg n - 2) + 2cn - 2c \Theta(n) \\
+&= (cn/2)\lg n - cn/2 + (cn/2)\lg n - cn - \lg n + 2 + 2cn - 2c\Theta(n) \\
+&=cn\lg n + cn/2 - \lg n + 2 - 2c + \Theta(n)
+\end{align*}
+Taking a derivative with respect to $q$ shows that the minimum is obtained when $q = n/2$.  Taking $c$ large enough to dominate the $-\lg n + 2 - 2c + \Theta(n)$ term makes this greater than $cn\lg n$, proving the bound. \\
+
+\noindent\textbf{Exercise 7.4-4}\\
+
+We'll use the lower bound (A.13) for the expected running time given in the section:
+\begin{align*}
+E[X] &= \sum_{i=1}^{n-1}\sum_{j=i+1}^n \frac{2}{j-i+1} \\
+&= \sum_{i=1}^{n-1} \sum_{k=1}^{n-i} \frac{2}{k} \\
+&\geq \sum_{i=1}^{n-1} 2\ln(n-i+1) \\
+&= 2\ln\left(\prod_{i=1}^{n-1} n-i+1\right) \\
+&= 2\ln(n!) \\
+&= \frac{2}{\lg e} \lg(n!)
+&\geq cn \lg n
+\end{align*}
+for some constant $c$ since $\lg(n!) = \Theta(n \lg n)$ by Exercise 3.2-3. Therefore RANDOMIZED-QUICKSORT's expected running time is $\Omega(n \lg n)$. \\
+
+\noindent\textbf{Exercise 7.4-6}\\
+
+For simplicity of analysis, we will assume that the elements of the array $A$ are the numbers 1 to $n$.  If we let $k$ denote the median value, the probability of getting at worst an $\alpha$ to $1-\alpha$ split is the probability that $\alpha n \leq k \leq (1-\alpha)n$.  The number of ``bad'' triples is equal to the number of triples such that at least two of the numbers come from $[1,\alpha n]$ or at least two of the numbers come from $[(1-\alpha)n, n]$.  Since both intervals have the same size, the probability of a bad triple is $2(\alpha^3 +3\alpha^2(1-\alpha))$.  Thus the probability of selecting a ``good'' triple, and thus getting at worst an $\alpha$ to $1-\alpha$ split, is $1 - 2(\alpha^3 +3\alpha^2(1-\alpha)) = 1 + 4\alpha^3 - 6\alpha^2$.
 
 
 
