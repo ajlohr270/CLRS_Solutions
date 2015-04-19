@@ -1,0 +1,55 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{fancybox}
+\usepackage{tikz}
+
+
+	
+\pagestyle{fancy}
+\title{Chapter 7}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+\begin{document}
+\maketitle
+
+
+\noindent\textbf{Exercise 7.1-2}\\
+
+If all elements in the array have the same value, PARTITION returns $r$.  To make PARTITION return $q = \lfloor(p+r)/2\rfloor$ when all elements have the same value, modify line 4 of the algorithm to say this: if $A[j] \leq x$ and $j (mod 2) = (p+1) (mod 2)$.  This causes the algorithm to treat half of the instances of the same value to count as less than, and the other half to count as greater than. \\
+
+\noindent\textbf{Exercise 7.1-4}\\
+
+To modify QUICKSORT to run in nonincreasing order we need only modify line 4 of PARTITION, changing $\leq$ to $\geq$. \\
+
+\noindent\textbf{Exercise 7.2-2}\\
+
+The running time of QUICKSORT on an array in which evey element has the same value is $n^2$.  This is because the partition will always occur at the last position of the array (Exercise 7.1-2) so the algorithm exhibits worst-case behavior. \\
+
+\noindent\textbf{Exercise 7.2-4}\\
+
+Let's say that by ``almost sorted'' we mean that $A[i]$ is at most $c$ positions from its correct place in the sorted array, for some constant $c$. For INSERTION-SORT, we run the inner-while loop at most $c$ times before we find where to insert $A[j]$ for any particular iteration of the outer for loop.  Thus the running time time is $O(cn) = O(n)$, since $c$ is fixed in advance.  Now suppose we run QUICKSORT.  The split of PARTITION will be \emph{at best} $n-c$ to $c$, which leads to $O(n^2)$ running time. \\
+
+\noindent\textbf{Exercise 7.2-6}\\
+
+Without loss of generality, assume that the entries of the input array are distinct.  Since only the relative sizes of the entries matter, we may assume that $A$ contains a random permutation of the numbers 1 through $n$.  Now fix $0 < \alpha \leq 1/2$.  Let $k$ denote the number of entries of $A$ which are less than $A[n]$. PARTITION produces a split more balanced than $1-\alpha$ to $\alpha$ if and only if $\alpha n \leq k \leq (1-\alpha)n$.  This happens with probability $\frac{(1-\alpha)n - \alpha n + 1}{n} = 1-2\alpha + 1/n \approx 1 - 2\alpha$.
+
+
+
+\end{document}
