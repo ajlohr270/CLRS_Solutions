@@ -107,6 +107,11 @@ We analyize the exprected run time because it represents the more typical time c
 In the worst case, RANDOM returns the index of the largest element each time it's called, so $\Theta(n)$ calls are made.  In the best case, RANDOM returns the index of the element in the middle of the array and the array has distinct elements, so $\Theta(\lg n)$ calls are made. \\
 
 \noindent\textbf{Exercise 7.4-1}\\
+By definition of $\Theta$, we know that there exists $c_1,c_2$ so that the $\Theta(n)$ term is between $c_1 n$ and $c_2 n$. We make that inductive hypothesis be that $c_1 m^2 \le T(m) \le c_2 m^2$ for all $m < n$, then, for large enough $n$, 
+\[
+c_1 n^2 \le c_1 \max_{q\in [n]} n^2 -2 n(q+2) + (q+1)^2 +(q+1)^2 + n = \max_{q\in [n]} c_1 (n-q-2)^2 + c_1 (q+1)^2 +c_1 n \le \max_{q\in [n]} T( n-q-2) + T(q+1) + \Theta(n) = T(n)
+\]
+Similarly for the other direction
 \\
 
 \noindent\textbf{Exercise 7.4-2}\\
@@ -123,6 +128,10 @@ T(n) &\geq \min_{1 \leq q \leq n-1} (cq\lg q + 2cq + c(n-q-1)\lg(n-q-1) + 2c(n-q
 \end{align*}
 Taking a derivative with respect to $q$ shows that the minimum is obtained when $q = n/2$.  Taking $c$ large enough to dominate the $-\lg n + 2 - 2c + \Theta(n)$ term makes this greater than $cn\lg n$, proving the bound. \\
 
+\noindent\textbf{Exercise 7.4-3}\\
+We will treat the given expression to be continuous in $q$, and then, any extremal values must be either adjacent to a critical point, or one of the endpoints. The second derivative with respect to $q$ is $4$, So, we have that any ciritcal points we find will be minima. The expression has a derivative with respect to q of $2q - 2 (n-q-2) = -2n + 4q +4$ which is zero when we have $2q+2 =n$. So, there will be a minima at $q= \frac{n-2}{2}$. So, the maximal values must only be the endpoints. We can see that the endpoints are equally large because at $q=0$, it is $(n-1)^2$, and at $q=n-1$, it is $(n-1)^2+ (n-n+1 -1)^2 = (n-1)^2$.
+
+
 \noindent\textbf{Exercise 7.4-4}\\
 
 We'll use the lower bound (A.13) for the expected running time given in the section:
@@ -137,10 +146,24 @@ E[X] &= \sum_{i=1}^{n-1}\sum_{j=i+1}^n \frac{2}{j-i+1} \\
 \end{align*}
 for some constant $c$ since $\lg(n!) = \Theta(n \lg n)$ by Exercise 3.2-3. Therefore RANDOMIZED-QUICKSORT's expected running time is $\Omega(n \lg n)$. \\
 
+\noindent\textbf{Exercise 7.4-5}\\
+
+If we are only doing quick-sort until the problem size becomes $\le k$, then, we will have to take $\lg(n/k)$ steps, since, as in the original analysis of randomized quick sort, we expect there to be $\lg(n)$ levels to the recursion tree. Since we then just call quicksort on the entire array, we know that each element is within $k$ of its final position. This means that an insertion sort will take the shifting of at most $k$ elements for every element that needed to change position. This gets us the running time described.
+
+In theory, we should pick $k$ to minimze this expression, that is, taking a derivative with respect to $k$, we want it to be evaluating to zero. So, $n - \frac{n}{k} =0$, so $k \sim \frac{1}{n^2} $. The constant of proportianality will depend on the relative size of the constants in the $nk$ term and in the $n\lg(n/k)$ term. In practice, we would try it with a large number of input sizes for various values of $k$, because there are gritty properites of the machine not considered here such as cache line size.
+\\
+
 \noindent\textbf{Exercise 7.4-6}\\
 
 For simplicity of analysis, we will assume that the elements of the array $A$ are the numbers 1 to $n$.  If we let $k$ denote the median value, the probability of getting at worst an $\alpha$ to $1-\alpha$ split is the probability that $\alpha n \leq k \leq (1-\alpha)n$.  The number of ``bad'' triples is equal to the number of triples such that at least two of the numbers come from $[1,\alpha n]$ or at least two of the numbers come from $[(1-\alpha)n, n]$.  Since both intervals have the same size, the probability of a bad triple is $2(\alpha^3 +3\alpha^2(1-\alpha))$.  Thus the probability of selecting a ``good'' triple, and thus getting at worst an $\alpha$ to $1-\alpha$ split, is $1 - 2(\alpha^3 +3\alpha^2(1-\alpha)) = 1 + 4\alpha^3 - 6\alpha^2$.
 
+\noindent\textbf{Problem 1}\\
+\begin{enumerate}[a.]
+\item
+
+
+\item
+\end{enumerate}\\
 
 
 \end{document}
