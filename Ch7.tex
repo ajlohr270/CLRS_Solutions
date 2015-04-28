@@ -160,10 +160,128 @@ For simplicity of analysis, we will assume that the elements of the array $A$ ar
 \noindent\textbf{Problem 1}\\
 \begin{enumerate}[a.]
 \item
+We will be calling with the parameters $p=1$, $r=|A|=12$. So, throughout, $x=13$.
+ 
+$
+\begin{array}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+&&&&&&&&&&&&i&j\\
+\hline
+13&19&9&5&12&8&7&4&11&2&6&21&0&13\\
+\hline
+6&19&9&5&12&8&7&4&11&2&13&21&1&11\\
+\hline
+6&13&9&5&12&8&7&4&11&2&19&21&2&10\\
+\hline
+6&13&9&5&12&8&7&4&11&2&19&21&10&2\\
+\hline
+\end{array}
+$
 
+And we do indeed see that partition has moved the two elements that are bigger than the pivot, 19 and 21, to the two final positions in the array.
 
 \item
-\end{enumerate}\\
+We know that at the beginning of the loop, we have that $i<j$, because it is true initially so long as $|A|\ge 2$. And if it were to be untrue at some iteration, then we would of left the loop in the prior iteration. To show that we won't access outside of the array, we need to show that at the beginning of every run of the loop, there is a $k>i$ so that $A[k]\ge x$, and a $k'<j$ so that $A[j']\le x$. This is clearly true because initially $i$ and $j$ are outside the bounds of the array, and so the element $x$ must be between the two. Since $i<j$, we can pick $k=j$, and $k' =i$. The elements $k$ satisfies the desired relation to $x$, because the element at position $j$ was the element at position $i$ in the prior iteration of the loop, prior to doing the exchange on line 12. Similarly, for $k'$.
+
+\item
+
+If there is more than one run of the main loop, we have that $j<r$ because it decreases by at least one with every iteration.
+
+Note that at line 11 in the first run of the loop, we have that $i=1$ because $A[p] =x \ge x$. So, if we were to terminate after a single iteration of the main loop, we must also have that $j=1 <p$.
+
+\item
+
+We will show the loop invariant that all the elements in $A[p .. i]$ are less than or equal to x which is less than or equal to all the elements of $A[j..r]$. It is trivially true prior to the first iteration because both of these sets of elements are empty. Suppose we just finished an iteration of the loop during which $j$ went from $j_1$ to $j_2$, and $i$ went from $i_1$ to $i_2$. All the elements in $A[i_1 +1 .. i_2-1]$ were $<x$, because they didn't cause the loop on lines $8-10$ to terminate. Similarly, we have that all the elements in $A[j_2+1 .. j_1-1]$ were $>x$. We have also that $A[i_2] \le x \le A[j_2]$ after the exchange on line 12. Lastly, by induction, we had that all the elements in $A[p .. i_1]$ are less than or equal to $x$, and all the elements in $A[j_1 .. r]$ are greater than or equal to x. Then, putting it all together, since $A[p ..i_2] = A[p..i_1] \cup A[i_1+1 .. i_2-1] \cup \{A[i_2]\}$ and $A[j_2 .. r] = \cup \{A[j_2]\} \cup A[j_2+1..j_1-1] \cup A[j_1 .. r]$, we have the desired inequality. Since at termination, we have that $i\ge j$, we know that $A[p..j]\subseteq A[p..i]$, and so, every element of $A[p..j]$ is less than or equal to $x$, which is less than or equal to every element of $A[j+1..r]\subseteq A[j..r]$.
+
+\item
+
+After running Hoare-partition, we don't have the guarentee that the pivot value will be in the position $j$, so, we will scan through the list to find the pivot value, place it between the two subarrays, and recurse
+
+\begin{algorithm}
+Quicksort(A,p,r)
+\begin{algorithmic}[1]
+\If{$p<r$}
+\State $x = A[p]$
+\State $q = HoarePartition(A,p,r)$
+\State $i=0$
+\While{$A[i]\neq x$}
+\State $i=i+1$
+\EndWhile
+\If{$i\le q$}
+\State exchange $A[i]$ and $A[q]$
+\Else
+\State exchange $A[i]$ and $A[q+1]$
+\State $q = q+1$
+\EndIf
+\State Quicksort(A,p,q-1)
+\State Quicksort(A,q+1,r)
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\end{enumerate}
+
+\noindent\textbf{Problem 3}\\
+\begin{enumerate}[a.]
+\item
+Since the pivot is selected as a ranom element in the array, which has size $n$, the probabilities of any particular element being selected are all equal, and add to one, so, are all $\frac{1}{n}$. As such, $E[X_i] = \Pr[\hbox{i smallest is picked }] = \frac{1}{n}$.
+
+\item
+We can apply linearity of expectation over all of the events $X_i$. Suppose we have a particular $X_i$ be true, then, we will have one of the sub arrays be length $i-1$, and the other be $n-i$, and will of couse still need linear time to run the partition procedure. This corresponds exactly to the summand in equation $(7.5)$.
+
+\item
+\[
+E\left[\sum_{q=1}^{n}X_q(T(q-1) + T(n-q) + \Theta(n))\right] = \sum_{q=1}^{n} E\left[X_q(T(q-1) + T(n-q) + \Theta(n))\right] \]\[= \sum_{q=1}^{n}(T(q-1) + T(n-q) + \Theta(n))/n = \Theta(n) +  \frac{1}{n} \sum_{q=1}^{n}(T(q-1) + T(n-q) ) \]\[= \Theta(n) + \frac{1}{n} \left(  \sum_{q=1}^{n}T(q-1) +  \sum_{q=1}^{n}T(n-q)\right) \]\[= \Theta(n) + \frac{1}{n} \left(  \sum_{q=1}^{n}T(q-1) +  \sum_{q=1}^{n}T(q-1)\right) = \Theta(n) + \frac{2}{n} \sum_{q=1}^{n}T(q-1) \]\[= \Theta(n) + \frac{2}{n} \sum_{q=0}^{n-1}T(q) = \Theta(n) + \frac{2}{n} \sum_{q=2}^{n-1}T(q)\]
+
+\item
+
+We will prove this inequality in a different way than suggested by the hint. If we let $f(k) = k\lg(k)$ treated as a continuous function, then $f'(k) = \lg(k) + 1$. Note now that the summation written out is the left hand approximation of the integral of $f(k)$ from 2 to $n$ with step size 1. By integration by parts, the antiderivative of $k\lg k$ is 
+\[
+\frac{1}{\ln(2)}\left(\frac{k^2}{2}\ln(k) - \frac{k^2}{4} \right)
+\]
+So, plugging in the bounds and subtracting, we get $\frac{n^2 \lg(n)}{2} - \frac{n^2}{4\ln(2)} - 1$. Since $f$ has a positive derivative over the entire interval that the integral is being evaluated over, the left hand rule provides a underapproximation of the integral, so, we have that 
+\[
+\sum_{k=2}^{n-1} k\lg(k) \le \frac{n^2 \lg(n)}{2} - \frac{n^2}{4\ln(2)} - 1 \le \frac{n^2 \lg(n)}{2} - \frac{n^2}{8} 
+\]
+where the last inequality uses the fact that $\ln(2)>1/2$.
+
+\item
+Assume by induction that $T(q) \le q\lg(q)+\Theta(n)$. Combining (7.6) and (7.7), we have
+\[
+E[T(n)] = \frac{2}{n} \sum_{q=2}^{n-1} E[T(q)] + \Theta(n) \le \frac{2}{n} \sum_{q=2}^{n-1} (q\lg(q) + Theta(n)) + \Theta(n) \]\[\le \frac{2}{n} \sum_{q=2}^{n-1} (q\lg(q)) + \frac{2}{n}(n\Theta(n)) + \Theta(n)\]\[   \le \frac{2}{n} (\frac{1}{2} n^2 \lg(n) -\frac{1}{8} n^2) + \Theta(n) = n\lg(n) - \frac{1}{4} n+ \Theta(n) = n\lg(n) +\Theta(n)
+\]
+
+\end{enumerate}
+
+\noindent\textbf{Problem 5}\\
+\begin{enumerate}[a.]
+\item
+$p_i$ is the probability that a randomly selected eubset of size three has the $A'[i]$ as it's middle element. There are $^$ possible orderings of the three elements selected. So, suppose that $S'$ is the set of three elements selected. We will compute the probability that the second element of $S'$ is $A'[i]$ among all possible 3-sets we can pick, since there are exactly six ordered 3-sets corresponding to each 3-set, these probabilities will be equal. We will compute the probability that $S'[2] = A'[i]$. For any such $S'$, we would need to select the first element from $[i-1]$ and the third from $\{i+1,\ldots,n\}$. So, there are $(i-1)(n-i)$ such 3-sets. The total number of 3-sets is $\binom{n}{3} = \frac{n(n-1)(n-2)}{6}$. So, 
+\[
+p_i = \frac{6(n-i)(i-1)}{n(n-1)(n-2)}
+\]
+
+\item
+If we let $i = \left\lfloor \frac{n+1}{2}\right\rfloor$, the previous result gets us an increase of 
+\[
+\frac{6(\left\lfloor\frac{n-1}{2}\right\rfloor)(n -\left\lfloor \frac{n+1}{2}\right\rfloor)}{n(n-1)(n-2)} - \frac{1}{n}
+\]
+in the limit $n$ going to infinity, we get
+\[
+\lim_{n\rightarrow \infty} \frac{\frac{6(\left\lfloor\frac{n-1}{2}\right\rfloor)(n -\left\lfloor \frac{n+1}{2}\right\rfloor)}{n(n-1)(n-2)}}{\frac{1}{n}} = \frac{3}{2}
+\]
+
+\item
+
+To save the messiness, suppose $n$ is a multiple of 3. We will approximate the sum as an integral, so, 
+\[
+\sum_{i=n/3}^{2n/3} p_i \approx \int_{n/3}^{2n/3} \frac{6(-x^2+nx+x-n)}{n(n-1)(n-2)}dx = \frac{6(-7n^3/81 + 3n^3/18 + 3n^2/18- n^2/3)}{n(n-1)(n-2)}
+\]
+Which, in the limit n goes to infinity, is $\frac{13}{27}$ which is a constant that is larger than $1/3$ as it was in the original ranomized quicksort implementation.
+
+\item
+Since the new algorithm always has a ``bad'' choice that is within a constant factor of the original quicksort, it will still have a reasonable probability that the randomness leads us into a bad situation, so, it will still be $n\lg n$.
+\end{enumerate}
 
 
 \end{document}
