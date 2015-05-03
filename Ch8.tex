@@ -45,7 +45,53 @@ To make an algorithm that is linear for a $1/2^n$ fraction of inputs, we yet aga
 The moral of the story is that $n!$ grows very quickly.\\
 
 \noindent\textbf{Exercise 8.2-1}\\
+We have that $C = \langle 2, 4,6,8,9,9,11\rangle$. Then, after successive iterations of the loop on lines 10-12, we have $B = \langle\,,\,,\,,\,,\,,2,\,,\,,\,,\,,\,\rangle$,$B = \langle\,,\,,\,,\,,\,,2,\,,3,\,,\,,\,\rangle$,$B = \langle\,,\,,\,,1,\,,2,\,,3,\,,\,,\,\rangle$, and at the end, $B = \langle0,0,1,1,2,2,3,3,4,6,6\rangle$\\
 
+\noindent\textbf{Exercise 8.2-3}\\
+The algorithm still works correctly. The order that elements are taken out of $C$ and put into $B$ doesn't affect the placement of elements with the same key. It will still fill the interval $(C[k-1],C[k]]$ with elements of key $k$. The question of whether it is stable or not is not well phrased. In order for stability to make sense, we would need to be sorting items which have information other than their key, and the sort as written is just for integers, which don't. We could think of extending this algorithm by placing the elements of $A$ into a collection of elments for each cell in array $C$. Then, if we use a FIFO collection, the modification of line 10 will make it stable, if we use LILO, it will be anti-stable.\\
+
+\noindent\textbf{Exercise 8.3-1}\\
+Starting with the unsorted words on the left, and stable sorting by progressively more important positions.
+$
+\begin{array}{c  c  c  c}
+COW&SEA&TAB&BAR\\
+DOG&TEA&BAR&BIG\\
+SEA&MOB&EAR&BOX\\
+RUG&TAB&TAR&COW\\
+ROW&RUG&SEA&DIG\\
+MOB&DOG&TEA&DOG\\
+BOX&DIG&DIG&EAR\\
+TAB&BIG&BIG&FOX\\
+BAR&BAR&MOB&MOB\\
+EAR&EAR&DOG&NOW\\
+TAR&TAR&COW&ROW\\
+DIG&COW&ROW&RUG\\
+BIG&ROW&NOW&SEA\\
+TEA&NOW&BOX&TAB\\
+NOW&BOX&FOX&TAR\\
+FOX&FOX&RUG&TEA\\
+\end{array}
+$\\
+
+\noindent\textbf{Exercise 8.3-3}\\
+
+After sorting on digit $i$, we will show that if we restrict to just the last $i$ digits, the list is in sorted order. This is trivial for $i=1$, because it is just claiming that the digits we just sorted were in sorted order. Now, suppose it's true for $i-1$, we show it for $i$. Suppose there are two elements, who, when restricted the the $i$ last digits, are not in sorted order after the $i$'th step. Then, we must have that they have the same $i$'th digit because otherwise the sort of digit $i$ would put them in the right order. Since they have the same first digit, their relative order is determined by their restrictions to their last $i-1$ digits. However, these were placed in the correct order by the $i-1$'st step. Since the sort on the $i$'th digit was stable, their relative order is unchanged from the previous step. This means that they are in the correct order still. We use stability to show that being in the correct order prior to doing the sort is preserved.\\
+
+\noindent\textbf{Exercise 8.3-5}\\
+Since a pass consists of one iteration of the loop on line $1-2$, only $d$ passes are needed. However, as many as $n$ bins are needed.\\
+%uhh.... not entirely sure what it's asking
+
+\noindent\textbf{Exercise 8.4-1}\\
+
+The sublists formed are $\langle .13, .16\rangle$, $\langle .20\rangle$,$\langle .39\rangle$, $\langle .42\rangle$, $\langle .53\rangle$, $\langle .64\rangle$, $\langle .71, .79\rangle$, $\langle .89\rangle$. Putting them together, we get $\langle .13,.16,.20,.39,.42,.53,.64,.71,.79,.89 \rangle$\\
+
+\noindent\textbf{Exercise 8.4-3}\\
+
+$X$ is $0$ or $2$ with probability a quarter each, and $1$ with probability 2. Note that $E[X]=1$, so, $E^2[x] = 1$. Also, $X^2$ takes $0$ or $4$ with probability a quarter each, and $1$ with probability a half. So, $E[X^2] = 1.5$.\\
+
+\noindent\textbf{Exercise 8.4-5}\\
+
+We have to pick our bounds for our buckets in bucket sort in such a way that there is approximately equal probability that an element drawn from the dirstibution will be any one of the buckets. To do this, we can perform a binary search to find the Dyadic rationals with denominator at least a constant fraction of $n$. Finding each of these takes only $\lg(n)$ time. Then, these form the bounds for a bucket sort. There are an expected constant number of elements in any one of these buckets, so just use any sort you want at this point.
 
 \noindent\textbf{Problem 1}\\
 
