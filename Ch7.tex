@@ -157,7 +157,7 @@ In theory, we should pick $k$ to minimze this expression, that is, taking a deri
 
 For simplicity of analysis, we will assume that the elements of the array $A$ are the numbers 1 to $n$.  If we let $k$ denote the median value, the probability of getting at worst an $\alpha$ to $1-\alpha$ split is the probability that $\alpha n \leq k \leq (1-\alpha)n$.  The number of ``bad'' triples is equal to the number of triples such that at least two of the numbers come from $[1,\alpha n]$ or at least two of the numbers come from $[(1-\alpha)n, n]$.  Since both intervals have the same size, the probability of a bad triple is $2(\alpha^3 +3\alpha^2(1-\alpha))$.  Thus the probability of selecting a ``good'' triple, and thus getting at worst an $\alpha$ to $1-\alpha$ split, is $1 - 2(\alpha^3 +3\alpha^2(1-\alpha)) = 1 + 4\alpha^3 - 6\alpha^2$.
 
-\noindent\textbf{Problem 1}\\
+\noindent\textbf{Problem 7-1}\\
 \begin{enumerate}[a.]
 \item
 We will be calling with the parameters $p=1$, $r=|A|=12$. So, throughout, $x=13$.
@@ -221,7 +221,59 @@ Quicksort(A,p,r)
 
 \end{enumerate}
 
-\noindent\textbf{Problem 3}\\
+\noindent\textbf{Problem 7-2}\\
+
+a.  Since all elements are the same, the initial random choice of index and swap change nothing.  Thus, randomized quicksort's running time will be the same as that of quicksort.  Since all elements are equal, PARTITION$(A,P,r)$ will always return $r-1$.  This is worst-case partitinoing, so the runtime is $\Theta(n^2)$. \\
+
+b. 
+\begin{algorithm}
+\caption{PARTITION'(A,p,r)}
+\begin{algorithmic}[1]
+\State $x = A[r]$
+\State exchange $A[r]$ with $A[p]$
+\State $i=p-1$
+\State $k = p$
+\For{$j=p+1$ to $r-1$}
+	\If{$A[j] < x$}
+		\State $i=i+1$
+		\State $k = i+2$
+		\State exchange $A[i]$ with $A[j]$
+		\State exchange $A[k]$ with $A[j]$
+	\EndIf
+	\If{$A[j] = x$}
+		\State $k = k+1$
+		\State exchange $A[k]$ with $A[j]$
+	\EndIf
+\EndFor
+\State exchange $A[i+1]$ with $A[r]$
+\State \Return $i+1$ and $k+1$
+\end{algorithmic}
+\end{algorithm}
+
+c. 
+\begin{algorithm}
+\caption{RANDOMIZED-PARTITION'}
+\begin{algorithmic}[1]
+\State $i=RANDOM(p,r)$
+\State exchange $A[r]$ with $A[i]$
+\State \Return PARTITION'(A,p,r)
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{QUICKSORT'(A,p,r)}
+\begin{algorithmic}[1]
+\If{$p<r$}
+	\State $(q,t) = RANDOMIZED-PARTITION'$
+	\State QUICKSORT'(A,p,q-1)
+	\State QUICKSORT'(A,t+1,r)
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+d. Let $d$ be the number of distinct elements in $A$.  The running time is dominated by the time spent in the PARTITION procedure, and there can be at most $d$ calls to PARTITION.  If $X$ is the number of comparisons performed in line 4 of PARTITION over the entire execution of QUICKSORT', then the running time is $O(d+X)$. It remains true that each pair of elements is compared at most once. If $z_i$ is the $i^{th}$ smallest element, we need to compute the probability that $z_i$ is compared to $z_j$. This time, once a pivot $x$ is chosen with $z_i \leq x \leq z_j$, we know that $z_i$ and $z_j$ cannot be compared at any subsequent time. This is where the analysis differs, because there could be many elements of the array equal to $z_i$ or $z_j$, so the probability that $z_i$ and $z_j$ are compared decreases. However, the expected percentage of distinct elements in a random array tends to $1-\frac{1}{e}$, so asymptotically the expected number of comparisons is the same. \\
+
+\noindent\textbf{Problem 7-3}\\
 \begin{enumerate}[a.]
 \item
 Since the pivot is selected as a ranom element in the array, which has size $n$, the probabilities of any particular element being selected are all equal, and add to one, so, are all $\frac{1}{n}$. As such, $E[X_i] = \Pr[\hbox{i smallest is picked }] = \frac{1}{n}$.
@@ -253,10 +305,34 @@ E[T(n)] = \frac{2}{n} \sum_{q=2}^{n-1} E[T(q)] + \Theta(n) \le \frac{2}{n} \sum_
 
 \end{enumerate}
 
-\noindent\textbf{Problem 5}\\
+\noindent\textbf{Problem 7-4}\\
+
+a. We'll proceed by induction.  For the base case, if $A$ contains 1 element then $p = r$ so the algorithm terminates immediately, leave a single sorted element.  Now suppose that for $1 \leq k \leq n-1$, TAIL-RECURSIVE-QUICKSORT correctly sorts an array $A$ containing $k$ elements. Let $A$ have size $n$.  We set $q$ equal to the pivot and by the induction hypothesis, TAIL-RECURSIVE-QUICKSORT correctly sorts the left subarray which is of strictly smaller size.  Next, $p$ is updated to $q+1$ and the exact same sequence of steps follows as if we had originally called TAIL-RECURSIVE-QUICKSORT(A,q+1,n).  Again, this array is of strictly smaller size, so by the induction hypothesis it correctly sorts $A[q+1...n]$ as desired. \\
+
+b. The stack depth will be $\Theta(n)$ if the input array is already sorted. The right subarray will always have size 0 so there will be $n-1$ recursive calls before the while-condition $p<r$ is violated. \\
+
+c. We modify the algorithm to make the recursive call on the smaller subarray to avoid building pushing too much on the stack:
+
+\begin{algorithm}
+\caption{MODIFIED-TAIL-RECURSIVE-QUICKSORT(A,p,r)}
+\begin{algorithmic}[1]
+\While{$p<r$}
+	\State $q = $PARTITION$(A,p,r)$
+	\If{$q < \lfloor(r-p)/2\rfloor$}
+		\State MODIFIED-TAIL-RECURSIVE-QUICKSORT$(A,p,q-1)$
+		\State $p = q+1$
+	\Else
+		\State MODIFIED-TAIL-RECURSIVE-QUICKSORT$(A,q+1,r)$
+		\State $r = q-1$
+	\EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\noindent\textbf{Problem 7-5}\\
 \begin{enumerate}[a.]
 \item
-$p_i$ is the probability that a randomly selected eubset of size three has the $A'[i]$ as it's middle element. There are $^$ possible orderings of the three elements selected. So, suppose that $S'$ is the set of three elements selected. We will compute the probability that the second element of $S'$ is $A'[i]$ among all possible 3-sets we can pick, since there are exactly six ordered 3-sets corresponding to each 3-set, these probabilities will be equal. We will compute the probability that $S'[2] = A'[i]$. For any such $S'$, we would need to select the first element from $[i-1]$ and the third from $\{i+1,\ldots,n\}$. So, there are $(i-1)(n-i)$ such 3-sets. The total number of 3-sets is $\binom{n}{3} = \frac{n(n-1)(n-2)}{6}$. So, 
+$p_i$ is the probability that a randomly selected subset of size three has the $A'[i]$ as it's middle element. There are $6$ possible orderings of the three elements selected. So, suppose that $S'$ is the set of three elements selected. We will compute the probability that the second element of $S'$ is $A'[i]$ among all possible 3-sets we can pick, since there are exactly six ordered 3-sets corresponding to each 3-set, these probabilities will be equal. We will compute the probability that $S'[2] = A'[i]$. For any such $S'$, we would need to select the first element from $[i-1]$ and the third from $\{i+1,\ldots,n\}$. So, there are $(i-1)(n-i)$ such 3-sets. The total number of 3-sets is $\binom{n}{3} = \frac{n(n-1)(n-2)}{6}$. So, 
 \[
 p_i = \frac{6(n-i)(i-1)}{n(n-1)(n-2)}
 \]
@@ -283,5 +359,36 @@ Which, in the limit n goes to infinity, is $\frac{13}{27}$ which is a constant t
 Since the new algorithm always has a ``bad'' choice that is within a constant factor of the original quicksort, it will still have a reasonable probability that the randomness leads us into a bad situation, so, it will still be $n\lg n$.
 \end{enumerate}
 
+\noindent\textbf{Problem 7-6}\\
+
+Our algorithm will be essentially the same as the modified randomized quicksort written in problem 2.  We sort the $a_i$'s, but we replace the comparison operators to check for overlapping intervals.  The only modifications needed are made in PARTITION, so we will just rewrite that here.  For a given element $x$ in position $i$, we'll use $x.a$ and $x.b$ to denote $a_i$ and $b_i$ respectively.
+
+\begin{algorithm}
+\caption{FUZZY-PARTITION(A,p,r)}
+\begin{algorithmic}[1]
+\State $x = A[r]$
+\State exchange $A[r]$ with $A[p]$
+\State $i=p-1$
+\State $k = p$
+\For{$j=p+1$ to $r-1$}
+	\If{$b_j < x.a$}
+		\State $i=i+1$
+		\State $k = i+2$
+		\State exchange $A[i]$ with $A[j]$
+		\State exchange $A[k]$ with $A[j]$
+	\EndIf
+	\If{$b_j \geq x.a$ or $a_j \leq x.b$}
+		\State $x.a = \max(a_j, x.a)$ and $x.b = \min(b_j, x.b)$
+		\State $k = k+1$
+		\State exchange $A[k]$ with $A[j]$
+	\EndIf
+\EndFor
+\State exchange $A[i+1]$ with $A[r]$
+\State \Return $i+1$ and $k+1$
+\end{algorithmic}
+\end{algorithm}
+When intervals overlap we treat them as equal elements, thus cutting down on the time required to sort.  \\
+
+b. For distinct intervals the algorithm runs exactly as regular quicksort does, so its expected runtime will be $\Theta(n \lg n)$ in general.  If all of the intervals overlap then the condition on line 12 will be satisfied for every iteration of the for loop.  Thus the algorithm returns $p$ and $r$, so only empty arrays remain to be sorted. FUZZY-PARTITION will only be called a single time, and since its runtime remains $\Theta(n)$, the total expected runtime is $\Theta(n)$.
 
 \end{document}
