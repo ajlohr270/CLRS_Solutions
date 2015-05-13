@@ -52,6 +52,7 @@ The algorithm still works correctly. The order that elements are taken out of $C
 
 \noindent\textbf{Exercise 8.3-1}\\
 Starting with the unsorted words on the left, and stable sorting by progressively more important positions.
+
 $
 \begin{array}{c  c  c  c}
 COW&SEA&TAB&BAR\\
@@ -94,8 +95,94 @@ $X$ is $0$ or $2$ with probability a quarter each, and $1$ with probability 2. N
 We have to pick our bounds for our buckets in bucket sort in such a way that there is approximately equal probability that an element drawn from the dirstibution will be any one of the buckets. To do this, we can perform a binary search to find the Dyadic rationals with denominator at least a constant fraction of $n$. Finding each of these takes only $\lg(n)$ time. Then, these form the bounds for a bucket sort. There are an expected constant number of elements in any one of these buckets, so just use any sort you want at this point.
 
 \noindent\textbf{Problem 1}\\
+\begin{enumerate}[a.]
+\item
+There are $n!$ possible permutations of the input array because the input elements are all distinct. Since each is equally likely, the distribution is uniformly supported on this set. So, each occurs with probability $\frac{1}{n!}$ and corresponds to a different leaf because the program needs to be able to distinguish between them.
+
+\item
+The depths of particular elements of LT(resp. RT) are all one less than their depths when considered elements of T. In particular, this is true for the leaves of the two subtrees. Also, $\{LT,RT\}$ form a partition of all the leaves of $T$. So, if we let $L(T)$ denote the leaves of T,
+\[
+D(T) =\sum_{\ell \in L(T)} D_T(\ell) = \sum_{\ell \in L(LT)} D_T(\ell) + \sum_{\ell \in L(RT)} D_T(\ell) =\]\[\sum_{\ell \in L(LT)} (D_{LT}(\ell)+1) +\sum_{\ell \in L(RT)} (D_{RT}(\ell) +1) =\]\[ \sum_{\ell \in L(LT)} D_{LT}(\ell) + \sum_{\ell \in L(RT)} D_{RT}(\ell) + k = D(LT)+D(RT)+k
+\]
+
+\item
+Suppose we have a $T$ with $k$ leaves so that $D(T) =d(k)$. Let $i_0$ be the number of leaves in $LT$. Then, $d(k) = D(T) = D(LT)+D(RT)+k$ but, we can pick $LT$ and $RT$ to minimize the external path length
+
+\item
+
+We treat $i$ as a continuous variable, and take a derivative to find critical points. The given expression has the following as a derivative with respect to $i$
+\[
+\frac{1}{\ln(2)}+\lg(i) + \frac{1}{\ln(2)} - \lg(k-i) = \frac{2}{\ln(2)} + \lg\left(\frac{i}{k-i}\right)
+\]
+which is zero when we have $\frac{i}{k-i} = 2^{-\frac{2}{\ln(2)}} = 2^{-\lg(e^2)} = e^{-2}$. So, $(1+e^{-2})i = k$, so, $i = \frac{k}{1+e^{-2}}$. 
+
+Since we are picking the two subtrees to be roughtly equal size, the total depth will be order $\lg(k)$, with each level contributing $k$, so the total external path length is at least $k\lg(k)$.
+\item
+
+Since before we that a tree with $k$ leaves needs to have external length $k\lg(k)$, and that a sorting tree needs at least $n!$ trees, a sorting tree must have external tree length at least $n!\lg(n!)$. Since the average case run time is the depth of a leaf weighted by the probability of that leaf being the one that occurs, we have that the run time is at least $\frac{n!\lg(n!)}{n!} =\lg(n!) \in \Omega(n\lg(n))$
+
+
+\item
+Since the expected runtime is the average over all possible results from the random bits, if every possible fixing of the randomness resulted in a higher runtime, the average would have to be higher as well.
+
+
+\end{enumerate}
+
 
 \noindent\textbf{Problem 3}\\
+\begin{enumerate}[a.]
+\item
+First, sort the integer by their lengths. This can be done efficiently using a bucket sort, where we make a bucket for each possible number of digits. We sort each these uniform length sets of integers using radix sort. Then, we just concatenate the sorted lists obtained from each bucket.
+
+\item
+Make a bucket for every letter in the alphabet, each containing the words that start with that letter. Then, forget about the first letter of each of the words in the bucket, concatenate the empty word (if it's in this new set of words) with the result of recursing on these words of length one less. Since each word is processed a number of times equal to it's length, the runtime will be linear in the total number of letters.
+
+\end{enumerate}
 \noindent\textbf{Problem 5}\\
+\begin{enumerate}[a.]
+\item
+Since each of the averages will be of sets of a single element, so, wach element will be $\le$ than the next element. So, this is the usual definition of sorted
+\item
+$\langle 1,6,2,7,3,8,4,9,10\rangle$
+\item
+Suppose we have $A[i] \le A[i+k]$ for all appropriate $i$. Then, every element in the sum $\sum_{j=i}^{i+k-1} A[j]$ has a corresponding element in the sum $\sum_{j=i}^{i+k-1} A[j]$ that it is less than. This means the sums must have the desired ineqality.
+
+Now, suppose that we had the array was $k$-sorted. This means that 
+\[
+\sum_{j=i}^{i+k-1} A[j] \le \sum_{j=i+1}^{i+k}
+\] 
+but, if we subtract off all the terms that both sums have in common, we get:
+\[
+A[i] \le A[i+k]
+\]
+
+\item
+We can do quicksort until we are down to subarrays of size at most $k$. In exercise 7.4-5, this was shown to take time $O(n\lg(n/k)$. Note that this much work is all that is needed because we only need show that elements separated by $k$ positions are in different blocks which is true because they are $\le k$ positions wide.
+
+\item
+Consider the lists, which, for every $i\in\{0,\ldots,k-1\}$, are $L_i = \langle A[i],A[i+k], \ldots,A[i+ \lfloor n/k \rfloor k]\rangle$. Note that by  part c, if $A$ is $k-$ sorted, then we must have each $L_i$ is sorted. Then, by 6.5-9, we can merge them all into a single sorted array in the desired time.
+
+\item
+Let $t(k,n)$ be the time required to $k$-sort arrays of length n. Then, we have that, for every $k$, we can sort an array by first $k$ sorting it and then applying the previous part in time $t(n,k) +n \lg(k)$. If $t(n,k)$ were $o(n\lg(n))$, then we would have a contradiction to the comparison based sorting lower bounds.
+
+\end{enumerate}
+
+\noindent\textbf{Problem 7}
+\begin{enumerate}[a.]
+\item
+Since we claim that $A[p]$ is the smallest value placed at a wrong location, everything that has value less than or equal to $A[p]$ is in it's correct spot, and so, cannot be placed where $A[p]$ should of been. This means that $A[q] \ge A[p]$. Also, if we had that $A[q]=A[p]$. Then it wouldn't be an error to have $A[q]$ in the spot that should of had $A[q]$. This gets us $A[q] > A[p]$. Since we are only considering arrays with 0-1 values, this means that we must have $0=A[p]$ and $1=A[q]$.
+
+\item
+
+It fails to sort $B$ correctly because there is some position that $A[p]$ was moved to that was greater than where it should of been, this means that $A[q]$ is to the left of it, which shows the array is unsorted.
+
+\item
+
+All of the even steps in the algorithm do not even look at the values of the cells, they just push them around. The odd steps are also oblivious because we can just use the oblivious compare exchange version of insertion sort givin at the beginning of the problem.
+
+\item
+
+
+\end{enumerate}
 
 \end{document}
