@@ -35,6 +35,16 @@ We can construct the graph whoose vertex set is the indices, and we place an edg
 
 So, it will have depth at least $n-1$.\\
 
+\noindent\textbf{Exercise 8.1-2}\\
+
+Since $\lg(k)$ is monotonically increasing, we use formula $A.11$ to approximate the sum:
+\[ \int_0^n \lg(x)dx \leq \sum_{k=1}^n \lg(k) \leq \int_1^{n+1}\lg(x)dx.\]
+
+From this we obtain the inequality 
+\[ \frac{n\ln(n)-n}{\ln 2} \leq  \sum_{k=1}^n \lg(k) \leq \frac{(n+1)\ln(n+1) - n}{\ln 2}\]
+which is $\Theta(n\lg n)$.\\
+
+
 \noindent\textbf{Exercise 8.1-3}\\
 Suppose to a contradiction that there is a $c_1$ so that for every $n\ge k$, at least half of the inupts of length $n$ have depth at most $c_1 n$. However, there are less than $2^{c_1 n +1}$ elements in the tree of depth at most $c_1 n$. However, $1/2 n! > 1/2(n/e)^n >2^{c_1 n +1}$ so long as $n > e2^{c_1}$. This is a contradiction.
 
@@ -44,13 +54,29 @@ To make an algorithm that is linear for a $1/2^n$ fraction of inputs, we yet aga
 
 The moral of the story is that $n!$ grows very quickly.\\
 
+\noindent\textbf{Exercise 8.1-4}\\
+
+We assume as in the section that we need to construct a binary decision tree to represent comparisons.  Since each subsequence is of length $k$, there are $k!^{n/k}$ possible output permutations. To compute the height $h$ of the decision tree we must have $k!^{n/k} \leq 2^h$.  Taking logs on both sides and using exercise 2 this gives
+\[ h \geq (n/k)\lg(k!) \geq (n/k)\left(\frac{k\ln k - k}{\ln 2}\right) = \frac{n\ln(k) - n}{\ln 2} = \Omega(n \lg k).\]
+
 \noindent\textbf{Exercise 8.2-1}\\
+
 We have that $C = \langle 2, 4,6,8,9,9,11\rangle$. Then, after successive iterations of the loop on lines 10-12, we have $B = \langle\,,\,,\,,\,,\,,2,\,,\,,\,,\,,\,\rangle$,$B = \langle\,,\,,\,,\,,\,,2,\,,3,\,,\,,\,\rangle$,$B = \langle\,,\,,\,,1,\,,2,\,,3,\,,\,,\,\rangle$, and at the end, $B = \langle0,0,1,1,2,2,3,3,4,6,6\rangle$\\
 
+\noindent\textbf{Exercise 8.2-2}\\
+
+Suppose positions $i$ and $j$ with $i < j$ both contain some element $k$.  We consider lines 10 through 12 of COUNTING-SORT, where we construct the output array.  Since $j > i$, the loop will examine $A[j]$ before examining $A[i]$.  When it does so, the algorithm correctly places $A[j]$ in position $m = C[k]$ of $B$.  Since $C[k]$ is decremented in line 12, and is never again incremented, we are guaranteed that when the for loop examines $A[i]$ we will have $C[k]< m$.  Therefore $A[i]$ will be placed in an earlier position of the output array, proving stability. \\
+
 \noindent\textbf{Exercise 8.2-3}\\
+
 The algorithm still works correctly. The order that elements are taken out of $C$ and put into $B$ doesn't affect the placement of elements with the same key. It will still fill the interval $(C[k-1],C[k]]$ with elements of key $k$. The question of whether it is stable or not is not well phrased. In order for stability to make sense, we would need to be sorting items which have information other than their key, and the sort as written is just for integers, which don't. We could think of extending this algorithm by placing the elements of $A$ into a collection of elments for each cell in array $C$. Then, if we use a FIFO collection, the modification of line 10 will make it stable, if we use LILO, it will be anti-stable.\\
 
+\noindent\textbf{Exercise 8.2-4}\\
+
+The algorithm will begin by preprocessing exactly as COUNTING-SORT does in lines 1 through 9, so that $C[i]$ contains the number of elements less than or equal to $i$ in the array. When queried about how many integers fall into a range $[a..b]$, simply compute $C[b] - C[a-1]$.  This takes $O(1)$ times and yields the desired output.\\
+
 \noindent\textbf{Exercise 8.3-1}\\
+
 Starting with the unsorted words on the left, and stable sorting by progressively more important positions.
 
 $
@@ -74,11 +100,20 @@ FOX&FOX&RUG&TEA\\
 \end{array}
 $\\
 
+\noindent\textbf{Exercise 8.3-2}\\
+
+Insertion sort and merge sort are stable.  Heapsort and quicksort are not. To make any sorting algorithm stable we can preprocess, replacing each element of an array with an ordered pair.  The first entry will be the value of the element, and the second value will be the index of the element.  For example, the array $[2, 1, 1, 3, 4, 4, 4]$ would become $[(2,1), (1,2), (1,3), (3,4), (4,5), (4,6), (4,7)]$.  We now interpret $(i,j) < (k,m)$ if $i < k$ or $i=k$ and $j<m$.  Under this definition of less-than, the algorithm is guaranteed to be stable because each of our new elements is distinct and the index comparison ensures that if a repeat element appeared later in the original array, it must appear later in the sorted array. This doubles the space requirement, but the running time will be asymptotically unchanged.\\
+
 \noindent\textbf{Exercise 8.3-3}\\
 
 After sorting on digit $i$, we will show that if we restrict to just the last $i$ digits, the list is in sorted order. This is trivial for $i=1$, because it is just claiming that the digits we just sorted were in sorted order. Now, suppose it's true for $i-1$, we show it for $i$. Suppose there are two elements, who, when restricted the the $i$ last digits, are not in sorted order after the $i$'th step. Then, we must have that they have the same $i$'th digit because otherwise the sort of digit $i$ would put them in the right order. Since they have the same first digit, their relative order is determined by their restrictions to their last $i-1$ digits. However, these were placed in the correct order by the $i-1$'st step. Since the sort on the $i$'th digit was stable, their relative order is unchanged from the previous step. This means that they are in the correct order still. We use stability to show that being in the correct order prior to doing the sort is preserved.\\
 
+\noindent\textbf{Exercise 8.3-4}\\
+
+First run through the list of integers and convert each one to base $n$, then radix sort them.  Each number will have at most $\log_n(n^3) = 3$ digits so there will only need to be 3 passes. For each pass, there are $n$ possible values which can be taken on, so we can use counting sort to sort each digit in $O(n)$ time.\\
+
 \noindent\textbf{Exercise 8.3-5}\\
+
 Since a pass consists of one iteration of the loop on line $1-2$, only $d$ passes are needed. However, as many as $n$ bins are needed.\\
 %uhh.... not entirely sure what it's asking
 
@@ -86,9 +121,17 @@ Since a pass consists of one iteration of the loop on line $1-2$, only $d$ passe
 
 The sublists formed are $\langle .13, .16\rangle$, $\langle .20\rangle$,$\langle .39\rangle$, $\langle .42\rangle$, $\langle .53\rangle$, $\langle .64\rangle$, $\langle .71, .79\rangle$, $\langle .89\rangle$. Putting them together, we get $\langle .13,.16,.20,.39,.42,.53,.64,.71,.79,.89 \rangle$\\
 
+\noindent\textbf{Exercise 8.4-2}\\
+
+In the worst case, we could have a bucket which contains all $n$ values of the array.   Since insertion sort has worst case running time $O(n^2)$, so does Bucket sort.  We can avoid this by using merge sort to sort each bucket instead, which has worst case running time $O(n \lg n)$.\\
+
 \noindent\textbf{Exercise 8.4-3}\\
 
 $X$ is $0$ or $2$ with probability a quarter each, and $1$ with probability 2. Note that $E[X]=1$, so, $E^2[x] = 1$. Also, $X^2$ takes $0$ or $4$ with probability a quarter each, and $1$ with probability a half. So, $E[X^2] = 1.5$.\\
+
+\noindent\textbf{Exercise 8.4-4}\\
+
+Define $r_i = \sqrt{\frac{i}{n}}$ and $c_i = \{(x,y) | r_{i-1} \leq x^2 + y^2 \leq r_i\}$ for $i = 1, 2, \ldots, n$.  The $c_i$ regions partition the unit disk into $n$ parts of equal area, which we will use as the buckets. Since the points are uniformly distributed on the disk and each region has equal area, bucket sort will run in expected time $\Theta(n)$. \\
 
 \noindent\textbf{Exercise 8.4-5}\\
 
@@ -129,6 +172,51 @@ Since the expected runtime is the average over all possible results from the ran
 \end{enumerate}
 
 
+\noindent\textbf{Problem 8-2}\\
+
+a. 
+\begin{algorithm}
+\caption{O(n) and Stable(A)}
+\begin{algorithmic}
+\State Create a new array $C$
+\State $index = 1$
+\For{$i=1$ to $n$}
+	\If{$A[i] == 0$}
+		\State $C[index] = A[i]$
+		\State $index = index + 1$
+	\EndIf
+\EndFor
+\For{$i=1$ to $n$}
+	\If{$A[i] == 1$}
+		\State $C[index] = A[i]$
+		\State $index = index + 1$
+	\EndIf
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+This algorithm first selects all the elements with key 0 and puts them in the new array $C$ in the order in which they appeared in $A$, then selects all the elements with key 1 and puts them in $C$ in the order in which they appeared in $A$.  Thus, it is stable.  Since it only makes two passes through the array, it is $O(n)$. \\
+
+b. 
+\begin{algorithm}
+\caption{O(n) and in place(A)}
+\begin{algorithmic}
+\State $index = 1$
+\For{$i=1$ to $n$}
+	 \If{$A[i] == 0$}
+		\State Swap $A[i]$ with $A[index]$
+		\State $index = index  + 1$
+	\EndIf
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+The algorithm maintains the 0's seen so far at the start of the array.  Each time an element with key 0 is encountered, the algorithm swaps it with the position following the last 0 already seen.  This is in-place and $O(n)$, but not stable. \\
+
+c.  Simply run BubbleSort on the array. \\
+
+d. Use the algorithm given in part a. For each of the b-bit keys it takes $O(n)$ and is stable, as is required by Radix-Sort. Thus, the total running time will be $O(bn)$. \\
+
+e. Create the array $C$ as done in lines 1 through 5 of counting sort.  Create an array $B$ which is a copy of $C$, then run lines 7 through 9 on $B$.  In other words, $C[i]$ gives the number of elements in $A$ which are equal to $i$, and $B[i]$ gives the number of elements in $A$ which are less than or equal to $i$, so given an element, we can correctly identify where it belongs in the array.  While the element in position i doesn't belong there, swap it with the element in the place it belongs. Once an element which belongs in position $i$ appears, increment $i$. The preprocessing takes $O(n+k)$ time, the total number of swaps is at most $n$, and we iterate through the whole array once, so the overall runtim is $O(n+k)$. This algorithm has the advantage of sorting in place, however it is no longer stable like counting sort. \\
+
 \noindent\textbf{Problem 3}\\
 \begin{enumerate}[a.]
 \item
@@ -138,6 +226,15 @@ First, sort the integer by their lengths. This can be done efficiently using a b
 Make a bucket for every letter in the alphabet, each containing the words that start with that letter. Then, forget about the first letter of each of the words in the bucket, concatenate the empty word (if it's in this new set of words) with the result of recursing on these words of length one less. Since each word is processed a number of times equal to it's length, the runtime will be linear in the total number of letters.
 
 \end{enumerate}
+
+\noindent\textbf{Problem 8-4}\\
+
+a. Select a red jug.  Compare it to blue jugs until you find one which matches.  Set that pair aside, and repeat for the next red jug.  This will use at most $\sum_{i=1}^{n-1} i = n(n-1)/2 = O(n^2)$ comparisons. \\
+
+b. We can imagine first lining up the red jugs in some order.  Then a solution to this problem becomes a permutation of the blue jugs such that the $i^{th}$ blue jug is the same size as the $i^{th}$ red jug. As in section 8.1, we can make a decision tree which represents comparisons made between blue jugs and red jugs.  An internal node represents a comparison between a specific pair of red and blue jugs, and a leaf node represents a permutation of the blue jugs based on the results of the comparison. We are interested in when one jug is greater than, less than, or equal in size to another jug, so the tree should have 3 children per nod.  Since there must be at least $n!$ leaf nodes, the decision tree must have height at least $log_3(n!)$.  Since a solution corresponds to a simple path from root to leaf, an algorithm must make at least $\Omega(n \lg n)$ comparisons to reach any leaf. \\
+
+c. We use an algorithm analogous to randomized quicksort. Select a blue jug at random. Partition the red jugs into those which are smaller than the blue jug, and those which are larger. At some point in the comparisons, you will find the red jug which is of equal size.  Once the red jugs have been divided by size, use the red jug of equal size to partition the blue jugs into those which are smaller and those which are larger.  If $k$ red jugs are smaller than the originally chosen jug, we need to solve the original problem on input of size $k-1$ and size $n-k$, which we will do in the same manner. A subproblem of size 1 is trivially solved because if there is only one red jug and one blue jug, they must be the same size. The analysis of expected number of comparisons is exactly the same as that of randomized-quicksort given on pages 181-184.  We are running the procedure twice so the expected number of comparisons is doubled, but this is absorbed by the big-O notation. In the worst case, we pick the largest jug each time, which results in $\sum_{i=2}^{n} i + i - 1 =n^2$ comparisons. \\
+
 \noindent\textbf{Problem 5}\\
 \begin{enumerate}[a.]
 \item
@@ -166,6 +263,26 @@ Consider the lists, which, for every $i\in\{0,\ldots,k-1\}$, are $L_i = \langle 
 Let $t(k,n)$ be the time required to $k$-sort arrays of length n. Then, we have that, for every $k$, we can sort an array by first $k$ sorting it and then applying the previous part in time $t(n,k) +n \lg(k)$. If $t(n,k)$ were $o(n\lg(n))$, then we would have a contradiction to the comparison based sorting lower bounds.
 
 \end{enumerate}
+
+
+
+\noindent\textbf{Problem 8-6}\\
+
+a. There are ${2n \choose n}$ ways to divide $2n$ numbers into two sorted lists, each with $n$ numbers.\\
+
+b. Any decision tree to merge two sorted lists must have at least ${2n \choose n}$ leaf nodes, so it has height at least $\lg\left(\frac{2n!}{n!n!}\right)$.  We'll use the inequalities derived in Exercise 8.1-2 to bound this:
+\begin{align*}
+\lg\left(\frac{2n!}{n!n!}\right) &= \lg((2n)!) - 2\lg(n!) \\
+&= \sum_{k=1}^{2n} \lg(k) - 2\sum_{k=1}^n \lg(k) \\
+& \geq \frac{2n \ln(2n) - 2n}{\ln 2} - 2\frac{(n+1)\ln(n+1) - n}{\ln 2} \\
+&= 2n + 2n\lg(n) - 2n\lg(n+1) - 2\lg(n+1) \\
+&= 2n + 2n\lg(n/(n+1)) - 2\lg(n+1) \\
+&= 2n - o(n).
+\end{align*}
+
+c. If we don't compare them, then there is no way to distinguish between the original unmerged lists and the unmerged lists obtained by swapping those two items between lists.  In the case where the two elements are different we require a different action to be taken in order to correctly merge the lists, so the two must be compared.\\
+
+d. Let list $A = 1, 3, 5, ..., 2n-1$ and $B = 2, 4, 6, \ldots, 2n$. By part $c$, we must compare 1 with 2, 2 with 3, 3 with 4, and so on up until we compare $2n-1$ with $2n$. This amounts to a total of $2n-1$ comparisons. 
 
 \noindent\textbf{Problem 7}
 \begin{enumerate}[a.]
