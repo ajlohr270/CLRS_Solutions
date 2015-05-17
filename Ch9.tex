@@ -1,0 +1,122 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+
+	
+\pagestyle{fancy}
+\title{Chapter 9}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{ Exercise 9.1-1} \\
+In this problem, we will be recursing by dividing the array into two equal size sets of elements, we will neglect taking floors and ceilings. The analysis will be the same but just a bit uglier if we don't assume that n is a power of 2.
+
+Break up the elements into disjoint pairs. Then, compare each pair, consider only the smallest elements from each. From among this set of elements, the result to the original problem will be either what had been paired with the smallest element, or what what is the second smallest element of the sub-problem. Doing this will get both the smallest and second smallest element. So, we get the recurrence $T(n)  = T(n/2) + n/2 + 1$ and $T(2)= 1$. So, solving this recurrence, we will use the substitution method with $T(n) \le n + \lceil \lg(n) \rceil -2$, it agrees with the base case, and, $T(n) = n/2 + T(n/2) +1 \le n/2 + n/2 + \lceil\lg(n/2)\rceil -2 +1 =  n + \lceil \lg(n) \rceil -2$ as desired.
+
+
+\noindent\textbf{ Exercise 9.2-1} \\
+Calling a zero length array would mean that the second and third arguments are equal. So, if the call is made on line 8, we would need that $p=q-1$. which means that $q-p+1=0$ .However, $i$ is assumed to be a nonnegative number, and to be executing line 8, we would need that $i < k = q-p+1=0$, a contradiction. The other possibility is that the bad recursive call occurs on line 9. This would mean that $q+1=r$. To be executing line 9, we need that $i>k = q-p+1 = r-p$. This would be a nonsensical original call to the array though because we are asking for the $i$th element from an array of strictly less size. \\
+
+
+\noindent\textbf{ Exercise 9.2-3} \\
+\begin{algorithm}
+\caption{ ITERATIVE-RANDOMIZED-SELECT}
+\begin{algorithmic}
+\While{$p<r$}
+\State $q = RANDOMIZED-PARTITION(A,p,r)$
+\State $k=q-p+1$
+\If{i=k}
+\State \Return $A[q]$
+\EndIf
+\If{$i< k$}
+\State $r = q-1$
+\Else
+\State $p=q$
+\State $i=i-k$
+\EndIf
+\EndWhile
+\State \Return $A[p]$
+
+\end{algorithmic}
+\end{algorithm}
+
+\noindent\textbf{ Exercise 9.3-1} \\
+It will still work if they are divided into groups of 7, because we will still know that the median of medians is less than at least 4 elements from half of the $\lceil n/7 \rceil$ groups, so, it is greater than roughly $4n/14$ of the elements. Similarly, it is less than roughly $4n/14$ of the elements. So, we are never calling it recursively on more than $10n/14$ elements. So, $T(n) \le T(n/7) + T(10n/14)+O(n)$. So, we can show by substitution this is linear. Suppose $T(n) < cn$ for $n<k$, then, for $m\ge k$, $T(m) \le T(m/7) + T(10m/14) + O(m) \le cm(1/7+10/14) + O(m)$. So, as long as we have that the constant hidden in the big-Oh notation is less than $c/7$, we have the desired result.\\
+
+Suppose now that we use groups of size $3$ instead. So, For similar reasons, we have that the recurrence we are able to get is $T(n) = T(\lceil n/3 \rceil) + T(4n/6) + O(n) \ge T(n/3)+ T(2n/3) +O(n)$. So, we will show it is $\ge cn\lg(n)$.
+
+$T(m) \ge c (m/3)\lg(m/3) + c(2m/3) \lg(2m/3) +O(m) \ge  c m \lg(m) +O(m)$. So, we have that it grows more quickly than linear.\\
+
+
+\noindent\textbf{ Exercise 9.3-3} \\
+We can modify quicksort to run in worst case $n\lg(n)$ time by choosing our pivot element to be the exact median by using quick select. Then, we are guaranteed that our pivot will be good, and the time taken to find the median is on the same order of the rest of the partitioning.\\
+
+
+\noindent\textbf{ Exercise 9.3-5} \\
+To use it, just find the median, partition the array based on that median. If $i$ is less than half the length of the original array, recurse on the first half, if $i$ is half the length of the array, return the element coming from the median finding black box. Lastly, if $i$ is more than half the length of the array, subtract half the length of the array, and then recurse on the second half of the array.\\
+
+
+
+\noindent\textbf{ Exercise 9.3-7} \\
+Find the $n/2-k/2$ largest element in linear time. Partition on that element. Then, find the $k$ largest element in the bigger subarray formed from the partition. Then, the elements in the smaller subarray from partitioning on this element are the desired $k$ numbers.\\
+
+\noindent\textbf{ Exercise 9.3-9} \\
+If $n$ is odd, then, we pick the y coordinate of the main pipeline to be equal to the median of all the y coordinates of the wells. if $n$ is even, then, we can pick the y coordinate of the pipeline to be anything between the y coordinates of the wells with y-coordinates which have order statistics $\lfloor (n+1)/2\rfloor$ and the $\lceil (n+1)/2 \rceil$. These can all be found in linear time using the algorithm from this section.\\
+
+
+\noindent\textbf{ Problem 9-1} \\
+\begin{enumerate}[a.]
+\item
+Sorting takes time $n\lg(n)$, and listing them out takes time $i$, so the total runtime is $O(n\lg(n)+i)$
+
+\item
+Heapifying takes time $n\lg(n)$, and each extraction can take time $\lg(n)$, so, the total runtime is $O((n+i)\lg(n))$ 
+
+\item
+Finding and partitioning around the $i$th largest takes time $n$. Then, sorting the subarray of length $i$ coming from the partition takes time $i\lg(i)$. So, the total runtime is $O(n+i\lg(i))$.
+
+\end{enumerate}
+
+\noindent\textbf{ Problem 9-3} \\
+\begin{enumerate}[a.]
+\item
+If $i\ge n/2$, then just use the algorithm from this chapter to get the answer in time $T(n)$. If $i<n/2$, then, we can compare disjoint pairs of elements from the list, and then we know that the $i$th smallest is in the set of elements that are smaller in each pair. So, we can recurse, this gets us runtime in this case of $\lfloor n/2 \rfloor + U_i(\lceil n/2 \rceil)+T(2i)$. Note that the last term comes from the fact that the $i$th smallest could of also been any of the elements paired with the $i$th smallest elements from the subproblem. 
+
+
+\item
+By the Substitution method, suppose that $U_i(n) = n+c T(2i)\lg(n/i)$ for smaller $n$, then, there are two cases based on whether or not $i <n/4$. If it is,  $U_i(n) = \lfloor n/2 \rfloor + U_i(\lceil n/2 \rceil) + T(2i) \le n/2 + n/2+cT(2i)\lg(n/2i) + T(2i)$. This then satisfies the recurrence if we have that $c \ge 1$. The other case is that $n/4 \le i < n/2$. In this case, we have that $U_i(n) = n/2 + T(\lceil n/2\rceil) + T(2i) \le n/2 + 2T(2i)$, which works if we have $c\ge 2$. So, we can just pick $c=2$, and both cases of the recurrence go through.
+
+
+\item
+From the previous part, if $i$ is a constant, the $O(T(2i)\lg(n/i))$ becomes $T(\lg(n))$. So, $U_i(n) = n+ O(T(2i)\lg(n/i)) = n + O(\lg(n))$.
+
+\item
+From part c, we just substitute in $n/k$ for $i$ to get $U_i(n) = n+ O(T(2i)\lg(n/i)) = n + O(T(2n/k) \lg k)$.
+
+
+
+\end{enumerate}
+
+
+
+
+\end{document}
