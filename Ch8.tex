@@ -284,7 +284,7 @@ c. If we don't compare them, then there is no way to distinguish between the ori
 
 d. Let list $A = 1, 3, 5, ..., 2n-1$ and $B = 2, 4, 6, \ldots, 2n$. By part $c$, we must compare 1 with 2, 2 with 3, 3 with 4, and so on up until we compare $2n-1$ with $2n$. This amounts to a total of $2n-1$ comparisons. 
 
-\noindent\textbf{Problem 7}
+\noindent\textbf{Problem 8-7}
 \begin{enumerate}[a.]
 \item
 Since we claim that $A[p]$ is the smallest value placed at a wrong location, everything that has value less than or equal to $A[p]$ is in it's correct spot, and so, cannot be placed where $A[p]$ should of been. This means that $A[q] \ge A[p]$. Also, if we had that $A[q]=A[p]$. Then it wouldn't be an error to have $A[q]$ in the spot that should of had $A[q]$. This gets us $A[q] > A[p]$. Since we are only considering arrays with 0-1 values, this means that we must have $0=A[p]$ and $1=A[q]$.
@@ -299,6 +299,19 @@ All of the even steps in the algorithm do not even look at the values of the cel
 
 \item
 
+After step 1, we know that each column looks like some number of zeroes followed by some number of ones. Suppose that column $i$ had $z_i$ zeroes in it. Then, after the reshaping step, we know that each of the columns will contribute $\lceil z_i / (r/s) \rceil$ zeroes to the first $z_i \mod s$ columns, and one less to the rest. In particular, since the number of zeros contributed to each of the columns after step 2 only has a single jump by one, the sum over each must only change by at most $s$. Then, after sorting, this means that there will only be $s$ dirty rows. 
+
+\item
+
+From the prior part, we know that before step 4, there are at most $s$ dirty rows, with a total of $s^2$ elements in them. So, after step 4, these dirty elements will map to some bottom part of a column, some of another column, and then some top part of a column. with everything to the left being zero, and everything to the right being one.
+
+\item
+
+From the previous part, we have that there are at most $s^2$ values that may be bad. Also, $r\ge 2s^2$. Then, there are two cases. The first is that the dirty region spans two columns, in this case, we have that after step 6, the dirty region is entirely in one column. So, after doing step 7, we have that the column that was dirty has a clean top half, and the array is sorted, so, it remains sorted when applying step 8. The second case is that the dirty region is entirely in one column. If this is the case, then, after sorting in step 5, the array is already sorted, and the only dirty column has a clean first half. So, it will mainatain it's being sorted after performing steps 6-8.
+
+\item
+
+The proof is very similar to the way that part e was shown. There must be some care taken with how the transformation in steps 2 and 4 are changed. We would need that $r\ge 2s^2-2s$, since a dirty region of $2s-1$ rows corresponds to a dirty region (when read column major) of size $2s^2-s$. we could simply pad the array with a number of rows with all zero, to bring the number of rows up to a multiple of $s$. Then, take away that many zeroes from the final answer.
 
 \end{enumerate}
 
