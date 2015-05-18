@@ -154,10 +154,46 @@ To insert, just do list insert before the current head, in constant time. To sea
 
 
 \noindent\textbf{ Exercise 10.3-1} \\
+A multiple array version could be $L=2$,
+
+$
+\begin{array}{|c|c|c|c|c|c|c|}
+\hline
+/&3&4&5&6&7&/\\
+
+\hline
+&12&4&8&19&5&11\\
+
+\hline
+&/&2&3&4&5&6\\
+
+\hline
+\end{array}
+$
+
+A single array version could be $L=4$,
+
+$
+\begin{array}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\,\,&\,\,&\,\,&12&7&/&4&10&4&8&13&7&19&16&10&5&19&13&11&/&16\\
+\hline
+\end{array}
+$
+
 
 \noindent\textbf{ Exercise 10.3-3} \\
+Allocate object just returns the index of some cells that it's guarenteed to not give out again until they've been freed. The prev attribute is not modified because only the next attribute is used by the memory manager, it's up to the code that calls allocate to use the prev and key attributes as it sees fit.\\
+
 
 \noindent\textbf{ Exercise 10.3-5} \\
+\begin{algorithm}
+\caption{COMPACTIFY-LIST(L,F)}
+\begin{algorithmic}
+
+\end{algorithmic}
+\end{algorithm}
+
 
 \noindent\textbf{ Exercise 10.4-1} \\
 
