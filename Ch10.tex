@@ -8,6 +8,7 @@
 \usepackage{algorithmicx}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{tikz}
 
 
 	
@@ -187,23 +188,197 @@ Allocate object just returns the index of some cells that it's guarenteed to not
 
 
 \noindent\textbf{ Exercise 10.3-5} \\
+
+
 \begin{algorithm}
 \caption{COMPACTIFY-LIST(L,F)}
 \begin{algorithmic}
+\If{n=m}
+\State \Return
+\EndIf
+\State $e = \max\{ \max_{i\in[m]} \{|key[i]|\},\max_{i\in L}\{|key[i]|\}\}$
+\State increase every element of $key[1..m]$ by $2e$
+\State for every element of $L$, if its key is greater than $e$, reduce it by $2e$
+\State $f = 1$
+\While{$key[f] <e$}
+\State $f++$
+\EndWhile
+\State $a = L.head$
+\If{$a>m$}
+\State $next[prev[f]] = next[f]$
+\State $prev[next[f]] = prev[f]$
+\State $next[f] = next[a]$
+\State $key[f] = key[a]$
+\State $prev[f] = prev[a]$
+\State $FREE-OBJECT(a)$
+\State $f++$
+\While{$key[f] <e$}
+\State $f++$
+\EndWhile
+\EndIf
+\While{$a\neq L.head$}
+\If{$a>m$}
+\State $next[prev[f]] = next[f]$
+\State $prev[next[f]] = prev[f]$
+\State $next[f] = next[a]$
+\State $key[f] = key[a]$
+\State $prev[f] = prev[a]$
+\State $FREE-OBJECT(a)$
+\State $f++$
+\While{$key[f] <e$}
+\State $f++$
+\EndWhile
+\EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
 
+\noindent\textbf{ Exercise 10.4-1} \\
+
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
+\node [circle,draw] (z){18}
+  child {node [circle,draw] (a) {12}
+    child {node [circle,draw] (b) {7}
+      }
+    child {node [circle,draw] (g) {4}
+	child {node [circle,draw] (c) {5}}
+  }}
+  child {node [circle,draw] (a) {10}
+    child {node [circle,draw] (b) {2}
+	}
+    child {node [circle,draw] (g) {21}
+  }
+        };
+\end{tikzpicture}
+
+Note that indices 8 and 2 in the array do not appear, and, in fact do not represent a valid tree.
+
+\noindent\textbf{ Exercise 10.4-3} \\
+\begin{algorithm}
+\caption{INORDER-PRINT(T)}
+\begin{algorithmic}
+\State let S be an empty stack
+\State $push(S,T)$
+\While{S is not empty}
+\State $U = pop(S)$
+\If{$U\neq NIL$}
+\State print $U.key$
+\State $push(S,U.left)$
+\State $push(S,U.right)$
+\EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\noindent\textbf{ Exercise 10.4-5} \\
+
+\begin{algorithm}
+\caption{INORDER-PRINT(T)}
+\begin{algorithmic}
+\State $a = T.left$
+\State $prev = T$
+\While{$a\neq T$}
+\If{$prev = a.left$}
+\State print $a.key$
+\State $prev = a$
+\State $a = a.right$
+\ElsIf{$prev = a.right$}
+\State $prev = a$
+\State $a = a.p$
+\ElsIf{$prev = a.p$}
+\State $prev = a$
+\State $a = a.left$
+\EndIf
+\EndWhile
+\State print $T.key$
+\State $a = T.right$
+\While{$a\neq T$}
+\If{$prev = a.left$}
+\State print $a.key$
+\State $prev = a$
+\State $a = a.right$
+\ElsIf{$prev = a.right$}
+\State $prev = a$
+\State $a = a.p$
+\ElsIf{$prev = a.p$}
+\State $prev = a$
+\State $a = a.left$
+\EndIf
+\EndWhile
 \end{algorithmic}
 \end{algorithm}
 
 
-\noindent\textbf{ Exercise 10.4-1} \\
-
-\noindent\textbf{ Exercise 10.4-3} \\
-
-\noindent\textbf{ Exercise 10.4-5} \\
 
 \noindent\textbf{ Problem 10-1} \\
 
+For each, we assume sorted means sorted in ascending order
+
+$
+\begin{array}{c|c|c|c|c|}
+&unsorted,single& sorted,single&unsorted,double&sorted,double\\
+\hline
+SEARCH(L,k)&n&n&n&n\\
+\hline
+INSERT(L,x)&1&1&1&1\\
+\hline
+DELETE(L,x)&n&n&1&1\\
+\hline
+SUCCESSOR(L,x)&n&1&n&1\\
+\hline
+PREDECESSOR(L,x)&n&n&n&1\\
+\hline
+MINIMUM(L,x)&n&1&n&1\\
+\hline
+MAXIMUM(L,x)&n&n&n&1\\
+\hline
+
+\end{array}
+$
 \noindent\textbf{ Problem 10-3} \\
 
+\begin{enumerate}[a.]
+\item
+If the original version of the algorithm takes only t iterations, then, we have that it was only at most t random skips though the list to get to the desired value, since each iteration of the original while loop is a possible random jump followed by a normal step through the linked list.
+
+\item
+The for loop on lines 2-7 will get run exactly t times, each of which is constant runtime. After that, the while loop on lines 8-9 will be run exactly $X_t$ times. So, the total runtime is $O(t+E[X_t])$.
+
+\item
+
+Using equation C.25, we have that $E[X_t] = \sum_{i=1}^{\infty} Pr(X_t\ge i)$. So, we need to show that $ Pr(X_t\ge i) \le (1-i/n)^t$. This can be seen because having $X_t$ being greater than $i$ means that each random choice will result in an element that is either at least $i$ steps before the desitred element, or is after the desired element. There are $n-i$ such elements, out of the total $n$ elements that we were pricking from. So, for a single one of the choices to be from such a range, we have a probability of $(n-i)/n = (1-i/n)$. Since each of the selections was independent, the total probability that all of them were is $(1-i/n)^t$, as desired. Lastle, we can note that since the linked list has length $n$, the probability that $X_t$ is greater than $n$ is equal to zero.
+
+\item
+
+Since we have that $t>0$, we know that the function $f(x) = x^t$ is increasing, so, that means that $\lfloor x \rfloor ^t \le f(x)$. So,
+\[
+\sum_{r=0}^{n-1} r^t  = \int_{0}^n \lfloor r \rfloor^t dr \le \int_0^n f(r) dr = \frac{n^{t+1}}{t+1}
+\]
+
+\item
+
+\[
+E[X_t] \le \sum_{r=1}^n (1-r/n)^t = \sum_{r=1}^n \sum_{i=0}^t \binom{t}{i} (-r/n)^i = \sum_{i=0}^t \sum_{r=1}^n  \binom{t}{i} (-r/n)^i \]\[
+= \sum_{i=0}^t  \binom{t}{i} (-1)^i\left(n^i -1+ \sum_{r=0}^{n-1} (r)^t\right)/n \le \sum_{i=0}^t  \binom{t}{i} (-1)^i\left( n^i-1+ \frac{n^{i+1}}{i+1}\right)/n 
+\]
+\[
+\le  \sum_{i=0}^t  \binom{t}{i} (-1)^i \frac{n^i}{i+1} =  \frac{1}{t+1} \sum_{i=0}^t \binom{t+1}{i+1} (-n)^i \le \frac{(1-n)^{t+1}}{t+1}
+\]
+
+\item
+
+We just put together parts b and e to get that it runs in time $O(t+n/(t+1))$. But, this is the same as $O(t+n/t)$.
+
+\item
+
+Since we have that for any number of iterations $t$ that the first algorithm takes to find its answer, the second algorithm will return it in time $O(t+ n/t)$. In particular, if we just have that $t = \sqrt{n}$. The second algorithm takes time only $O(\sqrt{n})$. This means that tihe first list search algorithm is $O(\sqrt{n})$ as well.
+
+\item
+
+%If the list contains repeated key values, then, we may randomly skip ahead at some point, then, jump backwards to a key that had the same value, but was further back in the list. The analysis will break down when we try to bound the probability that $X_t$ is greater than $i$. This is because we don't need that every single random choice was at least $i$ away from the correct position, just could of been to any element whoose key was the same as that spot as well.
+
+if we don't have distinct key values, then, we may randomly select an element that is further along than we had been before, but not jump to it because it has the same key as what we were currently at. The analysis will break when we try to bound the probability that $X_t \ge i$.
+
+\end{enumerate}
 
 \end{document} 
