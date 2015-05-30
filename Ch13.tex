@@ -345,11 +345,238 @@ For any BST T, define the quantity $f(T)$ to be the sum over all the nodes of th
 
 
 \noindent\textbf{ Exercise 13.3-1} \\
-
-
+If we chose to set the color of $z$ to black then we would be violating property 5 of being a red-black tree. Because any path from the root to a leaf under $z$ would have one more black node than the paths to the other leaves \\
 
 \noindent\textbf{ Exercise 13.3-3} \\
+For the z being a right child case, we append the black height of each node to get
+\begin{tikzpicture}[level/.style={sibling distance=75mm/#1}]
+\node [circle,draw,color=white, fill=black] (a){C:k}
+  child{ node [circle,draw,fill=red] (e) {A:k} 
+  child{node (z){$\alpha$}}
+  child{node[circle,draw,fill=red] (y) {B:k} 
+  child{node  (x){$\beta$}}
+  child{node (w){$\gamma$}
+  }
+  }}
+  child {
+  node [circle,draw] (b) {D:k}
+    child {node  (c){$\delta$}
+    }
+      child {node (d){$\epsilon$}
+      }
+  };
+\end{tikzpicture}
+
+which goes to
+
+\begin{tikzpicture}[level/.style={sibling distance=75mm/#1}]
+\node [circle,draw,fill=red] (a){C:k+1}
+  child{ node [circle,draw,color=white, fill=black] (e) {A:k} 
+  child{node (z){$\alpha$}}
+  child{node[circle,draw,fill=red] (y) {B:k} 
+  child{node  (x){$\beta$}}
+  child{node (w){$\gamma$}
+  }
+  }}
+  child {
+  node [circle,draw,color=white, fill=black] (b) {D:k}
+    child {node  (c){$\delta$}
+    }
+      child {node (d){$\epsilon$}
+      }
+  };
+\end{tikzpicture}
+
+note that while the black depths of the nodes may of changed, they are still well defined, and so they still satisfy condition 5 of being a red-black tree. Similar trees for when z is a left child
+
 \noindent\textbf{ Exercise 13.3-5} \\
+Suppose we just added the last element. Then, prior to calling RB-INSERT-FIXUP, we have that it is red. In all of the fixup cases for an execution of the while loop, we have that the resulting tree fragment contains a red non-root node. This node will not be later made black on line 16 becuse it isn't the root. 
+
 \noindent\textbf{ Exercise 13.4-1} \\
+There are two ways we may of left the while loop of RB-DELETE-FIXUP. The first is that we had $x = T.root$. In this case, we set $x.color = BLACK$ onl ine 23. So, we must have that the root is black. The other case is that we ended the while loop because we had $x.color == RED$, but had that $x\neq T.root$. This rules out case 4, because that has us setting $x=T.root$. In case 3, we don't set $x$ to be red, or change $x$ at all, so it coudn't of been the last case run. In case 2, we set nothing new to be $RED$, so this coudn't lead to exiting the while loop for this reason. In case 1, we make the sibling black and rotate it into the position of the parent. So, it wouln't be possible to make the root red in this step because the only node we set to be red, we then placed a black node above. 
+
+
+\noindent\textbf{ Exercise 13.4-3} \\
+%waiting on the completion of exercise 13.3-2
+
+\noindent\textbf{ Exercise 13.4-5} \\
+Our count will include the root (if it is black).
+
+Case 1: The count to each subtree is 2 both before and after
+
+Case 2: The count to the subtrees $\alpha$ and $\beta$ is 1+count(c) in both cases, and the count for the rest of the subtrees goes from 2+count(c) to 1+count(c).
+
+Case 3: The count to $\epsilon$ and $\zeta$ is 2+count(c) both before and after, for all the other subtrees, it is 1+count(c) both before and after
+
+Case 4: For $\alpha$ and $\beta$, the count goes from 1+count(c) to 2+count(c). For $\gamma$ and $\delta$, it is 1+count(c)+count(c') both before and after. For $\epsilon$ and $\zeta$, it is 1+ count(c) both before and after.
+
+Cases 2 and 4 seem to violate what we were supposed to show.
+%TODO
+\noindent\textbf{ Exercise 13.4-7} \\
+Suppose that we insert the elements $3,2,1$ in that order, then, the resulting tree will look like
+
+\begin{tikzpicture}[level/.style={sibling distance=75mm/#1}]
+\node [circle,draw, color=white, fill = black] (a){2}
+  child {
+  node [circle,draw,fill = red] (b) {1}
+	child{node[circle,draw, color=white, fill = black] (c) {NIL}}
+	child{node[circle,draw, color=white, fill = black] (d) {NIL}}
+    }
+  child{ node [circle,draw,fill =red] (e) {3}
+  	child{node[circle,draw, color=white, fill = black] (f) {NIL}}
+	child{node[circle,draw, color=white, fill = black] (g) {NIL}}
+};
+\end{tikzpicture}
+Then, after deleting 1, which was the last element added, the resulting tree is 
+
+\begin{tikzpicture}[level/.style={sibling distance=75mm/#1}]
+\node [circle,draw, color=white, fill = black] (a){2}
+ 	child{node[circle,draw, color=white, fill = black] (d) {NIL}}    
+  child{ node [circle,draw,fill =red] (e) {3}
+  	child{node[circle,draw, color=white, fill = black] (f) {NIL}}
+	child{node[circle,draw, color=white, fill = black] (g) {NIL}}
+};
+\end{tikzpicture}
+
+however, the tree we had before we inserted 1 in the first place was 
+
+\begin{tikzpicture}[level/.style={sibling distance=75mm/#1}]
+\node [circle,draw, color=white, fill = black] (a){3}
+  child{ node [circle,draw,fill =red] (e) {2}
+  	child{node[circle,draw, color=white, fill = black] (f) {NIL}}
+	child{node[circle,draw, color=white, fill = black] (g) {NIL}}
+	}
+ 	child{node[circle,draw, color=white, fill = black] (d) {NIL}};
+\end{tikzpicture}
+
+These two red black trees are clearly different
+
+\noindent\textbf{ Problem 13-1} \\
+\begin{enumerate}[a.]
+\item
+We need to make a new version of every node that is an ancestor of the node that is inserted or deleted.
+
+\item
+See the algorithm, PERSISTENT-TREE-INSERT
+
+\begin{algorithm}
+\caption{PERSISTENT-TREE-INSERT(T,k)}
+\begin{algorithmic}
+\State $x = T.root$
+\If{x==NIL}
+\State T.root = new node(key =k)
+\EndIf
+\While{$x\neq NIL$}
+\State y=x
+\If{k<x.key}
+\State x=  x.left
+\State y.left = copyof(x)
+\Else
+\State x= x.right
+\State y.right = copyof(x)
+\EndIf
+\EndWhile
+\State z = new node(key = k, p = y)
+\If{k < y.key}
+\State y.left = z
+\Else
+\State y.right = z
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\item
+Since the while loop will only run at most $h$ times, since the distance from $x$ to the root is increasing by 1 each time and bounded by the height. Also, since each interation only takes a constant amount of time and uses a constant amount of additional space, we have that both the time and space complexity are $O(h)$.
+
+
+\item
+When we insert an element, we need to make a new version of the root. So, any nodes that point to the root must have a new copy made so that they point to the new root. So, all nodes of depth 1 must be copied. Similarly, all nodes that point to those must have new copies so that have the correct version. So, all nodes of depth 2 must be copied. Similarly, all nodes must be copied. So, we have that we need at least $\Omega(n)$ time and additional space.
+
+\item
+Since the rebalancing operations can only change ancestors, and children of ancestors we only have to allocate at most $2h$ new nodes for each insertion, since the rest of the tree will be unchanged. This is of course assuming that we don't keep track of the parent pointers. This can be acheived by following the suggestions in 13.3-6 applied to both insert and delete. That is, we perform a search for the element where we store the $O(h)$ elements that are either ancestors or children of ancestors. Since these are the only nodes under consideration when doing the insertion and deletion procedure, then we can know their parents even though we aren't keeping track of the parent pointers for each node. Since the height stays $O(\lg(n))$, then, we have that everything can be done in $O(\lg(n))$.
+
+
+\end{enumerate}
+
+
+\noindent\textbf{ Problem 13-3} \\
+\begin{enumerate}[a.]
+\item
+Let $T(h)$ denote the minimum size of an AVL tree of height $h$.  Since it is height $h$, it must have the max of it's children's heights is equal to $h-1$. Since we are trying to get as few notes total as possible, suppose that the other child has as small of a height as is allowed. Because of the restriction of AVL trees, we have that the smaller child must be at least one less than the larger one, so, we have that $T(h) \ge T(h-1) + T(h-2) +1$ where the +1 is coming from counting the root node. We can get inequality in the opposite direction by simply taking a tree that acheives the minimum number of number of nodes on height $h-1$ and on $h-2$ and join them together under another node. So, we have that $T(h) = T(h-1)+T(h-2)+1$. Also, $T(0) = 0$, $T(1) = 1$. This is both the same recurrence and initial conditions as the Fibonacci numbers. So, recalling equation (3.25), we have that
+\[
+T(h) = \left\lfloor \frac{\phi^h}{\sqrt{5}} +\frac{1}{2} \right\rfloor \le n
+\]
+
+Rearranging for $h$, we have
+\begin{align*}
+\frac{\phi^h}{\sqrt{5}} -\frac{1}{2}  &\le n\\
+\phi^h  &\le\sqrt{5}\left( n + \frac{1}{2} \right)\\
+h &\le \frac{\lg(\sqrt{5}) + \lg(n + \frac{1}{2})}{\lg(\phi)} \in O(\lg(n))
+\end{align*}
+
+\item
+Let UNBAL(x) deonte x.left.h - x.right.h. Then, the algorithm BALANCE does what is desired. Note that because we are only rotating a single element at a time, the value of UNBAL(x) can only change by at most 2 in each step. Also, it must eventually start to change as the tree that was shorter becomes saturated with elements. We also fix any breaking of the AVL property that rotating may of caused by our recursive calls to the children.
+\begin{algorithm}
+\caption{BALANCE(x)}
+\begin{algorithmic}
+\While{$|UNBAL(x)| >1$}
+\If{$UNBAL(x) >0$}
+\State RIGHT-ROTATE(T,x)
+\Else
+\State LEFT-ROTATE(T,x)
+\EndIf
+\State BALANCE(x.left)
+\State BALANCE(x.right)
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+
+\item
+For the given algorithm AVL-INSERT(x,z), it correctly maintains the fact that it is a BST by the way we search for the correct spot to insert $z$. Also, we can see that it maintains the property of being AVL, because after inserting the element, it checks all of the parents for the AVL property, since those are the only places it could of broken. It then fixes it and also updates the height attribute for any of the nodes for which it may of changed.
+\begin{algorithm}
+\caption{AVL-INSERT(x,z)}
+\begin{algorithmic}
+\State w = x
+\While{$w\neq NIL$}
+\State y = w
+\If{$z.key > y.key$}
+\State w= w.right
+\Else
+\State w = w.left
+\EndIf
+\EndWhile
+\State
+\If{$z.key > y.key$}
+\State y.right = z
+\If{y.left = NIL}
+\State y.h = 1
+\EndIf
+\Else
+\State y.left = z
+\If{y.right = NIL}
+\State y.h = 1
+\EndIf
+\EndIf
+\While{$y\neq x$}
+\State $y.h = 1 + \max\{y.left.h,y.right.h\}$
+\If{$y.left.h > y.right.h +1$}
+\State RIGHT-ROTATE(T,y)
+\EndIf
+\If{$y.right.h > y.left.h +1$}
+\State LEFT-ROTATE(T,y)
+\State y= y.p
+\EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\item
+Since both for loops only run for $O(h) = O(\lg(n))$ iterations, we have that that is the runtime. Also, only a single rotation will occur in the second while loop because when we do it, we will be decreasing the height of the subtree rooted there, which means that it's back down to what it was before, so all of it's ancestors will have unchanged heights, so, no further balancing will be required.
+
+
+\end{enumerate}
+
+
 
 \end{document} 
