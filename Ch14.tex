@@ -1,0 +1,120 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{tikz}
+
+
+	
+\pagestyle{fancy}
+\title{Chapter 14}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{ Exercise 14.1-1} \\
+
+The call sequance is:
+
+$
+\begin{array}{l}
+OS-SELECT(T.root,10)\\
+OS-SELECT(T.root.left,10)\\
+OS-SELECT(T.root.left.right,2)\\
+OS-SELECT(T.root.left.right.left,2)\\
+OS-SELECT(T.root.left.right.left.right,1)\\
+\end{array}
+$
+
+Then, we have that the node (with key 20) that is returned is $T.root.left.right.left.right$
+\noindent\textbf{ Exercise 14.1-3} \\
+See the algorithm OS-SELECT'
+\begin{algorithm}
+\caption OS-SELECT'(x,i)
+\begin{algorithmic}
+\State r = x.left.size
+\While{$i\neq r$}
+\If{$i>r$}
+\State x = x.right
+\State i = i-r
+\Else
+\State x=x.left
+\EndIf
+\State{r = x.left.size}
+\EndWhile
+\State \Return x
+\end{algorithmic}
+\end{algorithm}
+
+\noindent\textbf{ Exercise 14.1-5} \\
+
+The desired result is OS-SELECT(T,OS-RANK(T,x)+i). This has runtime O(h), which by the properties of red black trees, is $O(\lg(n))$.\\
+
+\noindent\textbf{ Exercise 14.1-7} \\
+See the algorithm INV-COUNT(L). It does assume that all the elements of the list are distinct. To adapt it to the not neccesarily distinct case, each time that the we do the search, we should be selecting the element with that key that comes first in an inorder traversal.\\
+
+
+\begin{algorithm}
+\caption{INV-COUNT(L)}
+\begin{algorithmic}
+\State{Construct an order statistic tree $T$ for all the elements in $L$}
+\State{t = -|L|}
+\For{i from 0 to |L|-1}
+\State{t = t+ OS-RANK(T,SEARCH(T,L[i]))}
+\State{remove the node corresponding to L[i] from T}
+\EndFor
+\State \Return t
+\end{algorithmic}
+\end{algorithm}
+
+\noindent\textbf{ Exercise 14.2-1} \\
+Along all the nodes in an inorder traversal, add a prev and succ pointer. If we keep the head to be the first node, and, make it circularly linked, then this clearly allows for the four operations to work in constant time. We still need to be sure to maintain this linked list structure throughout all the tree modifications. Suppose we insert a node into the BST to be a left child, then we can insert it into this doubly linked list immediately before it's parent, which can be done in constant time. Similarly, if it is a right child, then we would insert it immediately after its parent. Deletion of the element is just the usual deletion in a linked list.\\
+
+
+\noindent\textbf{ Exercise 14.2-3} \\
+After performing the rotate operation, starting at the deeper of the two nodes that were moved by the rotate, say x, set $x.f  = x.left.f \otimes x.a \otimes x.right.f$. Then, do the same thing for the higher up node in the rotation. For size, instead set $x.size = x.left.size+ x.right.size + 1$ and then do the same for the higher up node after the rotation.\\
+
+\noindent\textbf{ Exercise 14.3-1} \\
+after rearranging the nodes, starting with the lower of the two nodes moved, set it's max attribute to be the maximum of its right endpoint and the the two max attributes of its children. Do the same for the higher up of the two moved nodes.\\
+
+
+\noindent\textbf{ Exercise 14.3-3} \\
+Consider the usual interval search given, but, instead of breaking out of the loop asa soon as we have an overlap, we just keep track of the most recently seen overlap, and keep going in the loop until we hit $T.nil$. We then return the most recently seen overlap. We have that this is the overlapping interval with minimum left end point because the search always goes to the left it contains an overlapping interval, and the left children are the ones with smaller left endpoint.\\
+
+\noindent\textbf{ Exercise 14.3-5} \\
+We could modify the interval tree insertion procedure to, once you find a place to put the given interval, then we perforn an insertion procedure based on the right hand endpoints. Then, to perform INTERVAL-SEARCH-EXACTLY(T,i) first perform a search for the left hand endpoint, then, perform a search for the right hand endpoint based on the BST rooted at this node for the right hand endpoint, stopping the search if we ever come across a element with a different left hand endpoint.\\
+
+
+
+\noindent\textbf{ Exercise 14.3-7} \\
+Let $L$ be the set of left coordinates of rectangles. Let $R$ be the set of right coordinates of rectangles. Sort both of these sets in $O(n\lg(n))$ time. Then, we will have a pointer to $L$ and a pointer to $R$. If the pointer to $L$ is smaller, call interval search on $T$ for the up-down interval corresponding to this left hand side. If it contains something that intersects the up-down bounds of this rectangle, there is an intersection, so stop. Otherwise add this interval to $T$ and increment the pointer to $L$. If $R$ is the smaller one, remove the up-down interval that that right hand side corresponds to and increment the pointer to $R$. Since all the interval tree operations used run in time $O(\lg(n))$ and we only call them at most $3n$ times, we have that the runtime is $O(n\lg(n))$.\\
+
+\noindent\textbf{ Problem 14-1} \\
+\begin{enumerate}[a.]
+\item 
+Suppose we have a point of maximum overlap $p$. Then, as long as we imagine moving the point $p$ but don't pass any of the endpoints of any of the intervals, then we won't be changing the number of intervals containing $p$. So, we just move it to the right until we hit the endpoint of some interval, then, we have a point of maximum overlap that is the endpoint of an interval.
+
+\item
+We will present a simple solution to this problem that runs in time $O(n\lg(n))$ which doesn't augment a red-black tree even though that is what is suggested by the hint. Consider a list of elements so that each element has a integer $x.pos$ and a field that says whether it is a left endpoint or a right endpoint $x.dir = L$ or $R$. Then, sort this list on the pos attribute of each element. Then, run through the list with a running total of how many intervals you are currently in, subtracting one for each right endpoint and adding one for each left endpoint. Also keep track of the running max of these values, and the endpoint that has that value. Then, this point that attains the running max is what should be returned.
+
+\end{enumerate}
+
+
+
+\end{document} 
