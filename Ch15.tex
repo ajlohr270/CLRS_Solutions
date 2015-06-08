@@ -9,6 +9,7 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{amssymb}
+\usepackage{tikz}
 	
 \pagestyle{fancy}
 \title{Chapter 15}
@@ -28,16 +29,303 @@
 
 \noindent\textbf{Exercise 15.1-1}\\
 
-\noindent\textbf{Exercise 15.1-1}\\
+Procede by induction. The base case of $T(0) = 2^0 = 1$. Then, we apply the inductive hypothesis and recall equation (A.5) to get that
+\[
+T(n) = 1+ \sum_{j=0}^{n-1} T(j) = 1+  \sum_{j=0}^{n-1} 2^j = 1 + \frac{2^{n}-1}{2-1} = 1+ 2^n-1 = 2^n
+\]
+
+\noindent\textbf{Exercise 15.1-3}\\
+Now, instead of equation (15.1), we have that
+\[
+r_n = \max\{p_n,r_1+r_{n-1}-c,r_2+r_{n-2}-c,\ldots,r_{n-1}+r_{1}-c\}
+\]
+
+And so, to change the top down solution to this problem, we would change MEMOIZED-CUT-ROD-AUX(p,n,r) as follows. The upper bound for i on line 6 should be $n-1$ instead of $n$.Also, after the for loop, but before line 8, set $q = \max\{q-c,p[i]\}$.
+
+\noindent\textbf{Exercise 15.1-5}\\
+The subproblem graph for $n=4$ looks like
+
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
+\node [circle,draw] (a){4}
+  child {
+  node [circle,draw] (b) {2}
+    child {
+    node [circle,draw] (c) {0}
+      }
+    child {
+    node [circle,draw] (f) {1}
+  }
+  }
+  child {
+  node [circle,draw] (i) {3}
+    child {
+    node [circle,draw] (j) {1}
+      }
+    child {
+    node [circle,draw] (m) {2}
+        child {
+            node [circle,draw] (n) {0}
+        }
+            child {
+                node [circle,draw] (o) {1}
+            }
+  }
+  };
+\end{tikzpicture}
+
+The number of vertices in the tree to compute the $n$th Fibonacci will follow the recurrence
+\[
+V(n) = 1+  V(n-2) + V(n-1)
+\]
+
+And has initial condition $V(1) = V(0) = 1$. This has solution $V(n) = 2*Fib(n) -1$ which we will check by direct substitution. For the base cases, this is simple to check. Now, by induction, we have
+\[
+V(n) = 1 + 2*Fib(n-2) -1 + 2*Fib(n-1) -1 = 2*Fib(n) -1
+\]
+
+The number of edegs will satisfy the recurrence
+\[
+E(n) = 2 + E(n-1) + E(n-2)
+\]
+and having base cases $E(1)= E(0)= 0$. So, we show by induction that we have $E(n) = 2*Fib(n) -2$. For the base cases it clearly holds, and by induction, we have
+\[
+E(n) = 2 + 2*Fib(n-1) -2 + 2*Fib(n-2) -2 = 2*Fib(n)-2
+\]
+
+
+
+We will present a $O(n)$ bottom up solution that only keeps track of the the two largest subproblems so far, since a subproblem can only depend on the solution to subproblems at most two less for Fibonacci.
+
+\begin{algorithm}
+\caption{DYN-FIB(n)}
+\begin{algorithmic}
+\State{prev = 1}
+\State{prevprev = 1}
+\If{$n\le1$}
+\State \Return 1
+\EndIf
+\For{i=2 upto n}
+\State tmp = prev + prevprev
+\State prevprev = prev
+\State prev = tmp
+\EndFor
+\State\Return prev
+\end{algorithmic}
+\end{algorithm}
 
 \noindent\textbf{Exercise 15.1-1}\\
+An optimal parenthesization of that sequence would be $(A_1 A_2)((A_3 A_4)(A_5A_6))$ which will require $5*50*6+3*12*5+5*10*3+3*5*6+5*3*6 = 1500 + 180 +150+90+90 = 2010$.\\
 
-\noindent\textbf{Exercise 15.1-1}\\
+\noindent\textbf{Exercise 15.1-3}\\
+By indution we will show that $P(n)$ from eq (15.6) is $\ge 2^{n} -1\in \Omega(2^n)$. The base case of n=1 is trivial. Then, for $n\ge 2$, by induction and eq (15.6), we have
+\[
+P(n) = \sum_{k=1}^{n-1} P(k) P(n-k) \ge \sum_{k=1}^{n-1} 2^{k} 2^{n-k} = (n-1) (2^{n} -1) \ge 2^n -1 
+\]
+So, the conclusion holds.\\
 
-\noindent\textbf{Exercise 15.1-1}\\
 
-\noindent\textbf{Exercise 15.1-1}\\
 
-\noindent\textbf{Exercise 15.1-1}\\
+\noindent\textbf{Exercise 15.1-5}\\
+We count the number of times that we reference a different entry in $m$ than the one we are computing, that is, 2 times the number of times that line 10 runs.
+\begin{align*}
+ \sum_{l=2}^n \sum_{i=l}^{n-l+1} \sum_{k=i}^{i+l-2} 2 =  \sum_{l=2}^n \sum_{i=1}^{n-l+1} (l-1)2 &= \sum_{l=2}^n 2(l-1)(n-l+1) \\
+ &= \sum_{l=1}^{n-1} 2l(n-l)\\
+ &= 2n \sum_{l=1}^{n-1} l - 2 \sum_{l=1}^{n-1} l^2\\
+ &= n^2(n-1) - \frac{(n-1)(n)(2n-1)}{3}\\
+ &= n^3 -n^2 - \frac{2n^3-3n^2+n}{3}\\
+ &= \frac{n^3-n}{3}
+\end{align*}
+
+
+\noindent\textbf{Exercise 15.3-1}\\
+The runtime of of enumerating is just $n*P(n)$, while is we were running RECURSIVE-MATRIX-CHAIN, it would also have to run on all of the internal nodes of the subproblem tree. Also, the enumeration approach wouldn't have as much overhead.\\
+
+\noindent\textbf{Exercise 15.3-3}\\
+This modification of the matrix-chain-multiplication problem does still exhibit the optimal substructure property. Suppose we split a maximal multiplication of $A_1, \ldots,A_n$ between $A_k$ and $A_{k+1}$ then, we must have a maximal cost multiplication on either side, otherwise we could substitute in for that side a more expensive multiplication of $A_1,\ldots,A_n$.\\
+
+\noindent\textbf{Exercise 15.3-5}\\
+The optimal substructure property doesn't hold because the number of pieces of length $i$ used on one side of the cut affects the number allowed on the other. That is, there is information about the particular solution on one side of the cut that changes what is allowed on the other.
+
+To make this more concrete, suppose the rod was length 4, the values were $l_1 = 2, l_2 = l_3= l_4 =1$, and each piece has the same worth regardless of length. Then, if we make our first cut in the middle, we have that the optimal soultion for the two rods left over is to cut it in the middle, which isn't allowed because it increases the total number of rods of length 1 to be too large.\\
+
+\noindent\textbf{Exercise 15.4-1}\\
+An LCS is $\langle 1,0,1,0,1,0\rangle$. A concise way of seeing this is by noticing that the first list contains a ``00'' while the second contains none, Also, the second list contains two copies of ``11'' while the first contains none. Inorder to reconcile this, any LCS will have to skip at least three elements. Since we managed to do this, we know that our common subsequence was maximal.\\
+
+\noindent\textbf{Exercise 15.4-3}\\
+
+\begin{algorithm}
+\caption{MEMO-LCS-LENGTH-AUX(X,Y,c,b)}
+\begin{algorithmic}
+\State{ m = $|X|$}
+\State{n = $|Y|$}
+\If{$c[m,n]!=0$ or $m==0$ or $n==0$}
+\State \Return
+\EndIf
+\If{$x_m == y_n$}
+\State $b[m,n] = \nwarrow$
+\State c[m,n] =MEMO-LCS-LENGTH-AUX(X[1,\ldots, m-1],Y[1,\ldots,n-1],c,b) +1
+\ElsIf{$MEMO-LCS-LENGTH-AUX(X[1,\ldots, m-1],Y,c,b) \ge MEMO-LCS-LENGTH-AUX(X,Y[1,\ldots,n-1],c,b)$}
+\State $b[m,n] = \uparrow$
+\State c[m,n] =MEMO-LCS-LENGTH-AUX(X[1,\ldots, m-1],Y,c,b)
+\Else
+\State $b[m,n] = \leftarrow$
+\State c[m,n] =MEMO-LCS-LENGTH-AUX(X,Y[1,\ldots,n-1],c,b) 
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{MEMO-LCS-LENGTH(X,Y)}
+\begin{algorithmic}
+\State{let c be a (passed by reference) $|X|$ by $|Y|$ array initiallized to 0}
+\State{let b be a (passed by reference) $|X|$ by $|Y|$ array}
+\State MEMO-LCS-LENGTH-AUX(X,Y,c,b)
+\State \Return c and b
+\end{algorithmic}
+\end{algorithm}
+
+
+\noindent\textbf{Exercise 15.4-5}\\
+Given a list of numbers $L$, make a copy of $L$ called $L'$ and then sort $L'$. Then, just run the LCS algorithm on these two lists. The longest common subsequnce must be monotone increasing because it is a subsequence of $L'$ which is sorted. It is also the longest monotonte increasing subsequence because being a subsequcene of $L'$ only adds the restriction that the subsequence must be monotone increasing. Since $|L|=|L'| =n$, and sorting $L$ can be done in $o(n^2)$ time, the final running time will be $O(|L||L'|) = O(n^2)$.\\
+
+\noindent\textbf{Exercise 15.5-1}\\
+Run the given algorithm with the initial arguemnt of $i=1$ and $j= m[1].length$.
+
+\begin{algorithm}
+\caption{CONSTRUCT-OPTIMAL-BST(root,i,j)}
+\begin{algorithmic}
+\If{$i>j$}
+\State \Return nil
+\EndIf
+\If{$i==j$}
+\State \Return a node with key $k_i$ and whose children are nil
+\EndIf
+\State let $n$ be a node with key $k_{root[i,j]}$
+\State n.left = CONSTRUCT-OPTIMAL-BST(root,i,root[i,j]-1)
+\State n.right = CONSTRUCT-OPTIMAL-BST(root,root[i,j]+1,j)
+\State \Return n
+\end{algorithmic}
+\end{algorithm}
+
+\noindent\textbf{Exercise 15.5-3}\\
+Each of the $\Theta(n^2)$ values of $w[i,j]$ would require computing those two sums, both of which can be of size $O(n)$, so, the asymptotic runtime would increase to $O(n^3)$.\\
+
+
+\noindent\textbf{Problem 15-1}\\
+Since any longest simple path must start by going through some edge out of $s$, and thereafter cannot pass through $s$ because it must be simple, that is, 
+\[
+LONGEST(G,s,t) = 1+\max_{s\sim s'} \{ LONGEST(G|_{V\setminus\{s\}},s',t)\}
+\]
+with the base case that if $s=t$ then we have a length of 0.
+
+A naive bound would be to say that since the graph we are considering is a subset of the vertices, and the other two arguments to the substructure are distinguished vertices, then, the runtime will be $O(|V|^2 2^{|V|})$. We can see that we can actually will have to consider this many possible subproblems by taking $|G|$ to be the complete graph on $|V|$ vertices.
+
+\noindent\textbf{Problem 15-3}\\
+First sort all the points based on their x coordinate. To index our subproblem, we will give the rightmost point for both the path going to the left and the path going to the right. Then, we have that the desired result will be the subproblem indexed by v,v where $v$ is the rightmost point.	Suppose by symmetry that we are further along on the left-going path, that the leftmost path is going to the $i$th one and the right going path is going until the $j$th one. Then, if we have that $i>j+1$, then we have that the cost must be the distance from the $i-1$st point to the $i$th plus the solution to the subproblem obtained where we replace $i$ with $i-1$. There can be at most $O(n^2)$ of these subproblem, but solving them only requires considering a constant number of cases. The other possibility for a subproblem is that $j\le i \le j+1$. In this case, we consider for every $k$ from 1 to $j$ the subproblem where we replace $i$ with $k$ plus the cost from $k$th point to the $i$th point and take the minimum over all of them. This case requires considering $O(n)$ things, but there are only $O(n)$ such cases. So, the final runtime is $O(n^2)$.\\
+
+\noindent\textbf{Problem 15-5}\\
+\begin{enumerate}[a.]
+\item
+We will index our subproblems by two integers, $1\le i \le m$ and $1\le j\le n$. We will let $i$ indicate the rightmost element of $x$ we have not processed and $j$ indicate the rightmost element of $y$ we have not yet found matches for. For a solution, we call $EDIT(x,y,i,j)$
+\begin{algorithm}
+\caption{EDIT(x,y,i,j)}
+\begin{algorithmic}
+\State let $m = x.length$ and $n = y.length$
+\If{$i=m$}
+\State \Return (n-j)cost(insert) 
+\EndIf
+\If{$j=n$}
+\State \Return $\min\{(m-i)cost(delete),cost(kill)\}$
+\EndIf
+\State $o_1, \ldots, o_5$ initialized to $\infty$
+\If{x[i] = y[j]}
+\State $o_1 = cost(copy) + EDIT(x,y,i+1,j+1)$
+\EndIf
+\State $o_2 = cost(replace) + EDIT(x,y,i+1,j+1)$
+\State $o_3 = cost(delete) + EDIT(x,y,i+1,j)$
+\State $o_4 = cost(insert) + EDIT(x,y,i,j+1)$
+\If{$i<m-1$ and $j<n-1$}
+\If{$x[i] = y[j+1]$ and $x[i+1] = y[j]$}
+\State $o_5 = cost(twiddle) + EDIT(x,y,i+2,j+2)$
+\EndIf
+\EndIf
+\State \Return $\min_{i\in [5]}\{o_i\}$
+\end{algorithmic}
+\end{algorithm}
+
+\item
+We will set $cost(delete) = cost(insert) = 2$, $cost(copy) = -1$, $cost(replace) = 1$, and $cost(twiddle) =cost(kill) = \infty$. Then a minimum cost translation of the first string into the second corresponds to an alignment. where we view a copy or a replace as incrementing a pointer for both strings. A insert as putting a space at the current position of the pointer in the first string. A delete operation means putting a space in the current position in the second string. Since twiddles and kills have infinite costs, we will have neither of them in a minimal cost solution. The final value for the alignment will be the negative of the minimum cost sequence of edits.
+\end{enumerate}
+
+\noindent\textbf{Problem 15-7}\\
+\begin{enumerate}[a.]
+\item Our substructure will consist of trying to find suffixes of s of length one less starting at all the edges leaving $\nu_0$ with label $\sigma_0$. if any of them have a solution, then, there is a solution. If none do, then there is none. See the algorithm VITERBI for details.
+\begin{algorithm}
+\caption{$VITERBI(G,s,\nu_0)$}
+\begin{algorithmic}
+\If{s.length = 0}
+\State \Return $\nu_0$
+\EndIf
+\For{ edges $(\nu_0,\nu_1)\in V$ for some $\nu_1$}
+\If{$\sigma(\nu_0,\nu_1) = \sigma_1$}
+\State $res = VITERBI(G,(\sigma_2, \ldots, \sigma_k), \nu_1)$
+\If{res != NO-SUCH-PATH}
+\State \Return $\nu_0, res$
+\EndIf
+\EndIf
+\EndFor
+\State \Return NO-SUCH-PATH
+\end{algorithmic}
+\end{algorithm}
+
+Since the subproblems are indexed by a suffix of s (of which there are only k) and a vertex in the graph, there are at most $O(k|V|)$ different possible arguments. Since each run may require testing a edge going to every other vertex, and each iteration of the for loop takes at most a constant amount of time other than the call to PROB=VITERBI, the final runtime is $O(k|V|^2)$
+
+\item
+For this modification, we will need to try all the possible edges leaving from $\nu_0$ instead of stopping as soon as we find one that works. The substructure is very similar. We'll make it so that instead of just returning the sequence, we'll have the algorithm also return the probability of that maximum probability sequence, calling the fields seq and prob respectively. See the algorithm PROB-VITERBI
+\begin{algorithm}
+\caption{$PROB-VITERBI(G,s,\nu_0)$}
+\begin{algorithmic}
+\If{s.length = 0}
+\State \Return $\nu_0$
+\EndIf
+\State let $sols.seq = NO-SUCH-PATH$, and $sols.prob = 0$
+\For{ edges $(\nu_0,\nu_1)\in V$ for some $\nu_1$}
+\If{$\sigma(\nu_0,\nu_1) = \sigma_1$}
+\State $res = PROB-VITERBI(G,(\sigma_2, \ldots, \sigma_k), \nu_1)$
+\If{$p(\nu_0,\nu_1)\cdot res.prob >= sols.prob$}
+\State $sols.prob = p(\nu_0,\nu_1)\cdot res.prob$ and $sols.seq = \nu_0,res.seq$
+\EndIf
+\EndIf
+\EndFor
+\State \Return sols
+\end{algorithmic}
+\end{algorithm}
+
+Since the runtime is indexed by the same things, we have that we will call it with at most $O(k|V|)$ different possible arguments. Since each run may require testing a edge going to every other vertex, and each iteration of the for loop takes at most a constant amount of time other than the call to PROB=VITERBI, the final runtime is $O(k|V|^2)$
+
+\end{enumerate}
+
+\noindent\textbf{Problem 15-9}\\
+
+The subproblems will be indexed by contiguous subarrays of the arrays of cuts needed to be made. We try making each possible cut, and take the one with cheapest cost. Since there are $m$ to try, and there are at most $m^2$ possible things to index the subproblems with, we have that the $m$ dependence is that the solution is $O(m^3)$. Also, since each of the additions is of a number that is $O(n)$, each of the iterations of the for loop may take time $O(\lg(n)+\lg(m))$, so, the final runtime is $O(m^3\lg(n))$. The given algorithm will return (cost,seq) where cost is the cost of the cheapest sequence, and seq is the sequence of cuts to make
+\begin{algorithm}
+\caption{CUT-STRING(L,i,j,l,r)}
+\begin{algorithmic}
+\If{$l=r$}
+\State \Return (0,[])
+\EndIf
+\State $mincost =\infty$
+\For{k from i to j}
+\If{$l+r + CUT-STRING(L,i,k,l,L[k]).cost + CUT-STRING(L,k,j,L[k],j).cost < mincost$}
+\State $mincost = l+r + CUT-STRING(L,i,k,l,L[k]).cost + CUT-STRING(L,k,j,L[k],j).cost$
+\State $minseq =$ $L[k]$ concatenated with the sequence returned from$ CUT-STRING(L,i,k,l,L[k])$ and from $CUT-STRING(L,i,k,l,L[k])$
+\EndIf
+\EndFor
+\State \Return (mincost,minseq)
+\end{algorithmic}
+\end{algorithm}
+
+\noindent\textbf{Problem 15-11}\\
+Our subproblems will be indexed by and integer $i\in[n]$ and another integer $j\in[D]$. $i$ will indicate how many months have passed, that is, we will restrict ourselves to only caring about $(d_i, \ldots,d_n)$. $j$ will indicate how many machines we have in stock initially. Then, the recurrence we will use will try producing all possible numbers of machines from $1$ to $[D]$. Since the index space has size $O(nD)$ and we are only running through and taking the minimum cost from $D$ many options when computing a particular subproblem, the total runtime will be $O(nD^2)$.  
 
 \end{document}
