@@ -12,7 +12,7 @@
 \usepackage{tikz}
 	
 \pagestyle{fancy}
-\title{Chapter 15}
+\title{Chapter 16}
 \author{Michelle Bodnar, Andrew Lohr}
 
 \newcounter{curnum}
@@ -27,6 +27,171 @@
 \begin{document}
 \maketitle
 
-\noindent\textbf{Exercise 15.1-1}\\
-\
+\noindent\textbf{Exercise 16.1-1}\\
+The given algorithm would just stupidly compute the minimum of the $O(n)$ numbers or return zero depending on the size of $S_{ij}$. There are a possible number of subproblems that is $O(n^2)$ since we are selecting $i$ and $j$ so that $1\le i \le j\le n$. So, the runtime would be $O(n^3)$. 
+
+\noindent\textbf{Exercise 16.1-3}\\
+As a counterexample to the omtimality of greedily selecting the shortest, suppose our activity times are $\{(1,9),(8,11),(10,20)\}$ then, picking the shortest first, we hahve to eliminate the other two, where if we picked the other two instead, we would have two tasks not one.
+
+As a counterexample to the optimality of greedily selecting the task that conflicts with the fewest remaining activities, suppose the activity times are $\{(-1,1),(2,5),(0,3),(0,3),(0,3),(4,7),(6,9),(8,11),(8,11),(8,11),(10,12)\}$. Then, by this greedy strategy, we would first pick $(4,7)$ since it only has a two conflicts. However, doing so would mean that we would not be able to pick the only optimal solution of $(-1,1),(2,5),(6,9),(10,12)$.
+
+As a counterexample to the optimality of greedily selecting the earliest start times, suppose our activity times are $\{(1,10),(2,3),(4,5)\}$. If we pick the earliest start time, we will only have a single activity, $(1,10)$, whereas the optimal solution would be to pick the two other activities.\\
+
+\noindent\textbf{Exercise 16.1-5}\\
+Run a dynamic programming solution based off of the equation (16.2) where the second case has ``1'' replaced with ``$v_k$''. Since the subproblems are still indexed by a pair of activities, and each calculation requires taking the minimum over some set of size $\le |S_{ij}| \in O(n)$. The total runtime is bounded by $O(n^3)$.
+
+\noindent\textbf{Exercise 16.2-1}\\
+A optimal solution to the fractional knapsack is one that has the highest total value density. Since we are always adding as much of the highest value density we can, we are going to end up with the highest total value density. Suppose that we had some other solution that used some amount of the lower value density object, we could substitute in some of the higher value density object meaning our original solution coud not of been optimal.\\
+
+\noindent\textbf{Exercise 16.2-3}\\
+At each step just pick the lightest (and most valuable) item that you can pick. To see this solution is optimal, suppose that there were some item $j$ that we included but some smaller, more valuable item $i$ that we didn't. Then, we could replace the item $j$ in our knapsack with the item $i$. it will definitely fit because $i$ is lighter, and it will also increase the total value because $i$ is more valuable.\\
+
+\noindent\textbf{Exercise 16.2-5}\\
+Consider the leftmost interval. It will do no good if it extends any further left than the leftmost point, however, we know that it must contain the leftmost point. So, we know that it's left hand side is exactly the leftmost point. So, we just remove any point that is within a unit distance of the left most point since they are contained in this single interval. Then, we just repeat until all points are covered. Since at each step there is a clearly optimal choice for where to put the leftmost interval, this final solution is optimal.\\
+
+\noindent\textbf{Exercise 16.2-7}\\
+Since an idential permutation of both sets doesn't affect this product, suppose that $A$ is sorted in ascending order. Then, we will prove that the product is maximized when $B$ is also sorted in ascending order. To see this, suppose not, that is, there is some $i < j$ so that $a_i<a_j$ and $b_i > b_j$. Then, consider only the contribution to the product from the indices $i$ and $j$. That is, $a_i^{b_i}a_j^{b_j}$, then, if we were to swap the order of $b_1$ and $b_j$, we would have that contribution be $a_i^{b_j}a_j^{b_i}$. we can see that this is larger than the previous expression because it differs by a factor of $(\frac{a_j}{a_i})^{b_i-b_j}$ which is bigger than one. So, we couldn't of maximized the product with this ordering on $B$.\\
+
+\noindent\textbf{Exercise 16.3-1}\\
+If we have that $x.freq = b.freq$, then we know that $b$ is tied for lowest frequency. In particular, it means that there are at least two things with lowest frequency, so $y.freq = x.freq$. Also, since $x.freq \le a.freq \le b.freq = x.freq$, we must have $a.freq = x.freq$.\\
+
+
+\noindent\textbf{Exercise 16.3-3}\\
+An optimal huffman code would be 
+\begin{align*}
+00000001 &\rightarrow a\\
+0000001 &\rightarrow b\\
+000001 &\rightarrow c\\
+00001 &\rightarrow d\\
+0001 &\rightarrow e\\
+001 &\rightarrow f\\
+01 &\rightarrow g\\
+1 &\rightarrow h\\
+\end{align*}
+
+This generalizes to having the first $n$ fibonacci numbers as the frequencies in that the $n$th most frequent letter has codeword $0^{n-1}1$. To see this holds, we will prove the recurrence 
+\[
+\sum_{i=0}^{n-1} F(i) = F(n+1)-1
+\]
+This will show that we should join together the letter with frequency $F(n)$ with the result of joining together the letters with smaller frequencies. We will prove it by induction. For $n=1$ is is trivial to check. Now, suppose that we have $n-1\ge1$, then, 
+\[
+F(n+1) - 1 = F(n) + F(n-1) -1 = F(n-1) + \sum_{i=0}^{n-2} F(i) = \sum_{i=0}^{n-1} F(i)
+\]
+
+\noindent\textbf{Exercise 16.3-5}\\
+We construct this codeword with monotonically increasing lengths by always resolving ties in terms of which two nodes to join together by joining together those with the two latest occurring earliest elements. We will show that the the depths of elements is always monotonically decreasing after every merge operation. Every charater is at depth 0 before any merges occur. Then, we have that 
+%notdone
+
+\noindent\textbf{Exercise 16.3-7}\\
+Instead of grouping together the two with lowest frequency into pairs that have the smallest total frequency, we will group together the three with lowest frequency in order to have a final result that is a ternary tree. The analysis of optimality is almost identical to the binary case. We are placing the symbols of lowest frequency lower down in the final tree and so they will have longer codewords than the more frequently occurring symbols\\
+
+\noindent\textbf{Exercise 16.3-9}\\
+If every possible character is equally likely, then, when constructing the Huffman code, we will end up with a complete binary tree of depth $7$. This means that every character, regardless of what it is will be represented using $7$ bits. This is exactly as many bits as was originally used to represent those characters, so the total length of the file will not decrease at all.\\
+
+\noindent\textbf{Exercise 16.4-1}\\
+The first condition that $S$ is a finite set is a given. To prove the second condition we assume that $k\ge 0$, this gets us that $\mathcal{I}_k$ is nonempty. Also, to prove the hereditary property, suppose $A\in \mathcal{I}_k$ this means that $|A| \le k$. Then, if $B\subseteq A$, this means that $|B| \le |A| \le k$, so $B\in \mathcal{I}_k$. Lastly, we porove the exchange property by letting $A,B\in\mathcal{I}_k$ be such that $|A|<|B|$. Then, we can pick any element $x \in B\setminus A$, then, $|A\cup\{x\}|  = |A|+1 \le |B| \le k$, so, we can extend $A$ to $A\cup \{x\}\in \mathcal{I}_k$.\\
+
+\noindent\textbf{Exercise 16.4-3}\\
+Condition one of being a matroid is still satisfied because the base set hasn't changed. Next we show that $\mathcal{I}'$ is nonempty. Let $A$ be any maximal element of $\mathcal{I}$ then, we have that $S - A \in \mathcal{I}'$ because $S - (S-A) = A\subseteq A$ which is maximal in $\mathcal{I}$. Next we show the hereditary property, suppose that $B \subseteq A \in \mathcal{I}'$, then, there exists some $A'\in\mathcal{I}$ so that $S - A \subseteq A'$, however, $S-B \supseteq S-A \subseteq A'$ so $B\in \mathcal{I}'$.
+
+Lastly we prove the exchange property. That is, if we have $B,A \in \mathcal{I}'$ and $|B|<|A|$ we can find an element $x$ in $A-B$ to add to $B$ so that it stays independent. We will split into two cases. 
+
+Our first case is that $|A| = |B|+1$. We clearly need to select $x$ to be the single element in $A-B$. Since $S-B$ contains a maximal independent set
+
+Our second case is if the first case does not hold. Let $C$ be a maximal independent set of $\mathcal{I}$ contained in $S-A$. Pick an aribitrary set of size $|C|-1$ from some maximal independent set contained in $S-B$, call it $D$. Since $D$ is a subset of a maximal independent set, it is also independent, and so, by the exchange property, there is some $y\in C-D$ so that $D\cup\{y\}$ is a maximal independent set in $\mathcal{I}$. Then, we select $x$ to be any element other than $y$ in $A-B$. Then, $S - (B\cup\{x\})$ will still contain $D\cup\{y\}$.\\
+%unsure
+\noindent\textbf{Exercise 16.4-5}\\
+Suppose that $W$ is the largest weight that any one element takes. Then, define the new weight function $w_2(x) = 1+ W - w(x)$. This then assigns a strictly positive weight, and we will show that any independent set that that has maximum weight with respect to $w_2$ will have minimum wwight with respect to $w$. Recall Theorem 16.6 since we will be using it, suppose that for our matriod, all maximal independent sets have size $S$. Then, suppose $M_1$ and $M_2$ are maximal independent sets so that $M_1$ is maximal with respect to $w_2$ and $M_2$ is minimal with respect to $w$. Then, we need to show that $w(M_1) = w(M_2)$. Suppose not to acheive a contradiction, then, by minimality of $M_2$, $w(M_1) > w (M_2)$. Rewriting both sides in terms of $w_2$, we have $w_2(M_2) - (1+W)S > w_2(M_1) - (1+W)S$, so, $w_2(M_2) > w_2(M_1)$. This however contradicts maximality of $M_1$ with respect to $w_2$. So, we must have that $w(M_1) = w(M_2)$. So, a maximal independent set that has the largest weight with respect to $w_2$ also has the smallest weight with respect to $w$.
+
+\noindent\textbf{Exercise 16.5-1}\\
+With the requested substitution, the instance of the problem becomes
+
+$
+\begin{array}{c|ccccccc}
+a_i&1&2&3&4&5&6&7\\
+\hline 
+d_i&4&2&4&3&1&4&6\\
+w_i &10&20&30&40&50&60&70
+\end{array}
+$
+
+We begin by just greedily constructing the matroid, adding the most costly to leave incomplete tasks first. So, we add taks 7,6,5,4,3. Then, in order to schedule tasks $1$ or $2$ we need to leave incomplete more important tasks. So, our final scedule is $\langle 5,3,4,6,7,1,2\rangle$ to have a total penalty of only $w_1+w_2=30$.\\
+
+
+\noindent\textbf{Problem 16-1}\\
+\begin{enumerate}[a.]
+\item
+Always give the highest denomination coin that you can without going over. Then, repeat this process until the amount of remaining change drops to 0.
+\item
+Given an optimal solution $(x_0,x_1,\ldots,x_k)$ where $x_i$ indicates the number of coins of denomination $c^i$. We will first show that we must have $x_i<c$ for every $i<k$. Suppose that we had some $x_i\ge c$, then, we could decrease $x_i$ by $c$ and increase $x_{i+1}$ by 1. This collection of coins has the same value and has $c-1$ fewer coins, so the original solution must of been non-optimal. This configuration of coins is exactly the same as you would get if you kept greedily picking the largest coin possible. This is because to get a total value of V, you would pick $x_k = \lfloor Vc^{-k}\rfloor$ and for $i<k$, $x_i\lfloor(V mod c^{i+1})c^{-i}\rfloor$. This is the only solution that satisfies the property that there aren't more than c of any but the largest denomination because the coin amounts are a base c representation of $V mod c^k$.
+\item
+Let the coin denominations be $\{1,3,4\}$, and the value to make change for be 6. The greedy solution would result in the collection of coins $\{1,1,4\}$ but the optimal solution would be $\{3,3\}$.
+\item
+See algorithm MAKE-CHANGE(S,v) which does a dynamic programming solution. Since the first forloop runs n times, and the inner for loop runs k times, and the later while loop runs at most n times, the total running time is $O(nk)$.
+\begin{algorithm}
+\caption{MAKE-CHANGE(S,v)} 
+\begin{algorithmic}
+\State Let $numcoins$ and $coin$ be empty arrays of length $v$, and any any attempt to access them at indices in the range $-\max(S),-1$ should return $\infty$
+\For{i from 1 to v}
+\State bestcoin =nil
+\State $bestnum = \infty$
+\For{c in S}
+\If{$numcoins[i-c]+1<bestnum$}
+\State bestnum = numcoins[i-c]
+\State bestcoin = c
+\EndIf
+\EndFor
+\State numcoins[i] = bestnum
+\State coin[i] = bestcoin
+\EndFor
+\State let change be an empty set
+\State iter = v
+\While{$iter>0$}
+\State add coin[iter] to change
+\State $iter= iter - coin[iter]$
+\EndWhile
+\State\Return change
+\end{algorithmic}
+\end{algorithm}
+\end{enumerate}
+
+\noindent\textbf{Problem 16-3}\\
+\begin{enumerate}[a.]
+\item
+First, suppose that a set of columns is not linearly independent over $\mathbb{F}_2$ then, there is some subest of those columns, say $S$ so that a linear combination of $S$ is 0. However, over $\mathbb{F}_2$, since the only two elements are 1 and 0, a linear combination is a sum over some subset. Suppose that this subset is $S'$, note that it has to be nonempty because of linear dependence. Now, consider the set of edges that these columns correspond to. Since the columns had their total incidence with each vertex 0 in $\mathbb{F}_2$, it is even. So, if we consider the subgraph on these edges, then every vertex has a even degree. Also, since our $S'$ was nonempty, some component has an edge. Restrict our attention to any such component. Since this component is connected and has all even vertex degrees, it contains an Euler Circuit, which is a cycle.
+
+Now, suppose that our graph had some subset of edges which was a cycle. Then, the degree of any vertex with respect to this set of edges is even, so, when we add the corrseponding columns, we will get a zero column in $\mathbb{F}_2$.
+
+Since sets of linear independent columns form a matroid, by problem 16.4-2, the acyclic sets of edges form a matroid as well.
+\item
+One simple approach is to take the highest weight edge that doesn't complete a cycle. Another way to phrase this is by running Kruskal's algorithm (see Chapter 23) on the graph with negated edge weights.
+\item
+Consider the digraph on $[3]$ with the edges $(1,2),(2,1),(2,3),(3,2),(3,1)$ where $(u,v)$ indicates there is an edge from $u$ to $v$. Then, consider the two acyclic subsets of edges $B = (3,1),(3,2),(2,1)$ and $A = (1,2),(2,3)$. Then, adding any edge in $B-A$ to $A$ will create a cycle. So, the exchange property is violated.
+\item
+Suppose that the graph contained a directed cycle consisting of edges corresponding to columns $S$. Then, since each vertex that is involved in this cycle has exactly as many edges going out of it as going into it, the rows corresponding to each vertex will add up to zero, since the outgoing edges count negative and the incoming vertices count positive. This means that the sum of the columns in $S$ is zero, so, the columns were not linearly independent.
+
+
+\item
+There is not a perfect correspondence because we didn't show that not containing a directed cycle means that the columns are linearly independent, so there is not perfect correspondence between these sets of independent columns (which we know to be a matriod) and the acyclic sets of edges (which we know not to be a matroid).
+\end{enumerate}
+
+
+\noindent\textbf{Problem 16-5}\\
+\begin{enumerate}[a.]
+\item
+Suppose there are $m$ distinct elements that could be requested. There may be some room for improvement in terms of keeping track of the furthest in future element at each position. If you maintain a (double circular) linked list with a node for each possible cache element and an array so that in index $i$ there is a pointer corresponding to the node in the linked list corrrespondig to the possible cache request $i$. Then, starting with the elements in an arbitrary order, process the sequence $\langle r_1,\ldots, r_n\rangle$ from right to left. Upon processing a request move the node corrseponding to that request to the beginning of the linked list and make a note in some other array of length $n$ of the element at the end of the linked list. This element is tied for furthest-in-future. Then, just scan left to right through the sequence, each time just checking some set for which elements are currently in the cache. It can be done in constant time to check if an element is in the cache or not by a direct address table. If an element need be evicted, evict the furthest-in-future one noted earlier. This algorithm will take time $O(n+m)$ and use additional space $O(m+n)$. If we were in the stupid case that $m>n$, we could restrict our attention to the possible cache requests that actually happen, so we have a solution that is $O(n)$ both in time and in additional space required.
+
+\item
+Index the subproblems $c[i,S]$ by a number $i\in [n]$ and a subset $S \in \binom{[m]}{k}$. Which indicates the lowest number of misses that can be acheived with an initial cache of $S$ starting after index $i$. Then, 
+\[
+c[i,S] = \min_{x\in\{S\}} (c[i+1,\{r_i\}\cup(S-\{x\})] + (1-\chi_{\{r_i\}}(x)) )
+\]
+which means that $x$ is the element that is removed from the cache unless it is the current element being accessed, in chiech case there is no cost of eviction.
+
+\item
+At each time we need to add something new, we can pick which entry to evict from the cache. By picking to evict the element that is used furthest in the future, the
+%incomplete
+
+\end{enumerate}
+
 \end{document}
