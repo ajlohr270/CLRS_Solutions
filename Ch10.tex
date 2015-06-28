@@ -29,6 +29,7 @@
 \maketitle
 
 \noindent\textbf{ Exercise 10.1-1} \\
+
 $
 \begin{array}{|c|c|c|}
 \hline
@@ -45,10 +46,58 @@ $
 4&1&\\
 \hline
 \end{array}
-$
+$\\
+
+\noindent\textbf{Exercise 10.1-2}\\
+
+We will call the stacks $T$ and $R$. Initially, set $T.top = 0$ and $R.top = n+1$.  Essentially, stack $T$ uses the first part of the array and stack $R$ uses the last part of the array.  In stack $T$, the top is the rightmost element of $T$.  In stack $R$, the top is the leftmost element of $R$. 
+\begin{algorithm}
+\caption{PUSH(S,x)}
+\begin{algorithmic}[1]
+\If{$S == T$}
+	\If{$T.top + 1 == R.top$}
+		\State \textbf{error} ``overflow''
+	\Else
+		\State $T.top = T.top + 1$
+		\State $T[T.top] = x$
+	\EndIf
+\EndIf
+\If{$S == R$}
+	\If{$R.top - 1 == T.top$}
+		\State \textbf{error} ``overflow''
+	\Else
+		\State $R.top = R.top - 1$
+		\State $T[T.top] = x$
+	\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{POP(S)}
+\begin{algorithmic}
+\If{$S==T$}
+	\If{$T.top == 0$}
+		\State \textbf{error} ``underflow''
+	\Else
+		\State $T.top = T.top - 1$. 
+		\State \textbf{return} $T[T.top + 1]$
+	\EndIf
+\EndIf
+\If{$S==R$}
+	\If{$R.top == n+1$}
+		\State \textbf{error} ``underflow''
+	\Else
+		\State $R.top = R.top + 1$. 
+		\State \textbf{return} $R[R.top - 1]$
+	\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
 
 
 \noindent\textbf{ Exercise 10.1-3} \\
+
 $
 \begin{array}{|c|c|c|c|}
 \hline
@@ -67,9 +116,41 @@ $
 \end{array}
 $
 
+\noindent\textbf{Exercise 10.1-4}\\
 
+\begin{algorithm}
+\caption{ENQUEUE}
+\begin{algorithmic}
+\If{$Q.head == Q.tail + 1$, or $Q.head == 1$ and $Q.tail == Q.length}$
+	\State \textbf{error} ``overflow''
+\EndIf
+\State $Q[Q.tail] = x$
+\If{$Q.tail == Q.length$}
+	\State $Q.tail = 1$
+\Else
+	\State $Q.tail = Q.head + 1$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{DEQUEUE}
+\begin{algorithmic}
+\If{$Q.tail == Q.head$}
+	\State \textbf{error} ``underflow''
+\EndIf
+\State $x = Q[Q.head]$
+\If{$Q.head == Q.length$}
+	\State $Q.head = 1$
+\Else
+	\State $Q.head = Q.head + 1$
+\EndIf
+\State \textbf{return} $x$
+\end{algorithmic}
+\end{algorithm}
 
 \noindent\textbf{ Exercise 10.1-5} \\
+
 As in the example code given in the section, we will neglect to check for overflow and underflow errors.
 
 \begin{algorithm}
@@ -120,24 +201,43 @@ As in the example code given in the section, we will neglect to check for overfl
 \end{algorithmic}
 \end{algorithm}
 
+\noindent\textbf{Exercise 10.1-6}\\
 
+The operation enqueue will be the same as pushing an element on to stack 1.  This operation is $O(1)$. To dequeue, for each element on stack 1 we pop it off, and push it onto stack 2.  Then swap the names of the stacks, pop an element off of stack 1, and return it. This operation is $O(n)$. \\
 
 \noindent\textbf{ Exercise 10.1-7} \\
+
 The following is a way of implementing a stack using two queues, where pop takes linear time, and push takes constant time. The first of these ways, consists of just enqueueing each element as you push it. Then, to do a pop, you dequque each element from one of the queues and place it in the other, but stopping just before the last element. Then, return the single element left in the original queue.\\
 
 
 
 \noindent\textbf{ Exercise 10.2-1} \\
+
 To insert an element in constant time, just add it to the head by making it point to the old head and have it be the head. To delete an element, it needs linear time because there is no way to get a pointer to the previous element in the list without starting at the head and scanning along.\\
+
+\noindent\textbf{Exercise 10.2-2}\\
+
+The PUSH(L,x) operation is exactly the same as LIST-INSERT(L,x).  The POP operation sets $x$ equal to $L.head$, calls LIST-DELETE(L,L.head), then returns $x$. \\
 
 
 \noindent\textbf{ Exercise 10.2-3} \\
+
 In addition to the head, also keep a pointer to the last element in the linked list. To enqueue, insert the element after the last element of the list, and set it to be the new last element. To dequeue, delete the first element of the list and return it.\\
 
+\noindent\textbf{Exercise 10.2-4}\\
+
+First let $L.nil.key = k$.  Then run LIST-SEARCH' as usual, but remove the check that $x \neq L.nil$. \\
+
 \noindent\textbf{ Exercise 10.2-5} \\
+
 To insert, just do list insert before the current head, in constant time. To search, start at the head, check if the element is the current node being inspected, check the next element, and so on until at the end of the list or you found the element. This can take linear time in the worst case. To delete, again linear time is used because there is no way to get to the element immediately before the current element without starting at the head and going along the list.\\
 
+\noindent\textbf{Exercise 10.2-6}\\
+
+Let $L_1$ be a doubly linked list containing the elements of $S_1$ and $L_2$ be a doubly linked list containing the elements of $S_2$.  We implement UNION as follows: Set $L_1.nil.prev.next = L_2.nil.next$ and $L_2.nil.next.prev = L_1.nil.prev$ so that the last element of $L_1$ is followed by the first element of $L_2$.  Then set $L_1.nil.prev = L_2.nil.prev$ and $L_2.nil.prev.next = L_1.nil$, so that $L_1.nil$ is the sentinal for the doubly linked list containing all the elements of $L_1$ and $L_2$. \\
+
 \noindent\textbf{ Exercise 10.2-7} \\
+
 \begin{algorithm}
 \caption{REVERSE(L)}
 \begin{algorithmic}
@@ -153,8 +253,45 @@ To insert, just do list insert before the current head, in constant time. To sea
 \end{algorithmic}
 \end{algorithm}
 
+\noindent\textbf{Exercise 10.2-8}\\
+
+We will store the pointer value for $L.head$ separately, for convenience.  In general, $A$ XOR $(A$ XOR $ C) = C$, so once we know one pointer's true value we can recover all the others (namely $L.head$) by applying this rule. Assuming there are at least two elements in the list, the first element will contain exactly the address of the second. 
+
+\begin{algorithm}
+\caption{LISTnp-SEARCH(L,k)}
+\begin{algorithmic}
+\State $p = NIL$
+\State $x=L.head$
+\While{$x \neq NIL$ and $x.key \neq k$}
+	\State $temp = x$
+	\State $x = p XOR x.np$
+	\State $p = temp$
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}
+\caption{LISTnp-INSERT(L,x)}
+\begin{algorithmic}
+\State $x.np = L.head$
+\State $L.nil.np = x XOR (L.nil.np XOR L.head)$
+\State $L.head = x$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{LISTnp-Delete(L,x)}
+\begin{algorithmic}
+\State $L.nil.np = L.nil.np XOR L.head XOR L.head.np$
+\State $L.head.np.np = L.head.np.np XOR L.head$
+\end{algorithmic}
+\end{algorithm}
+
+To reverse the list, we simply need to make the head be the ``last'' element before $L.nil$ instead of the first one after this.  This is done by setting $L.head = L.nil.np XOR L.head$. \\
 
 \noindent\textbf{ Exercise 10.3-1} \\
+
 A multiple array version could be $L=2$,
 
 $
@@ -182,13 +319,39 @@ $
 \end{array}
 $
 
+\noindent\textbf{Exercise 10.3-2}\\
+
+\begin{algorithm}
+\caption{Allocate-Object()}
+\begin{algorithmic}
+\If{$free == NIL$}
+	\State \textbf{error} ``out of space''
+\Else
+	\State $x = free$
+	\State $free = A[x+1]$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{Free-Object(x)}
+\begin{algorithmic}
+\State $A[x+1] = free$
+\State $free = x$
+\end{algorithmic}
+\end{algorithm}
 
 \noindent\textbf{ Exercise 10.3-3} \\
+
 Allocate object just returns the index of some cells that it's guarenteed to not give out again until they've been freed. The prev attribute is not modified because only the next attribute is used by the memory manager, it's up to the code that calls allocate to use the prev and key attributes as it sees fit.\\
 
+\noindent\textbf{Exercise 10.3-4}\\
+
+For ALLOCATE-OBJECT, we will keep track of the next available spot in the array, and it will always be one greater than the number of elements being stored.  For FREE-OBJECT(x), when a space is freed, we will decrement the position of each element in a position greater than that of $x$ by 1 and update pointers accordingly.  This takes linear time.
 
 \noindent\textbf{ Exercise 10.3-5} \\
-See the algorithm ${COMPACTIFY-LIST(L,F)$
+
+See the algorithm ${COMPACTIFY-LIST(L,F)}$
 
 \begin{algorithm}
 \caption{COMPACTIFY-LIST(L,F)}
@@ -251,7 +414,22 @@ See the algorithm ${COMPACTIFY-LIST(L,F)$
         };
 \end{tikzpicture}
 
-Note that indices 8 and 2 in the array do not appear, and, in fact do not represent a valid tree.
+Note that indices 8 and 2 in the array do not appear, and, in fact do not represent a valid tree.\\
+
+\noindent\textbf{Exercise 10.4-2}\\
+
+\begin{algorithm}
+\caption{PRINT-TREE(T.root)}
+\begin{algorithmic}
+\If{$T.root == NIL$}
+	\State \textbf{return}
+\Else
+	\State Print $T.root.key$
+	\State PRINT-TREE(T.root.left)
+	\State PRINT-TREE(T.root.right)
+\EndIf
+\end{algorithmic}
+\end{algorithm}
 
 \noindent\textbf{ Exercise 10.4-3} \\
 \begin{algorithm}
@@ -267,6 +445,24 @@ Note that indices 8 and 2 in the array do not appear, and, in fact do not repres
 \State $push(S,U.right)$
 \EndIf
 \EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\noindent\textbf{Exercise 10.4-4}\\
+
+\begin{algorithm}
+\caption{PRINT-TREE(T.root)}
+\begin{algorithmic}
+\If{$T.root == NIL$}
+	\State \textbf{return}
+\Else
+	\State Print $T.root.key$
+	\State $x = T.root.left-child$
+	\While{$x \neq NIL$}
+		\State PRINT-TREE(x)
+		\State $x = x.right-sibling$
+	\EndWhile
+\EndIf
 \end{algorithmic}
 \end{algorithm}
 
@@ -308,7 +504,9 @@ See the algorithm INORDER-PRINT'(T)
 \end{algorithmic}
 \end{algorithm}
 
+\noindent\textbf{Exercise 10.4-6}\\
 
+Our two pointers will be $left$ and $right$.  For a node $x$, $x.left$ will point to the leftmost child of $x$ and $x.right$ will point to the sibling of $x$ immediately to its right, if it has one, and the parent of $x$ otherwise.  Our boolean value $b$, stored at $x$, will be such that $b = depth(x) \mod 2$.  To reach the parent of a node, simply keep following the ``right'' pointers until the parity of the boolean value changes.  To find all the children of a node, start by finding $x.left$, then follow the ``right'' pointers until the parity of the boolean value changes, ignoring this last node since it will be $x$.
 
 \noindent\textbf{ Problem 10-1} \\
 
