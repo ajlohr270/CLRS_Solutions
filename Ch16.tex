@@ -77,6 +77,7 @@ This will show that we should join together the letter with frequency $F(n)$ wit
 \[
 F(n+1) - 1 = F(n) + F(n-1) -1 = F(n-1) + \sum_{i=0}^{n-2} F(i) = \sum_{i=0}^{n-1} F(i)
 \]
+See also Lemma 19.2.
 
 \noindent\textbf{Exercise 16.3-5}\\
 We construct this codeword with monotonically increasing lengths by always resolving ties in terms of which two nodes to join together by joining together those with the two latest occurring earliest elements. We will show that the the depths of elements is always monotonically decreasing after every merge operation. Every charater is at depth 0 before any merges occur. Then, we have that 
