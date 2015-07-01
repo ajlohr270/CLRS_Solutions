@@ -553,7 +553,7 @@ T(n) \le \int_{i}^n \lg(x+2) + \lg(x) - \lg(x+1) dx  = (1  + O(\frac{1}{\lg(n)})
 \item
 See the approach used in the previous two parts, we will get $T(n) \in \Theta(li(n))= \Theta( \frac{n}{\lg(n)})$
 \item
-Let $i$ be the smallest $i$ so that $n^{\frac{1}{2^i}}<2$. We recall from a previous exercise that this is $\lg(\lg(n))$ Expanding the recurrence, we have that it is 
+Let $i$ be the smallest $i$ so that $n^{\frac{1}{2^i}}<2$. We recall from a previous problem (3-6.e) that this is $\lg(\lg(n))$ Expanding the recurrence, we have that it is 
 \[
 T(n) = n^{1 - \frac{1}{2^i}} T(2) + n + n \sum_{j=1}^i 1 \in \Theta(n\lg(\lg(n)))
 \]

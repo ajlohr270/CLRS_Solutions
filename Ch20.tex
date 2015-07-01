@@ -1,0 +1,151 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{tikz}
+	
+\pagestyle{fancy}
+\title{Chapter 20}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+\begin{document}
+\maketitle
+
+
+\noindent\textbf{Exercise 20.1-1}\\
+To modify these structure to allow for multiple elements, instead of just storing a bit in each of the entries, we can store the head of a linked list representing how many elements of that value that are contained in the structure, with a NIL value to represent having no elements of that value.\\
+
+\noindent\textbf{Exercise 20.1-3}\\
+To find the successor of a given key k from a binary tree, call the procedure $SUCC(k, T.root)$. Note that this will return NIL if there is no entry in the tree with a larger key.\\
+\begin{algorithm}
+\caption{ SUCC(k,x)}
+\begin{algorithmic}
+\If {$k<x.key$}
+	\If {$x.left == NIL$}
+		\State \Return x
+	\Else
+		\If {$SUCC(k,x.left) == NIL$}
+			\State \Return x
+		\Else 
+			\State \Return SUCC(k,x.left)
+		\EndIf
+	\EndIf
+\Else
+	\If {$x.right == NIL$}
+		\State \Return x
+	\Else
+		\State \Return NIL
+	\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\noindent\textbf{Exercise 20.2-1}\\
+See the two algorithms, PROTO-vEB-MAXIMUM and PROTO-vEB-PREDECESSOR.
+\begin{algorithm}
+\caption{PROTO-vEB-MAXIMUM(V)}
+\begin{algorithmic}
+\If{$V.u==2$}
+\If{V.A[1] == 1}
+\State \Return 1
+\ElsIf{V.A[0] == 1}
+\State \Return 0
+\Else
+\State \Return NIL
+\EndIf
+\Else
+\State $max-cluster = PROTO-vEB-MAXIMUM(V.summary)$
+\If{max-cluster ==NIL}
+\State \Return NIL
+\Else
+\State \Return $index(max-cluster, Proto-vEB-MINIMUM(V.cluster[max-cluster]))$
+\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{PROTO-vEB-PREDECESSOR(V,x)}
+\begin{algorithmic}
+\If{V.u==2}
+\If{x==1 and V.A[0] ==1}
+\State \Return 0
+\Else
+\State \Retrun NIL
+\EndIf
+\Else
+\State $offset = PROTO-vEB-PREDECESSOR(V.cluster[high(x)],low(x))$
+\If{$offset\neq NIL$}
+\State \Return index(high(x),offest)
+\Else
+\State pred-cluster = PROTO-vEB-PREDECESSOR(V.summary,high(x))
+\If{pred-cluster ==NIL}
+\State \Return NIL
+\Else
+\State \Return index(succ-cluster, PROTO-vEB-MAXIMUM(V.cluster[pred-cluster]))
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+
+\noindent\textbf{Exercise 20.2-3}\\
+%pending completion of 20.2-2
+
+\noindent\textbf{Exercise 20.2-5}\\
+The only modification neccesary would be fore the u=2 trees. They would need to also include a length two array that had pointers to the corresponding sattelite data which would be populated in case the corresponding entry in A were 1.\\
+
+\noindent\textbf{Exercise 20.2-7}\\
+For line 9 to be executed, we would need that in the summary data, we walso had a NIL returned. This could of either happend through line 9, or 6. Eventually though, it would need to happen in line 6, so, there must be some number of summarizations that happened of V that caused us to get an empty u=2 vEB. However, a summarization has an entry of one if any of the corresponding entries in the datastructure are one. This means that there are no entries in $V$, and so, we have that $V$ is empty.\\
+
+\noindent\textbf{Exercise 20.3-1}\\
+To support duplicate keys, for each u=2 vEB tree, instead of storing just a bit in each of the entries of its array, it should store an integer representing how many elements of that value the vEB contains.\\
+
+\noindent\textbf{Exercise 20.3-3}\\
+We define the procedure for any $u$ that is a power of 2. If $u=2$, then, just slap that fact together with an array of length 2 that contains 0 in both entries. 
+
+If $u = 2^k > 2$, then, we create an empty vEB tree called Summary with $u= 2^{\lceil k/2\rceil}$. We also make an array called cluster of length $2^{\lceil k/2\rceil}$ with each entry initialized to an empty vEB tree with $u = 2^{\lfloor k/2\rfloor}$. Lastly, we create a min and max element, both initallized to NIL.\\
+
+\noindent\textbf{Exercise 20.3-5}\\
+Similar to the analysis of (20.4), we will analyze:
+\[
+T(u) \le T(u^{1/k}) + O(1)
+\]
+We lwt $T(2^m) = S(m)$, so the equation becomes
+\[
+S(m) \le S(m/k) + O(1)
+\]
+Which, by the master theorem has solution $S(m) \le \log(m)$, so, we have that $T(u) \in O(\lg\lg(u))$
+
+\noindent\textbf{Problem 20-1}\\
+\begin{enumerate}
+\item
+Lets look at what has to be stored for a vEB tree. Each vEB tree contains one vEB tree of size $\sqrt[+]{u}$ and $\sqrt[+]{u}$ vEB trees of size $\sqrt[1]{u}$. It also is storing three numbers each of order $O(u)$, so they need $\Theta(\lg(u))$ space each. Lastly, it needs to store $\sqrt[+]{u}$ many pointers to the cluster vEB trees. We'll combine these last two contributions which are $\Theta(\lg(u))$ and $\Theta(\sqrt[+]{u})$ respectively into a single term that is $\Theta\sqrt[+]{u}$. This gets us the recurrence
+\[
+P(u) = P(\sqrt[+]{u}) + \sqrt[+]{u}P(\sqrt[-]{u}) + \Theta(\sqrt{u})
+\]
+Then, we have that $u=2^{2m}$(which follows from the assumption that $\sqrt{u}$ was an integer), this equation becomes
+\[
+P(u) = (1+2^m)P(2^m) + \Theta(\sqrt{u}) = (1+ \sqrt{u})P(\sqrt{u})+\Theta(\sqrt{u})
+\]
+as desired.
+\item
+
+
+\end{enumerate}
+\end{document}
