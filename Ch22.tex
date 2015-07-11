@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{tikz}
+	
+\pagestyle{fancy}
+\title{Chapter 22}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+\begin{document}
+\maketitle
+
+
+\noindent\textbf{Exercise 22.1-1}\\
+Since it seems as though the list for the neighbors of each vertex $v$ is just an undecorated list, to find the length of each would take time $O(out-degree(v))$. So, the total cost will be $\sum_{v\in V} O(outdegree(v)) = O(|E| +|V|)$. Note that the $|V|$ showing up in the asymptotics is neccesary, because it still takes a constant amount of time to know that a list is empty. This time could be reduced to $O(|V|)$ if for each list in the adjacency list representation, we just also stored its length.
+
+To compute the in degree of each vertex, we will have to scan through all of the adjacency lists and keep counters for how many times each vertex has appeared. As in the previous case, the time to scan through all of the adjacency lists takes time $O(|E|+|V|)$.\\
+
+\noindent\textbf{Exercise 22.1-3}\\
+For the adjacency matrix representation, to compute teh graph transpose, we just take the matrix transpose. This means looking along every entry above the diagonal, and swapping it with the entry that occurs below the diagonal. This takes time $O(|V|^2)$.
+
+For the adjacency list representation, we will maintain an initally empty adjacency list representation of the transpose. Then, we scan through every list in the original graph. If we are in the list corresponding to vertex $v$ and see $u$ as an entry in the list, then we add an entry of $v$ to the list in the transpose graph corresponding to vetex $u$. Since this only requires a scan through all of the lists, it only takes time $O(|E|+|V|)\\
+
+\noindent\textbf{Exercise 22.1-5}\\
+From the adjacency matrix representation, if we take the square of the matrix, we are left an edge between all pairs of vertices that are separated by a path of exactly 2, so, to get the desired notion of the square of a graph, we also just have to add in the vertices that are separated by only a single edge in $G$, that is the entry $u,v$ in the final resulting matrix should be one iff either $G^2[u,v]$ or $G[u,v]$ are one. Taking the square of a matrix can be done with a matrix multiplication, which at the time of writing, can be most efficently done by the Coppersmith-Windograd algorithm which takes time $O(|V|^{2.3728639})$. Since the other operation for computing the final result only takes time $O(|V|^2)$, the total runtime is $O(|V|^{2.3728639})$. 
+
+If we are given an adjacency list representation, we can find the desired resulting graph by first computing the transpose graph $G^T$ from exercise 22.1-3 in $O(|V|+|E|)$ time. Then, our initally empty adjacency list representation of $G^2$ will be added to as follows. As we scan though the list of each vertex, say $v$, and see a entry going to $u$, then we add $u$ to the list corresponding to $v$, but also add $u$ to the list of everything on $v$'s list in $G^T$. This means that we may take as much as $O(|E||V|+|V|)$ time since, we have to spend potentially $|V|$ time as we process each edge. \\
+
+\noindent\textbf{Exercise 22.1-7}\\
+
+
+\noindent\textbf{Exercise 22.2-1}\\
+
+
+\end{document}
