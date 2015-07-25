@@ -1,0 +1,236 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{tikz}
+	
+\pagestyle{fancy}
+\title{Chapter 20}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+\begin{document}
+\maketitle
+
+
+\noindent\textbf{Exercise 20.1-1}\\
+To modify these structure to allow for multiple elements, instead of just storing a bit in each of the entries, we can store the head of a linked list representing how many elements of that value that are contained in the structure, with a NIL value to represent having no elements of that value.\\
+
+\noindent\textbf{Exercise 20.1-3}\\
+To find the successor of a given key k from a binary tree, call the procedure $SUCC(k, T.root)$. Note that this will return NIL if there is no entry in the tree with a larger key.\\
+\begin{algorithm}
+\caption{ SUCC(k,x)}
+\begin{algorithmic}
+\If {$k<x.key$}
+	\If {$x.left == NIL$}
+		\State \Return x
+	\Else
+		\If {$SUCC(k,x.left) == NIL$}
+			\State \Return x
+		\Else 
+			\State \Return SUCC(k,x.left)
+		\EndIf
+	\EndIf
+\Else
+	\If {$x.right == NIL$}
+		\State \Return x
+	\Else
+		\State \Return NIL
+	\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\noindent\textbf{Exercise 20.2-1}\\
+See the two algorithms, PROTO-vEB-MAXIMUM and PROTO-vEB-PREDECESSOR.
+\begin{algorithm}
+\caption{PROTO-vEB-MAXIMUM(V)}
+\begin{algorithmic}
+\If{$V.u==2$}
+\If{V.A[1] == 1}
+\State \Return 1
+\ElsIf{V.A[0] == 1}
+\State \Return 0
+\Else
+\State \Return NIL
+\EndIf
+\Else
+\State $max-cluster = PROTO-vEB-MAXIMUM(V.summary)$
+\If{max-cluster ==NIL}
+\State \Return NIL
+\Else
+\State $offset =  PROTO-vEB-MINIMUM(V.cluster[max-cluster])$
+\State \Return $index(max-cluster,offset)$
+\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{PROTO-vEB-PREDECESSOR(V,x)}
+\begin{algorithmic}
+\If{V.u==2}
+\If{x==1 and V.A[0] ==1}
+\State \Return 0
+\Else
+\State \Return NIL
+\EndIf
+\Else
+\State $offset = PROTO-vEB-PREDECESSOR(V.cluster[high(x)],low(x))$
+\If{$offset\neq NIL$}
+\State \Return index(high(x),offest)
+\Else
+\State pred-cluster = PROTO-vEB-PREDECESSOR(V.summary,high(x))
+\If{pred-cluster ==NIL}
+\State \Return NIL
+\Else
+\State \Return index(succ-cluster, PROTO-vEB-MAXIMUM(V.cluster[pred-cluster]))
+\EndIf
+\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+
+\noindent\textbf{Exercise 20.2-3}\\
+%pending completion of 20.2-2
+
+\noindent\textbf{Exercise 20.2-5}\\
+The only modification neccesary would be fore the u=2 trees. They would need to also include a length two array that had pointers to the corresponding sattelite data which would be populated in case the corresponding entry in A were 1.\\
+
+\noindent\textbf{Exercise 20.2-7}\\
+For line 9 to be executed, we would need that in the summary data, we walso had a NIL returned. This could of either happend through line 9, or 6. Eventually though, it would need to happen in line 6, so, there must be some number of summarizations that happened of V that caused us to get an empty u=2 vEB. However, a summarization has an entry of one if any of the corresponding entries in the datastructure are one. This means that there are no entries in $V$, and so, we have that $V$ is empty.\\
+
+\noindent\textbf{Exercise 20.3-1}\\
+To support duplicate keys, for each u=2 vEB tree, instead of storing just a bit in each of the entries of its array, it should store an integer representing how many elements of that value the vEB contains.\\
+
+\noindent\textbf{Exercise 20.3-3}\\
+We define the procedure for any $u$ that is a power of 2. If $u=2$, then, just slap that fact together with an array of length 2 that contains 0 in both entries. 
+
+If $u = 2^k > 2$, then, we create an empty vEB tree called Summary with $u= 2^{\lceil k/2\rceil}$. We also make an array called cluster of length $2^{\lceil k/2\rceil}$ with each entry initialized to an empty vEB tree with $u = 2^{\lfloor k/2\rfloor}$. Lastly, we create a min and max element, both initallized to NIL.\\
+
+\noindent\textbf{Exercise 20.3-5}\\
+Similar to the analysis of (20.4), we will analyze:
+\[
+T(u) \le T(u^{1-1/k}) + T(u^{1/k}) + O(1)
+\]
+This is a good choice for analyis because for many operations we fisrt check the summary vEB tree, which will have size $u^{1/k}$ (the second term). And then possible have to check a vEB tree somewhere in cluster, which will have size $u^{1-1/k}$(the first term). We let $T(2^m) = S(m)$, so the equation becomes
+\[
+S(m) \le S(m(1-1/k)) + S(m/k) + O(1)
+\]
+If $k>2$ the first term dominates, so by master theorem, we'll have that $S(m)$ is $O(\lg(m))$, this means that $T$ will be $O(\lg(\lg(u)))$ just as in the original case where we took squareroots.
+
+\noindent\textbf{Problem 20-1}\\
+\begin{enumerate}[a.]
+\item
+Lets look at what has to be stored for a vEB tree. Each vEB tree contains one vEB tree of size $\sqrt[+]{u}$ and $\sqrt[+]{u}$ vEB trees of size $\sqrt[1]{u}$. It also is storing three numbers each of order $O(u)$, so they need $\Theta(\lg(u))$ space each. Lastly, it needs to store $\sqrt[+]{u}$ many pointers to the cluster vEB trees. We'll combine these last two contributions which are $\Theta(\lg(u))$ and $\Theta(\sqrt[+]{u})$ respectively into a single term that is $\Theta\sqrt[+]{u}$. This gets us the recurrence
+\[
+P(u) = P(\sqrt[+]{u}) + \sqrt[+]{u}P(\sqrt[-]{u}) + \Theta(\sqrt{u})
+\]
+Then, we have that $u=2^{2m}$(which follows from the assumption that $\sqrt{u}$ was an integer), this equation becomes
+\[
+P(u) = (1+2^m)P(2^m) + \Theta(\sqrt{u}) = (1+ \sqrt{u})P(\sqrt{u})+\Theta(\sqrt{u})
+\]
+as desired.
+\item
+We recall from our solution to problem 3-6.e (it seems like so long ago now) that given a number n, a bound on the number of times that we need to take the squareroot of a number before it falls below 2 is $\lg(\lg(n))$. So, if we just unroll out recurrence, we get that
+\[
+P(u) \le \left(\prod_{i=1}^{\lg(\lg(u))}(u^{1/2^i}+1)\right) P(2) + \sum_{i=1}^{\lg(\lg(u))} \Theta(u^{1/2^i})(u^{1/2i}+1)
+\]
+The first product has a highest power of $u$ corresponding to always multiplying the first terms of each binomial. The power in this term is equal to $\sum_{i=1}^{\lg(\lg(u))} \frac{1}{2^i}$ which is a partial sum of a geometric series whoose sum is 1. This means that the first term is $o(u)$. The order of the $i$th term in the summation appearing in the formula is $u^{2/2^i}$. In particular, for $i=1$ is it $O(u)$, and for any $i>1$, we have that $2/2^i <1$, so those terms will be $o(u)$. Putting it all together, the largest term appearing is $O(u)$, and so, $P(u)$ is $O(u)$.
+\item
+For this problem we just use the version written for normal vEB trees, with minor modifications. That is, since there are entries in cluster that may not exist, and summary may of not yet been initiallized, just before we try to access either, we check to see if it's initiallized. If it isn't, we do so then.
+
+\begin{algorithm}
+\caption{RS-vEB-TREE-INSERT(V,x)}
+\begin{algorithmic}
+\If {$V.min==NIL$}
+\State vEB-EMPTY-TREE-INSERT(V,x)
+\Else
+	\If{$x<V.min$}
+	\State swap V.min with x
+	\EndIf
+	\If{$V.u>2$}
+	\If{$V.summary == NIL$}
+	\State $V.summary = CREATE-NEW-RD-vEB-TREE(\sqrt[+]{V.u})$
+	\EndIf
+	\If{$lookup(V.cluster,low(x)) == NIL$}
+	\State insert into V.summary with key high(x) what is returned by $CREATE-NEW-RD-vEB-TREE(\sqrt[-]{V.u})$
+	\EndIf
+	\If{$vEB-TREE-MINIMUM(lookup(V.cluster,high(x)))==NIL$}
+	\State vEB-TREE-INSERT(V.summary,high(x))
+	\State vEB-EMPTY-TREE-INSERT(lookup(V.cluster,high(x)),low(x))
+	\Else
+	\State vEB-TREE-INSERT(lookup(V.cluster,high(x)),low(x))
+	\EndIf
+	\EndIf
+	\If{$x>V.max$}
+	\State $V.max = x$
+	\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\item
+
+As in the previous problem, we just wait until just before either of the two things that may of not been allocated try to get used then allocate them if need be.
+\begin{algorithm}
+\caption{RS-vEB-TREE-SUCCESSOR(V,x)}
+\begin{algorithmic}
+\If{$V.u==2$}
+\If{$x==0$ and $V.max ==1$}
+\State \Return 1
+\Else
+\State \Return NIL
+\EndIf
+\ElsIf{$V.min\neq NIL$ and $x<V.min$}
+\State\Return V.min
+\Else
+\If{$lookup(V.cluster,low(x)) == NIL$}
+\State insert into V.summary with key high(x) what is returned by $CREATE-NEW-RD-vEB-TREE(\sqrt[-]{V.u})$
+\EndIf
+\State max-low = vEB-TREE-MAXIMUM(lookup(V.cluster,high(x)))
+\If{$max-low\neq NIL$ and $low(x)<max-low$}
+\State $\Return index(high(x),vEB-TREE-SUCCESSOR(lookup(V.summary,high(x)),low(x)))$
+\Else
+\If{$V.summary == NIL$}
+\State $V.summary = CREATE-NEW-RD-vEB-TREE(\sqrt[+]{V.u})$
+\EndIf
+\State $succ-cluster = vEB-TREE-SUCCESSOR(V.summary,high(x))$
+\If{succ-cluster==NIL}
+\State\Return NIL
+\Else
+\State $\Return index(succ-cluster,vEB-TREE-MINIMUM(lookup(V.summary,succ-cluster)))$
+\EndIf
+\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\item
+Since the initiallizations performed only take constant time, those modifications don't ruin the the desired runtime bound for the original algorithms already had. So, our responces to parts c and d are $O(\lg(\lg(n)))$.
+
+\item
+As mentioned in the errata, this part should instead be changed to $O(n\lg(n))$ space.
+
+%notdone
+
+\item
+It only takes a constant amount of time to create an empty RS-vEB tree. This is immediate since the only dependence on u in CREAT-NEW-RS-vEB-TREE(u) is on line 2 when V.u is initiallized, but this only takes a constant amount of time. Since nothing else in the procedure depends on u, it must take a constant amount of time.
+\end{enumerate}
+\end{document}

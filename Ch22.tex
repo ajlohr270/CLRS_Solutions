@@ -1,0 +1,340 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{tikz}
+	
+\pagestyle{fancy}
+\title{Chapter 22}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+\begin{document}
+\maketitle
+
+
+\noindent\textbf{Exercise 22.1-1}\\
+Since it seems as though the list for the neighbors of each vertex $v$ is just an undecorated list, to find the length of each would take time $O(out-degree(v))$. So, the total cost will be $\sum_{v\in V} O(outdegree(v)) = O(|E| +|V|)$. Note that the $|V|$ showing up in the asymptotics is neccesary, because it still takes a constant amount of time to know that a list is empty. This time could be reduced to $O(|V|)$ if for each list in the adjacency list representation, we just also stored its length.
+
+To compute the in degree of each vertex, we will have to scan through all of the adjacency lists and keep counters for how many times each vertex has appeared. As in the previous case, the time to scan through all of the adjacency lists takes time $O(|E|+|V|)$.\\
+
+\noindent\textbf{Exercise 22.1-3}\\
+For the adjacency matrix representation, to compute teh graph transpose, we just take the matrix transpose. This means looking along every entry above the diagonal, and swapping it with the entry that occurs below the diagonal. This takes time $O(|V|^2)$.
+
+For the adjacency list representation, we will maintain an initally empty adjacency list representation of the transpose. Then, we scan through every list in the original graph. If we are in the list corresponding to vertex $v$ and see $u$ as an entry in the list, then we add an entry of $v$ to the list in the transpose graph corresponding to vetex $u$. Since this only requires a scan through all of the lists, it only takes time $O(|E|+|V|)$\\
+
+\noindent\textbf{Exercise 22.1-5}\\
+From the adjacency matrix representation, if we take the square of the matrix, we are left an edge between all pairs of vertices that are separated by a path of exactly 2, so, to get the desired notion of the square of a graph, we also just have to add in the vertices that are separated by only a single edge in $G$, that is the entry $u,v$ in the final resulting matrix should be one iff either $G^2[u,v]$ or $G[u,v]$ are one. Taking the square of a matrix can be done with a matrix multiplication, which at the time of writing, can be most efficently done by the Coppersmith-Windograd algorithm which takes time $O(|V|^{2.3728639})$. Since the other operation for computing the final result only takes time $O(|V|^2)$, the total runtime is $O(|V|^{2.3728639})$. 
+
+If we are given an adjacency list representation, we can find the desired resulting graph by first computing the transpose graph $G^T$ from exercise 22.1-3 in $O(|V|+|E|)$ time. Then, our initally empty adjacency list representation of $G^2$ will be added to as follows. As we scan though the list of each vertex, say $v$, and see a entry going to $u$, then we add $u$ to the list corresponding to $v$, but also add $u$ to the list of everything on $v$'s list in $G^T$. This means that we may take as much as $O(|E||V|+|V|)$ time since, we have to spend potentially $|V|$ time as we process each edge. \\
+
+\noindent\textbf{Exercise 22.1-7}\\
+We have two cases, one for the diagonal entries and one for the non-diagonal entries.
+
+The entry of $[i,i]$ for some $i$ represents the sum of the in and ourt degrees of the vertex that $i$ corresponds to. To see this, we recall that an entry in a matrix product is the dotporoduct of row $i$ in $B$ and column $i$ in $B^T$. But, column $i$ in $B^T$ is the same as row $i$ in $B$. So, we have that the entry is just row $i$ of $B$ dotted with itself, that is
+\[
+\sum_{j=1}^{|E|} b_{ij}^2
+\]
+However, since $b_{ij}$ only takes values in $\{-1,0,1\}$, we have that $b_{ij}^2$ only takes values in $\{0,1\}$, taking zero iff $b_{i,j}$ is zero. So, the entry is the sum of all nonzero entries in row $i$ of B, Since each edge leaving $i$ is $-1$ and each edge going to $i$ is 1, we are counting all the edges that either leave or enter $i$, as we wanted to show.
+
+Now, suppose that our entry is indexed by $[i,j]$ where $i\neq j$. This is the dot product of row $i$ in $B$ with column $j$ in $B^T$, which is row $j$ in $B$. So, the entry is equal to 
+\[
+\sum_{k=1}^{|E|} b_{i,k}\cdot b_{j,k}
+\]
+Each term in this sum is $-1$ if $k$ goes between  $i$ and $j$, or $0$ if it doesn't. Since we can't have that two different vertices ar both on the same side of an edge, no terms may ever be 1. So, the entry is just -1 if there is an edge between $i$ and $j$, and zero otherwise.\\
+
+\noindent\textbf{Exercise 22.2-1}\\
+\begin{center}
+$\begin{array}{|c|c|c|}
+\hline
+vertex& d&\pi\\
+\hline
+1&\infty&NIL\\
+2&3&4\\
+3&0&NIL\\
+4&2&5\\
+5&1&3\\
+6&1&3\\
+\hline
+\end{array}
+$
+\end{center}
+\noindent\textbf{Exercise 22.2-3}\\
+As mentioned in the errata, the question should state that we are to show that a single bit suffices by removing line $18$. To see why it is valid to remove line 18, consider the possible transitions between colors that can occur. In particular, it is impossible for a white vertex to go straight to black. This is because inorder for a vertex to be colored black, it must of been assigned to $u$ on line $11$. This means that we have to of enqueued the vertex in the queue at some point. This can only occur on line 17, however, if we are running line 17 on a vertex, we have to of run line 14 on it, giving it the color GRAY. Then, notice that the only testing of colors that is done anywhere is on line 13, in which we test whiteness. Since line 13 doesn't care if a vertex is GRAY or BLACK, and we only ever assign black to a gray vertex, we don't affect the running of the algorithm at all by removing line 18. Since, once we remove line 18, we evera ssign BLACK to a vertex, we can represent the color by a single bit saying whether the vertex is WHITE or GRAY.\\
+
+
+\noindent\textbf{Exercise 22.2-5}\\
+First, we will show that the vale $d$ assigned to a vertex is independent of the order that entries appear in adjacency lists. To do this, we rely on theorem 22.5 which proves correctness of BFS. In particular, that we have $\nu.d = \delta(s,\nu)$ at the end of the procedure. Since $\delta(s,\nu)$ is a property of the underlying graph, no matter which representation of the graph in terms of adjacency lists that we choose, this value will not chage. Since the $d$ values are equal to this thing that doesn't change when we mess with the adjacency lists, it too doesn't change when we mess with the adjacency lists.
+
+Now, to show that $\pi$ does depend on the ordering of the adjacency lists, we will be using Figure 22.3 as a guide. First, we note that in the given worked out procedure, we have that in the adjacency list for $w$, $t$ preceeds $x$. Also, in the worked out procedure, we have that $u.\pi = t$. Now, suppose instead that we had $x$ preceeding $t$ in the adjacency list of $w$. Then, it would get added to the queue before $t$, which means that it would $u$ as it's child before we have a chance to process the children of $t$. This will mean that $u.\pi = x$ in this different ordering of the adjacency list for $w$.\\
+
+\noindent\textbf{Exercise 22.2-7}\\
+This problem is basically just a obfuscated version of two coloring. We will try to color the vertices of this graph of rivalries by two colors, ``babyface'' and ``heel''. To have that no two babyfaces and no two heels have a rivalry is the same as saying that the coloring is proper. To two color, we perform a bredth first search of each connected component to get the d values for each vertex. Then, we give all the odd ones one color say ``heel'', and all the even d values a different color. We know that no other coloring will succeed where this one fails since if we gave any other coloring, we would have that a vertex $v$ has the same color as $v.\pi$ since $v$ and $v.\pi$ must have different parities for their $d$ values. Since we know that there is no better coloring, we just need to check each edge to see if this coloring is valid. If each edge works, it is possible to find a designation, if a single edge fails, then it is not possible. Since the BFS took time $O(n+r)$ and the checking took time $O(r)$, the total runtime is $O(n+r)$.\\
+
+\noindent\textbf{Exercise 22.2-9}\\
+First, the algorithm computes a minimum spanning tree of the graph. Note that this can be done using the procedures of Chapter 23. It can also be done by performing a bredth first search, and restricting to the edges between $v$ and $v.\pi$ for every v. To aide in not double counting edges, fix any ordering $\le$ on the vertices before hand. Then, we will construct the sequence of steps by calling $makepath(s)$ where $s$ was the root used for the BFS. 
+\begin{algorithm}
+\caption{makepath(u)}
+\begin{algorithmic}
+\For{v adjacent to u in the original graph, but not in the tree such that $u\le v$}
+\State go to v and back to u
+\EndFor
+\For{v adjacent to u in the tree, but not equal to $u.\pi$}
+\State go to $v$
+\State perform the path proscribed by makepath(v)
+\EndFor
+\State go to $u.\pi$
+\end{algorithmic}
+\end{algorithm}
+
+
+\noindent\textbf{Exercise 22.3-1}\\
+For directed graphs:
+
+$
+\begin{array}{c|c|c|c|}
+from\backslash to& BLACK&GRAY&WHITE\\
+\hline
+BLACK&All kinds& Back, Cross& Back, Cross\\
+\hline
+GRAY&Tree, Forward, Cross&Tree, Forward, Back&Back, Cross\\
+\hline
+WHITE&Cross, Tree, Forward&Cross, Back&all kinds\\
+\hline
+\end{array}
+$\\
+
+For undrected graphs, note that the lower diagonal is defined by the upper diagonal:
+
+$
+\begin{array}{c|c|c|c|}
+from\backslash to& BLACK&GRAY&WHITE\\
+\hline
+BLACK&All kinds&All kinds&All kinds\\
+\hline
+GRAY&-&Tree, Forward, Back&All kinds\\
+\hline
+WHITE&-&-&All kinds\\
+\hline
+\end{array}
+$
+%22.3-1 could use a check for correctness
+
+
+\noindent\textbf{Exercise 22.3-3}\\
+As pointed out in figure 22.5, the parentheses structure of the DFS of figure 22.4 is $(((())()))(()())$\\
+
+\noindent\textbf{Exercise 22.3-5}\\
+\begin{enumerate}[a.]
+\item
+Since we have that $u.d < v.d$, we know that we have first explored $u$ before $v$. This rules out back edges and rules out the possibliity that $v$ is on a tree that has been explored before exploring $u$'s tree. Also, since we return from $v$ before returning from $u$, we know that it can't be on a tree that was explored after exploring $u$. So, This rules out it being a cross edge. Leaving us with the only possibilities of being a tree edge or forward edge.
+
+To show the other direction, suppose that $(u,v)$ is a tree or forward edge. In that case, since $v$ occurrs further down the tree from $u$, we know that we have to explored $u$ before $v$, this means that $u.d< v.d$. Also, since we have to of finished $v$ before coming back up the tree, we have that $v.f<u.f$. The last inequality to show is that $v.d < v.f$ which is trivial.
+\item
+By similar reasoning to part $a$, we have that we must have v being an ancestor of $u$ on the DFS tree. This means that the only type of edge that could go from u to v is a back edge.
+
+To show the other direction, suppose that $(u,v)$ is a back edge. This means that we have that $v$ is above $u$ on the DFS tree. This is the same as the second direction of part a where the roles of u and v are reversed. This means that the inequalities follow for the same reasons.
+
+
+\item
+Since we have that $v.f < u.d$, we know that either $v$ is a descendant of $u$ or it comes on some branch that is explored before $u$. Similarly, since $v.d < u.d$, we either have that $u$ is a descendant of $v$ or it comes on some branch that gets explored before $u$. Putting these together, we see that it isn't possible for both to be descendants of each other. So, we must have that $v$ comes on a branch before $u$, So, we have that $u$ is a cross edge.
+
+To See the other direction, suppose that $(u,v)$ is a cross edge. This means that we have explored $v$ at some point before exploring $u$, otherwise, we would have taken the edge from $u$ to $v$ when exploring $u$, which would make the edge either a forward edge or a tree edge. Since we explored $v$ first, and the edge is not a back edge, we must of finished exploring $v$ before starting $u$, so we have the desired inequalities.
+
+
+\end{enumerate}
+
+\noindent\textbf{Exercise 22.3-7}\\
+See the algorithm DFS-STACK(G). Note that by a similar justification to 22.2-3, we may remove line 8 from the original DFS-VISIT algorithm without changing the final result of the program, that is just working with the colors white and gray.
+\begin{algorithm}
+\caption{DFS-STACK(G)}
+\begin{algorithmic}
+\For{every $u\in G.V$}
+\State u.color = WHITE
+\State $u.\pi$ = NIL
+\EndFor
+\State time = 0
+\State S is an empty stack
+\While{there is a white vertex u in $G$}
+\State S.push(u)
+\While{S is nonempty}
+\State $v = S.pop$
+\State time++
+\State v.d = time
+\For{all neighbors w of v}
+\If{w.color == WHITE}
+\State w.color = GRAY
+\State $w.\pi$ = v
+\State $S.push(w)$
+\EndIf
+\EndFor
+\State time++
+\State v.f = time
+\EndWhile
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\noindent\textbf{Exercise 22.3-9}\\
+Consider the Directed graph on the vertices $\{1,2,3\}$, and having the edges $(1,2),(1,3),(2,1)$ then there is a path from $2$ to $3$, however, if we start a DFS at $1$ and process $2$ before $3$, we will have $2.f = 3 < 2 = 2.d$ which provides a counterexample to the given conjecture.\\
+
+
+\noindent\textbf{Exercise 22.3-11}\\
+Suppose that we have a directed graph on the vertices $\{1,2,3\}$ and having edges $(1,2),(2,3)$ then, 2 has both incoming and outgoing edges. However, if we pick our first root to be $3$, that will be in it's own DFS tree. Then, we pick our second root to be $2$, since the only thing it points to has already been marked BLACK, we wont be exploring it. Then, picking the last root to be $1$, we don't screw up the fact that $2$ is along in a DFS tree despite the fact that it has both an incoming and outgoing edge in $G$.\\
+
+
+\noindent\textbf{Exercise 22.3-13}\\
+Perform a DFS rooted at every vertex. If all the edges in each DFS are either tree edges or back edges, then we have the desired property. However, if there are any forward edges or cross edges, the graph is not singly connected. If we have a forward edge, then the reason it is not singly connected is that there is also a simple path consisting of tree edges from the source of the forward edge to it's destination. %hmmm
+This means that The total runtime will be $O(|V||E|)$ since there will be at most $O(|V|)$ DFS's performed, and for each of them, the runtime is linear.
+
+\begin{comment}
+Samir Khuller reveals through personal communication with Cormen that at the time of writing, the best solution known to Cormen takes time $O(|V||E|)$. This is mentioned in his paper ``An O(|V|^2) algorithm for single connectedness''. We here present an even better algorithm which only takes time $O(|E|+|V|\alpha(|V|))$.
+
+First, we check for the graph to be acyclic. This can be done with a DFS looking for black edges, as proven in lemma 22.11. Once we know it is  acyclic, we perform a topological sort. Both of these steps take time $O(|V|+|E|)$. Then, to check for single connectedness, we create a disjoint set structure in which each vertex is in its own set. Then, looking at the vertices from left to right in the topological sort, we will union together all the children of the vertex under consideration. Before this though, we check to make sure that the vertex under consideration is in a different set than all of its children. If we had that the current object were in the same set as it's children that means that there is some ancestor of the current vertex that is also a parent of the current vertex's child. This would mean that there are two paths from that ancestor to the child. One that's direct, and one that passes through the current vertex.\end{comment}
+
+
+\noindent\textbf{Exercise 22.4-1}\\
+Our start and finish times from performing the DFS are
+
+\begin{center}
+$
+\begin{array}{|c|c|c|}
+\hline
+label & d&f\\
+\hline
+m&1&20\\
+\hline
+q&2&5\\
+\hline
+t&3&4\\
+\hline
+r&6&19\\
+\hline
+u&7&8\\
+\hline
+y&9&18\\
+\hline
+v&10&17\\
+\hline
+w&11&14\\
+\hline
+z&12&13\\
+\hline
+x&15&16\\
+\hline
+n&21&26\\
+\hline
+o&22&25\\
+\hline
+s&23&24\\
+\hline
+p&27&28\\
+\hline
+\end{array}
+$
+\end{center}
+
+And so, by reading off the entries in decreasing order of finish time, we have the sequence $p,n,o,s,m,r,y,v,x,w,z,u,q,t$.\\
+
+\noindent\textbf{Exercise 22.4-3}\\
+We can't just use a depth first search, since that takes time that could be worst case linear in $|E|$. However we'lll take great inspiration from DFS, and just terminate early if we end up seeing an edge that goes back to a visited vertex. Then, we should only have to spend a constant amount of time processing each vertex. Suppose we have an acyclic graph, then this algorithm is the usual DFS, however, since it is a forest, we have $|E| \le |V|-1$ with equality in the case that it is connected. So, in this case, the runtime of $O(|E|+|V|)$ $O(|V|)$. Now, suppose that the procedure stopped early, this is because it found some edge coming from the currently considered vertex that goes to a vertex that has aleady been considered. Since all of the edges considered up to this point didn't do that, we know that they formed a forest. So, the number of edges considered is at most the number of vertices considered, which is $O(|V|)$. So, the total runtime is $O(|V|)$.\\
+
+\noindent\textbf{Exercise 22.4-5}\\
+Consider having a list for each potential in degree that may occur. We will also make a pointer from each vertex to the list that contains it. The initial construction of this can be done in time $O(|V|+|E|)$ because it only requires computing the in degree of each vertex, which can be done in time $O(|V|+|E|)$ (see problem 22.1-3). Once we have costructed this sequence of lists, we repeatedly extract any elment from the list corresponding to having in degree zero. We spit this out as the next element in teh topological sort. Then, for each of the children $c$ of this extracted vertex, we remove it from the list that contains it and instert it into the list of in degree one less. Since a deletion and an insertion in a doubly linked list can be done in constant time, and we only have to do this for each child of each vertex, it only has to be done $|E|$ many times. Since at each step, we are outputting some element of in degree zero with respect to all the vertices that hadn't yet been output, we have successfully output a topolocial sort, and the total runtime is just $O(|E|+|V|)$. We also know that we can always have that there is some element to extract from the list of in degree 0, because otherwise we would have a cycle somewhere in the graph. To see this, just pick any vertex and traverse edges backwards. You can keep doing this indefinitely because no vertex has in degree zero. However, there are only finitely many vertices, so at some point you would need to find a repeat, which would mean that you have a cycle.
+
+If the graph was not acyclic to begin with, then we will have the problem of having an empty list of vertices of in degree zero at some point. That is, if the vertices left lie on a cycle, then none of them will have in degree zero.\\
+
+\noindent\textbf{Exercise 22.5-1}\\
+It can either stay the same or decrease. To see that it is possible to stay the same, just suppose you add some edge to a cycle. To see that it is possible to degrease, suppose that your original graph is on three vertices, and is just a path passing through all of them, and the edge added completes this path to a cycle. To see that it cannot increase, notice that adding an edge cannot remove any path that existed before. So, if $u$ and $v$ are in the same connected component in the original graph, then there are a path from one to the other, in both directions. Adding an edge wont disturb these two paths, so we know that $u$ and $v$ will still be in the same SCC in the graph after adding the edge. Since no components can be split apart, this means that the number of them cannot increase since they form a partition of the set of vertices.\\
+
+
+\noindent\textbf{Exercise 22.5-3}\\
+Professor Bacon's suggestion doesn't work out. As an example, suppose that our graph is on the three vertices $\{1,2,3\}$ and consists of the edges $(2,1),(2,3),(3,2)$. Then, we should end up with $\{2,3\}$ and $\{1\}$ as our SCC's. However, a possible DFS starting at 2 could explore 3 before 1, this would mean that the finish time of 3 is lower than of 1 and 2. This means that when we first perform the DFS starting at 3. However, a DFS starting at 3 will be able to reach all other vertices. This means that the algorithm would return that the entire graph is a single SCC, even though this is clearly not the case since there is neither a path from 1 to 2 of from 1 to 3.\\
+
+\noindent\textbf{Exercise 22.5-5}\\
+Fiven the procedure given in teh section, we can compute the set of vertices in each of the strongly connected components. For each vertex, we will give it an entry SCC, so that $v.SCC$ denotes the strongly connected component (vertex in the component graph) that v belongs to. Then, for each edge $(u,v)$ in the original graph, we add an edge from $u.SCC$ to $v.SCC$ if one does not already exist. This whole process only takes a time of $O(|V|+|E|)$. This is because the procedure from this section only takes that much time. Then, from that point, we just need a constant amount of work checking the existence of an edge in the component graph, and adding one if need be.\\
+
+\noindent\textbf{Exercise 22.5-7}\\ 
+First compute the component graph as in 22.5-5. Then, in order to have that every vertex either has a path to or from every other vertex, we need that this component graph also has this property. Since this is acyclic, we can perform a topological sort on it. For this to be the case, we want that there is a single path through this dag that hits every single vertex. This can only happen in the DAG if each vertex has an edge going to the vertex that appears next in the topological ordering. See the algorithm IS-SINGLY-CONNECTED(G).\\
+\begin{algorithm}
+\caption{IS-SINGLY-CONNECTED(G)}
+\begin{algorithmic}
+\State Compute the component graph of $G$, call it $G'$
+\State Perform a topolocial sort on $G'$ to get the ordering of its vertices $v_1,v_2, \ldots, v_k$.
+\For{i=1..k-1}
+\If{there is no edge from $v_i$ to $v_{i+1}$}
+\State \Return FALSE
+\EndIf
+\EndFor
+\State \Return TRUE
+\end{algorithmic}
+\end{algorithm}
+
+\noindent\textbf{Problem 22-1}\\
+\begin{enumerate}[a)]
+\item
+\begin{comment}
+\begin{enumerate}[1.]
+\item
+
+\item
+
+\item
+
+\end{enumerate}
+\end{comment}
+
+\item
+\begin{enumerate}[1.]
+\item
+\item
+\item
+\item
+\end{enumerate}
+%not done
+\end{enumerate}
+
+\noindent\textbf{Problem 22-3}\\
+\begin{enumerate}[a)]
+\item
+First, we'll show that it is neccesary to have in degree equal out degree for each vertex. Suppose that there was some vertex $v$ for which the two were not equal, suppose wlog that in-degree - out-degree = a > 0. Note that we may assume that in degree is greater because otherwise we would just look at the transpose graph in which we traverse the cycle backwards. If $v$ is the start of the cycle as it is listed, just shift the starting and ending vertex to any other one on the cycle. Then, in whatever cycle we take going though $v$, we must pass through $v$ some number of times, in particular, after we pass through it $a$ times, the number of unused edges coming out of $v$ is zero, however, there are still unused edges goin in that we need to use. This means that there is no hope of using those while still being a tour, becase we would never be able to escape $v$ and get back to the vertex where the tour started.
+
+Now, we show that it is sufficient to have the in degree and out degree equal for every vertex. To do this, we will generalize the problem slightly so that it is more amenable to an inductive approach. That is, we will show that for every graph $G$ that has two vertices $v$ and $u$ so that all the vertices have the same in and out degree except that the indegree is one greater for $u$ and the out degree is one greater for $v$, then there is an Euler path from $v$ to $u$. This clearly lines up with the original statement if we pick $u=v$ to be any vertex in the graph. We now perform induction on the number of edges. If there is only a single edge, then taking just that edge is an Euler tour. Then, suppose that we start at v and take any edge coming out of it. Consider the graph that is obtained from removing that edge, it inductively countains a euler tour that we can just postpend to the edge that we took to get out of $v$.\\
+
+\item
+To actually get the euler circuit, we can just arbitrarily walk any way that we want so long as we don't repeat an edge, we will neccesarily end up with a valid euler tour. This is implemented in the following algorithm, EULER-TOUR(G) which takes time $O(|E|)$. It has htis runtime because the for loop will get run for every edge, and takes a constant amount of time. Also, the process of initiallizing each edge's color will take time proportional to the number of edges.
+\begin{algorithm}
+\caption{EULER-TOUR(G)}
+\begin{algorithmic}
+\State color all edges white
+\State let $(v,u)$ be any edge
+\State let L be a list containing just $v$.
+\While{there is some white edge $(v,w)$ coming out of $v$}
+\State{color (v,w) black}
+\State{v = w}
+\State{append $v$ to $L$}
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\end{enumerate}
+
+
+\end{document}
