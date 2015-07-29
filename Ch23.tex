@@ -26,5 +26,96 @@
 
 \begin{document}
 \maketitle
+\noindent\textbf{Exercise 23.1-1}\\
+Suppose that $A$ is an empty set of edges. Then, make any cut that has $(u,v)$ crossing it. Then, since that edge is of minimal weight, we have that $(u,v)$ is a light edge of that cut, and so it is safe to add. Since we add it, then, once we finish constructing the tree, we have that $(u,v)$ is contained in a minimum spanning tree.\\
 
+\noindent\textbf{Exercise 23.1-3}\\
+Let $T_0$ and $T_1$ be the two trees that are obtained by removing edge $(u,v)$ from a MST. Suppose that $V_0$ and $V_1$ are the vertices of $T_0$ and $T_1$ respectively. Consider the cut which separates $V_0$ from $V_1$. Suppose to a contradiction that there is some edge that has weight less than that of $(u,v)$ in this cut. Then, we could construct a minimum spanning tree of the whole graph by adding that edge to $T_1 \cup T_0$. This would result in a minimum spanning tree that has weight less than the original minimum spanning tree that contained $(u,v)$.\\
+
+\noindent\textbf{Exercise 23.1-5}\\
+Let $A$ be any cut that causes some vertices in the cycle on once side of the cut, and some vertices in the cycle on the other. For any of these cuts, we know that the edge $e$ is not a light edge for this cut. Since all the other cuts wont have the edge $e$ crossing it, we won't have that the edge is light for any of those cuts either. This means that we have that $e$ is not safe. \\
+
+
+\noindent\textbf{Exercise 23.1-7}\\
+First, we show that the subset of edges of minimum total weight that connects all the vertices is a tree. To see this, suppose not, that it had a cycle. This would mean that removing any of the edges in this cycle would mean that the remaining edges would still connect all the vertices, but would have a total weight that's less by the weight of the edge that was removed. This would contradict the minimality of the total weight of the subset of vertices. Since the subset of edges forms a tree, and has minimal total weight, it must also be a minimum spanning tree.
+
+To see that this conclusion is not true if we allow negative edge weights, we provide a construction. Consider the graph $K_3$ with all edge weights equal to $-1$. The only minimum weight set of edges that connects the graph has total weight $-3$, and consists of all the edges. This is clearly not a MST because it is not a tree, which can be easily  seen because it has one more edge than a tree on three vertices should have. Any MST of this weighted graph must have weight that is at least -2.\\
+
+\noindent\textbf{Exercise 23.1-9}\\
+Suppose that there was some cheaper spanning tree than $T'$. That is, we have that there is some $T''$ so that $w(T'')<w(T')$. Then, let $S$ be the edges in $T$ but not in $T'$. We can then construct a minimum spanning tree of $G$ by considering $S \cup T''$. This is a spanning tree since $S \cup T'$ is, and $T''$ makes all the vertices in $V'$ connected just like $T'$ does. However, we have that $w(S\cup T'') = w(S) + w(T'')  <w(S) + w(T') = w(S \cup T') = w(T)$. This means that we just found a spanning tree that has a lower total weight than a minimum spanning tree. This is a contradiction, and so our assumption that there was a spanning tree of $V'$ cheaper than $T'$ must be false.\\
+
+
+
+\noindent\textbf{Exercise 23.1-11}\\
+%notdone
+
+\noindent\textbf{Exercise 23.2-1}\\
+Suppose that we wanted to pick $T$ as our minimum spanning tree. Then, to obtain this tree with Kruskal's algorithm, we will order the edges first by their weight, but then will resolve ties in edge weights by picking an edge first if it is contained in the minimum spanning tree, and treating all the edges that aren't in $T$ as being slightly larger, even though they have the same actual weight. With this ordering, we will still be finding a tree of the same weight as all the minimum spanning trees $w(T)$. However, since we prioritize the edges in $T$, we have that we will pick them over any other edges that may be in other minimum spanning trees.\\
+
+
+\noindent\textbf{Exercise 23.2-3}\\
+Prim's algorithm implemented with a Binary heap has runtime $O((V+E)\lg(V))$, which in the sparse case, is just $O(V\lg(V))$. The implementation with Fibonacci heaps is $O(E+V\lg(V)) = O(V+ V\lg(V)) = O(V\lg(V))$. So, in the sparse case, the two algorithms have the same asymptotic runtimes.
+
+In the dense case, we have that the binary heap implementation has runtime $O((V+E)\lg(V)) = O((V+V^2)\lg(V)) = O(V^2\lg(V))$. The Fibonacci heap implementation however has a runtime of $O(E + V\lg(V)) = O(V^2 + V\lg(V)) = O(V^2)$. So, in the dense case, we have that the Fibonacci heap implementation is asymptotically faster.
+
+The Fibonacci heap implementation will be asymptotically faster so long as $E = \omega(V)$. Suppose that we have some function that grows more quickly than linear, say $f$, and $E = f(V)$. The binary heap implementation will have runtime $O((V+E)\lg(V)) = O((V+f(V))\lg(V)) = O(f(V)\lg(V))$. However, we have that the runtime of the Fibonacci heap implementation will have runtime $O(E+ V\lg(V)) = O(f(V) + V\lg(V))$. This runtime is either $O(f(V))$ or $O(V\lg(V))$ depending on if $f(V)$ grows more or less quickly than $V\lg(V)$ respectively. In either case, we have that the runtime is faster than $O(f(V)\lg(V))$.\\
+
+
+\noindent\textbf{Exercise 23.2-5}\\
+If there the edge weights are all in the range $1,\ldots, |V|$, then, we can imagine adding the edges to an array of lists, where the edges of weight $i$ go into the list in index $i$ in the array. Then, to decrease an element, we just remove it from the list currently containing it(constant time) and add it to the list corresponding to its new value(also constant time). To extract the minimum wight edge, we maintain a linked list among all the indices that contain non-empty lists, which can also be maintained with only a constant amount of extra work. Since all of these operations can be done in constant time, we have a total runtime $O(E+V)$.
+
+If the edge weights all lie in some bounded universe, suppose in the range $1$ to $W$. Then, we can just vEB tree structure given in chapter $20$ to have the two required operations performed in time $O(\lg(\lg(W)))$, which means that the total runtime could be made $O((V+E)\lg(\lg(W)))$.\\
+
+
+\noindent\textbf{Exercise 23.2-7}\\
+%notdone
+
+\noindent\textbf{Problem 23-1}\\
+\begin{enumerate}[a.]
+\item
+To see that the second best minimum spanning tree need not be unique, we consider the following example graph on four vertices. Suppose the vertices are $\{a,b,c,d\}$, and the edge weights are as follows:
+
+$
+\begin{array}{c|c|c|c|c|}
+&a&b&c&d\\
+\hline
+a&-&1&4&3\\
+\hline
+b&1&-&5&2\\
+\hline
+c&4&5&-&6\\
+\hline
+d&3&2&6&-\\
+\end{array}
+$
+
+Then, the minimum spanning tree has weight 7, but there are two spanning trees of the second best weight, 8.
+\item
+We are trying to show that there is a single edge swap that can demote our minimum spanning tree to a second best minimum spanning tree. 
+
+In obtaining the second best minimum spanning tree, there must be some cut of a single vertex away from the rest for which the edge that is added is not light, otherwise, we would find the minimum spanning tree, not the second best minimum spanning tree. Call the edge that is selected for that cut for the second best minimum spanning tree $(x,y)$. Now, consider the same cut, except look at the edge that was selected when obtaining $T$, call it $(u,v)$. Then, we have that if consider $T - \{(u,v)\} \cup \{(x,y)\}$, it will be a second best minimum spanning tree. This is because if the second best minimum spanning tree also selected a non-light edge for another cut, it would end up more expensive than all the minimum spanning trees. This means that we need for every cut other than the one that the selected edge was light. This means that the choices all align with what the minimum spanning tree was.
+\item
+We give here a dynamic programming solution. Suppose that we want to find it for $(u,v)$. First, we will identify the vertex $x$ that occurs immediately after $u$ on the simple path from $u$ to $v$. We will then make $max[u,v]$ equal to the max of $w((u,x))$ and $max[w,v]$.Lastly, we just consider the case that $u$ and $v$ are adjacent, in which case the maximum weight edge is just the single edge between the two. If we can find $x$ in constant time, then we will have the whole dynamic program running in time $O(V^2)$, since that's the size of the table that's being built up. 
+
+To find $x$ in constant time, we preprocess the tree. We first pick an arbitrary root. Then, we do the preprocessing for Tarjan's off-line least common ancestors algorithm(See problem 21-3). This takes time just a little more than linear, $O(|V|\alpha(|V|))$. Once we've computed all the least common ancestors, we can just look up that result at some point later in constant time. Then, to find the $w$ that we should pick, we first see if $u=LCA(u,v)$ if it does not, then we just pick the parent of $u$ in the tree. If it does, then we flip the question on its head and try to compute $max[v,u]$, we are guaranteed to not have this situation of $v=LCA(v,u)$ because we know that $u$ is an ancestor of $v$.\\
+
+\item
+We provide here an algorithm that takes time $O(V^2)$ and leave open if there exists a linear time solution, that is a $O(E+V)$ time solution. First, we find a minimum spanning tree in time $O(E+V\lg(V))$, which is in $O(V^2)$. Then, using the algorithm from part c, we find the double array max. Then, we take a running minimum over all pairs of vertices $u,v$, of the value of $w(u,v) - max[u,v]$. If there is no edge between u and v, we think of the weight being infinite. Then, for the pair that resulted in the minimum value of this difference, we add in that edge and remove from the minimum spanning tree, an edge that is in the path from u to v that has weight max[u,v].
+\end{enumerate}
+
+\noindent\textbf{Problem 23-3}\\
+\begin{enumerate}[a.]
+\item
+To see that every minimum spanning tree is also a bottleneck spanning tree. Suppose that $T$ is a minimum spanning tree. Suppose there is some edge in it $(u,v)$ that has a weight that's greater than the weight of the bottleneck spanning tree. Then, let $V_1$ be the subset of vertices of $V$ that are reachable from $u$ in $T$, without going though $v$. Define $V_2$ symmetrically. Then, consider the cut that separates $V_1$ from $V_2$. The only edge that we could add across this cut is the one of minimum weight, so we know that there are no edge across this cut of weight less than $w(u,v)$. However, we have that there is a bottleneck spanning tree with less than that weight. This is a contradiction because a bottleneck spanning tree, since it is a spanning tree, must have an edge across this cut.
+\item
+To do this, we first process the entire graph, and remove any edges that have weight greater than $b$. If the remaining graph is selected, we can just arbitrarily select any tree in it, and it will be a bottleneck spanning tree of weight at most $b$. Testing connectivity of a graph can be done in linear time by running a breadth first search and then making sure that no vertices remain white at the end.
+\item
+Write down all of the edge weights of vertices. Use the algorithm from section 9.3 to find the median of this list of numbers in time $O(E)$. Then, run the procedure from part b with this median value as the one that you are testing for there to be a bottleneck spanning tree with weight at most. Then there are two cases:
+
+First, we could have that there is a bottleneck spanning tree with weight at most this median. Then just throw the edges with weight more than the median, and repeat the procedure on this new graph with half the edges.
+
+Second, we could have that there is no bottleneck spanning tree with at most that weight. Then, we should run the procedure from problem 23-2 to contract all of the edges that have weight at most this median weight. This takes time $O(E\lg(\lg(V)))$ and then we are left solving the problem on a graph that now has half the vertices.
+
+
+\end{enumerate}
 \end{document}
