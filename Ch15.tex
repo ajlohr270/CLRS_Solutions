@@ -34,15 +34,27 @@ Procede by induction. The base case of $T(0) = 2^0 = 1$. Then, we apply the indu
 T(n) = 1+ \sum_{j=0}^{n-1} T(j) = 1+  \sum_{j=0}^{n-1} 2^j = 1 + \frac{2^{n}-1}{2-1} = 1+ 2^n-1 = 2^n
 \]
 
+\noindent\textbf{Exercise 15.1-2}\\
+
+Let $p_1 = 0$, $p_2 = 4$, $p_3 = 7$ and $n=4$.  The greedy strategy would first cut off a piece of length 3 since it has highest density.  The remaining rod has length 1, so the total price would be 7. On the other hand, two rods of length 2 yield a price of 8. \\
+
+
 \noindent\textbf{Exercise 15.1-3}\\
+
 Now, instead of equation (15.1), we have that
 \[
 r_n = \max\{p_n,r_1+r_{n-1}-c,r_2+r_{n-2}-c,\ldots,r_{n-1}+r_{1}-c\}
 \]
 
-And so, to change the top down solution to this problem, we would change MEMOIZED-CUT-ROD-AUX(p,n,r) as follows. The upper bound for i on line 6 should be $n-1$ instead of $n$.Also, after the for loop, but before line 8, set $q = \max\{q-c,p[i]\}$.
+And so, to change the top down solution to this problem, we would change MEMOIZED-CUT-ROD-AUX(p,n,r) as follows. The upper bound for i on line 6 should be $n-1$ instead of $n$.Also, after the for loop, but before line 8, set $q = \max\{q-c,p[i]\}$.\\
+
+\noindent\textbf{Exercise 15.1-4}\\
+
+Create a new array called $s$.  Initialize it to all zeros in MEMOIZED-CUT-ROD(p,n) and pass it as an additional argument to MEMOIZED-CUT-ROD-AUX(p,n,r,s).  Replace line 7 in MEMOIZED-CUT-ROD-AUX by the following: $t = p[i] + MEMOIZED-CUT-ROD-AUX(p,n-i,r,s)$.  Following this, if $t > q$, set $q=t$ and $s[n] = i$. Upon termination, $s[i]$ will contain the size of the first cut for a rod of size $i$.  \\
+
 
 \noindent\textbf{Exercise 15.1-5}\\
+
 The subproblem graph for $n=4$ looks like
 
 \begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
@@ -94,7 +106,7 @@ E(n) = 2 + 2*Fib(n-1) -2 + 2*Fib(n-2) -2 = 2*Fib(n)-2
 
 
 
-We will present a $O(n)$ bottom up solution that only keeps track of the the two largest subproblems so far, since a subproblem can only depend on the solution to subproblems at most two less for Fibonacci.
+We will present a $O(n)$ bottom up solution that only keeps track of the the two largest subproblems so far, since a subproblem can only depend on the solution to subproblems at most two less for Fibonacci.\\
 
 \begin{algorithm}
 \caption{DYN-FIB(n)}
@@ -113,19 +125,39 @@ We will present a $O(n)$ bottom up solution that only keeps track of the the two
 \end{algorithmic}
 \end{algorithm}
 
-\noindent\textbf{Exercise 15.1-1}\\
+\noindent\textbf{Exercise 15.2-1}\\
+
 An optimal parenthesization of that sequence would be $(A_1 A_2)((A_3 A_4)(A_5A_6))$ which will require $5*50*6+3*12*5+5*10*3+3*5*6+5*3*6 = 1500 + 180 +150+90+90 = 2010$.\\
 
+\noindent\textbf{Exercise 15.2-2}\\
+
+The following algorithm actually performs the optimal multiplication, and is recursive in nature:
+
+\begin{algorithm}
+\caption{MATRIX-CHAIN-MULTIPLY(A,s,i,j)}
+\begin{algorithmic}
+\If{$i==j$}
+	\State Return $A_i$
+\EndIf
+\State Return MATRIX-CHAIN-MULTIPLY(A,s,i,s[i,j]) $\cdot$ MATRIX-CHAIN-MULTIPLY(A,s,s[i,j]+1,j)
+\end{algorithmic}
+\end{algorithm}
+
 \noindent\textbf{Exercise 15.1-3}\\
+
 By indution we will show that $P(n)$ from eq (15.6) is $\ge 2^{n} -1\in \Omega(2^n)$. The base case of n=1 is trivial. Then, for $n\ge 2$, by induction and eq (15.6), we have
 \[
 P(n) = \sum_{k=1}^{n-1} P(k) P(n-k) \ge \sum_{k=1}^{n-1} 2^{k} 2^{n-k} = (n-1) (2^{n} -1) \ge 2^n -1 
 \]
 So, the conclusion holds.\\
 
+\noindent\textbf{Exercise 15.2-4}\\
 
+The subproblem graph for matrix chain multiplication has a vertex for each pair $(i,j)$ such that $1\leq i \leq j \leq n$, corresponding to the subproblem of finding the optimal way to multiply $A_iA_{i+1}\cdots A_j$.  There are $n(n-1)/2 + n$ vertices.  Vertex $(i,j)$ is connected by an edge directed to vertex $(k,l)$ if $k=i$ and $k \leq l < j$ or $l = j$ and $i < k \leq j$.  A vertex $(i,j)$ has outdegree $2(j-i)$.  There are $n-k$ vertices such that $j-i = k$, so the total number of edges is
+\[ \sum_{k=0}^{n-1} 2k(n-k).\]
 
 \noindent\textbf{Exercise 15.1-5}\\
+
 We count the number of times that we reference a different entry in $m$ than the one we are computing, that is, 2 times the number of times that line 10 runs.
 \begin{align*}
  \sum_{l=2}^n \sum_{i=l}^{n-l+1} \sum_{k=i}^{i+l-2} 2 =  \sum_{l=2}^n \sum_{i=1}^{n-l+1} (l-1)2 &= \sum_{l=2}^n 2(l-1)(n-l+1) \\
@@ -136,20 +168,69 @@ We count the number of times that we reference a different entry in $m$ than the
  &= \frac{n^3-n}{3}
 \end{align*}
 
+\noindent\textbf{Exercise 15.2-6}\\
+
+We proceed by induction on the number of matrices. A single matrix has no pairs of parentheses.  Assume that a full parenthesization of an $n$-element expression has exactly $n-1$ pairs of parentheses.  Given a full parenthesization of an $n+1$-element expression, there must exist some $k$ such that we first multiply $B= A_1 \cdots A_k$ in some way, then multiply $C = A_{k+1} \cdots A_{n+1}$ in some way, then multiply $B$ and $C$.  By our induction hypothesis, we have $k-1$ pairs of parentheses for the full parenthesization of $B$ and $n+1-k - 1$ pairs of parentheses for the full parenthesization of $C$.  Adding these together, plus the pair of outer parentheses for the entire expression, yields $k-1+n + 1-k-1+1 = (n+1) - 1$ parentheses, as desired.  \\
+
 
 \noindent\textbf{Exercise 15.3-1}\\
+
 The runtime of of enumerating is just $n*P(n)$, while is we were running RECURSIVE-MATRIX-CHAIN, it would also have to run on all of the internal nodes of the subproblem tree. Also, the enumeration approach wouldn't have as much overhead.\\
 
+\noindent\textbf{Exercise 15.3-2}\\
+
+Let $[i..j]$ denote the call to Merge Sort to sort the elements in positions $i$ through $j$ of the original array. The recursion tree will have $[1..n]$ as its root, and at any node $[i..j]$ will have $[i..(j-i)/2]$ and $[(j-i)/2 + 1..j]$ as its left and right children, respectively.  If $j-i = 1$, there will be no children.  The memoization apprach fails to speed up Merge Sort because the subproblems aren't overlapping.  Sorting one list of size $n$ isn't the same as sorting another list of size $n$, so there is no savings in storing solutions to subproblems since each solution is used at most once.\\
+
 \noindent\textbf{Exercise 15.3-3}\\
+
 This modification of the matrix-chain-multiplication problem does still exhibit the optimal substructure property. Suppose we split a maximal multiplication of $A_1, \ldots,A_n$ between $A_k$ and $A_{k+1}$ then, we must have a maximal cost multiplication on either side, otherwise we could substitute in for that side a more expensive multiplication of $A_1,\ldots,A_n$.\\
 
+\noindent\textbf{Exercise 15.3-4}\\
+
+Suppose that we are given matricies $A_1, A_2, A_3$, and $A_4$ with dimensions such that $p_0,p_1,p_2,p_3,p_4 = 1000,100,20,10,1000$.  Then $p_0 p_k p_4$ is minimized when $k=3$, so we need to solve the subproblem of multiplying $A_1A_2A_3$, and also $A_4$ which is solved automatically.  By her algorithm, this is solved by splitting at $k=2$.  Thus, the full parenthesization is $(((A_1 A_2)A_3)A_4)$.  This requires $1000\cdot 100 \cdot 20 + 1000 \cdot 20 \cdot 10 + 1000 \cdot 10 \cdot 1000 = 12,200,000$ scalar multiplications. On the other hand, suppose we had fully parenthesized the matricies to multiply as $((A_1 (A_2A_3))A_4)$.  Then we would only require $100\cdot 20 \cdot 10 + 1000 \cdot 100 \cdot 10 + 1000 \cdot 10 \cdot 1000= 11,020,000$ scalar multiplications, which is fewer than Professor Capulet's method.  Therefore her greedy approach yields a suboptimal solution. \\
+
 \noindent\textbf{Exercise 15.3-5}\\
+
 The optimal substructure property doesn't hold because the number of pieces of length $i$ used on one side of the cut affects the number allowed on the other. That is, there is information about the particular solution on one side of the cut that changes what is allowed on the other.
 
 To make this more concrete, suppose the rod was length 4, the values were $l_1 = 2, l_2 = l_3= l_4 =1$, and each piece has the same worth regardless of length. Then, if we make our first cut in the middle, we have that the optimal soultion for the two rods left over is to cut it in the middle, which isn't allowed because it increases the total number of rods of length 1 to be too large.\\
 
+\noindent\textbf{Exercise 15.3-6}\\
+
+First we assume that the commission is always zero.  Let $k$ denote a currency which appears in an optimal sequence $s$ of trades to go from currency 1 to currency $n$.  $p_k$ denote the first part of this sequence which changes currencies from 1 to $k$ and $q_k$ denote the rest of the sequence.  Then $p_k$ and $q_k$ are both optimal sequences for changing from 1 to $k$ and $k$ to $n$ respectively.  To see this, suppose that $p_k$ wasn't optimal but that $p_k'$ was.  Then by changing currencies according to the sequence $p_k' q_k$ we would have a sequence of changes which is better than $s$, a contradiction since $s$ was optimal.  The same argument applies to $q_k$.
+
+Now suppose that the commisions can take on arbitrary values.  Suppose we have currencies 1 through 6, and $r_{12} = r_{23} = r_{34} = r_{45} = 2$, $r_{13} = r_{35} = 6$, and all other exchanges are such that $r_{ij} = 100$.  Let $c_1 = 0$, $c_2 = 1$, and $c_k = 10$ for $k \geq 3$.  The optimal solution in this setup is to change 1 to 3, then 3 to 5, for a total cost of 13.  An optimal solution for changing 1 to 3 involves changing 1 to 2 then 2 to 3, for a cost of 5, and an optimal solution for changing 3 to 5 is to change 3 to 4 then 4 to 5, for a total cost of 5.  However, combining these optimal solutions to subproblems means making more exchanges overall, and the total cost of combining them is 18, which is not optimal. \\
+
 \noindent\textbf{Exercise 15.4-1}\\
+
 An LCS is $\langle 1,0,1,0,1,0\rangle$. A concise way of seeing this is by noticing that the first list contains a ``00'' while the second contains none, Also, the second list contains two copies of ``11'' while the first contains none. Inorder to reconcile this, any LCS will have to skip at least three elements. Since we managed to do this, we know that our common subsequence was maximal.\\
+
+\noindent\textbf{Exercise 15.4-2}\\
+
+The algorithm PRINT-LCS(c,X,Y) prints the LCS of $X$ and $Y$ from the completed table by computing only the necessary entries of $B$ on the fly.  It runs in $O(m+n)$ time because each iteration of the while loop decrements either $i$ or $j$ or both by 1, and halts when either reaches 0. The final for loop iterates at most $\min(m, n)$ times. 
+\begin{algorithm}
+\caption{PRINT-LCS(c,X,Y)}
+\begin{algorithmic}
+\State $n = c[X.length, Y.length]$
+\State Initialize an array $s$ of length $n$
+\State $i=X.length$ and $j=Y.length$
+\While{$i > 0$ and $j > 0$}
+	\If{$x_i == y_j$}
+		\State $s[n] = x_i$
+		\State $n = n - 1$
+		\State $i = i - 1$
+		\State $j = j - 1$
+	\ElsIf{$c[i-1,j] \geq c[i,j-1]$}
+		\State $i = i - 1$
+	\Else
+		\State $j = j - 1$
+	\EndIf
+\EndWhile
+\For{$k = 1$ to $s.length$}
+	\State Print $s[k]$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
 
 \noindent\textbf{Exercise 15.4-3}\\
 
@@ -184,11 +265,46 @@ An LCS is $\langle 1,0,1,0,1,0\rangle$. A concise way of seeing this is by notic
 \end{algorithmic}
 \end{algorithm}
 
+\noindent\textbf{Exercise 15.4-4}\\
+
+Since we only use the previous row of the $c$ table to compute the current row, we compute as normal, but when we go to compute row $k$, we free row $k-2$ since we will never need it again to compute the length.  To use even less space, observe that to compute $c[i,j]$, all we need are the entries $c[i-1,j], c[i-1,j-1]$, and $c[i,j-1]$.  Thus, we can free up entry-by-entry those from the previous row which we will never need again, reducing the space requirement to $\min(m,n)$.  Computing the next entry from the three that it depends on takes $O(1)$ time and space.\\
+
 
 \noindent\textbf{Exercise 15.4-5}\\
+
 Given a list of numbers $L$, make a copy of $L$ called $L'$ and then sort $L'$. Then, just run the LCS algorithm on these two lists. The longest common subsequnce must be monotone increasing because it is a subsequence of $L'$ which is sorted. It is also the longest monotonte increasing subsequence because being a subsequcene of $L'$ only adds the restriction that the subsequence must be monotone increasing. Since $|L|=|L'| =n$, and sorting $L$ can be done in $o(n^2)$ time, the final running time will be $O(|L||L'|) = O(n^2)$.\\
 
+\noindent\textbf{Exercise 15.4-6}\\
+
+The algorithm LONG-MONOTONIC(S) returns the longest monotonically increasing subsequence of $S$, where $S$ has length $n$.  The algorithm works as follows: a new array $B$ will be created such that $B[i]$ contains the last value of a longest monotonically increasing subsequence of length $i$.  A new array $C$ will be such that $C[i]$ contains the monotonically increasing subsequence of length $i$ with smallest last element seen so far. To analyze the runtime, observe that the entries of $B$ are in sorted order, so we can execute line 9 in $O(\log(n))$ time.  Since every other line in the for-loop takes constant time, the total run-time is $O(n\log n)$.
+
+
+\begin{algorithm}
+\caption{LONG-MONOTONIC(S)}
+\begin{algorithmic}[1]
+\State Initialize an array $B$ of integers length of $n$, where every value is set equal to $\infty$.
+\State Initialize an array $C$ of empty lists length $n$.
+\State $L=1$
+\For{$i=1$ to $n$}
+	\If{$A[i] < B[1]$}
+		\State $B[1] = A[i]$
+		\State $C[1].head.key = A[i]$
+	\Else
+		\State Let $j$ be the largest index of $B$ such that $B[j] < A[i]$
+		\State $B[j+1] = A[i]$
+		\State $C[j+1] = C[j]$
+		\State $C[j+1].insert(A[i])$
+		\If{$j+1 > L$}
+			\State $L = L + 1$
+		\EndIf
+	\EndIf
+\EndFor
+\State Print $C[L]$
+\end{algorithmic}
+\end{algorithm}
+
 \noindent\textbf{Exercise 15.5-1}\\
+
 Run the given algorithm with the initial arguemnt of $i=1$ and $j= m[1].length$.
 
 \begin{algorithm}
@@ -207,11 +323,36 @@ Run the given algorithm with the initial arguemnt of $i=1$ and $j= m[1].length$.
 \end{algorithmic}
 \end{algorithm}
 
+\noindent\textbf{Exercise 15.5-2}\\
+
+After painstakingly working through the algorithm and building up the tables, we find that the cost of the optimal binary search tree is 3.12.  The tree takes the following structure:
+
+\begin{tikzpicture}[level/.style={sibling distance=75mm/#1}]
+\node [circle,draw] (a){5}
+  child {
+  node [circle,draw] (b) {2}
+    child {node [circle,draw] (c) {1}
+    }
+      child {node [circle,draw] (d) {3}
+	child{ node [circle,draw] (e) {NIL}}
+	child{ node [circle,draw] (e) {4}}
+      }
+  }
+  child{ node [circle,draw] (e) {7}
+	child{ node [circle,draw] (f) {6}}
+	child{ node [circle,draw] (g) {NIL}}};
+\end{tikzpicture}
+
 \noindent\textbf{Exercise 15.5-3}\\
+
 Each of the $\Theta(n^2)$ values of $w[i,j]$ would require computing those two sums, both of which can be of size $O(n)$, so, the asymptotic runtime would increase to $O(n^3)$.\\
 
+\noindent\textbf{Exercise 15.5-4}\\
+
+%%%Need to finish
 
 \noindent\textbf{Problem 15-1}\\
+
 Since any longest simple path must start by going through some edge out of $s$, and thereafter cannot pass through $s$ because it must be simple, that is, 
 \[
 LONGEST(G,s,t) = 1+\max_{s\sim s'} \{ LONGEST(G|_{V\setminus\{s\}},s',t)\}
@@ -220,10 +361,40 @@ with the base case that if $s=t$ then we have a length of 0.
 
 A naive bound would be to say that since the graph we are considering is a subset of the vertices, and the other two arguments to the substructure are distinguished vertices, then, the runtime will be $O(|V|^2 2^{|V|})$. We can see that we can actually will have to consider this many possible subproblems by taking $|G|$ to be the complete graph on $|V|$ vertices.
 
+\noindent\textbf{Problem 15-2}\\
+
+Let $A[1..n]$ denote the array which contains the given word.  First note that for a palindrome to be a subsequence we must be able to divide the input word at some position $i$, and then solve the longest common subsequence problem on $A[1..i]$ and $A[i+1..n]$, possibly adding in an extra letter to account for palindromes with a central letter. Since there are $n$ places at which we could split the input word and the LCS problem takes time $O(n^2)$, we can solve the palindrome problem in time $O(n^3)$. \\
+
 \noindent\textbf{Problem 15-3}\\
+
 First sort all the points based on their x coordinate. To index our subproblem, we will give the rightmost point for both the path going to the left and the path going to the right. Then, we have that the desired result will be the subproblem indexed by v,v where $v$ is the rightmost point.	Suppose by symmetry that we are further along on the left-going path, that the leftmost path is going to the $i$th one and the right going path is going until the $j$th one. Then, if we have that $i>j+1$, then we have that the cost must be the distance from the $i-1$st point to the $i$th plus the solution to the subproblem obtained where we replace $i$ with $i-1$. There can be at most $O(n^2)$ of these subproblem, but solving them only requires considering a constant number of cases. The other possibility for a subproblem is that $j\le i \le j+1$. In this case, we consider for every $k$ from 1 to $j$ the subproblem where we replace $i$ with $k$ plus the cost from $k$th point to the $i$th point and take the minimum over all of them. This case requires considering $O(n)$ things, but there are only $O(n)$ such cases. So, the final runtime is $O(n^2)$.\\
 
+\noindent\textbf{Problem 15-4}\\
+
+First observe that the problem exhibits optimal substructure in the following way: Suppose we know that an optimal solution has $k$ words on the first line.  Then we must solve the subproblem of printing neatly words $l_{k+1}, \ldots, l_{n}$.  We build a table of optimal solutions solutions to solve the problem using dynamic programming.  If $n-1 + \sum_{k=1}^nl_k < M$ then put all words on a single line for an optimal solution.  In the following algorithm Printing-Neatly(n), $C[k]$ contains the cost of printing neatly words $l_k$ through $l_n$. We can determine the cost of an optimal solution upon termination by examining $C[1]$.  The entry $P[k]$ contains the position of the last word which should appear on the first line of the optimal solution of words $l_1, l_2, \ldots, l_n$.  Thus, to obtain the optimal way to place the words, we make $L_{P[1]}$ the last word on the first line, $l_{P[P[1]]}$ the last word on the second line, and so on.\\
+
+\begin{algorithm}
+\caption{Printing-Neatly(n)}
+\begin{algorithmic}[1]
+\State Let $P[1..n]$ and $C[1..n]$ be a new tables.
+\For{$k=n$ downto $1$}
+	\If{$\sum_{i=k}^n l_i + n-k  < M$}
+		\State $C[k] = 0$
+	\EndIf
+	\State $q = \infty$
+	\For{$j=1$ downto $n-k $}
+		\If{$\sum_{m=1}^j l_{k+j} + j - 1 < M$ and $(M - \sum_{m=1}^j l_{k+j} + j - 1) + C[k + j + 1] < 				q$}
+			\State $q = (M - \sum_{m=1}^j l_{k+j} + j - 1) + C[k + j + 1]$
+			\State $P[k] = k+j$
+		\EndIf
+	\EndFor
+	\State $C[k] = q$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
 \noindent\textbf{Problem 15-5}\\
+
 \begin{enumerate}[a.]
 \item
 We will index our subproblems by two integers, $1\le i \le m$ and $1\le j\le n$. We will let $i$ indicate the rightmost element of $x$ we have not processed and $j$ indicate the rightmost element of $y$ we have not yet found matches for. For a solution, we call $EDIT(x,y,i,j)$
@@ -257,7 +428,15 @@ We will index our subproblems by two integers, $1\le i \le m$ and $1\le j\le n$.
 We will set $cost(delete) = cost(insert) = 2$, $cost(copy) = -1$, $cost(replace) = 1$, and $cost(twiddle) =cost(kill) = \infty$. Then a minimum cost translation of the first string into the second corresponds to an alignment. where we view a copy or a replace as incrementing a pointer for both strings. A insert as putting a space at the current position of the pointer in the first string. A delete operation means putting a space in the current position in the second string. Since twiddles and kills have infinite costs, we will have neither of them in a minimal cost solution. The final value for the alignment will be the negative of the minimum cost sequence of edits.
 \end{enumerate}
 
+\noindent\textbf{Problem 15-6}\\
+
+The problem exhibits optimal substructure in the following way: If the root $r$ is included in an optimal solution, then we must solve the optimal subproblems rooted at the grandchildren of $r$.  If $r$ is not included, then we must solve the optimal subproblems on trees rooted at the children of $r$.  The dynamic programming algorithm to solve this problem works as follows: We make a table $C$ indexed by vertices which tells us the optimal conviviality ranking of a guest list obtained from the subtree with root at that vertex.  We also make a table $G$ such that $G[i]$ tells us the guest list we would use when vertex $i$ is at the root.  Let $T$ be the tree of guests. To solve the problem, we need to examine the guest list stored at $G[T.root]$.  First solve the problem at each leaf $L$.  If the conviviality ranking at $L$ is positive, $G[L] = \{L\}$ and $C[L] = L.conviv$.  Otherwise $G[L] = \emptyset$ and $C[L] = 0$.  Iteratively solve the subproblems located at parents of nodes at which the subproblem has been solved.  In general for a node $x$, 
+\[C[x] = \min\left(\sum_{\mbox{$y$ is a child of $x$}}C[y], \sum_{\mbox{$y$ is a grandchild of $x$}} C[y]\right).\]
+
+The runtime of the algorithm is $O(n^2)$ where $n$ is the number of vertices, because we solve $n$ subproblems, each in constant time, but the tree traversals required to find the appropriate next node to solve could take linear time. \\
+
 \noindent\textbf{Problem 15-7}\\
+
 \begin{enumerate}[a.]
 \item Our substructure will consist of trying to find suffixes of s of length one less starting at all the edges leaving $\nu_0$ with label $\sigma_0$. if any of them have a solution, then, there is a solution. If none do, then there is none. See the algorithm VITERBI for details.
 \begin{algorithm}
@@ -305,6 +484,54 @@ Since the runtime is indexed by the same things, we have that we will call it wi
 
 \end{enumerate}
 
+\noindent\textbf{Problem 15-8}\\
+
+a. If $n>1$ then for every choice of pixel at a given row, we have at least 2 choices of pixel in the next row to add to the seam (3 if we're not in column 1 or $n$).  Thus the total number of possibilities is bounded below by $2^m$. \\
+
+b. We create a table $D[1..m,1..n]$ such that $D[i,j]$ stores the disruption of an optimal seam ending at position $[i,j]$, which started in row 1.  We also create a table $S[i,j]$ which stores the list of ordered pairs indicating which pixels were used to create the optimal seam ending at position $(i,j)$.  To find the solution to the problem, we look for the minimum $k$ entry in row $m$ of table $D$, and use the list of pixels stored at $S[m,k]$ to determine the optimal seam.  To simplify the algorithm Seam(A), let $MIN(a,b,c)$ be the function which returns $-1$ if $a$ is the minimum, 0 if $b$ is the minimum, and 1 if $c$ is the minimum value from among $a, b, $ and $c$.  The time complexity of the algorithm is $O(mn)$.\\
+
+\begin{algorithm}
+\caption{Seam(A)}
+\begin{algorithmic}
+\State Initialize tables $D[1..m,1..n]$ of zeros and $S[1..m,1..n]$ of empty lists
+\For{$i=1$ to $n$}
+	\State $S[1,i] = (1,i)$
+	\State $D[1,i] = d_{1i}$
+\EndFor
+\For{$i=2$ to $m$}
+	\For{$j=1$ to $n$} 
+		\If{$j == 1$} //Handles the left-edge case
+			\If{$D[i-1,j] < D[i-1,j+1]$}
+				\State $D[i,j] = D[i-1,j] + d_{ij}$
+				\State $S[i,j] = S[i-1,j].insert(i,j)$
+			\Else
+				\State $D[i,j] = D[i-1,j+1] + d_{ij}$
+				\State $S[i,j] = S[i-1,j+1].insert(i,j)$
+			\EndIf
+		\ElsIf{$j==n$} //Handles the right-edge case
+			\If{$D[i-1,j-1] < D[i-1,j]$}
+				\State $D[i,j] = D[i-1,j-1] + d_{ij}$
+				\State $S[i,j] = S[i-1,j-1].insert(i,j)$
+			\Else
+				\State $D[i,j] = D[i-1,j] + d_{ij}$
+				\State $S[i,j] = S[i-1,j].insert(i,j)$
+			\EndIf
+		\EndIf
+		\State $x = MIN(D[i-1,j-1], D[i-1,j], D[i-1,j+1])$
+		\State $D[i,j] = D[i-1,j+x]$
+		\State $S[i,j] = S[i-1,j+x].insert(i,j)$
+	\EndFor
+\EndFor
+\State $q = 1$
+\For{$j=1$ to $n$}
+	\If{$D[m,j] < D[m,q]$}
+		$q = j$
+	\EndIf
+\EndFor
+\State Print the list stored at $S[m,q]$.
+\end{algorithmic}
+\end{algorithm}
+
 \noindent\textbf{Problem 15-9}\\
 
 The subproblems will be indexed by contiguous subarrays of the arrays of cuts needed to be made. We try making each possible cut, and take the one with cheapest cost. Since there are $m$ to try, and there are at most $m^2$ possible things to index the subproblems with, we have that the $m$ dependence is that the solution is $O(m^3)$. Also, since each of the additions is of a number that is $O(n)$, each of the iterations of the for loop may take time $O(\lg(n)+\lg(m))$, so, the final runtime is $O(m^3\lg(n))$. The given algorithm will return (cost,seq) where cost is the cost of the cheapest sequence, and seq is the sequence of cuts to make
@@ -325,7 +552,90 @@ The subproblems will be indexed by contiguous subarrays of the arrays of cuts ne
 \end{algorithmic}
 \end{algorithm}
 
+\noindent\textbf{Problem 15-10}\\
+
+a. Without loss of generality, suppose that there exists an optimal solution $S$ which involves investing $d_1$ dollars into investment $k$ and $d_2$ dollars into investement $m$ in year 1.  Further, suppose in this optimal solution, you don't move your money for the first $j$ years.   If $r_{k1} + r_{k2} + \ldots + r_{kj} > r_{m1} + r_{m2} + \ldots + r_{mj}$ then we can perform the usual cut-and-paste maneauver and instead invest $d_1 + d_2$ dollars into investment $k$ for $j$ years.  Keeping all other investments the same, this results in a strategy which is at least as profitable as $S$, but has reduced the number of different investments in a given span of years by 1.  Continuing in this way, we can reduce the optimal strategy to consist of only a single investment each year.  \\
+
+b. If a particular investment strategy is the year-one-plan for a optimal investement strategy, then we must solve two kinds of optimal suproblem: either we maintain the strategy for an additional year, not incurring the money-moving fee, or we move the money, which amounts to solving the problem where we ignore all information from year 1. Thus, the problem exhibits optimal substructure. \\
+
+c.  The algorithm works as follows: We build tables $I$ and $R$ of size $10$ such that $I[i]$ tells which investment should be made (with all money) in year $i$, and $R[i]$ gives the total return on the investment strategy in years $i$ through $10$.  \\
+\begin{algorithm}
+\caption{Invest(d,n)}
+\begin{algorithmic}
+\State Initialize tables $I$ and $R$ of size $11$, all filled with zeros
+\For{$k = 10$ downto $1$}
+	\State $q = 1$
+	\For{$i=1$ to $n$}
+		\If{$r_{ik} > r_{qk}$} // $i$ now holds the investment which looks best for a given year
+			\State $q = i$
+		\EndIf
+	\EndFor
+	\If{$R[k+1] + dr_{I[k+1]k} - f_1 < R[k+1] + dr_{qk} - f_2$} //If it's better to not move money
+		\State $R[k] = R[k+1] + dr_{I[k+1]k} - f_1$
+		\State $I[k] = I[k+1]$
+	\Else
+		\State $R[k] = R[k+1] + dr_{qk} - f_2$
+		\State $I[k] = q$
+	\EndIf
+\EndFor
+\State Return $I$ as an optimal strategy with return $R[1]$.
+\end{algorithmic}
+\end{algorithm}
+
+
+d. %Not sure
+
 \noindent\textbf{Problem 15-11}\\
-Our subproblems will be indexed by and integer $i\in[n]$ and another integer $j\in[D]$. $i$ will indicate how many months have passed, that is, we will restrict ourselves to only caring about $(d_i, \ldots,d_n)$. $j$ will indicate how many machines we have in stock initially. Then, the recurrence we will use will try producing all possible numbers of machines from $1$ to $[D]$. Since the index space has size $O(nD)$ and we are only running through and taking the minimum cost from $D$ many options when computing a particular subproblem, the total runtime will be $O(nD^2)$.  
+
+Our subproblems will be indexed by and integer $i\in[n]$ and another integer $j\in[D]$. $i$ will indicate how many months have passed, that is, we will restrict ourselves to only caring about $(d_i, \ldots,d_n)$. $j$ will indicate how many machines we have in stock initially. Then, the recurrence we will use will try producing all possible numbers of machines from $1$ to $[D]$. Since the index space has size $O(nD)$ and we are only running through and taking the minimum cost from $D$ many options when computing a particular subproblem, the total runtime will be $O(nD^2)$.  \\
+
+\noindent\textbf{Problem 15-12}\\
+
+We will make an $N+1$ by $X+1$ by $P+1$ table. The runtime of the algorithm is $O(NXP)$.
+
+\begin{algorithm}
+\caption{Baseball(N,X,P)}
+\begin{algorithmic}
+\State Initialize an  $N+1$ by $X+1$ table $B$
+\State Initialize an array $P$ of length $N$
+\For{$i=0$ to $N$}
+	\State $B[i,0] = 0$
+\EndFor
+\For{$j=1$ to $X$}
+	\State $B[0,j] = 0$
+\EndFor
+\For{$i=1$ to $N$}
+	\For{$j=1$ to $X$}
+		\If{$j < i.cost$}
+			\State $B[i,j] = B[i-1,j]$
+		\EndIf
+		\State $q = B[i-1,j]$
+		\State $p = 0$
+		\For{$k=1$ to $p$}
+			\If{$B[i-1,j-i.cost] + i.value > q$}
+				\State $q = B[i-1,j-i.cost] + i.value$
+				\State $p = k$
+			\EndIf
+		\EndFor
+		\State $B[i,j] = q$
+		\State $P[i] = p$
+	\EndFor
+\EndFor
+\State Print: The total VORP is $B[N,X]$ and the players are:
+\State $i = N$ 
+\State $j = X$
+\State $C = 0$
+\For{$k=1$ to $N$} //Prints the players from the table
+	\If{$B[i,j] \neq B[i-1,j]$}
+		\State Print $P[i]$
+		\State $j = j - i.cost$
+		\State $C = C + i.cost$
+	\EndIf
+	\State $i = i - 1$
+\EndFor
+\State Print: The toal cost is $C$
+\end{algorithmic}
+\end{algorithm}
+
 
 \end{document}

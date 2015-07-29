@@ -203,7 +203,7 @@ As in the example code given in the section, we will neglect to check for overfl
 
 \noindent\textbf{Exercise 10.1-6}\\
 
-The operation enqueue will be the same as pushing an element on to stack 1.  This operation is $O(1)$. To dequeue, for each element on stack 1 we pop it off, and push it onto stack 2.  Then swap the names of the stacks, pop an element off of stack 1, and return it. This operation is $O(n)$. \\
+The operation enqueue will be the same as pushing an element on to stack 1.  This operation is $O(1)$. To dequeue, we pop an element from stack 2.  If stack 2 is empty, for each element in stack 1 we pop it off, then push it on to stack 2. Finally, pop the top item from stack 2. This operation is $O(n)$ in the worst case. \\
 
 \noindent\textbf{ Exercise 10.1-7} \\
 
