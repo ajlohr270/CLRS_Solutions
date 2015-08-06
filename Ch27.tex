@@ -1,0 +1,80 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{tikz}
+	
+\pagestyle{fancy}
+\title{Chapter 27}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+\begin{document}
+\maketitle
+\noindent\textbf{Exercise 27.1-1}\\
+This modification is not going to affect the asymptotic values of the span work or parallelism. All it will do is add an amount of overhead that wasn't there before. This is because as soon as the $FIB(n-2)$ is spawned the spawning thread just sits there and waits, it does not accomplish any work while it is waiting. It will be done waiting at the same time as it would of been before because the $FIB(n-2)$ call will take less time, so it will still be limited by the amount of time that the $FIN(n-1)$ call takes.
+
+\noindent\textbf{Exercise 27.1-3}\\
+Suppose that there are $x$ incomplete steps in a run of the program. Since each of these steps causes at least one unit of work to be done, we have that there is at most $(T_1-x)$ units of work done in the complete steps. Then, we suppose by contradiction that the number of complete steps is strictly greater than $\lfloor (T_1-x)/P\rfloor$. Then, we have that the total amount of work done during the complete steps is $P\cdot (\lfloor (T_1-x)/P\rfloor + 1) = P\lfloor (T_1-x)/P\rfloor +P =  (T_1-x) - ((T_1-x)\mod P) + P > T_1-x$. This is a contradiction because there are only $(T_1-x)$ units of work done during complete steps, which is less than the amount we would be doing. Notice that since $T_\infty$ is abound on the total number of both kinds of steps, it is a bound on the number of incomplete steps, x , so, 
+\[
+T_P \le \lfloor (T_1-x)/P\rfloor +x \le \lfloor (T_1-T_{\infty})/P\rfloor +T_{\infty} 
+\]
+Where the second inequality comes by noting that the middle expression, as a function of $x$ is monotonically increasing, and so is bounded by the largest value of $x$ that is possible, namely $T_{\infty}$.
+
+\noindent\textbf{Exercise 27.1-5}\\
+The information from $T_{10}$ applied to equation (27.5) give us that
+\begin{align*}
+%80 &\le \frac{T_1-T_\infty}{4} + T_\infty
+42 &\le {T_1 - T_\infty}{10} + T_\infty
+%10 &\le (T_1 - T_\infty}{64} + T_\infty
+\end{align*}
+
+which tell us that 
+\begin{align*}
+%320 &\le T_1 +3 T_\infty
+420 &\le T_1 +9 T_\infty
+%640 &\le T_1 +64 T_\infty
+\end{align*}
+
+
+Subtracting these two equations, we have that $100 \le 8 T_\infty$.
+
+If we apply the span law to $T_64$, we have that $10\ge T_\infty$. Applying the work law to our measurement for $T_4$ gets us that $320 \ge  T_1$. Now, looking at the result of applying $(27.5)$ to the value of $T_10$, we get that
+\[
+420 \le T_1 + 9T_\infty \le 320 + 90 = 410
+\]
+a contradiction. So, one of the three numbers for runtimes must be wrong. However, computers are complicated things, and its difficult to pin down what can affect runtime in practice. It is a bit harsh to judge professor Karan too poorly for something that may of been outside her control (maybe there was just a garbage collection happening during one of the measurements, throwing it off).\\
+
+\noindent\textbf{Exercise 27.1-7}\\
+The work is unchanged from the serial programming case. Since it is flipping $\Theta(n^2)$ many entries, it does $\Theta(n^2)$ work. The span of it is $\Theta(\lg(n))$ this is because each of the parallel for loops can have its children spawned in time $\lg(n)$, so the total time to get all of the constant work tasks spawned is $2\lg(n) \in $\Theta(\lg)$. Since the work of each task is $o(\lg(n))$, that doesn't affect the $T_\infty$ runtime. The parralism is equal to the work over the span, so it is $\Theta(n^2/\lg(n))$.
+
+\noindent\textbf{Exercise 27.1-9}\\
+We solve for P in the following euqation obtained by setting $T_P = T_P'$.
+\begin{align*}
+\frac{T_1}{P}+T_\infty &= \frac{T_1'}{P} + T_\infty'\\
+\frac{2048}{P} + 1 &= \frac{1024}{P}+8\\
+\frac{1024}{P} &= 7\\
+\frac{1024}{7} &=P
+\end{align*}
+
+So we get that there should be approximately 146 processors for them to have the same runtime.\\
+
+\noindent\textbf{Exercise 27.2-1}\\
+
+
+\end{document}
