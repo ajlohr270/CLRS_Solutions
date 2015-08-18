@@ -29,9 +29,16 @@
 
 
 \noindent\textbf{Exercise 20.1-1}\\
+
 To modify these structure to allow for multiple elements, instead of just storing a bit in each of the entries, we can store the head of a linked list representing how many elements of that value that are contained in the structure, with a NIL value to represent having no elements of that value.\\
 
+\noindent\textbf{Exercise 20.1-2}\\
+
+All operations will remain the same, except instead of the leaves of the tree being an array of integers, they will be an array of nodes, each of which stores $x.key$ in addition to whatever additional satellite data you wish.  \\
+
+
 \noindent\textbf{Exercise 20.1-3}\\
+
 To find the successor of a given key k from a binary tree, call the procedure $SUCC(k, T.root)$. Note that this will return NIL if there is no entry in the tree with a larger key.\\
 \begin{algorithm}
 \caption{ SUCC(k,x)}
@@ -56,7 +63,14 @@ To find the successor of a given key k from a binary tree, call the procedure $S
 \end{algorithmic}
 \end{algorithm}
 
+% ^ Boo, i think your \Else case is wrong. There's no recursive call to the right subtree!
+
+\noindent\textbf{Exercise 20.1-4}\\
+
+The new tree would have height $k$.  INSERT would take $O(k)$, MINIMUM, MAXIMUM, SUCCESSOR, PREDECESSOR, and DELETE would take $O(ku^{1/k})$. \\
+
 \noindent\textbf{Exercise 20.2-1}\\
+
 See the two algorithms, PROTO-vEB-MAXIMUM and PROTO-vEB-PREDECESSOR.
 \begin{algorithm}
 \caption{PROTO-vEB-MAXIMUM(V)}
@@ -106,36 +120,114 @@ See the two algorithms, PROTO-vEB-MAXIMUM and PROTO-vEB-PREDECESSOR.
 \end{algorithmic}
 \end{algorithm}
 
+\noindent\textbf{Exercise 20.2-2}\\
+
+When we delete a key, we need to check membership of all keys of that cluster to know how to update the summary structure.  There are $\sqrt{u}$ of these, and each membership takes $O(\lg \lg u)$ time to check.  With the recursive calls, recurrence for running time is 
+
+\[ T(u) = T(\sqrt{u}) + O(\sqrt{u}\lg \lg u).\]
+
+We make the substitution $m = \lg u$ and $S(m) = T(2^m)$. Then we apply the Master Theorem, using case 3, to solve the recurrence.  Substituting back, we find that the runtime is $T(u) = O(\sqrt{u} \lg \lg u)$.\\
+
+\begin{algorithm}
+\caption{PROTO-vEB-DELETE$(V,x)$}
+\begin{algorithmic}
+\If{$V.u == 2$}
+	\State $V.A[x] = 0$
+\Else
+	\State PROTO-vEB-DELETE$(V.cluster[high(x)], low(x))$
+	\State $inCluster = False$
+	\For{$i = high(x) \cdot \sqrt{u}$ to $(high(x)+1) \cdot \sqrt{u} - 1$}
+		\If{PROTO-vEB-MEMBER$(V.cluster[high(x)],i)$}
+			\State $inCluster = True$
+			\State Break
+		\EndIf
+	\EndFor
+	\If{$inCluster == False$}
+		\State PROTO-vEB-DELETE$(V.summary, high(x))$
+	\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
 
 \noindent\textbf{Exercise 20.2-3}\\
+
 %pending completion of 20.2-2
 
+
+\noindent\textbf{Exercise 20.2-4}\\
+
+The array $A$ found in a proto van Emde Boas structure of size 2 should now support integers, instead of just bits.  All other pats of the structure will remain the same.  The integer will store the number of duplicates at that position.  The modifications to insert, delete, minimum, successor, etc... will be minor.  Only the base cases will need to be updated. \\
+
 \noindent\textbf{Exercise 20.2-5}\\
+
 The only modification neccesary would be fore the u=2 trees. They would need to also include a length two array that had pointers to the corresponding sattelite data which would be populated in case the corresponding entry in A were 1.\\
 
+\noindent\textbf{Exercise 20.2-6}\\
+
+This algorithm recursively allocates proper space and appropriately initializes attributes for a proto van Emde Boas structure of size $u$. \\
+\begin{algorithm}
+\caption{Make-Proto-vEB(u)}
+\begin{algorithmic}
+\State $V = allocate$-$node()$
+\State $V.u = u$
+\If{$u == 2$}
+	\State Allocate-Array A of size 2
+	\State $V.A[1] = V.A[0] = 0$
+\Else
+	\State $V.summary =$ Make-Proto-vEB$(\sqrt{u})$
+	\For{$i = 0$ to $\sqrt{u} - 1$}
+		\State $V.cluster[i] = $ Make-Proto-vEB$(\sqrt{u})$
+	\EndFor
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
 \noindent\textbf{Exercise 20.2-7}\\
+
 For line 9 to be executed, we would need that in the summary data, we walso had a NIL returned. This could of either happend through line 9, or 6. Eventually though, it would need to happen in line 6, so, there must be some number of summarizations that happened of V that caused us to get an empty u=2 vEB. However, a summarization has an entry of one if any of the corresponding entries in the datastructure are one. This means that there are no entries in $V$, and so, we have that $V$ is empty.\\
 
+\noindent\textbf{Exercise 20.2-8}\\
+
+For MEMBER the runtime recurrence is $T(u) = T(u^{1/4}) + O(1)$, whose solution is again $O(\lg\lg(u))$.  For MINIMUM, $T(u) = 2T(u^{1/4}) + O(1)$. Making a substitution and applying case 1 of the master theorem, this is $O(\sqrt{\lg u})$.  For SUCCESSOR, $T(u) = 2T(u^{1/4}) + O(\lg u)$.  By case 3 of the master theorem, this is $O(\lg u)$.  For INSERT, $T(u) = 2T(u^{1/4}) + O(1)$.  This is the same as MINIMUM, which is $O(\sqrt{\lg u})$.  To analyze DELETE, we need to update the recurrence to reflect the fact that DELETE depends on MEMBER.  The new recurrence is $T(u) = T(u^{1/4}) + O(u^{1/4}\lg \lg u)$.  By case 3 of the master theorem, this is $O(u^{1/4}\lg \lg u)$. \\
+
 \noindent\textbf{Exercise 20.3-1}\\
+
 To support duplicate keys, for each u=2 vEB tree, instead of storing just a bit in each of the entries of its array, it should store an integer representing how many elements of that value the vEB contains.\\
 
+\noindent\textbf{Exercise 20.3-2}\\
+
+For any key which is a minimum on some vEB, we'll need to store its satellite data with the min value since the key doesn't appear in the subtree.  The rest of the satellite data will be stored alongside the keys of the vEB trees of size 2.  Explicitly, for each non-summary vEB tree, store a pointer in addition to min.  If min is NIL, the pointer should also point to NIL.  Otherwise, the pointer should point to the satellite data associated with that minimum.  In a size 2 vEB tree, we'll have two additional pointers, which will each point to the minimum's and maximum's satellite data, or NIL if these don't exist.  In the case where min=max, the pointers will point to the same data. \\
+
 \noindent\textbf{Exercise 20.3-3}\\
+
 We define the procedure for any $u$ that is a power of 2. If $u=2$, then, just slap that fact together with an array of length 2 that contains 0 in both entries. 
 
 If $u = 2^k > 2$, then, we create an empty vEB tree called Summary with $u= 2^{\lceil k/2\rceil}$. We also make an array called cluster of length $2^{\lceil k/2\rceil}$ with each entry initialized to an empty vEB tree with $u = 2^{\lfloor k/2\rfloor}$. Lastly, we create a min and max element, both initallized to NIL.\\
 
+\noindent\textbf{Exercise 20.3-4}\\
+
+Suppose that $x$ is already in $V$ and we call INSERT.  Then we can't satisfy lines 1, 3, 6, or 10, so we will enter the else case on line 9 every time, causing an infinite loop.  Now suppose we call DELETE when $x$ isn't in $V$. If there is only a single element in $V$, lines 1 through 3 will delete it, regardless of what element it is.  To enter the elseif of line 4, $x$ can't be equal to 0 or 1 and the vEB tree must be of size 2.  In this case, we delete the max element, regardless of what it is.  Since the recursive call always puts us in this case, we always delete an element we shouldn't.  To avoid these issue, keep and updated auxiliary array $A$ with $u$ elements.  Set $A[i] = 0$ if $i$ is not in the tree, and 1 if it is.  Since we can perform constant time updates to this array, it won't affect the runtime of any of our operations.  When inserting $x$, check first to be sure $A[x] == 0$.  If it's not, simply return.  If it is, set $A[x] = 1$ and proceed with insert as usual.  When deleting $x$, check if $A[x] == 1$.  If it isn't, simply return.  If it is, set $A[x] = 0$ and proceed with delete as usual. \\
+
 \noindent\textbf{Exercise 20.3-5}\\
+
 Similar to the analysis of (20.4), we will analyze:
 \[
 T(u) \le T(u^{1-1/k}) + T(u^{1/k}) + O(1)
 \]
-This is a good choice for analyis because for many operations we fisrt check the summary vEB tree, which will have size $u^{1/k}$ (the second term). And then possible have to check a vEB tree somewhere in cluster, which will have size $u^{1-1/k}$(the first term). We let $T(2^m) = S(m)$, so the equation becomes
+This is a good choice for analyis because for many operations we first check the summary vEB tree, which will have size $u^{1/k}$ (the second term). And then possible have to check a vEB tree somewhere in cluster, which will have size $u^{1-1/k}$(the first term). We let $T(2^m) = S(m)$, so the equation becomes
 \[
-S(m) \le S(m(1-1/k)) + S(m/k) + O(1)
+S(m) \le S(m(1-1/k)) + S(m/k) + O(1).
 \]
-If $k>2$ the first term dominates, so by master theorem, we'll have that $S(m)$ is $O(\lg(m))$, this means that $T$ will be $O(\lg(\lg(u)))$ just as in the original case where we took squareroots.
+If $k>2$ the first term dominates, so by master theorem, we'll have that $S(m)$ is $O(\lg(m))$, this means that $T$ will be $O(\lg(\lg(u)))$ just as in the original case where we took squareroots.\\
+
+\noindent\textbf{Exercise 20.3-6}\\
+
+Set $n = u/\lg\lg u$.  Then performing $n$ operations takes $c(u + n\lg\lg u)$ time for some constant $c$.  Using the aggregate amoritzed analysis, we divide by $n$ to see that the amortized cost of each operations is $c(\lg \lg u + \lg \lg u) = O(\lg \lg u)$ per operation.  Thus we need $n \geq u/\lg\lg u$.\\
+
 
 \noindent\textbf{Problem 20-1}\\
+
 \begin{enumerate}[a.]
 \item
 Lets look at what has to be stored for a vEB tree. Each vEB tree contains one vEB tree of size $\sqrt[+]{u}$ and $\sqrt[+]{u}$ vEB trees of size $\sqrt[1]{u}$. It also is storing three numbers each of order $O(u)$, so they need $\Theta(\lg(u))$ space each. Lastly, it needs to store $\sqrt[+]{u}$ many pointers to the cluster vEB trees. We'll combine these last two contributions which are $\Theta(\lg(u))$ and $\Theta(\sqrt[+]{u})$ respectively into a single term that is $\Theta\sqrt[+]{u}$. This gets us the recurrence
@@ -233,4 +325,25 @@ As mentioned in the errata, this part should instead be changed to $O(n\lg(n))$ 
 \item
 It only takes a constant amount of time to create an empty RS-vEB tree. This is immediate since the only dependence on u in CREAT-NEW-RS-vEB-TREE(u) is on line 2 when V.u is initiallized, but this only takes a constant amount of time. Since nothing else in the procedure depends on u, it must take a constant amount of time.
 \end{enumerate}
+
+\noindent\textbf{Problem 20-2}\\
+
+a. By 11.5, the perfect hash table uses $O(m)$ space to store $m$ elements.  In a universe of size $u$, each element contributes $\lg u$ entries to the hash table, so the requirement is $O(n\lg u)$.  Since the linked list requires $O(n)$, the total space requirement is $O(n\lg u)$. \\
+
+b. MINIMUM and MAXIMUM are easy.  We just examine the first and last elements of the associated doubly linked list. MEMBER can actually be performed in $O(1)$, since we are simply checking membership in a perfect hash table.  It seems PREDECESSOR and SUCCESSOR take $O(\lg u)$ since we need to find the first bit where the given element differs from one stored in the table, and this could happen in any one of $\lg u$ spots.  INSERT and DELETE must take $O(\lg u)$ since we need to insert one entry into the hash table for each of their bits.  Also, we'd need to assume that we had constant time access to the linked list elements in order to search for the item to insert or delete in $O(\lg u)$.  \\
+%% ??? Still not sure about predecessor and successor
+
+c. The hash table has $\lg u$ entries for each of the $n/\lg u$ groups, so it stores a total of $n$ entries, making it size $O(n)$.  There are $n/\lg u$ binary trees of size $\lg u$, so they take $O(n)$ space.  Finally, the linked list takes $O(n/\lg u)$ space.  Thus, the total space requirement is $O(n)$. \\
+
+d. For MINIMUM:  Starting with the linked list, locate the minimum representative.  Then use the hash table to find its corresponding binary tree in $O(1)$.  Since this binary tree contains $lg(u)$ elements and is balanced, its height is $\lg \lg u$, so we can find its minimum in $O(\lg \lg u)$.  The procedure is similar for MAXIMUM. \\
+
+e. We start by finding the smallest representative greater than or equal to $x$. %Time??
+ Then $x$ must be in this group, so we search the binary search tree for $x$. Since its height is $\lg \lg u$, the total runtime is $O(\lg \lg u)$. \\
+
+f. Again, if we can find the largest representative greater than or equal to $x$, we can determine which binary tree contains the predecessor or successor of $x$.  Since the tree has height $\lg u$, we can find the predecessor or successor in $(O\lg \lg u)$. \\
+
+g. Insertion and deletion from the appropriate binary trees each take $O(\lg \lg u)$, provided we're not updating representatives. \\
+
+h. %Not sure. Do the elements stored in the tree contain pointers to the linked list?  If not, updating this could be prohibitively slow.
+
 \end{document}
