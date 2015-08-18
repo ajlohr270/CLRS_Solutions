@@ -27,6 +27,7 @@
 \begin{document}
 \maketitle
 \noindent\textbf{Exercise 24.1-1}\\
+
 If we change our source to z and use the same ordering of edges to decide what to relax, the d values after successive iterations of relaxation are:
 
 \begin{center}
@@ -95,13 +96,27 @@ $
 
 Note that these values are exactly the same as in the worked example. The difference that changing this edge will cause is that there is now a negative weight cycle, which will be detected when it considers the edge $(z,x)$ in the for loop on line 5. Since $x.d = 4 > -2 + 4 = z.d + w(z,x)$, it will return false on line 7.\\
 
+\noindent\textbf{Exercise 24.1-2}\\
+
+Suppose there is a path from $s$ to $v$.  Then there must be a shortest such path of length $\delta(s,v)$.  It must have finite length since it contains at most $|V| - 1$ edges and each edge has finite length.  By Lemma 24.2, $v.d = \delta(s,v) < \infty$ upon termination.  On the other hand, suppose $v.d < \infty$ when BELLMAN-FORD terminates.  Recall that $v.d$ is monotonically decreasing throughout the algorithm, and RELAX will update $v.d$ only if $u.d + w(u,v) < v.d$ for some $u$ adjacent to $v$.  Moreover, we update $v.\pi = u$ at this point, so $v$ has an ancestor in the predecessor subgraph.  Since this is a tree rooted at $s$, there must be a path from $s$ to $v$ in this tree.  Every edge in the tree is also an edge in $G$, so there is also a path in $G$ from $s$ to $v$. \\
+
 \noindent\textbf{Exercise 24.1-3}\\
+
 Before each iteration of the for loop on line 2, we make a backup copy of the current d values for all the vertices. Then, after each iteration, we check to see if any of the d values changed. If none did, then we immediately terminate the for loop. This clearly works because if one iteration didn't change the values of d, nothing will of changed on later iterations, and so they would all proceed to not change any of the d values.\\
 
+\noindent\textbf{Exercise 24.1-4}\\
+
+If there is a negative weight cycle on some path from $s$ to $v$ such that $u$ immediately preceeds $v$ on the path, then $v.d$ will strictly decrease every time RELAX$(u,v,w)$ is called.  If there is no negative weight cycle, then $v.d$ can never decrease after lines 1 through 4 are executed.  Thus, we just update all vertices $v$ which satisfy the if-condition of line 6.  In particular, replace line 7 with $v.d = -\infty$.\\
+
 \noindent\textbf{Exercise 24.1-5}\\
+
 Initially, we will make each vertex have a $D$ value of 0, which corresponds to taking a path of length zero starting at that vertex. Then, we relax along each edge exactly $V-1$ times. Then, we do one final round of relaxation,  which if any thing changes, indicated the existence of a negative weight cycle. The code for this algorithm is identical to that for Bellman ford, except instead of initializing the values to be infinity except at the source which is zero, we initialize every d value to be infinity. We can even recover the path of minimum length for each vertex by looking at their $\pi$ values.
 
 Note that this solution assumes that paths of length zero are acceptable. If they are not to your liking then just initialize each vertex to have a d value equal to the minimum weight edge that they have adjacent to them.\\
+
+\noindent\textbf{Exercise 24.1-6}\\
+
+Begin by calling a slightly modified version of DFS, where we maintain the attribute $v.d$ at each vertex which gives the weight of the unique simple path from $s$ to $v$ in the DFS tree.  However, once $v.d$ is set for the first time we will never modify it.  It is easy to update DFS to keep track of this without changing its runtime.  At first sight of a back edge $(u,v)$, if $v.d > u.d + w(u,v)$ then we must have a negative-weight cycle because $u.d + w(u,v) - v.d$ represents the weight of the cycle which the back edge completes in the DFS tree.  To print out the vertices print $v$, $u$, $u.\pi$, $u.\pi.\pi$, and so on until $v$ is reached.  This has runtime $O(V+E)$.  \\
 
 \noindent\textbf{Exercise 24.2-1}\\
 
@@ -140,10 +155,33 @@ NIL&r&r&t&t&t\\
 $
 \end{center}
 
+\noindent\textbf{Exercise 24.2-2}\\
+
+When we reach vertex $v$, the last vertex in the topological sort, it must have out-degree 0.  Otherwise there would be an edge pointing from a later vertex to an earlier vertex in the ordering, a contradiction. Thus, the body of the for-loop of line 4 is never entered for this final vertex, so we may as well not consider it. \\
+
+
 \noindent\textbf{Exercise 24.2-3}\\
+
 Introduce two new dummy tasks, with cost zero. The first one having edges going to every task that has no in edges. The second having an edge going to it from every task that has no out edges. Now, construct a new directed graph in which each $e$ gets mapped to a vertex $v_e$ and there is an edge $(v_e,v_{e'})$ with cost $w$ if and only if edge $e$ goes to the same vertex that $e'$ comes from, and that vertex has weight $w$. Then, every path through this dual graph corresponds to a path through the original graph. So, we just look for the most expensive path in this DAG which has weighted edges using the algorithm from this section.\\
 
+\noindent\textbf{Exercise 24.2-4}\\
+
+We will compute the total number of paths by counting the number of paths whose start point is at each vertex $v$, which will be stored in an attribute $v.paths$.  Assume that initiall we have $v.paths = 0$ for all $v \in V$.  Since all vertices adjacent to $u$ occur later in the topological sort and the final vertex has no neighbors, line 4 is well-defined. Topological sort takes $O(V+E)$ and the nested for-loops take $O(V+E)$ so the total runtime is $O(V+E)$.  \\
+
+\begin{algorithm}
+\caption{PATHS(G)}
+\begin{algorithmic}[1]
+\State topologically sort the vertices of $G$
+\For{each vertex $u$, taken in reverse topologically sorted order}
+	\For{each vertex $v \in G.Adj[u]$}
+		\State $u.paths = u.paths + 1 + v.paths$
+	\EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
 \noindent\textbf{Exercise 24.3-1}\\
+
 We first have s as the source, in this case, the sequence of extractions from the priority queue are: s, t, y,x,z. The d values after each iteration are:
 
 \begin{center}
@@ -211,41 +249,145 @@ z&s&z&s&NIL\\
 $
 \end{center}
 
+\noindent\textbf{Exercise 24.3-2}\\
+
+Consider any graph with a negative cycle. RELAX is called a finite number of times but the distance to any vertex on the cycle is $-\infty$, so DIJKSTRA's algorithm cannot possibly be correct here.  The proof of theorem 24.6 doesn't go through because we can no longer guarantee that $\delta(s,y) \leq \delta(s,u)$.\\
+
 \noindent\textbf{Exercise 24.3-3}\\
+
 It does work correctly to modify the algorithm like that. Once we are at the point of considering the last vertex, we know that it's current d value is at at least as large as the largest of the other vertices. Since none of the edge weights are negative, its d value plus the weight of any edge coming out of it will be at least as large as the d values of all the other vertices. This means that the relaxations that occur will not change any of the d values of any vertices, and so not change their $\pi$ values.\\
 
+\noindent\textbf{Exercise 24.3-4}\\
+
+Check that $s.d = 0$.  Then for each vertex in $V\backslash \{s\}$, examine all edges coming into $V$.   Check that $v.\pi$ is the minimum of $u.d + w(u,v)$ for all vertices $u$ for which there is an edge $(u,v)$, and that $v.d = v.\pi.d + w(v.\pi, v)$.  If this is ever false, return false.  Otherwise, return true.  This takes $O(V+E)$ time.  Now we must check that this correctly checks whether or not the $d$ and $\pi$ attributes match those of some shortest-paths tree.  Suppose that this is not true.  Let $v$ be the vertex of smallest $v.d$ value which is incorrect.  We may assume that $v \neq s$ since we check correctness of $s.d$ explicitly.  Since all edge weights are nonnegative, $v$ must be preceeded by a vertex of smaller estimated distance, which we know to be correct since $v$ has the smallest incorrect estimated distance. By verifying that $v.\pi$ is in fact the vertex which minimizes the distance of $v$, we have ensured that $v.\pi$ is correct, and by checking that $v.d = v.\pi.d + w(v.\pi, v)$ we ensure that the computation of $v.d$ is accurate.  Thus, if there is a vertex which has the wrong estimated distance or parent, we will find it. \\
+
 \noindent\textbf{Exercise 24.3-5}\\
+
 Consider the graph on 5 vertices $\{a,b,c,d,e\}$, and with edges $(a,b),(b,c),(c,d),(a,e),(e,c)$ all with weight 0. Then, we could pull vertices off of the queue in the order$a,e,c,b,d$. This would mean that we relax $(c,d)$ before $(b,c)$. However, a shortest pat to $d$ is $(a,b),(b,c),(c,d)$. So, we would be relaxing an edge that appears later on this shortest path before an edge that appears earlier.\\
 
+\noindent\textbf{Exercise 24.3-6}\\
+
+We now view the weight of a path as the reliability of a path, and it is computed by taking the product of the reliabilities of the edges on the path. Our algorithm will be similar to that of DIJKSTRA, and have the same runtime, but we now wish to maximize weight, and RELAX will be done inline by checking products instead of sums, and switching the inequality since we want to maximize reliability.  Finally, we track that path from $y$ back to $x$ and print the vertices as we go. \\
+
+\begin{algorithm}
+\caption{RELIABILITY(G, r, x, y)}
+\begin{algorithmic}[1]
+\State INITIALIZE-SINGLE-SOURCE$(G,x)$
+\State $S = \emptyset$
+\State $Q = G.V$
+\While{$Q \neq \emptyset$}
+	\State $u = $ EXTRACT-MIN$(Q)$
+	\State $S = S \cup \{u\}$
+	\For{each vertex $v \in G.Adj[u]$}
+		\If{$v.d < u.d \cdot r(u,v)$}
+			\State $v.d = u.d\cdot r(u,v)$
+			\State $v.\pi = u$
+		\EndIf
+	\EndFor
+\EndWhile
+\While{$y \neq x$}
+	\State Print $y$
+	\State $y = y.\pi$
+\EndWhile
+\State Print $x$
+\end{algorithmic}
+\end{algorithm}
+
+
 \noindent\textbf{Exercise 24.3-7}\\
+
 Each edge is replaced with a number of edges equal to its weight, and one less than that many vertices. That is, $|V'| = \sum_{(v,u)\in E} w(v,u) -1$. Similarly, $|E'| = \sum_{(v,u)\in E} w(v,u)$. Since we can bound each of these weights by $W$, we can say that $|V'| \le W|E|-|E|$ so there are at most $W|E|-|E|+|V|$ vertices in $G'$. A breadth first search considers vertices in an order so that $u$ and $v$ satisfy $u.d < v.d$ it considers $u$ before $v$. Similarly, since each iteration of the while loop in Dijkstra's algorithm considers the vertex with lowest $d$ value in the queue, we will also be considering vertices with smaller $d$ values first. So, the two order of considering vertices coincide.\\
+
+
+\noindent\textbf{Exercise 24.3-8}\\
+
+We will modify Dijkstra's algorithm to run on this graph by changing the way the priority queue works, taking advantage of the fact that its members will have keys in the range $[0,WV] \cup \{\infty\}$, since in the worst case we have to compute the distance from one end of a chain to the other, with $|V|$ vertices each connected by an edge of weight $W$. In particular, we will create an array $A$ such that $A[i]$ holds a linked list of all vertices whose estimated distance from $s$ is $i$.  We'll also need the attribute $u.list$ for each vertex $u$, which points to $u$'s spot in the list stored at $A[u.d]$.  Since the minimum distance is always increasing, $k$ will be at most $VW$, so the algorithm spends $O(VW)$ time in the while loop on line 9, over all iterations of the for-loop of line 8.  We spend only $O(V+E)$ time executing the for-loop of line 14 because we look through each adjacency list only once.  All other operations take $O(1)$ time, so the total runtime of the algorithm is $O(VW) + O(V + E) = O(VW + E)$.  \\
+
+\begin{algorithm}
+\caption{MODIFIED-DIJKSTRA(G,w,s)}
+\begin{algorithmic}[1]
+\For{each $v \in G.V$}
+	$v.d = VW + 1$
+	$v.\pi = NIL$
+\EndFor
+\State $s.d = 0$
+\State Initialize an array $A$ of length $VW + 2$
+\State $A[0].insert(s)$
+\State Set $A[VW + 1]$ equal to a linked list containing every vertex except $s$
+\State $k = 0$
+\For{$i=1$ to $|V|$}
+		\While{$A[k] = NIL$}
+			\State $k = k + 1$
+		\EndWhile
+	\State $u = A[k].head$
+	\State $A[k].delete(u)$
+	\For{each vertex $v \in G.Adj[u]$}
+		\If{$v.d > u.d + w(u,v)$}
+			\State $A[v.d].delete(v.list)$
+			\State $v.d = u.d + w(u,v)$
+			\State $v.\pi = u$
+			\State $A[v.d].insert(v)$	
+			\State $v.list = A[v.d].head$
+		\EndIf
+	\EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
 
 \noindent\textbf{Exercise 24.3-9}\\
 %pending on 24.3-8
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Don't forget to include 24.3-10!!
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \noindent\textbf{Exercise 24.4-1}\\
+
 Our vertices of the constraint graph will be $\{v_0,v_1,v_2,v_3,v_4,v_5,v_6\}$. The edges will be $(v_0,v_1),(v_0,v_2),(v_0,v_3),(v_0,v_4),(v_0,v_5),(v_0,v_6),(v_2,v_1),(v_4,v_1),(v_3,v_2),(v_5,v_2),(v_6,v_2),(v_6,v_3),(v_2,v_4),(v_1,v_5),(v_4,v_5),(v_3,v_6)$ with edge weights $0,0,0,0,0,0,1,-4,2,7,5,10,2,-1,3,-8$ respectively. Then, computing $(\delta(v_0,v_1),\delta(v_0,v_2),\delta(v_0,v_3),\delta(v_0,v_4),\delta(v_0,v_5),\delta(v_0,v_6))$, we get $(-5,-3,0,-1,-6,-8)$ which is a feasible solution by Theorem 24.9.\\
 
+
+
 \noindent\textbf{Exercise 24.4-3}\\
-No, it cannot be positive. This is because for every vertex $v\new v_0$, there is an edge $(v_0,v)$ with weight zero. So, there is some path from the new vertex to every other of weight zero. Since $\delta(v_0,v)$ is a minimum weight of all paths, it cannot be greater than the weight of this weight zero path that consists of a single edge.\\
+
+%No, it cannot be positive. This is because for every vertex $v\new v_0$, there is an edge $(v_0,v)$ with weight zero. So, there is some path from the new vertex to every other of weight zero. Since $\delta(v_0,v)$ is a minimum weight of all paths, it cannot be greater than the weight of this weight zero path that consists of a single edge.\\
+
+
 
 \noindent\textbf{Exercise 24.4-5}\\
+
 We can follow the advice of problem 14.4-7 and solve the system of constraints on a modified constraint graph in which there is no new vertex $v_0$. This is simply done by initializing all of the vertices to have a d value of 0 before running the iterated relaxations of Bellman Ford. Since we don't add a new vertex and the $n$ edges going from it to to vertex corresponding to each variable, we are just running Bellman Ford on a graph with $n$ vertices and $m$ edges, and so it will have a runtime of $O(mn)$.\\
 
 
+
 \noindent\textbf{Exercise 24.4-7}\\
+
 We could avoid adding in the additional vertex by instead initializing the d value for each vertex to be 0, and then running the bellman ford algorithm. These modified initial conditions are what would result from looking at the vertex $v_0$ and relaxing all of the edges coming off of it. After we would of processed the edges coming off of $v_0$, we can never consider it again because there are no edges going to it. So, we can just initialize the vertices to what they would be after relaxing the edges coming off of $v_0$.\\
+
+
 
 \noindent\textbf{Exercise 24.4-9}\\
 %not done
 
+
+
 \noindent\textbf{Exercise 24.4-11}\\
+
 To do this, just take the floor of (largest integer that is less than or equal to) each of the $b$ values and solve the resulting integer difference problem. These modified constraints will be admitting exactly the same set of assignments since we required that the solution have integer values assigned to the variables. This is because since the variables are integers, all of their differences will also be integers. For an integer to be less than or equal to a real number, it is necessary and sufficient for it to be less than or equal to the floor of that real number.\\
 
+
+
 \noindent\textbf{Exercise 24.5-1}\\
+
 Since the induced shortest path trees on $\{s,t,y\}$ and on $\{t,x,y,z\}$ are independent and have to possible configurations each, there are four total arising from that. So, we have the two not shown in the figure are the one consisting of the edges $\{(s,t),(s,y),(y,x),(x,z)\}$ and the one consisting of the edges $\{(s,t),(t,y),(t,x),(y,z)\}$.\\
 
+
+
 \noindent\textbf{Exercise 24.5-3}\\
+
 To modify Lemma 24.10 to allow for possible shortest path weights of $\infty$ and $-\infty$, we need to define our addition as $\infty + c = \infty$, and $-\infty + c = -\infty$. This will make the statement behave correctly, that is, we can take the shortest path from s to u and tack on the edge $(u,v)$ to the end. That is, if there is a negative weight cycle on your way to u and there is an edge from $u$ to $v$, there is a negative weight cycle on our way to v. Similarly, if we cannot reach $v$ and there is an edge from u to v, we cannot reach $u$.\\
 
 \noindent\textbf{Exercise 24.5-5}\\
