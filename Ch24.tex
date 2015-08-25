@@ -336,8 +336,13 @@ We will modify Dijkstra's algorithm to run on this graph by changing the way the
 
 
 \noindent\textbf{Exercise 24.3-9}\\
-%pending on 24.3-8
+We can modify the construction given in the previous exercise to avoid having to do a linear search through the array of lists $A$. To do this, we can just keep a set of the indices of $A$ that contain a non-empty list. Then, we can just maintain this as we move the vertices between lists, and replace the while loop in the previous algorithm with just getting the minimum element in the set.
 
+One way of implementing this set structure is with a self-balancing binary search tree. Since the set consists entirely of indices of $A$ which has length $W$, the size of the tree is at most $W$. We can find the minimum element, delete an element and insert in element all in time $O(\lg(W))$ in a self balancing binary serach tree.
+
+Another way of doing this, since we know that the set is of integers drawn from the set $\{1,\ldots, W\}$, is by using a vEB tree. This allows the insertion, deletion, and find minimum to run in time $O(\lg(\lg(W))$.
+
+Since for every edge, we potentially move a vertex from one list to another, we also need to possibly perform a deletion and insertion in the set. Also, at the beginning of the outermost for loop, we need to perform a get min operation, if removing this element would cause the list in that index of $A$ to become empty, we have to delete it from our set of indices. So, we need to perform a set operation for each vertex, and also for each edge. There is only a constant amount of extra work that has to be done for each, so the total runtime is $O((V+E)\lg\lg(W))$ which is also $O((V+E)\lg(W))$.\\
 
 \noindent\textbf{Exercise 24.3-10}\\
 
@@ -354,7 +359,7 @@ There is no feasible solution because the constraint graph contains a negative-w
 
 \noindent\textbf{Exercise 24.4-3}\\
 
-%No, it cannot be positive. This is because for every vertex $v\new v_0$, there is an edge $(v_0,v)$ with weight zero. So, there is some path from the new vertex to every other of weight zero. Since $\delta(v_0,v)$ is a minimum weight of all paths, it cannot be greater than the weight of this weight zero path that consists of a single edge.\\
+No, it cannot be positive. This is because for every vertex $v\neq v_0$, there is an edge $(v_0,v)$ with weight zero. So, there is some path from the new vertex to every other of weight zero. Since $\delta(v_0,v)$ is a minimum weight of all paths, it cannot be greater than the weight of this weight zero path that consists of a single edge.\\
 
 \noindent\textbf{Exercise 24.4-4}\\
 

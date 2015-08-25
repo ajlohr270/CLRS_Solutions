@@ -24,17 +24,27 @@
 \newcommand{\calA}{\mathcal{A}}
 \newcommand{\calY}{\mathcal{Y}}
 
+
+
+\algblock{ParFor}{EndParFor}
+% customising the new block
+\algnewcommand\algorithmicparfor{\textbf{parallel for}}
+\algnewcommand\algorithmicpardo{\textbf{do}}
+\algnewcommand\algorithmicendparfor{\textbf{end}}
+\algrenewtext{ParFor}[1]{\algorithmicparfor\ #1\ \algorithmicpardo}
+\algrenewtext{EndParFor}{\algorithmicendparfor}
+
 \begin{document}
 \maketitle
 \noindent\textbf{Exercise 27.1-1}\\
-This modification is not going to affect the asymptotic values of the span work or parallelism. All it will do is add an amount of overhead that wasn't there before. This is because as soon as the $FIB(n-2)$ is spawned the spawning thread just sits there and waits, it does not accomplish any work while it is waiting. It will be done waiting at the same time as it would of been before because the $FIB(n-2)$ call will take less time, so it will still be limited by the amount of time that the $FIN(n-1)$ call takes.
+This modification is not going to affect the asymptotic values of the span work or parallelism. All it will do is add an amount of overhead that wasn't there before. This is because as soon as the $FIB(n-2)$ is spawned the spawning thread just sits there and waits, it does not accomplish any work while it is waiting. It will be done waiting at the same time as it would of been before because the $FIB(n-2)$ call will take less time, so it will still be limited by the amount of time that the $FIN(n-1)$ call takes.\\
 
 \noindent\textbf{Exercise 27.1-3}\\
 Suppose that there are $x$ incomplete steps in a run of the program. Since each of these steps causes at least one unit of work to be done, we have that there is at most $(T_1-x)$ units of work done in the complete steps. Then, we suppose by contradiction that the number of complete steps is strictly greater than $\lfloor (T_1-x)/P\rfloor$. Then, we have that the total amount of work done during the complete steps is $P\cdot (\lfloor (T_1-x)/P\rfloor + 1) = P\lfloor (T_1-x)/P\rfloor +P =  (T_1-x) - ((T_1-x)\mod P) + P > T_1-x$. This is a contradiction because there are only $(T_1-x)$ units of work done during complete steps, which is less than the amount we would be doing. Notice that since $T_\infty$ is abound on the total number of both kinds of steps, it is a bound on the number of incomplete steps, x , so, 
 \[
 T_P \le \lfloor (T_1-x)/P\rfloor +x \le \lfloor (T_1-T_{\infty})/P\rfloor +T_{\infty} 
 \]
-Where the second inequality comes by noting that the middle expression, as a function of $x$ is monotonically increasing, and so is bounded by the largest value of $x$ that is possible, namely $T_{\infty}$.
+Where the second inequality comes by noting that the middle expression, as a function of $x$ is monotonically increasing, and so is bounded by the largest value of $x$ that is possible, namely $T_{\infty}$.\\
 
 \noindent\textbf{Exercise 27.1-5}\\
 The information from $T_{10}$ applied to equation (27.5) give us that
@@ -61,7 +71,7 @@ If we apply the span law to $T_64$, we have that $10\ge T_\infty$. Applying the 
 a contradiction. So, one of the three numbers for runtimes must be wrong. However, computers are complicated things, and its difficult to pin down what can affect runtime in practice. It is a bit harsh to judge professor Karan too poorly for something that may of been outside her control (maybe there was just a garbage collection happening during one of the measurements, throwing it off).\\
 
 \noindent\textbf{Exercise 27.1-7}\\
-The work is unchanged from the serial programming case. Since it is flipping $\Theta(n^2)$ many entries, it does $\Theta(n^2)$ work. The span of it is $\Theta(\lg(n))$ this is because each of the parallel for loops can have its children spawned in time $\lg(n)$, so the total time to get all of the constant work tasks spawned is $2\lg(n) \in $\Theta(\lg)$. Since the work of each task is $o(\lg(n))$, that doesn't affect the $T_\infty$ runtime. The parralism is equal to the work over the span, so it is $\Theta(n^2/\lg(n))$.
+The work is unchanged from the serial programming case. Since it is flipping $\Theta(n^2)$ many entries, it does $\Theta(n^2)$ work. The span of it is $\Theta(\lg(n))$ this is because each of the parallel for loops can have its children spawned in time $\lg(n)$, so the total time to get all of the constant work tasks spawned is $2\lg(n) \in \Theta(\lg)$. Since the work of each task is $o(\lg(n))$, that doesn't affect the $T_\infty$ runtime. The parralism is equal to the work over the span, so it is $\Theta(n^2/\lg(n))$.\\
 
 \noindent\textbf{Exercise 27.1-9}\\
 We solve for P in the following euqation obtained by setting $T_P = T_P'$.
@@ -75,6 +85,58 @@ We solve for P in the following euqation obtained by setting $T_P = T_P'$.
 So we get that there should be approximately 146 processors for them to have the same runtime.\\
 
 \noindent\textbf{Exercise 27.2-1}\\
+%diagrams -_-
+
+\noindent\textbf{Exercise 27.2-3}\\
+We perform a modification of the P-SQUARE-MATRIX-MULTIPLY algorithm. Basiglly, as hinted in the text, we will parallelize the innermost for loop in such a way that there aren't any data races formed. To do this, we will just define a parallelized dot product procedure. This means that lines 5-7 can be replaced by a single call to this procedure. P-DOT-PRODUCT computes the dot dot product of the two lists between the two bounds on indices.
+
+\begin{algorithm}
+\caption{P-DOT-PROD(v,w,low,high)}
+\begin{algorithmic}
+\If{low == high}
+\State \Return  v[low] = v[low]
+\EndIf
+\State mid = $\left\lfloor \frac{low+high}{2}\right\rfloor$
+\State x = spawn P-DOT-PROD(v,w,low,mid)
+\State y = P-DOT-PROD(v,w,mid+1,high)
+\State sync
+\State \Return x+y
+\end{algorithmic}
+\end{algorithm}
+
+Using this, we can use this to modify P-SQUARE-MATRIX-MULTIPLY
+
+\begin{algorithm}
+\caption{MODIFIED-P-SQUARE-MATRIX-MULTIPLY}
+\begin{algorithmic}
+\State n = A.rows
+\State let C be a new $n\times n$ matrix
+\ParFor{i=1 to n}
+\ParFor{j=1 to n}
+\State $c_{i,j} =$ P-DOT-PROD$(A_{i,\cdot},B_{\cdot,j},1,n)$
+\EndParFor
+\EndParFor
+\State \Return C
+\end{algorithmic}
+\end{algorithm}
+
+Since the runtime of the inner loop is $O(\lg(n))$, which is the depth of the recursion. Since the paralel for loops also take $O(\lg(n))$ time. So, since the runtimes are additive here, the total span of this procedure is $\Theta(\lg(n))$. The total work is still just $O(n^3)$ Since all the spawnging and recursing couls be replaced with the normal serial version once there anren't enough free processors to handle all of the spawned calls to P-DOT-PRODUCT. \\
+
+
+\noindent\textbf{Exercise 27.2-5}\\
+Split up the region into four sections. Then, this amounts to finding the transpose the uppoer left and lower right of the two submatrices. In adition to that, you also need to swap the elements in the upper right with their transpose position in the lower left. This dealing with the uppoer right swapping only takes time $O(\lg(n^2)) = O(\lg(n))$. In addition, there are two subproblems, each of half the size. This gets us the recursion:
+
+\[
+T_{\infty}(n) = T_{\infty}(n/2) + \lg(n)
+\]
+
+By the master theorem, we get that the total span of this procedure is $T_{\infty} \in O(\lg(n)$. The total work is still the usual $O(n^2)$.
+
+
+\noindent\textbf{Exercise 27.3-1}\\
+To coarsen the base case of P-MERGE, just replace the condition on line 2 with a check that $n<k$ for some base case size $k$. And instead of just copying over the particular element of $A$ to the right spot in $B$,  you would call a serial sort on the remaining segment of $A$ and copy the result of that over into the right spots in $B$.\\
+
+\noindent\textbf{Exercise 27.3-3}\\
 
 
 \end{document}
