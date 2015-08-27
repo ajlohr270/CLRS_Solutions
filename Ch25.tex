@@ -27,6 +27,7 @@
 \begin{document}
 \maketitle
 \noindent\textbf{Exercise 25.1-1}\\
+
 First, the slow way:
 
 \[
@@ -130,23 +131,51 @@ L^{(8)} = \left(\begin{array}{cccccc}
 \end{array}\right)
 \]
 
-We stop since $8\ge 5 =n-1$.
+We stop since $8\ge 5 =n-1$.\\
+
+\noindent\textbf{Exercise 25.1-2}\\
+
+This is consistent with the fact that the shortest path from a vertex to itself is the empty path of weight 0.  If there were another path of weight less than 0 then it must be a negative-weight cycle, since it starts and ends at $ v_i$.   \\
 
 \noindent\textbf{Exercise 25.1-3}\\
+
 This matrix corresponds to the identity matrix in normal matrix multiplication. This is because anytime that we take a min of any number with infinity, we get that same number back. Another way of seeing this is that we can interpret this strange version of matrix multipllication as allowing any of our shortest paths to be a path described by one matrix followed by a path described by the other. However, the given matrix corresponds to there being no paths between any of the vertices. This means that we won't change any of the shortest paths that are described by the matrix we are multiplying it by since we are allowing nothing more for those paths.\\
 
+\noindent\textbf{Exercise 25.1-4}\\
+
+To verify associativity, we need to check that $(W^iW^j)W^p= W^i(W^jW^p)$ for all $i, j, p$, where we use the matrix multiplication defined by the EXTEND-SHORTEST-PATHS procedure.  Consider entry $(a,b)$ of the left hand side.  This is:
+\begin{align*}
+\min_{1 \leq k \leq n} [W^iW^j]_{a,k} + W^p_{k,b}&=\min_{1 \leq k \leq n} \min_{1 \leq q \leq n} W^i_{a,q} + W^j_{q,k} + W^p_{k,b}\\
+&= \min_{1 \leq q \leq n} W^i_{a,q} + \min_{1 \leq k \leq n}W^j_{q,k} + W^p_{k,b} \\
+&= \min_{1 \leq q \leq n} W^i_{a,q} + [W^jW^p]_{q,b}
+\end{align*}
+which is precisely entry $(a,b)$ of the right hand side. \\
 
 \noindent\textbf{Exercise 25.1-5}\\
+
 We can express finding the shortest path from a single vertex with the modified version of matrix multiplication described in the section. We initially let $v_1$ be a vector indexed by the vertices of the graph. It is infinity when the corresponding vertex has no edge going to it from th esource vertex, $s$. It is the weight of the edge going to it from $s$ if there is one. Lastly, it is zero in the entry corresponding to $s$ itself. Essentially, we are only taking the row of the $W$ matrix that corresponds to $s$. Then, we define $v_{i+1} = v_i W$. Then, we stop computing $v_i$ once we compute $v_{n-1}$. This vector then contains the correct shortest distances from the source to each vertex. Since each time we multiply the vector by the matrix, we only have to consider the entries which are non-infinite in $W$. There are only $|E|+|V|$ of these non-finfinite entries. So, we have that the time required for each time we mutiply the vector by the matrix, we take time at most $O(E)$. So, the total runtime would be $O(EV)$ just as in Bellman-Ford. The similarities don't stop there however. This is because $v_i$ represents the shortest distance to each vector from $s$ using at most $i$ edges, and each time we multiply by $W$ corresponds to relaxing every edge.\\
 
+\noindent\textbf{Exercise 25.1-6}\\
+
+For each source vertex $v_i$ we need to compute the shortest-paths tree for $v_i$.  To do this, we need to compute the predecessor for each $j \neq i$.  For fixed $i$ and $j$, this is the value of $k$ such that $L_{i,k} + w(k,j) = L_{i,j}$. Since there are $n$ vertices whose trees need computing, $n$ vertices for each such tree whose predecessors need computing, and it takes $O(n)$ to compute this for each one (checking each possible $k$), the total time is $O(n^3)$. \\
 
 \noindent\textbf{Exercise 25.1-7}\\
 %notdone
 
+\noindent\textbf{Exercise 25.1-8}\\
+
+We can overwrite matrices as we go.  Let $A \star B$ denote multiplication defined by the EXTEND-SHORTEST-PATHS procedure.  Then we modify FASTER-ALL-EXTEND-SHORTEST-PATHS$(W)$.  We initially create an $n$ by $n$ matrix $L$.  Delete line 5 of the algorithm, and change line 6 to $L = W \star W$, followed by $W = L$.\\ 
+
 \noindent\textbf{Exercise 25.1-9}\\
+
 For the modification, keep computing for one step more than the original, that is, we compute all the way up to $L^{(2^{k+1})}$ where $2^{k} >n-1$. Then, if there aren't any negative weight cycles, then, we will have that the two matrices should be equal since having no negative weight cycles means that between any two vertices, there is a path that is tied for shortest and contains at most $n-1$ edges. However, if there is a cycle of negative total weight, we know that it's length is at most $n$, so, since we are allowing paths to be larger by $2^k\ge n$ between these two matrices, we have that we would need to have all of the vertices on the cycle have their distance reduce by at least the negative weight of the cycle. Since we can detect exactly when there is a negative cycle, based on when these two matrices are different. This algorithm works. It also only takes time equal to a single matrix multiplication which is littlee oh of the unmodified algorithm.\\
 
+\noindent\textbf{Exercise 25.1-10}\\
+
+A negative-weight cycle appears when $W^m_{i,i} < 0$ for some $m$ and $i$.  Each time a new \emph{power} of $W$ is computed, we simply check whether or not this happens, at which point the cycle has length $m$.  The runtime is $O(n^4)$. \\
+
 \noindent\textbf{Exercise 25.2-1}\\
+
 $
 \begin{array}{|c|c|}
 k & D^k\\
@@ -223,7 +252,12 @@ k & D^k\\
 \hline\end{array}
 $\\
 
+\noindent\textbf{Exercise 25.2-2}\\
+
+We set $w_{ij} = 1$ if $(i,j)$ is an edge, and $w_{ij} = 0$ otherwise.  Then we replace line 7 of EXTEND-SHORTEST-PATHS(L,W) by $l'_{ij} = l'_{ij} \vee (l_{ik} \wedge w_{kj})$.  Then run the SLOW-ALL-PAIRS-SHORTEST-PATHS algorithm. \\
+
 \noindent\textbf{Exercise 25.2-3}\\
+
 See the modified version of the Floyd-Warshall algorithm:
 \begin{algorithm}
 \caption{MOD-FLOYD-WARSHALL(W)}
@@ -258,33 +292,66 @@ See the modified version of the Floyd-Warshall algorithm:
 
 In order to have that $\pi_{ij}^{(k)} = l$, we need that $d_{ij}^{(k)} \ge d_{il}^{(k)} + w_{lj}$. To see this fact, we will note that having $\pi_{ij}^{(k)} = l$ means that a shortest path from $i$ to $j$ last goes through $l$. A path that last goes through $l$ corresponds to taking a chepest path from $i$ to $l$ and then following the single edge from $l$ to $j$. However, This means that $d_{il} \le d_{ij} - w_{ij}$, which we can rearrange to get the desired inequality. We can just continue following this inequality around, and if we ever get some cycle, $i_1,i_2,\ldots i_c$, then we would have that $d_{i i_1} \le d_{i i_1} + w_{i_1 i_2} + w_{i_2 i_3} + \cdots + w_{i_c i_1}$. So, if we subtract the common term from both sides, we get that $0 \le w_{i_c i_1}+ \sum_{q =1}^{c-1} w_{i_q i_{q+1}}$. So, we have that we would only have a cycle in the precedessor graph if we ahvt that there is a zero weight cycle in the original graph. However, we would never have to go around the weight zero cycle since the constructed path of shortest weight favors ones with a fewer number of edges because of the way that we handle the equality case in equation (25.7).\\
 
+\noindent\textbf{Exercise 25.2-4}\\
+
+Suppose we are updating $d_{ij}^(k)$. To be sure we get the same results from this algorithm, we need to check what happens to $d_{ij}^{(k-1)}$, $d_{ik}^{(k-1)}$ and $d_{kj}^{(k-1)}$.  The $d_{ij}^{(k-1)}$ term will be unchanged.  On the other hand, the other terms won't change because any shorest path from $i$ to $k$ which includes $k$ necessarily includes it only once (since there are no negative-weight cycles) so it is the length of a shortest path using only vertices 1 through $k-1$.  Thus, updating in place is okay. \\
 
 \noindent\textbf{Exercise 25.2-5}\\
+
 If we change the way that we handle the equality case, we willl still be generating a the correct values for the $\pi$ matrix. This is because updating the $\pi$ values to make paths that are longer but still tied for the lowest weight. Making $\pi_{ij} = \pi_{kj}$ means that we are making the shortest path from $i$ to $j$ passes through $k$ at some point. This has the same cost as just going from $i$ to $j$, since $d_{ij} = d_{ik}+d_{kj}$.\\
 
+\noindent\textbf{Exercise 25.2-6}\\
+
+If there was a negative-weight cycle, there would be a negative number occurring on the diagonal upon termination of the Floyd-Warshall algorithm.  \\
 
 \noindent\textbf{Exercise 25.2-7}\\
 
 
+\noindent\textbf{Exercise 25.2-8}\\
+
+Create an $n$ by $n$ matrix $A$ filled with 0's.  We are done if we can determine the vertices reachable from a particular vertex in $O(E)$ time, since we can just compute this for each $v \in V$. To do this, assign each edge weight 1.  Then we have $\delta(v,u) \leq |E|$ for all $u \in V$.  By Problem 24-4 (a) we can compute $\delta(v,u)$ in $O(E)$ for all $u \in V$.  If $\delta(v,u) < \infty$, set $A_{ij} = 1$.  Otherwise, leave it as 0.  \\
+
 \noindent\textbf{Exercise 25.2-9}\\
+
 First, compute the strongly connected components of the directed graph, and look at it's component graph. This component graph is going to be acyclic and have at most as many vertices and at most as many edges as the original graph. Since it is acyclic, we can run our transitive closure algorithm on it. Then, for every edge $(S_1,S_2)$ that shows up in the transitive closure of the component graph, we add an edge from each vertex in $S_1$ to a vertex in $S_2$. This takes time equal to $O(V+E^*)$. So, the total time required is $\le f(|V|,|E|) + O(V+E)$.\\
 
 \noindent\textbf{Exercise 25.3-1}\\
 
+\noindent\textbf{Exercise 25.3-2}\\
 
+This is only important when there are negative-weight cycles in the graph.  Using a dummy vertex gets us around the problem of trying to compute $-\infty + \infty$ to find $\hat{w}$.   Moreover, if we had instead used a vertex $v$ in the graph instead of the new vertex $s$, then we run into trouble if a vertex fails to be reachable from $v$.\\
 
 \noindent\textbf{Exercise 25.3-3}\\
+
 If all the edge weights are nonnegative, then the values computed as the shortest distances when running Bellman-Ford will be all zero. This is because when constructing $G'$ on the first line of Johnson's algorithm, we place an edge of weight zero from $s$ to every other vertex. Since any path within the graph has no negative edges, its cost cannot be negative, and so, cannot beat the trivial path that goes straight from $s$ to any given vertex. Since we have that $h(u) = h(v)$ for every $u$ and $v$, the reweighting that occurs only adds and subtracts 0, and so we have that $w(u,v) = \hat w(u,v)$\\
 
+\noindent\textbf{Exercise 25.3-4}\\
+
+This doesn't preserve shortest paths.  Suppose we have a graph with vertices $a, b, c, d, e,$ and $f$ and edges $(a,b), (b,c), (c,d), (d,e), (a,e), (a,f)$ with weights -1, -1, -1, -1, -1, 1, and -2.  Professor Greenstreet would add 2 to every edge weight in the graph.  Originally, the shortest path from $a$ to $e$ went through vertices $b$, $c$, and $d$.  With the added weight, the new shortest path goes directly from $a$ to $e$.  Thus, property 1 of $\hat{w}$ is violated.\\
 
 \noindent\textbf{Exercise 25.3-5}\\
+
 By lemma 25.1, we have that the total weight of any cycles is unchanged as a result of the reweighting procedure. This can be seen in a way similar to how the last claim of lemma 25.1 was proven. Namely, we consider the cycle c as a path that has the same starting and ending vertices, so, by the first half od lemma 25.1, we have that
 \[
 \hat w(c) = w(c) + h(v_0) -h(v_k) = w(c) = 0
  \]
-This means that in the reweighted graph, we still have that the same cycle as before had a total weight of zero. Since there are no longer any negative weight edges after we reweight, this is precicely the second property of the reweighting procedure shown in the section. Since we have that the sum of all the edge weights in $c$ is still equal to zero, but each of them individually has a non-negative weight, it must be the case that each of them individually is equal to 0.
+This means that in the reweighted graph, we still have that the same cycle as before had a total weight of zero. Since there are no longer any negative weight edges after we reweight, this is precicely the second property of the reweighting procedure shown in the section. Since we have that the sum of all the edge weights in $c$ is still equal to zero, but each of them individually has a non-negative weight, it must be the case that each of them individually is equal to 0.\\
+
+\noindent\textbf{Exercise 25.3-6}\\
+
+Let $G$ have vertices $a$, $b$, and $c$, and edge $(b,c)$ with weight 1, and let $s = a$.  When we try to compute $\hat{w}(b,c)$, it is undefined because $h(c) = h(b) = \infty$.  Now suppose that $G$ is strongly connected, and further that there are no negative-weight cycles.  Since every vertex is reachable from every other, $h$ is well-defined for any choice of source vertex.  We need only check that $\hat{w}$ satisfies properties 1 and 2.  For the first property, let $p = \langle u= v_0, v_1, \ldots, v_k = v \rangle$ be a shortest path from $u$ to $v$ using the weight function $w$.  Then we have
+\begin{align*}
+\hat{w}(p) &= \sum_{i=1}^k \hat{w}(v_{i-1}, v_i) \\
+&=\sum_{i=1}^k w(v_{i-1}, v_i) + h(v_{i-1}) - h(v_i) \\
+&= \left(\sum_{i=1}^k w(v_{i-1}, v_i)\right) + h(u) - h(v) \\
+&= w(p) + h(u) - h(v).
+\end{align*}
+
+Since $h(u)$ and $h(v)$ are independent of $p$, we must have that $w$ minimizes $w(p)$ if and only if $\hat{w}$ minimizes $\hat{w}(p)$. For the second property, the triangle inequality tells us that for any vertices $v,u \in V$ we have $\delta(v,u) \leq \delta(v,z) + w(z,u)$.  Thus, if we define $h(u) = \delta(v,u)$ then we have $\hat{w}(z,u) = w(z,u) + h(z) - h(u) \geq 0$.\\
+
 
 \noindent\textbf{Problem 25-1}\\
+
 \begin{enumerate}[a.]
 \item
 We can update the transitive closure in time $O(V^2)$ as follows. Suppose that we add the edge $(x_1,x_2)$. Then, we will consider every pair of vertices $(u,v)$. In order to of created a path between them, we would need some part of that path that goes from $u$ to $x_1$ and some second part of that path that goes from $x_2$ to $v$. This means that we add the edge $(u,v)$ to the transitive closure if and only if the transitive closure contains the edges $(u,x_1)$ and $(x_2,v)$. Since we only had to consider every pair of vertices once, the runtime of this update is only $O(V^2)$.
@@ -298,6 +365,14 @@ Then, we add a single edge from one component to the other. This will mean that 
 
 \end{enumerate}
 
+\noindent\textbf{Problem 25-2}\\
 
+a. As in problem 6-2, the runtimes for a $d$-ary min heap are the same as for a $d$-ary max heap.  The runtimes of INSERT, EXTRACT-MIN, and DECREASE-KEY are $O(\log_d n)$, $O(d\log_d n)$, and $O(\log_d n)$ respectively.  If $d = \Theta(n^{\alpha})$ these become $O(1/\alpha)$, $O(n^\alpha / \alpha)$, and $O(1/\alpha)$ respectively.  The amortized costs for these operations in a FIbonacci heap are $O(1)$, $O(\lg n)$, and $O(1)$ respectively.\\
+
+b. Choose $d = n^\varepsilon$.  Then implement Dijkstra's algorithm using a $d$-ary min-heap.  The analysis from part (a) tells us that the runtime will be $O(n/\varepsilon + 2n^{1 + \varepsilon}/\varepsilon) = O(n^{1 + \varepsilon}) = O(E)$.\\
+
+c. Run the algorithm from part (b) once for each vertex of the graph. \\
+
+d. Using the methods from section 25.3, create the graph $G'$ with all nonnegative edge weights using the weight function $\hat{w}$, proceed as in part (c), then convert back to the original weight function. \\
 
 \end{document}
