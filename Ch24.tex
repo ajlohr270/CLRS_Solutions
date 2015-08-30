@@ -344,64 +344,99 @@ Another way of doing this, since we know that the set is of integers drawn from 
 
 Since for every edge, we potentially move a vertex from one list to another, we also need to possibly perform a deletion and insertion in the set. Also, at the beginning of the outermost for loop, we need to perform a get min operation, if removing this element would cause the list in that index of $A$ to become empty, we have to delete it from our set of indices. So, we need to perform a set operation for each vertex, and also for each edge. There is only a constant amount of extra work that has to be done for each, so the total runtime is $O((V+E)\lg\lg(W))$ which is also $O((V+E)\lg(W))$.\\
 
+\noindent\textbf{Exercise 24.3-10}\\
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  Don't forget to include 24.3-10!!
-%%%%%%%%%%%%%%%%%%%%%%%%%%
+The proof of correctness, Theorem 24.6, goes through exactly as stated in the text.  The key fact was that $\delta(s,y) \leq \delta(s,u)$.  It is claimed that this holds because there are no negative edge weights, but in fact that is stronger than is needed.  This always holds if $y$ occurs on a shortest path from $s$ to $u$ and $y \neq s$ because all edges on the path from $y$ to $u$ have nonnegative weight.  If any had negative weight, this would imply that we had ``gone back'' to an edge incident with $s$, which implies that a cycle is involved in the path, which would only be the case if it were a negative-weight cycle.  However, these are still forbidden. \\
 
 
 \noindent\textbf{Exercise 24.4-1}\\
 
 Our vertices of the constraint graph will be $\{v_0,v_1,v_2,v_3,v_4,v_5,v_6\}$. The edges will be $(v_0,v_1),(v_0,v_2),(v_0,v_3),(v_0,v_4),(v_0,v_5),(v_0,v_6),(v_2,v_1),(v_4,v_1),(v_3,v_2),(v_5,v_2),(v_6,v_2),(v_6,v_3),(v_2,v_4),(v_1,v_5),(v_4,v_5),(v_3,v_6)$ with edge weights $0,0,0,0,0,0,1,-4,2,7,5,10,2,-1,3,-8$ respectively. Then, computing $(\delta(v_0,v_1),\delta(v_0,v_2),\delta(v_0,v_3),\delta(v_0,v_4),\delta(v_0,v_5),\delta(v_0,v_6))$, we get $(-5,-3,0,-1,-6,-8)$ which is a feasible solution by Theorem 24.9.\\
 
+\noindent\textbf{Exercise 24.4-2}\\
 
+There is no feasible solution because the constraint graph contains a negative-weight cycle: $(v_1, v_4, v_2, v_3, v_5, v_1)$ has weight -1. \\
 
 \noindent\textbf{Exercise 24.4-3}\\
 
 No, it cannot be positive. This is because for every vertex $v\neq v_0$, there is an edge $(v_0,v)$ with weight zero. So, there is some path from the new vertex to every other of weight zero. Since $\delta(v_0,v)$ is a minimum weight of all paths, it cannot be greater than the weight of this weight zero path that consists of a single edge.\\
 
+\noindent\textbf{Exercise 24.4-4}\\
 
+To solve the single source shortest path problem we must have that for each edge $(v_i, v_j)$, $\delta(s, v_j) \leq \delta(s,v_i) + w(v_i, v_j)$, and $\delta(s,s)  = 0$.  We we will use these as our inequalities. \\
 
 \noindent\textbf{Exercise 24.4-5}\\
 
 We can follow the advice of problem 14.4-7 and solve the system of constraints on a modified constraint graph in which there is no new vertex $v_0$. This is simply done by initializing all of the vertices to have a d value of 0 before running the iterated relaxations of Bellman Ford. Since we don't add a new vertex and the $n$ edges going from it to to vertex corresponding to each variable, we are just running Bellman Ford on a graph with $n$ vertices and $m$ edges, and so it will have a runtime of $O(mn)$.\\
 
+\noindent\textbf{Exercise 24.4-6}\\
+
+To obtain the equality constraint $x_i = x_j + b_k$ we simply use the inequalities $x_i - x_j \leq b_k$ and $x_j - x_i \leq -b_k$, then solve the problem as usual. \\
 
 
 \noindent\textbf{Exercise 24.4-7}\\
 
 We could avoid adding in the additional vertex by instead initializing the d value for each vertex to be 0, and then running the bellman ford algorithm. These modified initial conditions are what would result from looking at the vertex $v_0$ and relaxing all of the edges coming off of it. After we would of processed the edges coming off of $v_0$, we can never consider it again because there are no edges going to it. So, we can just initialize the vertices to what they would be after relaxing the edges coming off of $v_0$.\\
 
+\noindent\textbf{Exercise 24.4-8}\\
 
+Bellman-Ford correctly solves the system of difference constraints so $Ax\leq b$ is always satisfied. We also have that $x_i = \delta(v_0, v_i) \leq w(v_0, v_i) = 0$ so $x_i \leq 0$ for all $i$.  To show that $\sum x_i$ is maximized, we'll show that for any feasible solution $(y_1, y_2, \ldots, y_n)$ which satisfies the constraints we have $y_i \leq \delta(v_0, v_i) = x_i$.  Let $v_0, v_{i_1}, \ldots, v_{i_k}$ be a shortest path from $v_0$ to $v_i$ in the constraint graph.  Then we must have the constraints $y_{i_2} - y_{i_1} \leq w(v_{i_1}, v_{i_2}), \ldots, y_{i_k} - y_{i_{k-1}} \leq w(v_{i_{k-1}}, v_{i_k})$.  Summing these up we have 
+
+\[ y_i \leq y_i - y_1 \leq \sum_{m=2}^k w(v_{i_m}, v_{i_{m-1}}) = \delta(v_0, v_i) = x_i.\]
 
 \noindent\textbf{Exercise 24.4-9}\\
 %not done
 
+\noindent\textbf{Exercise 24.4-10}\\
 
+Consider introducing the dummy variable $x$.  Let $y_i = x_i + x$.  Then $(y_1, \ldots, y_n)$ is a solution to a system of difference constraints if and only if $(x_1, \ldots, x_n)$ is.  Moreover, we have $x_i \leq b_k$ if and only if $y_i - x \leq b_k$ and $x_i \geq b_k$ if and only if $y_i - x \geq b_k$.  Finally, $x_i - x_j \leq b$ if and only if $y_i - y_j \leq b$.  Thus, we construct our constraint graph as follows:  Let the vertices be $v_0, v_1, v_2, \ldots, v_n, v$.  Draw the usual edges among the $v_i$'s, and weight every edge from $v_0$ to another vertex by 0.  Then for each constraint of the form $x_i \leq b_k$, create edge $(x,y_i)$ with weight $b_k$.  For every constraint of the form $x_i \geq b_k$, create edge $(y_i, x)$ with weight $-b_k$.  Now use Bellman-Ford to solve the problem as usual.  Take whatever weight is assigned to vertex $x$, and subtract it from the weights of every other vertex to obtain the desired solution. \\
 
 \noindent\textbf{Exercise 24.4-11}\\
 
 To do this, just take the floor of (largest integer that is less than or equal to) each of the $b$ values and solve the resulting integer difference problem. These modified constraints will be admitting exactly the same set of assignments since we required that the solution have integer values assigned to the variables. This is because since the variables are integers, all of their differences will also be integers. For an integer to be less than or equal to a real number, it is necessary and sufficient for it to be less than or equal to the floor of that real number.\\
 
+\noindent\textbf{Exercise 24.4-12}\\
 
+%%% Not Done
+
+%To solve the problem of $Ax \leq b$ where the elements of $b$ are real-valued is simple.  We carry out the same procedure as before, but allow our edge weights to be real-valued. To impose the integer condition, we modify the RELAX procedure.   Suppose we are going to relax $v_i$.  If it is required to be an integer, then we relax it to ...
 
 \noindent\textbf{Exercise 24.5-1}\\
 
 Since the induced shortest path trees on $\{s,t,y\}$ and on $\{t,x,y,z\}$ are independent and have to possible configurations each, there are four total arising from that. So, we have the two not shown in the figure are the one consisting of the edges $\{(s,t),(s,y),(y,x),(x,z)\}$ and the one consisting of the edges $\{(s,t),(t,y),(t,x),(y,z)\}$.\\
 
+\noindent\textbf{Exercise 24.5-2}\\
 
+Let $G$ have 3 vertices $s, x$, and $y$. Let the edges be $(s,x), (s,y), (x,y)$ with weights 1, 1, and 0 respectively.  There are 3 possible trees on these vertices rooted at $s$, and each is a shortest paths tree which gives $\delta(s,x) = \delta(s,y) = 1$. \\
 
 \noindent\textbf{Exercise 24.5-3}\\
 
 To modify Lemma 24.10 to allow for possible shortest path weights of $\infty$ and $-\infty$, we need to define our addition as $\infty + c = \infty$, and $-\infty + c = -\infty$. This will make the statement behave correctly, that is, we can take the shortest path from s to u and tack on the edge $(u,v)$ to the end. That is, if there is a negative weight cycle on your way to u and there is an edge from $u$ to $v$, there is a negative weight cycle on our way to v. Similarly, if we cannot reach $v$ and there is an edge from u to v, we cannot reach $u$.\\
 
+\noindent\textbf{Exercise 24.5-4}\\
+
+Suppose $u$ is the vertex which first caused $s.\pi$ to be set to a non-NIL value.  Then we must have $0 = s.d > u.d + w(u,s)$. Let $p$ be the path from $s$ to $u$ in the shortest paths tree so far, and $C$ be the cycle obtained by following that path from $s$ to $u$, then taking the edge $(u,s)$.  Then we have $w(C) = w(p) + w(u,s) = u.d + w(u,s) < 0$, so we have a negative-weight cycle. \\
+
+
 \noindent\textbf{Exercise 24.5-5}\\
-suppose that we have a grap hon three vertices $\{s,u,v\}$ and containing edges $(s,u),(s,v),(u,v),(v,u)$ all with weight 0. Then, there is a shortest path from $s$ to $v$ of $s,u,v$ and a shortest path from $s$ to $u$ of $s,v,u$. Based off of these, we could set $v.pi= u$ and $u.\pi = v$. This then means that there is a cycle consisting of $u,v$ in $G_\pi$.\\
+
+Suppose that we have a grap hon three vertices $\{s,u,v\}$ and containing edges $(s,u),(s,v),(u,v),(v,u)$ all with weight 0. Then, there is a shortest path from $s$ to $v$ of $s,u,v$ and a shortest path from $s$ to $u$ of $s,v,u$. Based off of these, we could set $v.pi= u$ and $u.\pi = v$. This then means that there is a cycle consisting of $u,v$ in $G_\pi$.\\
+
+\noindent\textbf{Exercise 24.5-6}\\
+
+We will prove this by induction on the number of relaxations performed.  For the base-case, we have just called INITIALIZE-SINGLE-SOURCE$(G,s)$.  The only vertex in $V_\pi$ is $s$, and there is trivially a path from $s$ to itself.  Now suppose that after any sequence of $n$ relaxations, for every vertex $v \in V_\pi$ there exists a path from $s$ to $v$ in $G_\pi$.  Consider the $(n+1)^{st}$ relaxation.  Suppose it is such that $v.d > u.d + w(u,v)$.  When we relax $v$, we update $v.\pi = u.\pi$.  By the induction hypothesis, there was a path from $s$ to $u$ in $G_\pi$.  Now $v$ is in $V_\pi$, and the path from $s$ to $u$, followed by the edge $(u,v) = (v.\pi, v)$ is a path from $s$ to $v$ in $G_\pi$, so the claim holds. \\
 
 \noindent\textbf{Exercise 24.5-7}\\
+
 We know by 24.16 that a $G_\pi$ forms a tree after a sequence of relaxation steps. Suppose that $T$ is the tree formed after performing all the relaxation steps of the Bellman Ford algorithm. While finding this tree would take many more than $V-1$ relaxations, we just want to say that there is some sequence of relaxations that gets us our answer quickly, not necessarily proscribe what those relaxations are. So, our sequence of relaxations will be all the edges of $T$ in an order so that we never relax an edge that is below an unrelaxed edge in the tree(a topological ordering). This guarantees that $G_\pi$ will be the same as was obtained through the slow, proven correct, Bellman-Ford algorithm. Since any tree on $V$ vertices has $V-1$ edges, we are only relaxing $V-1$ edges.\\
 
+\noindent\textbf{Exercise 24.5-8}\\
+
+Since the negative-weight cycle is reachable from $s$, let $v$ be the first vertex on the cycle reachable from $s$ (in terms of number of edges required to reach $v$) and $s = v_0, v_1, \ldots, v_k = v$ be a simple path from $s$ to $v$.  Start by performing the relaxations to $v$. Since the path is simple, every vertex on this path is encountered for the first time, so its shortest path estimate will always decrease from infinity.  Next, follow the path around from $v$ back to $v$.  Since $v$ was the first vertex reached on the cycle, every other vertex will have shortest-path estimate set to $\infty$ until it is relaxed, so we will change these for every relaxation around the cycle.  We now create the infinite sequence of relaxations by continuing to relax vertices around the cycle indefinitely. To see why this always causes the shortest-path estimate to change, suppose we have just reached vertex $x_i$, and the shortest-path estimates have been changed for every prior relaxation.  Let $x_1, x_2, \ldots, x_n$ be the vertices on the cycle. Then we have $x_{i-1}.d + w(x_{i-1}, x) = x_{i-2}.d + w(x_{i-2}, x_{i-1}) + w(x_{i-1}, w_i) = \ldots = x_i.d + \sum_{j=1}^n w(x_j) < w.d$ since the cycle has negative weight.  Thus, we must update the shortest-path estimate of $x_i$.\\
+
+
 \noindent\textbf{Problem 24-1}\\
+
 \begin{enumerate}[a.]
 \item
 Since in $G_f$ edges only go from vertices with smaller index to vertices with greater index, there is no way that we could pick a vertex, and keep increasing it's index, and get back to having the index equal to what we started with. This means that $G_f$ is acyclic. Similarly, there is no way to pick an index, keep decreasing it, and get back to the same vertex index. By these definitions, since $G_f$ only has vertices going from lower indices to higher indices, $(v_1, \ldots,v_{|V|})$ is a topological ordering of the vertices. Similarly, for $G_b$, $(v_{|V|},\ldots,v_1)$ is a topological ordering of the vertices.
@@ -413,7 +448,17 @@ Suppose that we are trying to find the shortest path from $s$ to $v$. Then, list
 It does not improve the asymptotic runtime of Bellman ford, it just drops the runtime from having a leading coefficient of 1 to a leading coefficient of $\frac{1}{2}$. Both in the original and in the modified version, the runtime is $O(EV)$.
 \end{enumerate}
 
+\noindent\textbf{Problem 24-2}\\
+
+a. Suppose that box $x = (x_1, \ldots, x_d)$ nests with box $y = (y_1, \ldots, y_d)$ and box $y$ nests with box $z = (z_1, \ldots, z_d)$.  Then there exist permutations $\pi$ and $\sigma$ such that $x_{\pi(1)} < y_1, \ldots, x_{\pi(d)} < y_d$ and $y_{\sigma(1)} < z_1, \ldots, y_{\sigma(d)} < z_d$.  This implies $x_{\pi(\sigma(1))} < z_1, \ldots, x_{\pi(\sigma(d))} < z_d$, so $x$ nests with $z$ and the nesting relation is transitive. \\
+
+b. Box $x$ nests inside box $y$ if and only if the increasing sequence of dimensions of $x$ is componentwise strictly less than the increasing sequence of dimensions of $y$.  Thus, it will suffice to sort both sequences of dimensions and compare them.  Sorting both length $d$ sequences is done in $O(d \lg d)$, and comparing their elements is done in $O(d)$, so the total time is $O(d \lg d)$. \\
+
+c. We will create a nesting-graph $G$ with vertices $B_1, \ldots, B_n$ as follows.  For each pair of boxes $B_i, B_j$, we decide if one nests inside the other.  If $B_i$ nests in $B_j$, draw an arrow from $B_i$ to $B_j$.  If $B_j$ nests in $B_i$, draw an arrow from $B_j$ to $B_i$.  If neither nests, draw no arrow.  To determine the arrows efficiently, after sorting each list of dimensions in $O(nd\lg d)$ we can sort all boxes' sorted dimensions lexicographically in $O(dn\lg n)$ using radix sort.  By transitivity, it will suffice to test adjacent nesting relations.  Thus, the total time to build this graph is $O(nd \max{\lg d, \lg n})$.  Next, we need to find the longest chain in the graph.  \\
+
+
 \noindent\textbf{Problem 24-3}\\
+
 \begin{enumerate}[a.]
 \item
 To do this we take the negative of the natural log (or any other base will also work) of all the values $c_i$ that are on the edges between the currencies. Then, we detect the presence or absence of a negative weight cycle by applying Bellman Ford. To see that the existence of an arbitrage situation is equivalent to there being a negative weight cycle in the original graph, consider the following sequence of steps:
@@ -426,7 +471,41 @@ To do this we take the negative of the natural log (or any other base will also 
 To do this, we first perform the same modification of all the edge weights as done in part $a$ of this problem. Then, we wish to detect the negative weight cycle. To do this, we relax all the edges $|V|-1$ many times, as in Bellman-Ford algorithm. Then, we record all of the d values of the vertices. Then, we relax all the edges $|V|$ more times. Then, we check to see which vertices had their $d$ value decrease since we recorded them. All of these vertices must lie on some (possibly disjoint) set of negative weight cycles. Call $S$ this set of vertices. To find one of these cycles in particular, we can pick any vertex in $S$ and greedily keep picking any vertex that it has an edge to that is also in $S$. Then, we just keep an eye out for a repeat. This finds us our cycle. We know that we will never get to a dead end in this process because the set $S$ consists of vertices that are in some union of cycles, and so every vertex has out degree at least 1.
 \end{enumerate}
 
+\noindent\textbf{Problem 24-4}\\
+
+a. We can do this in $O(E)$ by the algorithm described in exercise 24.3-8 since our ``priority queue'' takes on only integer values and is bounded in size by $E$.\\
+
+b. We can do this in $O(E)$ by the algorithm described in exercise 24.3-8 since $w$ takes values in $\{0,1\}$ and $V = O(E)$. \\
+
+c. If the $i^{th}$ digit, read from left to right, of $w(u,v)$ is 0, then $w_i(u,v) = 2w_{i-1}(u,v)$.  If it is a 1, then $w_i(u,v) = 2w_{i-1}(u,v)+1$.  Now let $s = v_0, v_1, \ldots, v_n = v$ be a shortest path from $s$ to $v$ under $w_i$.  Note that any shortest path under $w_i$ is necessarily also a shortest path under $w_{i-1}$.  Then we have
+\begin{align*}
+\delta_i(s,v) &= \sum_{m=1}^n w_i(v_{m-1}, v_m) \\
+&\leq  \sum_{m=1}^n [2w_{i-1}(u,v) + 1] \\
+&\leq 2\sum_{m=1}^n w_{i-1}(u,v) + n \\
+&\leq 2\delta_{i-1}(s,v) + |V| - 1.
+\end{align*}
+On the other hand, we also have 
+\begin{align*}
+\delta_i(s,v) &= \sum_{m=1}^n w_i(v_{m-1}, v_m) \\
+&\geq \sum_{m=1}^n 2w_{i-1}(v_{m-1}, v_m) \\
+&\geq 2\delta_{i-1}(s,v)
+\end{align*}
+
+d. Note that every quantity in the definition of $\hat{w_i}$ is an integer, so $\hat{w_i}$ is clearly an integer.  Since $w_i(u,v) \geq 2w_{i-1}(u,v)$, it will suffice to show that $w_{i-1}(u,v) + \delta_{i-1}(s,u) \geq \delta_{i-1}(s,v)$ to prove nonnegativity.  This follows immediately from the triangle inequality. \\
+
+e. First note that $s=v_0, v_1, \ldots, v_n = v$ is a shortest path from $s$ to $v$ with respect to $\hat{w}$ if and only if it is a shortest path with respect to $w$.  Then we have
+\begin{align*}
+\hat{\delta}_i(s,v) &= \sum_{m=1}^n w_i(v_{m-1}, v_m) + 2\delta_{i-1}(s,v_{m-1}) - 2\delta_{i-1}(s, v_m) \\
+&=  \sum_{m=1}^n w_i(v_{m-1}, v_m) - 2\delta_{i-1}(s,v_n) \\
+&= \delta_i(s,v) - 2\delta_{i-1}(s,v)
+\end{align*}
+\\
+
+f. By part a we can compute $\hat{\delta_i}(s,v)$ for all $v \in V$ in $O(E)$ time.  If we have already computed $\delta_{i-1}$ then we can compute $\delta_i$ in $O(E)$ time.  Since we can compute $\delta_1$ in $O(E)$ by part b, we can compute $\delta_i$ from scratch in $O(iE)$ time.  Thus, we can compute $\delta = \delta_k$ in $O(Ek) = O(E\lg W)$ time. \\
+
+
 \noindent\textbf{Problem 24-5}\\
+
 \begin{enumerate}[a.]
 \item
 If $\mu^* =0$, then we have that the lowest that $\frac{1}{k}\sum_{i=1}^k w(e_i)$ can be is zero. This means that the lowest $\sum_{i=1}^k w(e_i)$ can be is 0. This means that no cycle can have negative weight. Also, we know that for any path from $s$ to $v$, we can make it simple by removing any cycles that occur. This means that it had a weight equal to some path that has at most $n-1$ edges in it. Since we take the minimum over all possible number of edges, we have the minimum over all paths.
@@ -469,4 +548,8 @@ if we add $t$ to the weight of each edge, the mean weight of any cycle becomes $
 By the previous part, it suffices to compute the expression on the previous line. We will start by creating a table that lists $\delta_k(s,v)$ for every $k\in \{1,\ldots, n\}$ and $v\in V$. This can be done in time $O(V(E+V))$ by creating a $|V|$ by $|V|$ table, where the $k$th row and $v$th column represent $\delta_k(s,v)$ when wanting to compute a particular entry, we need look at a number of entries in the previous row equal to the in degree of the vertex we want to compute. So, summing over the computation required for each row, we need $O(E+V)$. Note that this total runtime can be bumped down to $O(VE)$ by not including in the table any isolated vertices, this will ensure that $E \in \Omega(V)$ So, $O(V(E+V))$ becomes $O(VE)$. Once we have this table of values computed, it is simple to just replace each row with the last row minus what it was, and divide each entry by $n-k$, then, find the min column in each row, and take the max of those numbers.
 
 \end{enumerate}
+
+\noindent\textbf{Problem 24-6}\\
+
+%%% Not done
 \end{document}

@@ -576,6 +576,78 @@ They do not. Consider the array $A =\langle 3,2,1,4,5\rangle$. If we run Build-M
 \item
 Each insert step takes at most $O(\lg(n))$, since we are doing it $n$ times, we get a bound on the runtime of $O(n\lg(n))$.
 \end{enumerate}
+
+\noindent\textbf{Problem 6-2}\\
+
+a. It will suffice to show how to access parent and child nodes.  In a $d$-ary array, PARENT$(i) = \lfloor i/d \rfloor$, and CHILD$(k,i) = di - d + 1 + k$, where CHILD$(k,i)$ gives the $k^{th}$ child of the node indexed by $i$. \\
+
+b. The height of a $d$-ary heap of $n$ elements is with 1 of $\log_d n$. \\
+
+c.  The following is an implementation of HEAP-EXTRACT-MAX for a $d$-ary heap.  An implementation of DMAX-HEAPIFY is also given, which is the analog of MAX-HEAPIFY for $d$-ary heap.  HEAP-EXTRACT-MAX consists of constant time operations, followed by a call to DMAX-HEAPIFY.  The number of times this recursively calls itself is bounded by the height of the $d$-ary heap, so the running time is $O(d\log_d n)$.  Note that the CHILD function is meant to be the one described in part (a).\\
+
+\begin{algorithm}
+\caption{HEAP-EXTRACT-MAX(A) for a $d$-ary heap}
+\begin{algorithmic}[1]
+\If{$A.heap-size < 1$}
+	\State \textbf{error} ``heap underflow''
+\EndIf
+\State $max = A[1]$
+\State $A[1] = A[A.heap-size]$
+\State $A.heap-size = A.heap-size - 1$
+\State DMAX-HEAPIFY(A,1)
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{DMAX-HEAPIFY(A,i)}
+\begin{algorithmic}[1]
+\State $largest = i$
+\For{$k=1$ to $d$}
+	\If{$CHILD(k,i) \leq A.heap-size$ and $A[CHILD(k,i)] > A[i]$}
+		\If{$A[CHILD(k,i)] > largest$}
+			\State $largest = A[CHILD(k,i)]$
+		\EndIf
+	\EndIf
+\EndFor
+\If{$largest \neq i$}
+	\State exchange $A[i]$ with $A[largest]$
+	\State DMAX-HEAPIFY$(A,largest)$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+d.  The runtime of this implementation of INSERT is $O(\log_d n)$ since the while loop runs at most as many times as the height of the $d$-ary array.  Note that when we call PARENT, we mean it as defined in part (a).\\
+
+\begin{algorithm}
+\caption{INSERT(A,key)}
+\begin{algorithmic}[1]
+\State $A.heap-size = A.heap-size + 1$
+\State $A[A.heap-size] = key$
+\State $i = A.heap-size$
+\While{$i > 1$ and $A[PARENT(i) < A[i]$}
+	\State exchange $A[i]$ with $A[PARENT(i)]$
+	\State $i = PARENT(i)$
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+e. This is identical to the implementation of HEAP-INCREASE-KEY for 2-ary heaps, but with the PARENT function interpreted as in part (a).  The runtime is $O(\log_d n)$ since the while loop runs at most as many times as the height of the $d$-ary array.\\
+
+\begin{algorithm}
+\caption{INCREASE-KEY(A,i,key)}
+\begin{algorithmic}[1]
+\If{$key < A[i]$}
+	\State \textbf{error} ``new key is smaller than current key ''
+\EndIf
+\State $A[i] = key$
+\While{$i > 1$ and $A[PARENT(i) < A[i]$}
+	\State exchange $A[i]$ with $A[PARENT(i)]$
+	\State $i = PARENT(i)$
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+
 \noindent\textbf{Problem 6-3}\\
 \begin{enumerate}[a.]
 \item
@@ -659,74 +731,6 @@ Find(Y,key). Let Check(y,key,i,j) mean to return true if $Y[i,j]=key$, otherwise
 \end{algorithm}
 \end{enumerate}
 
-\noindent\textbf{Problem 6-2}\\
 
-a. It will suffice to show how to access parent and child nodes.  In a $d$-ary array, PARENT$(i) = \lfloor i/d \rfloor$, and CHILD$(k,i) = di - d + 1 + k$, where CHILD$(k,i)$ gives the $k^{th}$ child of the node indexed by $i$. \\
-
-b. The height of a $d$-ary heap of $n$ elements is with 1 of $\log_d n$. \\
-
-c.  The following is an implementation of HEAP-EXTRACT-MAX for a $d$-ary heap.  An implementation of DMAX-HEAPIFY is also given, which is the analog of MAX-HEAPIFY for $d$-ary heap.  HEAP-EXTRACT-MAX consists of constant time operations, followed by a call to DMAX-HEAPIFY.  The number of times this recursively calls itself is bounded by the height of the $d$-ary heap, so the running time is $O(d\log_d n)$.  Note that the CHILD function is meant to be the one described in part (a).\\
-
-\begin{algorithm}
-\caption{HEAP-EXTRACT-MAX(A) for a $d$-ary heap}
-\begin{algorithmic}[1]
-\If{$A.heap-size < 1$}
-	\State \textbf{error} ``heap underflow''
-\EndIf
-\State $max = A[1]$
-\State $A[1] = A[A.heap-size]$
-\State $A.heap-size = A.heap-size - 1$
-\State DMAX-HEAPIFY(A,1)
-\end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}
-\caption{DMAX-HEAPIFY(A,i)}
-\begin{algorithmic}[1]
-\State $largest = i$
-\For{$k=1$ to $d$}
-	\If{$CHILD(k,i) \leq A.heap-size$ and $A[CHILD(k,i)] > A[i]$}
-		\If{$A[CHILD(k,i)] > largest$}
-			\State $largest = A[CHILD(k,i)]$
-		\EndIf
-	\EndIf
-\EndFor
-\If{$largest \neq i$}
-	\State exchange $A[i]$ with $A[largest]$
-	\State DMAX-HEAPIFY$(A,largest)$
-\EndIf
-\end{algorithmic}
-\end{algorithm}
-
-d.  The runtime of this implementation of INSERT is $O(\log_d n)$ since the while loop runs at most as many times as the height of the $d$-ary array.  Note that when we call PARENT, we mean it as defined in part (a).\\
-
-\begin{algorithm}
-\caption{INSERT(A,key)}
-\begin{algorithmic}[1]
-\State $A.heap-size = A.heap-size + 1$
-\State $A[A.heap-size] = key$
-\State $i = A.heap-size$
-\While{$i > 1$ and $A[PARENT(i) < A[i]$}
-	\State exchange $A[i]$ with $A[PARENT(i)]$
-	\State $i = PARENT(i)$
-\EndWhile
-\end{algorithmic}
-\end{algorithm}
-
-e. This is identical to the implementation of HEAP-INCREASE-KEY for 2-ary heaps, but with the PARENT function interpreted as in part (a).  The runtime is $O(\log_d n)$ since the while loop runs at most as many times as the height of the $d$-ary array.\\
-
-\begin{algorithm}
-\caption{INCREASE-KEY(A,i,key)}
-\begin{algorithmic}[1]
-\If{$key < A[i]$}
-	\State \textbf{error} ``new key is smaller than current key ''
-\EndIf
-\State $A[i] = key$
-\While{$i > 1$ and $A[PARENT(i) < A[i]$}
-	\State exchange $A[i]$ with $A[PARENT(i)]$
-	\State $i = PARENT(i)$
-\EndWhile
-\end{algorithmic}
-\end{algorithm}
 
 \end{document}

@@ -1,0 +1,87 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{tikz}
+	
+\pagestyle{fancy}
+\title{Appendix A}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Exercise A.1-2}\\
+
+Using the harmonic series formula we have that
+
+\[\sum_{k=1}^n \frac{1}{(2k-1)} \leq 1 + \sum_{k=1}^n \frac{1}{2k} =  1 + \ln(\sqrt{n}) + O(1) =  \ln(\sqrt{n}) + O(1).\]
+
+\noindent\textbf{Exercise A.1-4}\\
+
+Using formula A.8 we have
+
+\begin{align*}
+\sum_{k=0}^\infty \frac{k-1}{2^k} &= -1 + \frac{1}{2} \sum_{k=0}^\infty k\left(\frac{1}{2}\right)^k \\
+&= -1 + \frac{1}{2} \cdot \frac{ 1/2}{1/4} \\
+&= -1 + 1 \\
+&= 0.
+\end{align*}
+
+\noindent\textbf{Exercise A.1-6}\\
+
+Let $g_1, g_2, \ldots, g_n$ be any functions such that $g_k(i) = O(f_k(i))$. By the definition of big-oh there exist constant $c_1, c_2, \ldots, c_n$ such that $g_k(i) \leq c_kf_k(i)$.  Let $c = \max_{1 \leq k \leq n} c_k$.  Then we have
+
+ \[\sum_{k=1}^n g_k(i) \leq \sum_{k=1}^nc_kf_k(i) \leq c\sum_{k=1}^n f_k(i) = O\left(\sum_{k=1}^nf_k(i)\right).\]
+
+\noindent\textbf{Exercise A.1-8}\\
+
+We expand the product and cancel as follows:
+
+\begin{align*}
+\prod_{k=2}^n 1 - 1/k^2  &=  \prod_{k=2}^n \frac{(k-1)(k+1)}{k^2} \\
+&= \frac{1 \cdot 3}{2 \cdot 2} \cdot \frac{2 \cdot 4}{3 \cdot 3} \cdot \frac{3 \cdot 5}{4 \cdot 4} \cdots \frac{(n-1)\cdot(n+1)}{n \cdot n} \\
+&= \frac{n+1}{2n}.
+\end{align*}
+
+\noindent\textbf{Exercise A.2-2}\\
+
+When $n = 2^m$ the sum becomes $n + n/2 + n/4 + \ldots + 1 = 2n - 1 = O(n)$.  There always exists a power of 2 which lies between $n$ and $2n$ for any choice of $n$, so let $n'$ denote the smallest power of 2 which is greater than or equal to $n$.  Then we have
+
+\[ \sum_{k=0}^{\lfloor \lg n \rfloor} \lceil n/2^k\rceil \leq \sum_{k=0}^{\lfloor \lg n' \rfloor} \lceil n'/2^k\rceil = 2n' - 1 \leq 4n - 1 = O(n).\]
+
+
+\noindent\textbf{Exercise A.2-4}\\
+
+Since $k^3$ is monotonically increasing we use bound A.11.  For the upper bound we have
+
+\begin{align*}
+\sum_{k=1}^n k^3 &\leq \int_1^{n+1} x^3 dx \\
+&= \left.\frac{x^4}{4} \right|_1^{n+1} \\
+&= \frac{(n+1)^4 - 1}{4}.
+\end{align*}
+
+For the lower bound we have 
+
+\begin{align*}
+\sum_{k=1}^n k^3 &\geq \int_0^{n} x^3 dx \\
+&= \left.\frac{x^4}{4} \right|_0^n \\
+&= \frac{n^4}{4}.
+\end{align*}
+\end{document}
