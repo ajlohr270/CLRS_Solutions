@@ -27,16 +27,16 @@
 \begin{document}
 \maketitle
 \noindent\textbf{Exercise 26.1-1}\\
-To see that the networks have the same maximum flow, we will show that every flow through one of the networks corresponds to a flow through the other. First, suppose that we have some flow through the unsplit network. Since we are only changing one of any pair of antisymmetric edges, for any edge that is unchanged by the splitting, we just have an identical flow going through those edges. Suppose that there was some edge $(u,v)$ that was split because it had an anitsymmetric edge, and we had some flow, $f(u,v)$ in the original graph. Since the capacity of both of the two edges that are introduced by the splitting of that edge have the same capacity, we can set $f'(u,v) = f'(u,x) = f'(x,v)$. By constructing the new flow in this manor, we have an identical total flow, and we also still have a valid flow.
+To see that the networks have the same maximum flow, we will show that every flow through one of the networks corresponds to a flow through the other. First, suppose that we have some flow through the network befor applying the splitting procedure to the anti-symmetric edges. Since we are only changing one of any pair of anti-symmetric edges, for any edge that is unchanged by the splitting, we just have an identical flow going through those edges. Suppose that there was some edge $(u,v)$ that was split because it had an anti-symmetric edge, and we had some flow, $f(u,v)$ in the original graph. Since the capacity of both of the two edges that are introduced by the splitting of that edge have the same capacity, we can set $f'(u,v) = f'(u,x) = f'(x,v)$. By constructing the new flow in this manor, we have an identical total flow, and we also still have a valid flow.
 
 Similarly, suppose that we had some flow $f'$ on the graph with split edges, then, for any triple of vertices $u,x,v$ that correspond to a split edge, we must have that $f'(u,x) = f'(x,v)$ because the only edge into $x$ is $(u,x)$ and the only edge out of $x$ is $(x,v)$, and the net flow into and out of each vertex must be zero. We can then just set the flow on the unsplit edge equal to the common value that the flows on $(u,x)$ and $(x,v)$ have. Again, since we handle this on an edge by edge basis, and each substitution of edges maintains the fact that it is a flow of the same total, we have that the end result is also a valid flow of the same total value as the original.
 
 Since we have shown that any flow in one digraph can be translated into a flow of the same value in the other, we can translate the maximum value flow for wone of them to get that it's max value flow is $\le$ to that of the other, and do it in the reverse direction as well to acheive equality.\\
 
 \noindent\textbf{Exercise 26.1-3}\\
-Suppose that we are in the situation posed by the question, that is, that there is some vertex $u$ that lies on no path from $s$ to $t$. Then, suppose that we have for some vertex $v$, either $f(v,u)$ or $f(u,v)$ is nonzero. Since flow must be conserved at $u$, having any positive flow either leaving or entering $u$, there is both flow leaving and entering. Since $u$ doesn't lie on a path from $s$ to $t$, we have that there are two cases, either there is no path from $s$ to $u$ or(possibly and) there is no path from $u$ to $t$. If we are in the second case, we construct a path with $c_0 = u$, and $c_{i+1}$ is an successor of $c_i$ that has $f(c_i,c_{i+1})$ being positive. Since the only vertex that is allowed to have a larger flow in than flow out is $t$, we have that this path could only ever terminate if it were to reach $t$, since each vertex in the path has some positive flow in. However, we could never reach $t$ because we are in the case that there is no path from $u$ to $t$. If we are in the former case that there is no path from $s$ to $u$, then we similarly define $c_0 = u$, however, we let $c_{i+1}$ be any vertex so that $f(c_{i+1},c_i)$ is nonzero. Again, this sequence of verticescannot terminate since we could never arrive at having $s$ as one of the vertices in the sequence.
+Suppose that we are in the situation posed by the question, that is, that there is some vertex $u$ that lies on no path from $s$ to $t$. Then, suppose that we have for some vertex $v$, either $f(v,u)$ or $f(u,v)$ is nonzero. Since flow must be conserved at $u$, having any positive flow either leaving or entering $u$, there is both flow leaving and entering. Since $u$ doesn't lie on a path from $s$ to $t$, we have that there are two cases, either there is no path from $s$ to $u$ or(possibly and) there is no path from $u$ to $t$. If we are in the second case, we construct a path with $c_0 = u$, and $c_{i+1}$ is an successor of $c_i$ that has $f(c_i,c_{i+1})$ being positive. Since the only vertex that is allowed to have a larger flow in than flow out is $t$, we have that this path could only ever terminate if it were to reach $t$, since each vertex in the path has some positive flow in. However, we could never reach $t$ because we are in the case that there is no path from $u$ to $t$. If we are in the former case that there is no path from $s$ to $u$, then we similarly define $c_0 = u$, however, we let $c_{i+1}$ be any vertex so that $f(c_{i+1},c_i)$ is nonzero. Again, this sequence of vertices cannot terminate since we could never arrive at having $s$ as one of the vertices in the sequence.
 
-Since in both cases, we an always keep extending the sequence of vertices, we have that it must repeat itself at some point. Once we have some cycle of vertices, we can decrease the total flow around the cycle by an amount equal to the minimum amount of flow that is going along it without changing the value of the flow from $s$ to $t$ since neither of those two vertices show up in the cycle. However, by decreasing the flow like this, we decrease the total number of edges that have a positive flow. If there is still any flow passing though $u$, we can continue to repeat this procedure, decreasing the number of edges with a postive flow by at least one. Since there are only finitely many vertices, at some point we need to have that there is no flow passing through $u$. The flow obtained after all of these steps is the desired maximum flow that the problem asks for.\\
+Since in both cases, we an always keep extending the sequence of vertices, we have that it must repeat itself at some point. Once we have some cycle of vertices, we can decrease the total flow around the cycle by an amount equal to the minimum amount of flow that is going along it without changing the value of the flow from $s$ to $t$ since neither of those two vertices show up in the cycle. However, by decreasing the flow like this, we decrease the total number of edges that have a positive flow. If there is still any flow passing though $u$, we can continue to repeat this procedure, decreasing the number of edges with a positive flow by at least one. Since there are only finitely many vertices, at some point we need to have that there is no flow passing through $u$. The flow obtained after all of these steps is the desired maximum flow that the problem asks for.\\
 
 
 \noindent\textbf{Exercise 26.1-5}\\
@@ -54,27 +54,99 @@ To see that equation (26.6) equals (26.7), we will show that the terms that we a
 %pictures <_< >_> <_<
 
 \noindent\textbf{Exercise 26.2-5}\\
-Since the only edges that have infinite value are those going from the supoersource or to the supersink, as long as we pick a cut that has the supersource and all the original ssources on one side, and the other side has the supersing as well as all the original sinks, then it will only cut rhough edges of finite capacity. Then, by Corollary 26.5, we have that the value of the flow is bounded above by the value of any of these types of cuts, which is finite.\\
+Since the only edges that have infinite value are those going from the supersource or to the supersink, as long as we pick a cut that has the supersource and all the original sources on one side, and the other side has the supersink as well as all the original sinks, then it will only cut through edges of finite capacity. Then, by Corollary 26.5, we have that the value of the flow is bounded above by the value of any of these types of cuts, which is finite.\\
 
 \noindent\textbf{Exercise 26.2-7}\\
-To check that $f_p$ is a flow, we make sure that it satisfies both the capacity constraints and the flow constraints. First, the capacity constraints. To see this, we recall our definition of $c_f(p)$, that is, it is the smallest residual capacity of any of the edges along the path $p$. Since we have that the residual capacity is always less than or equal to the initial capacity, we have that each value of the flow is less than the capacity. Second, we check the flow constraints, Since the only edges that are given any flow are along a path, we have that at each vertex interior to the path, the flow in from one edge is immediately cancelled by the flow out to the next vertex in the path. Lastly, we can check that its value is equal to $c_f(p)$ because, while $s$ may show up at spots later on in the path, it will be cancelled out as it leaves to go to the next vertex. So, the only net flow from $s$ is the inital edge along the path, since it (along with all the other edges) is given flow  $c_f(p)$, that is the value of the flow $f_p$.\\
+To check that $f_p$ is a flow, we make sure that it satisfies both the capacity constraints and the flow constraints. First, the capacity constraints. To see this, we recall our definition of $c_f(p)$, that is, it is the smallest residual capacity of any of the edges along the path $p$. Since we have that the residual capacity is always less than or equal to the initial capacity, we have that each value of the flow is less than the capacity. Second, we check the flow constraints, Since the only edges that are given any flow are along a path, we have that at each vertex interior to the path, the flow in from one edge is immediately canceled by the flow out to the next vertex in the path. Lastly, we can check that its value is equal to $c_f(p)$ because, while $s$ may show up at spots later on in the path, it will be canceled out as it leaves to go to the next vertex. So, the only net flow from $s$ is the inital edge along the path, since it (along with all the other edges) is given flow  $c_f(p)$, that is the value of the flow $f_p$.\\
 
 \noindent\textbf{Exercise 26.2-9}\\
-The augmented flow does satisfy the flow conservation property, since the sum of flow into a vertex and out of a vertex can be split into two sums each, one funing over flow in $f$ and the other running over flow in $f'$, since we have the parts are equal separately, their sums are also equal.
+The augmented flow does satisfy the flow conservation property, since the sum of flow into a vertex and out of a vertex can be split into two sums each, one running over flow in $f$ and the other running over flow in $f'$, since we have the parts are equal separately, their sums are also equal.
 
 The capacity constraint is not satisfied by this arbitrary augmentation of flows. To see this, suppose we only have the vertices $s$ and $t$, and have a single edge from $s$ to $t$ of capacity 1. Then we could have a flow of value $1$ from $s$ to $t$, however, augmenting this flow with itself ends up putting two units along the edge from $s$ to $t$, which is greater than the capacity we can send.\\
 
 \noindent\textbf{Exercise 26.2-11}\\
 To test edge connectivity, we will take our graph as is, pick an arbitrary $s$ to be our source for the flow network, and then, we will consider every possible other selection of our sink $t$. For each of these flow networks, we will replace each (undirected) edge in the original graph with a pair of anti-symmetric edges, each of capacity 1. 
 
-\noindent\textbf{Exercise 26.2-13}\\
+We claim that the minimum value of all of these different considered flow networks' maximum flows is indeed the edge connectivity of the original graph. Consider one particular flow network, that is, a particular choice for $t$. Then, the value of the maximum flow is the same as the value of the minimum cut separating $s$ and $t$. Since each of the edges have a unit capacity, the value of any cut is the same as the number of edges in the original graph that are cut by that particular cut. So, for this particular choice of $t$, we have that the maximum flow was the number of edges needed to be removed so that $s$ and $t$ are in different components. Since our end goal is to remove edges so that the graph becomes disconnected, this is why we need to consider all $n-1$ flow networks. That is, it may be much harder for some choices of $t$ than others to make $s$ and $t$ end up in different components. However, we know that there is some vertex that has to be in a different component than $s$ after removing the smallest number of edges required to disconnect the graph. So, this value for the number of edges is considered when we have $t$ be that vertex.\\
 
+\noindent\textbf{Exercise 26.2-13}\\
+Suppose that your given flow network contains $|E|$ edges, then, we were to modify all of the capacities of the edges by taking any edge that has a postive capacity and increasing its capacity by $\frac{1}{|E|+1}$. Doing this modification can't get us a set of edges for a min cut that isn't also a min cut for the unmodified graph because the difference between the value of the min cut and the next lowest cut vale was at least one because all edge weights were integers. This means that the new min cut value is going to be at most the original plus $\frac{|E|}{|E|+1}$. Since this value is more than the second smallest valued cut in the original flow network, we know that the choice  of cuts we make in the new flow network is also a minimum cut in the original. Lastly, since we added a small constant amount to the value of each edge, our minimum cut would have the smallest possible number of edges, otherwise one with fewer would have a smaller value.\\
+
+\noindent\textbf{Exercise 26.3-1}\\
+%pictures
+
+\noindent\textbf{Exercise 26.3-3}\\
+\begin{comment}
+We will try to show that any augmenting path that is found by Ford-Fulkerson must have length at most 5. To do this, we'll show the stronger fact that any augmenting path that is found will be of length 3 or 5. It is clear that the augmenting path cannot be of length less than 3 because we can separate the vertices of the flow network into four parts, $\{\{s\},L,R,\{t\}\}$ where all the edges only appear between $s$ and $L$, between $L$ and $R$, and between $R$ and $\{t\}$. This fact also gets us that there are no even length paths, so four is out.  Then, we will be done if we can show that no augmenting path that is found has length greater than $5$. To do this, we rely on the fact that since Bellman-Ford finds augmenting paths of shorter length first because it uses BFS to find augmenting paths. This means that to show that no augmenting path of length greater than $5$ will be found, we will show that if there is any augmenting path, then there must be one that is of length $5$ or less. Suppose that we have some augmenting path of length greater than $5$. 
+\end{comment}
+
+The length of an augmenting path can be at most $2\min\{|L|,|R|\}+1$. To see that this is the case, we can construct an example which has an augmenting path of that length.
+
+Suppose that the vertices of $L$ are $\{\ell_1, \ell_2, \ldots \ell_{|L|}\}$, and of $R$ are $\{r_1,r_2, \ldots, r_{|R|}\}$. For convenience, we will call $m = \min\{|L|,|R|\}$. Then, we will place the edges 
+\[
+\{(\ell_{m} , r_{m}-1),(\ell_1,r_1), (\ell_1, r_m)\} \cup \left(\cup_{i=2}^{i=m-1} \{(\ell_i,r_i),(\ell_i,r_{i-1})\}\right)
+\]
+
+Then, after augmenting with the shortest length path $\min\{|L|,|R|\}-1$ times, we could end up having sent a unit flow along $\{(\ell_i,r_i)\}_{i =1,\ldots,m-1}$. At this point, there is only a single augmenting path, namely, $\{s,\ell_m,r_{m-1},\ell_{m-1}, r_{m-2}, \ldots, \ell_2, r_1,\ell_1, r_m,  t\}$. This path has the length $2 m+1$.
+
+It is clear that any simple path must have length at most $2m +1$, since the path must start at $s$, then alternate back and forth between $L$ and $R$, and then end at $t$. Since augmenting paths must be simple, it is clear that our bound given for the longest augmenting path is tight.\\
+
+
+\noindent\textbf{Exercise 26.3-5}\\
+
+
+
+
+
+\noindent\textbf{Exercise 26.4-1}\\
+
+\noindent\textbf{Exercise 26.4-3}\\
+
+\noindent\textbf{Exercise 26.4-5}\\
+
+\noindent\textbf{Exercise 26.4-7}\\
+
+\noindent\textbf{Exercise 26.4-9}\\
+
+\noindent\textbf{Exercise 26.5-1}\\
+
+\noindent\textbf{Exercise 26.5-3}\\
+
+\noindent\textbf{Exercise 26.5-5}\\
 
 \noindent\textbf{Problem 26-1}\\
 \begin{enumerate}[a.]
 \item
+This problem is identical to exercise 26.1-7.
+\item
+Given an instance of the escape problem, we can convert it to a flow network with vertex capacities. That is, we will place an edge from $s$ to each of the distinguished vertices. Then, we place an infinite capacity edge from each of border vertices to $t$. We give each vertex a capacity of 1 in the grid. Then, we have that there is an escape if the maximum value of the flow is equal to $m$.
+%needs proof
+
 \end{enumerate}
 
+\noindent\textbf{Problem 26-3}\\
+\begin{enumerate}[a.]
+\item
+\item
+\item
+\end{enumerate}
+
+\noindent\textbf{Problem 26-5}\\
+\begin{enumerate}[a.]
+\item Since the capacity of a cut is the sum of the capacity of the edges going from a vertex on one side to a vertex on the other, it is less than or equal to the sum of the capacities of all of the edges. Since each of the edges has a capacity that is $\le C$, if we were to replace the capacity of each edge with $C$, we would only be potentially increasing the sum of the capacities of all the edges. After so changing the capacities of the edges, the sum of the capacities of all the edges is equal to $C|E|$, potentially an overestimate of the original capacity of any cut, and so of the minimum cut.
+\item
+Since the capacity of a path is equal to the minimum of the capacities of each of the edges along that path, we know that any edges in the residual network that have a capacity less than $K$ cannot be used in such an augmenting path. Similarly, so long as all the edges have a capacity of at least $K$, then the capacity of the augmenting path, if it is found, will be of capacity at least $K$. This means that all that needs be done is remove from the residual network those edges whose capacity is less than $K$ and then run BFS.
+\item
+Since $K$ starts out as a power of 2, and through each iteration of the while loop on line 4, it decreases by a factor of two until it is less than 1. There will be some iteration of that loop when $K=1$. During this iteration, we will be using any augmenting paths of capacity at least 1 when running the loop on line 5. Since the original capacities are all integers, the augmenting paths at each step will be integers, which means that no augmenting path will have a capacity of less than 1. So, once the algorithm terminates, there will be no more augmenting paths since there will be no more augmenting paths of capacity at least 1.
+\item
+Each time line 4 is executed we know that there is no augmenting path of capacity at least $2K$. To see this fact on the initial time that line 4 is executed we just note that $2 K = 2\cdot 2^{\lfloor \lg(C)\rfloor} > 2\cdot2^{\lg(C) -1} = 2^{\lg(C)} = C$. Then, since an augmenting path is limited by the capacity of the smallest edge it contains, and all the edges have a capacity at most $C$, no augmenting path will have a capacity greater than that. On subsequent times executing line 4, the loop of line 5 during the previous execution of the outer loop will of already used up and capacious augmenting paths, and would only end once there are no more. 
+
+Since any augmenting path must have a capacity of less than $2K$, we can look at each augmenting path $p$, and assign to it an edge $e_p$ which is any edge whose capacity is tied for smallest among all the edges along the path. Then, we do a procedure to remove $e_p$ for a found augmenting path, and then look at augmenting paths on the resulting graph. %notdone
+\item
+
+\item
+
+\end{enumerate}
 
 
 \end{document}

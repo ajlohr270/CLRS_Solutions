@@ -130,13 +130,262 @@ Split up the region into four sections. Then, this amounts to finding the transp
 T_{\infty}(n) = T_{\infty}(n/2) + \lg(n)
 \]
 
-By the master theorem, we get that the total span of this procedure is $T_{\infty} \in O(\lg(n)$. The total work is still the usual $O(n^2)$.
+By the master theorem, we get that the total span of this procedure is $T_{\infty} \in O(\lg(n)$. The total work is still the usual $O(n^2)$.\\
 
 
 \noindent\textbf{Exercise 27.3-1}\\
 To coarsen the base case of P-MERGE, just replace the condition on line 2 with a check that $n<k$ for some base case size $k$. And instead of just copying over the particular element of $A$ to the right spot in $B$,  you would call a serial sort on the remaining segment of $A$ and copy the result of that over into the right spots in $B$.\\
 
 \noindent\textbf{Exercise 27.3-3}\\
+Suppose that there are c different processors, and the array has length $n$ and you are going to use its last element as a pivot. Then, look at each chunk of size $\lceil\frac{n}{c}\rceil$ of entries before the last element, give one to each processor. Then, each counts the number of elements that are less than the pivot. Then, we compute all the running sums of these values that are returned. This can be done easily by considering all of the subarrays placed aout along the leaves of a binary tree, and then summing up adjacent pairs. This computation can be done in time $\lg(\min\{c,n\})$ since it's the log of the number of leaves. From there, we can compute all the running sums for each of the subarrays also in logarithmic time. This is by keeping track of the sum of all more left cousins of each internal node, which is found by adding the left sibling's sum vale to the left cousing value of the parent, with the root's left cousing value initiated to 0. This also just takes time the depth of the tree, so is $\lg(\min\{c,n\})$. Once all of these values are computed at the root, it is the index that the subarray's elements less than the pivot should be put. To find the position where the subarray's elements larger than the root should be put, just put it at twice the sum value of the root minus the left cousin value for that subarray. Then, the time taken is just $O(\frac{n}{c})$. By doing this procedure, the total work is just $O(n)$, and the span is $O(\lg(n))$, and so has parallelization of $O(\frac{n}{\lg(n)})$. This whole process is split across the several algoithms appearing here.
 
+\begin{algorithm}
+\caption{PPartition(L)}
+\begin{algorithmic}
+\State $c= \min\{c,n\}$
+\State pivot = L[n]
+\State let Count be an array of length c
+\State let $r_1, \ldots r_{c+1}$ be roughly evenly spaced indices to L with $r_1 = 1$ and $r_{c+1} = n$
+\For{i=1 \ldots c}
+\State Count[i] = spawn countnum($L[r_i,r_{i+1}-1]$,pivot)
+\EndFor
+\State sync
+\State let $T$ be a nearly complete binary tree whoose leaves are the elements of Count whoose vertices have the attributes sum and lc
+\State for all the leaves, let their sum value be the corresponding entry in Count
+\State ComputeSums(T.root)
+\State T.root.lc = 0
+\State ComputeCousins(T.root)
+\State Let Target be an array of length $n$ that the elements will be copied into
+\For{i=1 \ldots c}
+\State let cousin be the lc value of the node in $T$ that corresponds to $i$
+\State spawn CopyElts(L,Target, cousin,$r_i,r_{i+1}-1$)
+\EndFor
+\State Target[n] = Target[T.root.sum]
+\State Target[T.root.sum]  = L[n]
+\State \Return Target
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}
+\caption{CountNum(L,x)}
+\begin{algorithmic}
+\State ret = 0
+\For{i=1 \ldots L.length}
+\If{$L[i]<x$}
+\State ret++
+\EndIf
+\EndFor
+\State \Return ret
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}
+\caption{ComputeSums(v)}
+\begin{algorithmic}
+\If{v is an internal node}
+\State x = spawn ComputeSums(v.left)
+\State y = ComputeSums(v.right)
+\State sync
+\State v.sum = x+y
+\EndIf
+\State \Return v.sum
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}
+\caption{ComputeCousins(v)}
+\begin{algorithmic}
+\If{$v\neq NIL$}
+\State v.lc = v.p.lv
+\If{$v =v.p.right$}
+\State v.lc += c.p.left.sum
+\EndIf
+\State spawn ComputeCousins(v.left)
+\State ComputeCousins(v.right)
+\State sync
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}
+\caption{CopyElts(L1, L2, lc,lb,ub)}
+\begin{algorithmic}
+\State counter1 = lc+1
+\State counter2 = lb
+\For{i=lb \ldots ub}
+\If{$L1[i] < x$}
+\State L2[counter1++] = L1[i]
+\Else
+\State L2[counter2++] = L1[i]
+\EndIf
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+
+\noindent\textbf{Exercise 27.3-5}\\
+Randomly pick a pivot element, swap it with the last element, so that it is in the correct format for running the procedure described in 27.3-3.
+Run partition from problem $27.3-3$. As an intermediate step, in that procedure, we compute the number of elements less than the pivot (T.root.sum), so keep track of that value after the end of PPartition. Then, if we have that it is less than $k$, recurse on the subarray that was greater than or equal to the pivot, decreasing the order statistic of the element to be selected by T.root.sum. If it is larger than the order statistic of the element to be selected, then leave it unchanged and recurse on the subarray that was formed to be less than the pivot. A lot of the analysis in section 9.2 still applies, except replacing the timer needed for partitioning with the runtime of the algorithm in problem 27.3-3. The work is unchanged from the serial case because when $c=1$, the algorithm reduces to the serial algorithm for partitioning. For span, the $O(n)$ term in the equation half way down page 218 can be replaced with an $O(\lg(n))$ term. It can be seen with the substitution method that the solution to this is logarithmic
+\[
+E[T(n)] \le \frac{2}{n} \sum_{k=\lfloor n/2\rfloor}^{n-1} C \lg(k) + O(\lg(n)) \le O(\lg(n)) 
+\]
+So, the total span of this algorithm will still just be $O(\lg(n))$.
+
+
+\noindent\textbf{Problem 27-1}\\
+\begin{enumerate}[a.]
+\item
+\begin{algorithm}
+\caption{Sum-Arrays(A,B,C)}
+\begin{algorithmic}
+\State n = $\left\lfloor \frac{A.length}{2} \right\rfloor$
+\If{n=0}
+\State C[1] = A[1]+B[1]
+\Else
+\State spawn Sum-Arrays(A[1\ldots n], B[1\ldots n], C[1\ldots n])
+\State Sum-Arrays(A[n+1 \ldots A.length],B[n+1 \ldots A.length],C[n+1 \ldots A.length])
+\State sync
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+The parallelism is $O(n)$ since it's work is $n\lg(n)$ and the span is $\lg(n)$. 
+\item
+If grainsize is 1, this means that each call of Add-Subarray just sums a single pair of numbers. This means that since the for loop on line 4 will run $n$ times, both the span and work will be $O(n)$. So, the parallelism is just $O(1)$.
+\item
+Let $g$ be the grainsize. The runtime of the function that spawns all the other functions is $\left\lceil \frac{n}{g} \right\rceil$. The runtime of any particular spawned task is $g$. So, we want to minimize 
+\[
+\frac{n}{g}+g
+\]
+To do this we pull out our freshman calculus hat and take a derivative, we get
+\[
+0 = 1 - \frac{n}{g^2}
+\]
+So, to solve this, we set $g = \sqrt{n}$. This minimizes the quantity and makes the span $O(n/g +g) = O(\sqrt{n})$. Resulting in a parallelism of $O(\sqrt(n))$.
+\end{enumerate}
+
+\noindent\textbf{Problem 27-3}\\
+%pending reading chapter 28
+\begin{enumerate}[a.]
+\item
+\end{enumerate}
+
+\noindent\textbf{Problem 27-5}\\
+\begin{enumerate}[a.]
+\item Note that in this algorithm, the first call will be SIMPLE-STENCIL(A,A), and when there are ranges indexed into a matrix, what is gotten back is a view of the original matrix, not a copy. That is, changed made to the view will show up in the original.
+\begin{algorithm}
+\caption{$SIMPLE_STENCIL(A,A_2)$}
+\begin{algorithmic}
+\State let $n_1\times n_2$ be the size of $A_2$.
+\State let $m_i = \left\lfloor \frac{n_i}{2}\right\rfloor$ for $i=1,2$. 
+\If{$m_1 == 0$}
+\If{$m_2 == 0$}
+\State compute the value for the only position in $A_2$ based on the current values in $A$.
+\Else
+\State $SIMPLE-STENCIL(A, A_2[1,1\ldots m_2])$
+\State $SIMPLE-STENCIL(A, A_2[1,m_2+1 \ldots n_3])$
+\EndIf
+\Else
+\If{$m_2 == 0$}
+\State $SIMPLE-STENCIL(A, A_2[1\ldots m_1,1])$
+\State $SIMPLE-STENCIL(A, A_2[m_1+1 \ldots n_1,1])$
+\Else
+\State $SIMPLE-STENCIL(A, A_2[1\ldots m_1,1\ldots m_2])$
+\State spawn $SIMPLE-STENCIL(A, A_2[ m_1+1 \ldots n_1,1\ldots m_2])$
+\State  $SIMPLE-STENCIL(A, A_2[1 \ldots m_1,m_2+1 \ldots n_2])$
+\State sync
+\State  $SIMPLE-STENCIL(A, A_2[ m_1+1 \ldots n_1,m_2+1\ldots n_2])$
+\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+We can set up a recurrence for the work, which is just
+\[
+W(n) = 4 W(n/2) + \Theta(1)
+\]
+which we can see by the master theorem has a solution which is $\Theta(n^2)$. For the span, the two middle subproblems are running at the same time, so,
+\[
+S(n) = 3 S(n/2) +\Theta(1)
+\]
+Which has a solution that is $\Theta(n^{\lg(3)})$, also by the master theorem.
+\item
+Just use the implementation for the third part with $b=3$The work has the same solution of $n^2$ because it has the recurrence
+\[
+W(n) = 9 W(n/3) + \Theta(1)
+\]
+The span has recurrence
+\[
+S(n) = 5 S(n/3) + \Theta(1)
+\]
+Which has the solution $\Theta(n^{\log_3(5)})$
+
+\item
+\begin{algorithm}
+\caption{GEN-SIMPLE-STENCIL(A,$A_2$,b)}
+\begin{algorithmic}
+\State let $n\times m$ be the size of $A_2$.
+\If{$(n\neq0)\&\&(m\neq0)$}
+\If{$(n==1)\&\&(m==1)$}
+\State compute the value at the only position in $A_2$
+\Else
+\State let $n_i = \left\lfloor \frac{in}{b}\right\rfloor$ for $i=1,\ldots, b-1$ 
+\State let $m_i = \left\lfloor \frac{im}{b}\right\rfloor$ for $i=1,\ldots, b-1$
+\State let $n_0 = m_0 = 1$
+\For{k=2, \ldots b+1}
+\For{i=1, \ldots k-2}
+\State spawn $GEN-SIMPLE-STENCIL(A,A_2[n_{i-1}\ldots n_i,m_{k-i-1}\ldots m_{k-i}],b)$
+\EndFor
+\State $GEN-SIMPLE-STENCIL(A,A_2[n_{i-1}\ldots n_i,m_{k-i-1}\ldots m_{k-i}],b)$
+\State sync
+\EndFor
+\For{k=b+2, \ldots, 2b}
+\For{i=1,\ldots,2b-k}
+\State spawn $GEN-SIMPLE-STENCIL(A,A_2[n_{b-k+i-1}\ldots n_{b-k+i},m_{b-i-1}\ldots m_{b-i}],b)$
+\EndFor
+\State $GEN-SIMPLE-STENCIL(A,A_2[n_{3b-2k}\ldots n_{3b-2k+1}i,m_{2k-2b}\ldots m_{2k-2b+1}],b)$
+\State sync
+\EndFor
+\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+The recurrences we get are
+\[
+W(n) = b^2 W(n/b) + \Theta(1)
+\]
+\[
+S(n) = (2b-1)W(n/b)+\Theta(1)
+\]
+
+So, the work is $\Theta(n^2)$, and the span is $\Theta(n^{\lg_b(2b-1)})$. This means that the parallelization is $\Theta(n^{2- \lg_b(2b-1)})$. So, to show the desired claim, we only need to show that $2-\log_b(2b-1)<1$
+\begin{align*}
+2-\log_b(2b-1)&<1\\
+\log_b(2b)-\log_b(2b-1)&<1\\
+\log_b\left(\frac{2b}{2b-1}\right)&<1\\
+\frac{2b}{2b-1}&<b\\
+2b&<2b^2 -b\\
+0&<2b^2 -3b\\
+0&<(2b -3)b\\
+\end{align*}
+This is clearly true because $b$ is an integer greater than 2 and this right hand side only has zeroes at 0 and $\frac{3}{2}$ and is positive for larger $b$.
+
+\item
+\begin{algorithm}
+\caption{BETTER-STENCIL(A)}
+\begin{algorithmic}
+\For{k=2,\ldots, n+1}
+\For{i=1, \ldots k-2}
+\State spawn compute and update the entry at A[i,k-i]
+\EndFor
+\State compute and update the entry at A[k-1,1]
+\State sync
+\EndFor
+\For{k=n+2,\ldots 2n}
+\For{i=1, \ldots 2n-k}
+\State spawn compute and update the entries along the diagonal which have indices summing to k
+\EndFor
+\State sync
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+This procedure has span only equal to the length of the longest diagonal with is $O(n)$ with a factor of $\lg(n)$ thrown in. So, the parallelism is $O(n^2/(n\lg(n))) = O(n/\lg(n))$.
+\end{enumerate}
 
 \end{document}
