@@ -12,7 +12,7 @@
 \usepackage{tikz}
 	
 \pagestyle{fancy}
-\title{Chapter 26}
+\title{Appendix A}
 \author{Michelle Bodnar, Andrew Lohr}
 
 \newcounter{curnum}
@@ -82,14 +82,57 @@ This means that we need to raise 2 to this quantity to get the desired product, 
 Define a function $f_1 = \lceil \frac{1}{x^2} \rceil$ and $f_2 = 1+ \frac{1}{x^2}$. Note that we always have that $f_1 \le f_2$. Then we have that the desired summation is exactly equal to $\int_1^\infty f_1$ because the graph of $f_1$ is a bunch of rectangles of width 1 and height equal to each of the terms in the sum. By monotonicity of integrals, we have that this is $ \le \int_1^\infty f_2 =2$. \\
 
 \noindent\textbf{Exercise A.2-3}\\
-
-
+Similar to the derivation of (A.10), we split up the interval $[n]$ into $\lfloor \lg(n)\rfloor-1$ pieces, with the ith starting at $1/2^i$ and going to $1/2^{i+1}$. So, we have
+\begin{align*}
+\sum_{k=1}^n \frac{1}{k} \ge& \sum_{i=0}^{\lg(n)-1} \sum_{j=0}^{2^i-1} \frac{1}{2^i+j}\\\
+\ge& \sum_{i=0}^{\lg(n)-1} \frac{1}{2^{i+1}}\\
+=&\sum_{i=0}^{\lg(n)-1} \frac{1}{2}\\
+=&\frac{1}{2}\lg(n)
+\end{align*}
+Which gets us that the nth harmonic number is $\Omega(\lg(n))$.
 \noindent\textbf{Exercise A.2-5}\\
+If we were to apply the integral approximation given in (A.12) directly to the sum, then we would be trying to evaluate the integral
+\[
+\int_0^n \frac{dx}{x}
+\]
+Which is an improper integral that doesn't have a finite value.
 
 \noindent\textbf{Problem A-1}\\
 \begin{enumerate}[a.]
 \item
+Applying the integral approximation to this, we get that
+\begin{align*}
+\int_{1}^{n+1} x^r dx &\le \sum_{k=1}^n k^r &\le \int_0^{n} x^r dx
+\frac{(n+1)^{r+1} -1}{r+1} &\le \sum_{k=1}^n k^r &\le \frac{n^{r+1}}{r+1}
+\end{align*}
 
+So, the given sum is $n^{r+1}(\frac{1}{r+1} + o(1))$.
+
+\item
+\begin{comment}
+We'll throw out the first term since in the integral approximation we'd be trying to evaluate the summand at 0 if we left the first term 1. This omission won't affect the sum at all because $\lg(1) = 0$.
+
+We'll first try to bound the sum from below.
+\[
+\sum_{k=2}^n (\lg(k))^s  \ge \sum_{k=2}^n \frac{(\lg(k))^s}{k} \ge \int_{2}^{n+1} \frac{(\lg(x))^s}{x} dx  \in \Omega(lg(n)^{s+1})
+\]
+where the integral is valuated by a u-substitution with $u=\lg(x)$.
+
+Now, we try to bound the sum from above.
+\[
+\sum_{k=2}^n (\lg(k))^s \le 
+\]
+\end{comment}
+
+We'll split up the domain into $\lg(n)$ pieces. based on being between $1/2^i$ and $1/2^{i+1}$. This gets us
+\begin{align*}
+\sum_{k=1}^{k=n} &\ge(k)^s \ge \sum_{k=1}^{\lfloor \lg(n) \rfloor} \sum_{i=1}^{2^k} (\lg(2^{k} +i))^s 
+&\ge \sum_{k=1}^{\lfloor \lg(n) \rfloor}  \sum_{i=1}^{2^k} (\lg(2^{k+1}))^s
+& = \sum_{k=1}^{\lfloor \lg(n) \rfloor} 2^k (k+1)^s
+\end{align*}
+
+
+\item
 \end{enumerate}
 
 
