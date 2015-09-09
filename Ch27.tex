@@ -71,7 +71,7 @@ If we apply the span law to $T_64$, we have that $10\ge T_\infty$. Applying the 
 a contradiction. So, one of the three numbers for runtimes must be wrong. However, computers are complicated things, and its difficult to pin down what can affect runtime in practice. It is a bit harsh to judge professor Karan too poorly for something that may of been outside her control (maybe there was just a garbage collection happening during one of the measurements, throwing it off).\\
 
 \noindent\textbf{Exercise 27.1-7}\\
-The work is unchanged from the serial programming case. Since it is flipping $\Theta(n^2)$ many entries, it does $\Theta(n^2)$ work. The span of it is $\Theta(\lg(n))$ this is because each of the parallel for loops can have its children spawned in time $\lg(n)$, so the total time to get all of the constant work tasks spawned is $2\lg(n) \in \Theta(\lg)$. Since the work of each task is $o(\lg(n))$, that doesn't affect the $T_\infty$ runtime. The parralism is equal to the work over the span, so it is $\Theta(n^2/\lg(n))$.\\
+The work is unchanged from the serial programming case. Since it is flipping $\Theta(n^2)$ many entries, it does $\Theta(n^2)$ work. The span of it is $\Theta(\lg(n))$ this is because each of the parallel for loops can have its children spawned in time $\lg(n)$, so the total time to get all of the constant work tasks spawned is $2\lg(n) \in \Theta(\lg)$. Since the work of each task is $o(\lg(n))$, that doesn't affect the $T_\infty$ runtime. The parallelism is equal to the work over the span, so it is $\Theta(n^2/\lg(n))$.\\
 
 \noindent\textbf{Exercise 27.1-9}\\
 We solve for P in the following euqation obtained by setting $T_P = T_P'$.
