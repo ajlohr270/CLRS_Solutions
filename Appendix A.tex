@@ -27,11 +27,32 @@
 \begin{document}
 \maketitle
 
+\noindent\textbf{Exercise A.1-1}\\
+
+\[
+\sum_{k=1}^{n} (2k -1) = 2\sum_{k=1}^{n} k - \sum_{k=1}^n 1 = n(n+1) - n = n^2
+\]
+
+
 \noindent\textbf{Exercise A.1-2}\\
 
 Using the harmonic series formula we have that
 
 \[\sum_{k=1}^n \frac{1}{(2k-1)} \leq 1 + \sum_{k=1}^n \frac{1}{2k} =  1 + \ln(\sqrt{n}) + O(1) =  \ln(\sqrt{n}) + O(1).\]
+
+\noindent\textbf{Exercise A.1-3}\\
+First, we recall equation (A.8)
+\[
+\sum_{k=0}^\infty k x^k = \frac{x}{(1-x)^2}
+\]
+for $|x|<1$. Then, we take a derivative of each side, taking the derivative of the left hand side term by term
+\[
+\sum_{k=0}^\infty k\cdot kx^{k-1} = \frac{(1-x)^2 + 2x (1-x)}{(1-x)^4} = \frac{(1-x) + 2x}{(1-x)^3} = \frac{(1+x)}{(1-x)^3}
+\]
+Lastly, since we have a $x^{k-1}$ instead of the $x^k$ that we'd like, we'll multiply both sides of the equation by $x$ to get the desired equality.
+\[
+\sum_{k=0}^\infty k^2 x^k = \frac{x(1+x)}{(1-x)^3}
+\]
 
 \noindent\textbf{Exercise A.1-4}\\
 
@@ -44,11 +65,45 @@ Using formula A.8 we have
 &= 0.
 \end{align*}
 
+\noindent\textbf{Exercise A.1-5}\\
+
+First, we'll start with the equation 
+\[
+\sum_{k=0}^\infty y^k = \frac{1}{1-y}
+\]
+So long as $|y|<1$. Then, we'll let $y = x^2$ to get 
+\begin{align*}
+\sum_{k=0}^\infty (x^2)^k &= \frac{1}{1-x^2}\\
+\sum_{k=0}^\infty xx^{2k} &= \frac{x}{1-x^2}\\
+\sum_{k=0}^\infty x^{2k+1} &= \frac{x}{1-x^2}\\
+\sum_{k=0}^\infty (2k+1) x^{2k} &= \frac{(1-x^2) +2 x^2 }{(1-x^2)^2}\\
+\sum_{k=0}^\infty (2k+1) x^{2k} &= \frac{1 +x^2 }{(1-x^2)^2}
+\end{align*}
+so long as $|x|<1$.\\
+
+
 \noindent\textbf{Exercise A.1-6}\\
 
 Let $g_1, g_2, \ldots, g_n$ be any functions such that $g_k(i) = O(f_k(i))$. By the definition of big-oh there exist constant $c_1, c_2, \ldots, c_n$ such that $g_k(i) \leq c_kf_k(i)$.  Let $c = \max_{1 \leq k \leq n} c_k$.  Then we have
 
  \[\sum_{k=1}^n g_k(i) \leq \sum_{k=1}^nc_kf_k(i) \leq c\sum_{k=1}^n f_k(i) = O\left(\sum_{k=1}^nf_k(i)\right).\]
+
+\noindent\textbf{Exercise A.1-7}\\
+
+\begin{align*}
+&\lg\left(\prod_{k=1}^n 2\cdot 4^k\right)\\
+&=\sum_{k=1}^n \lg(2 \cdot 4^k) \\
+&=\sum_{k=1}^n \lg(2) + k \lg(4) \\
+&=\left(\lg(2) \sum_{k=1}^n 1\right) + \left(\lg(4) \sum_{k=1}^n k\right) \\
+&=n + 2 \frac{n(n+1)}{2}\\
+&= n(n+2)
+\end{align*}
+
+This means that we need to raise 2 to this quantity to get the desired product, so out final answer is
+\[
+2^{n(n+2)} = 2^{n^2} \cdot 4^n
+\]
+
 
 \noindent\textbf{Exercise A.1-8}\\
 
@@ -60,12 +115,25 @@ We expand the product and cancel as follows:
 &= \frac{n+1}{2n}.
 \end{align*}
 
+\noindent\textbf{Exercise A.2-1}\\
+Define a function $f_1 = \lceil \frac{1}{x^2} \rceil$ and $f_2 = 1+ \frac{1}{x^2}$. Note that we always have that $f_1 \le f_2$. Then we have that the desired summation is exactly equal to $\int_1^\infty f_1$ because the graph of $f_1$ is a bunch of rectangles of width 1 and height equal to each of the terms in the sum. By monotonicity of integrals, we have that this is $ \le \int_1^\infty f_2 =2$. \\
+
+
 \noindent\textbf{Exercise A.2-2}\\
 
 When $n = 2^m$ the sum becomes $n + n/2 + n/4 + \ldots + 1 = 2n - 1 = O(n)$.  There always exists a power of 2 which lies between $n$ and $2n$ for any choice of $n$, so let $n'$ denote the smallest power of 2 which is greater than or equal to $n$.  Then we have
 
 \[ \sum_{k=0}^{\lfloor \lg n \rfloor} \lceil n/2^k\rceil \leq \sum_{k=0}^{\lfloor \lg n' \rfloor} \lceil n'/2^k\rceil = 2n' - 1 \leq 4n - 1 = O(n).\]
 
+\noindent\textbf{Exercise A.2-3}\\
+Similar to the derivation of (A.10), we split up the interval $[n]$ into $\lfloor \lg(n)\rfloor-1$ pieces, with the ith starting at $1/2^i$ and going to $1/2^{i+1}$. So, we have
+\begin{align*}
+\sum_{k=1}^n \frac{1}{k} \ge& \sum_{i=0}^{\lg(n)-1} \sum_{j=0}^{2^i-1} \frac{1}{2^i+j}\\\
+\ge& \sum_{i=0}^{\lg(n)-1} \frac{1}{2^{i+1}}\\
+=&\sum_{i=0}^{\lg(n)-1} \frac{1}{2}\\
+=&\frac{1}{2}\lg(n)
+\end{align*}
+Which gets us that the nth harmonic number is $\Omega(\lg(n))$.\\
 
 \noindent\textbf{Exercise A.2-4}\\
 
@@ -84,4 +152,54 @@ For the lower bound we have
 &= \left.\frac{x^4}{4} \right|_0^n \\
 &= \frac{n^4}{4}.
 \end{align*}
+
+\noindent\textbf{Exercise A.2-5}\\
+If we were to apply the integral approximation given in (A.12) directly to the sum, then we would be trying to evaluate the integral
+\[
+\int_0^n \frac{dx}{x}
+\]
+Which is an improper integral that doesn't have a finite value.\\
+
+ \noindent\textbf{Problem A-1}\\
+\begin{enumerate}[a.]
+\item
+Applying the integral approximation to this, we get that
+\begin{align*}
+\int_{1}^{n+1} x^r dx &\le \sum_{k=1}^n k^r &\le \int_0^{n} x^r dx
+\frac{(n+1)^{r+1} -1}{r+1} &\le \sum_{k=1}^n k^r &\le \frac{n^{r+1}}{r+1}
+\end{align*}
+
+So, the given sum is $n^{r+1}(\frac{1}{r+1} + o(1))$.
+
+\item
+\begin{comment}
+We'll throw out the first term since in the integral approximation we'd be trying to evaluate the summand at 0 if we left the first term 1. This omission won't affect the sum at all because $\lg(1) = 0$.
+
+We'll first try to bound the sum from below.
+\[
+\sum_{k=2}^n (\lg(k))^s  \ge \sum_{k=2}^n \frac{(\lg(k))^s}{k} \ge \int_{2}^{n+1} \frac{(\lg(x))^s}{x} dx  \in \Omega(lg(n)^{s+1})
+\]
+where the integral is valuated by a u-substitution with $u=\lg(x)$.
+
+Now, we try to bound the sum from above.
+\[
+\sum_{k=2}^n (\lg(k))^s \le 
+\]
+\end{comment}
+
+We'll split up the domain into $\lg(n)$ pieces. based on being between $1/2^i$ and $1/2^{i+1}$. This gets us
+\begin{align*}
+\sum_{k=1}^{k=n} &\ge(k)^s \ge \sum_{k=1}^{\lfloor \lg(n) \rfloor} \sum_{i=1}^{2^k} (\lg(2^{k} +i))^s 
+&\ge \sum_{k=1}^{\lfloor \lg(n) \rfloor}  \sum_{i=1}^{2^k} (\lg(2^{k+1}))^s
+& = \sum_{k=1}^{\lfloor \lg(n) \rfloor} 2^k (k+1)^s
+\end{align*}
+%not done
+
+\item
+%not done
+\end{enumerate}
+
+
+
+
 \end{document}

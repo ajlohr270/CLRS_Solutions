@@ -1,0 +1,261 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{tikz}
+	
+\pagestyle{fancy}
+\title{Chapter 30}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+
+
+\algblock{ParFor}{EndParFor}
+% customising the new block
+\algnewcommand\algorithmicparfor{\textbf{parallel for}}
+\algnewcommand\algorithmicpardo{\textbf{do}}
+\algnewcommand\algorithmicendparfor{\textbf{end}}
+\algrenewtext{ParFor}[1]{\algorithmicparfor\ #1\ \algorithmicpardo}
+\algrenewtext{EndParFor}{\algorithmicendparfor}
+
+\begin{document}
+\maketitle
+\noindent\textbf{Exercise 30.1-1}\\
+\[
+(56)x^6 -8x^5 + (8-42)x^4 + (-80 + 6+21)x^3 + (-3-6)x^2 + (60+3)x -30
+\]
+which is 
+\[
+56x^6 - 8 x^5 -34x^4 - 53 x^3-9x^2+63x-30
+\]
+
+\noindent\textbf{Exercise 30.1-3}\\
+For each pair of points, $(p,A(p))$, we can compute the pair $(\frac{1}{p}, A^{rev}(\frac{1}{p}))$. To do this, we note that $A^{rev}(\frac{1}{p}) = \sum_{j=0}^{n-1} a_{n-1-j} \left(\frac{1}{p}\right)^j = \sum_{j=0}^{n-1} a_{j} \left( \frac{1}{p}\right)^{n-1-j} = p^{1-n} \sum_{j=0}^{n-1} a_j p^j = p^{1-n} A(p)$ since we know what $A(p)$ is, we can compute $A^{rev}(\frac{1}{p})$ of course, we are using the fact that $p\neq0$ because we are dividing by it. Also, we know that each of these points are distinct, because $\frac{1}{p} = \frac{1}{p'}$  implies that $p=p'$ by cross multiplication. So, since all the x values were distinct in the point value representation of $A$, they will be distinct in this point value representation of $A^{rev}$ that we have made.\\
+
+\noindent\textbf{Exercise 30.1-5}\\
+First, we show that we can compute the coefficient representation of $\prod_{j} (x-x_j)$ in time $\Theta(n^2)$. We will do it by recursion, showing that multiplying $\prod_{j<k} (x-x_j)$ by $(x-x_k)$ only takes time $O(n)$, since this only needs to be done $n$ times, this gets is total runtime of $O(n)$. Suppose that $\sum_{i=0}^{k-1} {k_i}x^i$ is a coefficient representation of $\prod_{j<k} (x-x_j)$. To multiply this by $(x-x_k)$, we just set $(k+1)_i = k_{i-1} - x_k k_i$ for $i= 1,\ldots k$ and $(k+1)_0 = -x_k \cdot k_0$. Each of these coefficients can be computed in constant time, since there are only linearly many coefficients, then, the time to compute the next partial product is just $O(n)$.
+
+Now that we have a coefficient representation of $\prod_j (x-x_j)$, we need to compute, for each $k$ $\prod_{j-k} (x-x_j)$, each of which can be computed in time $\theta(n)$ by problem 30.1-2. Since the polynomial is defined as a product of things containing the thing we are dividing by, we have that the remainder in each case is equal to 0. Lets call these polynomials $f_k$. Then, we need only compute the sum $\sum_{k} y_k \frac{f_k(x)}{f_k(x_k)}$. That is, we compute $f(x_k)$ each in time $\Theta(n)$, so all told, only $\Theta(n^2)$ time is spent computing all the $f(x_k)$ values. For each of the terms in the sum, dividing the polynomial $f_k(x)$ by the number $f_k(x_k)$ and multiplying by $y_k$ only takes time $\Theta(n)$, so total it takes time $\Theta(n^2)$. Lastly, we are adding up $n$ polynomials, each of degree bound $n-1$, so the total time taken there is $\Theta(n^2)$.\\
+
+\noindent\textbf{Exercise 30.1-7}\\
+For the set $A$, we define the polynomial $f_A$ to have a coefficient representation that has $a_i$ equal zero if $i\not\in A$ and equal to $1$ if $i\in A$. Similarly define $f_B$. Then, we claim that looking at $f_C:=f_A \cdot f_B$ in coefficient form, we have that the $i$th coefficient, $c_i$ is exactly equal to the number of times that $i$ is realized as a sum of elements from $A$ and $B$. Since we can perform the polynomial multiplication in time $O(n\lg(n))$ by the methods of this chapter, we can get the final answer in time $O(n\lg(n))$. To see that $f_C$ has the nice property described, we'll look at the ways that we could end up having a term of $x^i$ appear. Each contribution to that coefficient must come from there being some $k$ so that $a_k \neq0$ and $b_{i-k}\neq 0$, because the powers of x attached to each are additive when we multiply. Since each of these contributions is only ever 1, the final coefficient is counting the total number of such contributions, therefore counting the number of $k\in A$ such that $i-k\in B$, which is exactly what we claimed $f_C$ was counting.\\
+
+\noindent\textbf{Exercise 30.2-1}\\
+
+\[
+\omega_{n}^{n/2} = \left(e^{2\pi i/n} \right)^{n/2} = e^{\pi i} = -1 = \omega_2
+\]
+
+
+\noindent\textbf{Exercise 30.2-3}\\
+We want to evaluate both of the functions at the fourth roots of unity, that is, $\pm1, \pm i$. We have an initial call of $RECURSIVE-FFT((-10,1,-1,7,0,0,0,0))$. This causes a call of $RECURSIVE-FFT((-10,-1,0,0))$, which evaluates to $(-11,-10-i,-9,-10+i)$. It also causes a call of $ RECURSIVE-FFT((1,7,0,0))$ which returns $(8,1+7i,-6,1-7i)$. Now, in evaluating the original function call, we have $y_0 = -11 +8 = -3$, $y_4 = -19$. Then, we change $\omega$ to $\omega_8 = \frac{1+i}{\sqrt{2}}$, and have $y_1 =-10-i + \frac{1+i}{\sqrt{2}}(1+7i) = -10 -i -3\sqrt{2} + 4\sqrt{2}i$ and $y_5 = -10 -i+ 3\sqrt{2} - 4\sqrt{2}$. At the next value of $k$, we get $y_2 =-9 -6i$ and $y_6 = -9 +6i$. Lastly, we compute $y_3 =-10+i+3\sqrt{2} +4\sqrt{2}i$ and $y_7 = -10+i-3\sqrt{2}-4\sqrt{2} i$. So, the vector returned is $(-3,-10-i-3\sqrt{2} +4\sqrt{2}i,-9-6i,-10+i+3\sqrt{2} +4\sqrt{2}i,-19,-10-i+3\sqrt{2}-4\sqrt{2}i,-9+6i,-10+i-3\sqrt{2}-4\sqrt{2} i)$. Similarly, if we wanted to compute the FFT of the other polynomial, we'd get the FFT of B is given by $(5,3-7\sqrt{2}+ \sqrt{2}i,3-14i,3+7\sqrt{2}+\sqrt{2}i,1,3+7\sqrt{2}-\sqrt{2}i,3+14i, 3-7\sqrt{2}-\sqrt{2}i)$. Then, we just multiply together these point value representations to get that the product of $A$ and $B$ has the point value representation of 
+
+ \begin{align*}
+  (&-15,\\
+  &4+62\sqrt{2}+ (-65+9\sqrt{2})i,\\
+  &-111 + 108i,\\
+  & 4-62\sqrt{2}+ (65+9\sqrt{2})i,\\
+  & -19,\\
+  &4-62\sqrt{2}+ (-65+-9\sqrt{2})i,\\
+  &-111-108i,\\
+  &4+62\sqrt{2}+ (65-9\sqrt{2})i)
+  \end{align*}
+  
+    Interpolating this polynomial using equation (30.11), we get
+
+\begin{align*}
+a_0 =& \frac{1}{8} \sum_{k=0}^{7} y_k = -30\\
+a_1 =& \frac{1}{8} \sum_{k=0}^{7} y_k \omega_8^{-k} = 63\\
+a_2 =& \frac{1}{8} \sum_{k=0}^{7} y_k \omega_8^{-2k} = -9\\
+a_3 =& \frac{1}{8} \sum_{k=0}^{7} y_k \omega_8^{-3k} = -53\\
+a_4 =& \frac{1}{8} \sum_{k=0}^{7} y_k \omega_8^{-4k} = -34\\
+a_5 =& \frac{1}{8} \sum_{k=0}^{7} y_k \omega_8^{-5k} = -8\\
+a_6 =& \frac{1}{8} \sum_{k=0}^{7} y_k \omega_8^{-6k} = 56\\
+a_7 =& \frac{1}{8} \sum_{k=0}^{7} y_k \omega_8^{-7k} = 0\\
+\end{align*}
+Giving us the polynomial
+
+\[
+56x^6 -8x^5-34x^4-53x^3-9x^2+63x-30
+\]
+The same as in problem 30.1-1.\\
+
+\noindent\textbf{Exercise 30.2-5}\\
+To show that our algorithm for $n$ being a power of $3$ works, we will first prove an analogue of the halving lemma. In particular, for $n$ a power of 3, that the cube of the $n^{th}$ complex roots of unity are the $n/3$ complex $(n/3)$th roots of unity. First, we note that by the cancellation lemma, $(\omega_{n}^k)^3 = \omega_{n/3}^k$. 
+\begin{align*}
+(\omega_n^{k+n/3})^3 =& \omega_n^{3k+n}\\
+=&(\omega_n^k)^3
+\end{align*}
+Now, we write $A(x) = \sum_{j=0}^{n-1} a_jx^j$, and define $A^{[i]} = \sum_{j=0}^{n/3-1}a_{i+3j}x^j$ for $i=1,2,3$. Then, we can see that \[A(x) = A^{[0]}(x^3) + x A^{[1]}(x^3) + x^2 A^{[2]}(x^3)\]
+
+\begin{algorithm}
+\caption{POW3FFT(a)}
+\begin{algorithmic}
+\State n = a.length
+\If{n==1}
+\State \Return a
+\EndIf
+\State $\omega_n = e^{2\pi i/n}$
+\State $\omega =1$
+\State $a^{[0]} = (a_0,a_3,a_6\ldots, a_{n-3})$
+\State $a^{[1]} = (a_1,a_4,a_7\ldots, a_{n-2})$
+\State $a^{[2]} = (a_2,a_5,a_8\ldots, a_{n-1})$
+\State $y^{[0]} = POW3FFT(a^{[0]})$
+\State $y^{[1]} = POW3FFT(a^{[1]})$
+\State $y^{[2]} = POW3FFT(a^{[2]})$
+\For{k=0,1\ldots n/2-1}
+\State $y_k = y_k[0] +\omega y_k^{[1]} + \omega^2 y_{k}^{[2]}$
+\State $y_{k+n/3} = y_k[0] +\omega_3\omega y_k^{[1]} + \omega_3^2\omega^2 y_{k}^{[2]}$
+\State $y_{k+2n/3} = y_k[0] +\omega_3^2\omega y_k^{[1]} + \omega_3\omega^2 y_{k}^{[2]}$
+\State $\omega = \omega \omega_n$
+\EndFor
+\State\Return y
+\end{algorithmic}
+\end{algorithm}
+
+The recurrence we get is
+\begin{align*}
+T(n) &= 3 T(n/3) + \Theta(n)\\
+&= \Theta(n\lg(n))
+\end{align*}
+
+\noindent\textbf{Exercise 30.2-7}\\
+We just do a bunch of multiplications. More seriously, let $P_{i,0}(x) = (x-z_{i-1})$ for $i=1,\ldots,n$. Then, we compute the following products, $P_{i,k} = P_{i,k-1} \cdot P_{2i,k-1}$, for any $i\le n/(2^k)$. If we ever index outside of the already defined $P_{i,k}$ values, we pretend that the value we get is 1. Then, our final answer will be $P_{1,\lfloor\lg(n)\rfloor+1}$. We have that obtaining a polynomial in this way that has the recurrence where we $n$ represents the time required to do it for a polynomial of degree bound n that has zeroes at $n$ given points.
+\[
+T(n) = 2T(n/2) + \Theta(n\lg(n))
+\]
+
+Which, we know by exercise 4.6-2, has a solution of $T\in \Theta(n\lg^2(n))$.\\
+
+
+\noindent\textbf{Exercise 30.3-1}\\
+By calling BIT-REVERSE-COPY, we get that $A = (0,4,3,7,2,5,-1,9)$. after the first pass of the outermost, loop, when $s=1$, we have that the array is $A= (4,-4,10,-4,7,-3,8,-10)$. The value at the end of the next iteration of the outermost loop is $(14,-3-3i,-8,-3-3i,15,3+4i,-13,3-4i)$. Then, on the last iteration, we get our final answer of 
+\begin{align*}
+A = (&19,\\
+&-4-4i+\frac{7}{\sqrt{2}} -\frac{13}{\sqrt{2}}i,\\
+&-6+i,\\
+&-4+4i-\frac{7}{\sqrt{2}} -\frac{13}{\sqrt{2}}i,\\
+&-1,\\
+&-4-4i-\frac{7}{\sqrt{2}} +\frac{13}{\sqrt{2}}i,\\
+&-6-i,\\
+&-4+4i+\frac{7}{\sqrt{2}} +\frac{13}{\sqrt{2}}i)
+\end{align*}\\
+
+\noindent\textbf{Exercise 30.3-3}\\
+It computes a twiddle factor for each iteration of the innermost for loop. Since there are $n/m$ iterations of the loop on line 6 and, for each $m/2$ iterations of the innermost loop, there are a total of $n/(2^s)\cdot2^{s-1} =n/2$ twiddle factors. If we, before line 6 compute all of the powers $<m/2$ of $\omega_m$, we won't have to do any computation of them later on. These are the only twiddle factors that will show up, and so, we only compute $m/2 = s^2/2 = 2^{s-1}$ of them.\\
+
+
+\noindent\textbf{Problem 30-1}\\
+\begin{enumerate}[a.]
+\item
+Similar to problem 4.2-7,
+\[
+(a+b)(c+d) = ac+cb+ad+cd
+\]
+So, we compute that product, we also compute $ac$ and $cd$. This gets us the the product of the two polynomials is
+
+\[
+acx^2 + ((a+b)(c+d) -ac-cd)x + cd
+\]
+\item
+Assume that $n$ is a power of two, if it isn't, then just bump it up to the nearest power of two, since the degree bound can be higher than the degree of the polynomials. Suppose that we want to multiply the polynomials $A_1(x) = \sum_{j=1}^{n-1} a_{j,1}x^j$ and $A_2(x)= \sum_{j=1}^{n-1} a_{j,2}x^j$. 
+
+
+
+In the first method, we'll set $H_i(x) = \sum_{j=\frac{n}{2}}^{n-1} a_{j,i}x^j$ and $L_i(x) = \sum_{j=0}^{n/2-1} a_{j,i}x^j$ for $i=1,2$. Then, we have that $A_i(x) = H_i(x) x^{n/2} + L_i(x)$ for $i=1,2$. Then, by the method of the first part of this problem, we have that 
+
+\begin{align*}
+A_1(x) \cdot A_2 (x) &= ( H_1(x)\cdot H_2(x))x^n \\
+&+ ((H_1(x) + L_1(x))\cdot(H_2(x) + L_2(x)) - H_1(x) \cdot H_2(x) - L_1(x)\cdot L_2(x))x^{n/2} \\
+&+ L_1(x)\cdot L_2(x)
+\end{align*}
+
+So, the runtime of this procedure for degree bound $n$ is, by the master theorem:
+
+\begin{align*}
+HL(n) &= 3 HL(n/2) + \Theta(n)\\
+&= \Theta(n^{\lg(3)})
+\end{align*}
+
+Now, for the second method, we write $O_i(x) = \sum_{j=0}^{n/2-1} a_{2j+1,i}x^j$ and $E_i(x) = \sum_{j=0}^{n/2-1} a_{2j,i}x^j$ for $i=1,2$. Then, we have that for both values of $i$, $A_i = x O_i(x^2) + E_i(x^2)$. So,
+
+ \begin{align*}
+ A_1(x)\cdot A_2(x) =& x^2 (O_1(x^2)\cdot O_2(x^2))\\
+ & + x((O_1(x^2)+ E_1(x^2))(O_2(x^2) +E_1(x^2)) - O_1(x^2)\cdot O_2(x^2) -E_1(x^2)\cdot E_2(x^2))\\
+ & + E_1(x^2) \cdot E_2(x^2)
+  \end{align*}
+
+So, again, we only need to do three multiplies, each with a degree bound of half. So, the runtime for this, call it $OE(n)$ is
+\begin{align*}
+OE(n) &= 3OE(n/2) + \Theta(n)\\
+&= \Theta(n^{\lg(n)})
+\end{align*}
+\item
+Suppose that we want to multiply two integers $A_1 = \sum_{k=0}^{\lfloor \lg(A_1) \rfloor}a_{k,1}2^k$ and $A_2 = \sum_{k=0}^{\lfloor \lg(A_2) \rfloor}a_{k,2}2^k$. Then, we'll associate to these polynomials $f_i = \sum_{k=0}^{\lfloor\lg(A_i)\rfloor} a_{k,i}x^i$. Then, we exactly have that $f_i(2) =A_i$. So, to find $A_1\cdot A_2$, all we need do is multiply the polynomials $f_1$ and $f_2$ and evaluate their product at $2$. Since both of their degrees are bounded by $n$, we can multiply them in time $\Theta(n^{\lg(3)})$ by the previous part. evaluating them also only takes linear time, so doesn't change the total runtime.
+\end{enumerate}
+
+\noindent\textbf{Problem 30-3}\\
+\begin{enumerate}[a.]
+\item
+\begin{align*}
+y_{k_1,\ldots,k_d} =& \sum_{j_1=0}^{n_1-1} \cdots \sum_{j_d=0}^{n_d-1} a_{j_1,\ldots j_d} \omega_{n_1}^{j_1k_1}\cdots \omega_{n_d}^{j_d k_d}\\
+=&\sum_{j_d=0}^{n_d-1} \cdots \sum_{j_1=0}^{n_1-1} a_{j_1,\ldots j_d} \omega_{n_1}^{j_1k_1}\cdots \omega_{n_d}^{j_d k_d}\\
+=&\sum_{j_d=0}^{n_d-1} \cdots \sum_{j_2=0}^{n_2-1}\left(\sum_{j_1=0}^{n_1-1} a_{j_1,\ldots j_d} \omega_{n_1}^{j_1k_1}\right)\omega_{n_2}^{j_2k_2}\cdots \omega_{n_d}^{j_d k_d}\\
+\end{align*}
+
+So, the thing inside the parentheses is a one dimensional Fourier transform that must be computed for every possible term of the outer sums, that is, must be computed $n_2 n_3 \cdots n_d = n/n_1$ times because in each term the $a$ values might be different. Once that is computed we've decreased the number of sums by 1. This means that by keeping on applying this, we can keep decreasing the number of dimensions until the problem is solved. We are actually only needing to do $n/(\prod_{i\le k} n_i)$ of the DFT's along dimension $k$ instead of the larger number stated in the problem of $n/n_i$.
+\item
+We can exchange the order of summation however we please because none of the indices of summation ever appear in the bounds for a different summation sign.
+\item
+The time to do each DFT along the $k$th dimension is $O(n_k\lg(n_k))$, since we only need to do it at most $n/(\prod_{j\le k} n_j)$ times, the runtime of all of them in dimension $k$ is at most $O(n/(\prod_{j<k} n_j)\lg(n_k))$. Also, note that we may assume that all of the $n_k$ values are at least two, because otherwise doing that DFT would be trivial. So, the total time is on the order of
+
+\begin{align*}
+\sum_{k=1}^d n/\left(\prod_{j<k} n_j\right) \lg(n_k) &\le \lg(n) \sum_{k=1}^d n/\left(\prod_{j<k} n_j\right) \\
+&\le\lg(n) \sum_{k=1}^d n/2^{k-1}\\
+&< n\lg(n)
+\end{align*}
+
+Which is independent of $d$.
+
+\end{enumerate}
+
+\noindent\textbf{Problem 30-5}\\
+\begin{enumerate}[a.]
+\item
+First, note that because the degree of $x-z$ is one, $A(x)mod(x-z)$ will be a constant. By the definition of modular arithmetic for polynomials(or any Euclidean Domain), there is some polynomial $f(x)$ so that $A(x) = f(x)(x-z) + (A(x) \mod(x-z))$. So, if we evaluate this expression at $z$, the first term goes to zero, and we have that $A(z) = A(x)\mod (x-z)$.
+\item
+$P_{kk}(x) = (x-x_k)$ so, by the previous part, $Q_{kk} = A(x_k)$. The degree of $P_{0,n-1}$ is equal to $n$ which is higher than the degree of $A$. Therefore modding out by it doesn't change the value value of $A(x)$ at all. That is, if we were to write $A(x) = f(x) P_{0,n-1} + Q_{0,n-1}$, the only acceptable value of $f(x)$ is zero, otherwise there would be a too high degree term on the right.
+\item
+Suppose we write $A(x) = f_1(x) P_{ij}(x) +Q_{ij}(x)$. Then, we take $Q_ij = f_2(x) P_{ik} + (Q_{ij}(x) \mod P_{ik})$. Since we have that $P_{ik}$ is a product over a smaller set of irreducible factors than $P_{ij}$, we can write $A(x) =(f_1(x)\prod_{\ell = k+1}^j (x-x_\ell) + f_2) P_{ik} + (Q_{ij}(x) \mod P_{ik})$. Since we can write it as a remainder of $A$ after dividing by $P_{ik}$, we have that $A \mod P_{ik} =  Q_{ij}(x) \mod P_{ik}$, which is to say,  $Q_{ik} =  Q_{ij}(x) \mod P_{ik}$.
+
+We basically do the same thing to show the other equality. Suppose that $Q_{ij} = f_3 P_{kj} +   (Q_{ij}(x) \mod P_{kj})$, then $A(x) = (f_1\prod_{\ell =i}^{\ell = k-1} (x-x_\ell) + f_3)P_{kj} +  (Q_{ij}(x) \mod P_{kj})$ and so, $Q_{kj} = A \mod P_{kj} =  (Q_{ij}(x) \mod P_{kj})$.
+
+\item
+Initially, we know what the value of $Q_{0,n-1}$ is, since it is just $A(x)$. Suppose that $n$ is a power of 2, since it makes the analysis easier to do, if it is not a power of two, then bump up the degree bound to the nearest value of 2, since we have that $(2n) + \lg^2(2n) \in O(n\lg^2(n))$, doing this increase of the degree bound will not change the asymptotics of the algorithm. Since we have that the number of points we are evaluating at is equal to the degree bound, just pick arbitrary points to pad the original set of points with and then disregard their values once they are computed. The idea is to cut in half $0,\ldots,n-1$, by computing $Q_{0,n/2-1}$ and $Q_{n/2,n-1}$ using the rule from the previous part until you arrive at having to compute $Q_{ii}$ for some $i$, which by part b is equal to $A(x_i)$. Since the computing of each of the $Q$ values before the end is only a matter of computing two polynomial remainders, the time to do this is given by the recurrence
+
+\[
+T(n) = 2 T(n/2) +\Theta(n\lg(n))
+\]
+
+ Even though the master theorem doesn't apply to this recurrence, exercise 4.6-2 tells us that $T\in \Theta(n\lg^2(n))$.
+
+
+\end{enumerate}
+
+\end{document}
