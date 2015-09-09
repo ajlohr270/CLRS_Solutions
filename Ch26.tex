@@ -26,56 +26,118 @@
 
 \begin{document}
 \maketitle
+
 \noindent\textbf{Exercise 26.1-1}\\
+
 To see that the networks have the same maximum flow, we will show that every flow through one of the networks corresponds to a flow through the other. First, suppose that we have some flow through the network befor applying the splitting procedure to the anti-symmetric edges. Since we are only changing one of any pair of anti-symmetric edges, for any edge that is unchanged by the splitting, we just have an identical flow going through those edges. Suppose that there was some edge $(u,v)$ that was split because it had an anti-symmetric edge, and we had some flow, $f(u,v)$ in the original graph. Since the capacity of both of the two edges that are introduced by the splitting of that edge have the same capacity, we can set $f'(u,v) = f'(u,x) = f'(x,v)$. By constructing the new flow in this manor, we have an identical total flow, and we also still have a valid flow.
 
 Similarly, suppose that we had some flow $f'$ on the graph with split edges, then, for any triple of vertices $u,x,v$ that correspond to a split edge, we must have that $f'(u,x) = f'(x,v)$ because the only edge into $x$ is $(u,x)$ and the only edge out of $x$ is $(x,v)$, and the net flow into and out of each vertex must be zero. We can then just set the flow on the unsplit edge equal to the common value that the flows on $(u,x)$ and $(x,v)$ have. Again, since we handle this on an edge by edge basis, and each substitution of edges maintains the fact that it is a flow of the same total, we have that the end result is also a valid flow of the same total value as the original.
 
 Since we have shown that any flow in one digraph can be translated into a flow of the same value in the other, we can translate the maximum value flow for wone of them to get that it's max value flow is $\le$ to that of the other, and do it in the reverse direction as well to acheive equality.\\
 
+\noindent\textbf{Exercise 26.1-2}\\
+
+The capacity constraint remains the same.  We modify flow conservation so that each $s_i$ and $t_i$ must satisfy the ``flow in equals flow out'' constraint, and we only exempt $s$ and $t$.  We define the value of a flow in the multiple-source, multiple-sink problem to be $\left|\sum_{i=1}^m \sum_{v\in V} f(s_i,v) - \sum_{v\in V} f(v,s_i)\right|$.  Let $f_i =  \sum_{v\in V} f(s_i,v) - \sum_{v\in V} f(v,s_i)$.  In the single-source flow network, set $f(s, s_i) = f_i$.  This satisfies the capacity constraint and flow conservation, so it is a valid assignment.  The flow for the multiple-source network in this case is $|f_1 + f_2 + \dots + f_m|$.  In the single-source case, since there are no edges coming into $s$, the flow is $\sum_{i=1}^m f(s,s_i)$.  Since $f(s,s_i)$ is positive and equal to $f_i$, they are equivalent. \\
+
 \noindent\textbf{Exercise 26.1-3}\\
+
 Suppose that we are in the situation posed by the question, that is, that there is some vertex $u$ that lies on no path from $s$ to $t$. Then, suppose that we have for some vertex $v$, either $f(v,u)$ or $f(u,v)$ is nonzero. Since flow must be conserved at $u$, having any positive flow either leaving or entering $u$, there is both flow leaving and entering. Since $u$ doesn't lie on a path from $s$ to $t$, we have that there are two cases, either there is no path from $s$ to $u$ or(possibly and) there is no path from $u$ to $t$. If we are in the second case, we construct a path with $c_0 = u$, and $c_{i+1}$ is an successor of $c_i$ that has $f(c_i,c_{i+1})$ being positive. Since the only vertex that is allowed to have a larger flow in than flow out is $t$, we have that this path could only ever terminate if it were to reach $t$, since each vertex in the path has some positive flow in. However, we could never reach $t$ because we are in the case that there is no path from $u$ to $t$. If we are in the former case that there is no path from $s$ to $u$, then we similarly define $c_0 = u$, however, we let $c_{i+1}$ be any vertex so that $f(c_{i+1},c_i)$ is nonzero. Again, this sequence of vertices cannot terminate since we could never arrive at having $s$ as one of the vertices in the sequence.
 
 Since in both cases, we an always keep extending the sequence of vertices, we have that it must repeat itself at some point. Once we have some cycle of vertices, we can decrease the total flow around the cycle by an amount equal to the minimum amount of flow that is going along it without changing the value of the flow from $s$ to $t$ since neither of those two vertices show up in the cycle. However, by decreasing the flow like this, we decrease the total number of edges that have a positive flow. If there is still any flow passing though $u$, we can continue to repeat this procedure, decreasing the number of edges with a positive flow by at least one. Since there are only finitely many vertices, at some point we need to have that there is no flow passing through $u$. The flow obtained after all of these steps is the desired maximum flow that the problem asks for.\\
 
+\noindent\textbf{Exercise 26.1-4}\\
+
+Since $f_1$ and $f_2$ are flows, they satisfy the capacity constraint, so we have $0 \leq \alpha f_1(u,v) + (1-\alpha)f_2(u,v) \leq \alpha c(u,v) + (1-\alpha)c(u,v) = c(u,v)$, so the new flow satisfies the capacity constraint.  Further, $f_1$ and $f_2$ satisfy flow conservation, so for all $u \in V - \{s,t\}$ we have 
+\begin{align*}
+ \sum_{v \in V} \alpha f_1(v,u) + (1-\alpha)f_2(v,u) &= \alpha \sum_{v \in V} f_1(v,u) + (1-\alpha)\sum_{v \in V} f_2(v,u) \\
+&= \alpha \sum_{v \in V} f_1(u,v) + (1-\alpha)\sum_{v \in V} f_2(u,v) \\
+&= \sum_{v \in V} \alpha f_1(u,v) + (1-\alpha)f_2(u,v).
+\end{align*}
+Therefore the flows form a convex set. \\
 
 \noindent\textbf{Exercise 26.1-5}\\
+
 A linear programming problem consists of a set of variables, a linear function of those variables that needs to be maximized, and a a set of constraints. Our variables $x_e$ will be the amount of flow across each edge $e$. The function to maximize is $\sum_{e\hbox{ leaving }s} x_e - \sum_{e\hbox{ entering }s} x_e$. The sum of these flows is exactly equal to the value of the flow from $s$ to $t$. Now, we consider constraints. There are two types of constraints, capacity constraints and flow constraints. The capacity constraints are just $x_e \le c(e)$ where $c_e$ is the capacity of edge $e$. The flow constraints are that $\sum_{e\hbox{ leaving }v} x_e - \sum_{e\hbox{ entering }v} x_e = 0$ for all vertices $v\neq s,t$. Since this linear program captures all the same constraints, and wants to maximize the same thing, it is equivalent to the max flow problem.\\
 
 
+\noindent\textbf{Exercise 26.1-6}\\
+
+Use the map to create a graph where vertices represent street intersections and edges represent streets.  Define $c(u,v) = 1$ for all edges $(u,v)$.  Since a street can be traversed, start off by creating a directed edge in each direction, then make the transformation to a flow problem with no antiparallel edges as described in the section.  Make the home the source and the school the sink.  If there exist at least two distinct paths from source to sink then the flow will be at least 2 because we could assign $f(u,v) = 1$ for each of those edges.  However, if there is at most one distinct path from source to sink then there must exist a bridge edge $(u,v)$ whose removal would disconnect $s$ from $t$.  Since $c(u,v) = 1$, the flow into $u$ is at most 1.  We may assume there are no edges into $s$ or out from $t$, since it doesn't make sense to return home or leave school.  By flow conservation, this implies that $f = \sum_{v \in V} f(s,v) \leq 1$.  Thus, determining the maximum flow tells the Professor whether or not his children can go to the same school. \\
+
 \noindent\textbf{Exercise 26.1-7}\\
+
 We can capture the vertex constraints by splitting out each vertex into two, where the edge between the two vertices is the vertex capacity. More formally, our new flow network will have vertices $\{0,1\} \times V$. It has an edge between $1 \times v$ and $0 \times u$ if there is an edge $(v,u)$ in the original graph, the capacity of such an edge is just $c(v,u)$. The edges of the second kind that the new flow network will have are from $0\times v$ to $1\times v$ for every $v$ with capacity $l(v)$. This new flow network will have $2|V|$ vertices and have $|V|+|E|$ edges. Lastly, we can see that this network does capture the idea that the vertices have capacities $l(v)$. This is because any flow that goes through $v$ in the original graph must go through the edge $(0\times v, 1\times v)$ in the new graph, in order to get from the edges going into $v$ to the edges going out of $v$.\\
 
+
+
 \noindent\textbf{Exercise 26.2-1}\\
+
 To see that equation (26.6) equals (26.7), we will show that the terms that we are throwing into the sums are all zero. That is, we will show that if $v\in V\setminus(V_1 \cup V_2)$, then $f'(s,v) = f'(v,s) = 0$. Since $v\not\in V_1$, then there is no edge from $s$ to $v$, similarly, since $v\not\in V_2$, there is no edge from $v$ to $s$. This means that there is no edge connecting $s$ and $v$ in any way. Since flow can only pass along edges, we know that there can be no flow passing directly between $s$ and $v$.\\
+
+\noindent\textbf{Exercise 26.2-2}\\
+
+The flow across the cut is $11 + 1 + 7 + 4 - 4 = 19$.  The capacity of the cut is $16 + 4 + 7 + 4 = 31$.\\
 
 
 \noindent\textbf{Exercise 26.2-3}\\
 %pictures <_< >_> <_<
 
+
+\noindent\textbf{Exercise 26.2-4}\\
+
+A minimum cut corresponding to the maximum flow is $S = \{s, v_1, v_2, v_4\}$ and $T= \{v_3, t\}$.  The augmenting path in part (c) cancels flow on edge $(v_3, v_2)$.\\
+
 \noindent\textbf{Exercise 26.2-5}\\
+
 Since the only edges that have infinite value are those going from the supersource or to the supersink, as long as we pick a cut that has the supersource and all the original sources on one side, and the other side has the supersink as well as all the original sinks, then it will only cut through edges of finite capacity. Then, by Corollary 26.5, we have that the value of the flow is bounded above by the value of any of these types of cuts, which is finite.\\
 
+\noindent\textbf{Exercise 26.2-6}\\
+
+Begin by making the modification from multi-source to single-source as done in section 26.1.  Next, create an extra vertex $\hat{s_i}$ for each $i$ and place it between $s$ and $s_i$.  Explicity, remove the edge from $s$ to $s_i$ and add edges $(s, \hat{s_i})$ and $(\hat{s_i}, s_i)$.  Similarly, create an extra vertex $\hat{t_i}$ for each vertex $t_i$ and place it between $t$ and $t_i$.  Remove the edges $(t_i, t)$ and add edges $(t_i, \hat{t_i})$ and $(\hat{t_i}, t)$.  Assign $c(\hat{s_i},s_i) = p_i$ and $c(t_i, \hat{t_i}) = q_i$.  If a flow which satisfies the constraints exists, it will assign $f(\hat{s_i}, s_i) = p_i$.  By flow conservation, this implies that $\sum_{v \in V} f(s_i, v) = p_i$.  Similarly, we must have $f(t_i, \hat{t_i}) = q_i$, so by flow conservation this implies that $\sum_{v \in V} f(v,t_i) = q_i$.\\
+
 \noindent\textbf{Exercise 26.2-7}\\
+
 To check that $f_p$ is a flow, we make sure that it satisfies both the capacity constraints and the flow constraints. First, the capacity constraints. To see this, we recall our definition of $c_f(p)$, that is, it is the smallest residual capacity of any of the edges along the path $p$. Since we have that the residual capacity is always less than or equal to the initial capacity, we have that each value of the flow is less than the capacity. Second, we check the flow constraints, Since the only edges that are given any flow are along a path, we have that at each vertex interior to the path, the flow in from one edge is immediately canceled by the flow out to the next vertex in the path. Lastly, we can check that its value is equal to $c_f(p)$ because, while $s$ may show up at spots later on in the path, it will be canceled out as it leaves to go to the next vertex. So, the only net flow from $s$ is the inital edge along the path, since it (along with all the other edges) is given flow  $c_f(p)$, that is the value of the flow $f_p$.\\
 
+\noindent\textbf{Exercise 26.2-8}\\
+
+Paths chosen by the while loop of line 3 go from $s$ to $t$ and are simple because capacities are alway nonnegative.  Thus, no edge into $s$ will ever appear on an augmenting path, so such edges may as well never have existed. \\
+
 \noindent\textbf{Exercise 26.2-9}\\
+
 The augmented flow does satisfy the flow conservation property, since the sum of flow into a vertex and out of a vertex can be split into two sums each, one running over flow in $f$ and the other running over flow in $f'$, since we have the parts are equal separately, their sums are also equal.
 
 The capacity constraint is not satisfied by this arbitrary augmentation of flows. To see this, suppose we only have the vertices $s$ and $t$, and have a single edge from $s$ to $t$ of capacity 1. Then we could have a flow of value $1$ from $s$ to $t$, however, augmenting this flow with itself ends up putting two units along the edge from $s$ to $t$, which is greater than the capacity we can send.\\
 
+\noindent\textbf{Exercise 26.2-10}\\ 
+
+Suppose we already have a maximum flow $f$.   Consider a new graph $G$ where we set the capacity of edge $(u,v)$ to $f(u,v)$.  Run Ford-Fulkerson, with the modification that we remove an edge if its flow reaches its capacity.  In other words, if $f(u,v) = c(u,v)$ then there should be no reverse edge appearing in residual network.  This will still produce correct output in our case because we never exceed the actual maximum flow through an edge, so it is never advantageous to cancel flow.  The augmenting paths chosen in this modified version of Ford-Fulkerson are precisely the ones we want.  There are at most $|E|$ because every augmenting path produces at least one edge whose flow is equal to its capacity, which we set to be the actual flow for the edge in a maximum flow, and our modification prevents us from ever destroying this progress. \\
+
 \noindent\textbf{Exercise 26.2-11}\\
+
 To test edge connectivity, we will take our graph as is, pick an arbitrary $s$ to be our source for the flow network, and then, we will consider every possible other selection of our sink $t$. For each of these flow networks, we will replace each (undirected) edge in the original graph with a pair of anti-symmetric edges, each of capacity 1. 
 
 We claim that the minimum value of all of these different considered flow networks' maximum flows is indeed the edge connectivity of the original graph. Consider one particular flow network, that is, a particular choice for $t$. Then, the value of the maximum flow is the same as the value of the minimum cut separating $s$ and $t$. Since each of the edges have a unit capacity, the value of any cut is the same as the number of edges in the original graph that are cut by that particular cut. So, for this particular choice of $t$, we have that the maximum flow was the number of edges needed to be removed so that $s$ and $t$ are in different components. Since our end goal is to remove edges so that the graph becomes disconnected, this is why we need to consider all $n-1$ flow networks. That is, it may be much harder for some choices of $t$ than others to make $s$ and $t$ end up in different components. However, we know that there is some vertex that has to be in a different component than $s$ after removing the smallest number of edges required to disconnect the graph. So, this value for the number of edges is considered when we have $t$ be that vertex.\\
 
+\noindent\textbf{Exercise 26.2-12}\\ 
+
+Since every vertex lies on some path starting from $s$ there must exist a cycle which contains the edge $(v,s)$.  Use a depth first search to find such a cycle with no edges of zero flow.  Such a cycle must exist since $f$ satisfies conservation of flow.  Since the graph is connected this takes $O(E)$.  Then decrement the flow of every edge on the cycle by 1.  This preserves the value of the flow so it is still maximal.  It won't violate the capacity constraint because $f > 0$ on every edge of the cycle prior to decrementing.  Finally, flow conservation isn't violated because we decrement both an incoming and outgoing edge for each vertex on the cycle by the same amount. \\
+
 \noindent\textbf{Exercise 26.2-13}\\
+
 Suppose that your given flow network contains $|E|$ edges, then, we were to modify all of the capacities of the edges by taking any edge that has a postive capacity and increasing its capacity by $\frac{1}{|E|+1}$. Doing this modification can't get us a set of edges for a min cut that isn't also a min cut for the unmodified graph because the difference between the value of the min cut and the next lowest cut vale was at least one because all edge weights were integers. This means that the new min cut value is going to be at most the original plus $\frac{|E|}{|E|+1}$. Since this value is more than the second smallest valued cut in the original flow network, we know that the choice  of cuts we make in the new flow network is also a minimum cut in the original. Lastly, since we added a small constant amount to the value of each edge, our minimum cut would have the smallest possible number of edges, otherwise one with fewer would have a smaller value.\\
+
+
 
 \noindent\textbf{Exercise 26.3-1}\\
 %pictures
 
+\noindent\textbf{Exercise 26.3-2}\\
+
+We proceed by induction on the number of iterations of the while loop of Ford-Fulkerson.  After the first iteration, since $c$ only takes on integer values and $(u,v).f$ is set to 0, $c_f$ only takes on integer values.  Thus, lines 7 and 8 of Ford-Fulkerson only assign integer values to $(u,v).f$.  Assume that $(u,v).f \in \mathbb{Z}$ for all $(u,v)$ after the $n^{th}$ iteration.  On the $(n+1)^{st}$ iteration $c_f(p)$ is set to the minimum of $c_f(u,v)$ which is an integer by the induction hypothesis.  Lines 7 and 8 compute $(u,v).f$ or $(v,u).f$.  Either way, these the the sum or difference of integers by assumption, so after the $(n+1)^{st}$ iteration we have that $(u,v).f$ is an integer for all $(u,v) \in E$.  Since the value of the flow is a sum of flows of edges, we must have $|f| \in \mathbb{Z}$ as well.  \\
+
 \noindent\textbf{Exercise 26.3-3}\\
+
 \begin{comment}
 We will try to show that any augmenting path that is found by Ford-Fulkerson must have length at most 5. To do this, we'll show the stronger fact that any augmenting path that is found will be of length 3 or 5. It is clear that the augmenting path cannot be of length less than 3 because we can separate the vertices of the flow network into four parts, $\{\{s\},L,R,\{t\}\}$ where all the edges only appear between $s$ and $L$, between $L$ and $R$, and between $R$ and $\{t\}$. This fact also gets us that there are no even length paths, so four is out.  Then, we will be done if we can show that no augmenting path that is found has length greater than $5$. To do this, we rely on the fact that since Bellman-Ford finds augmenting paths of shorter length first because it uses BFS to find augmenting paths. This means that to show that no augmenting path of length greater than $5$ will be found, we will show that if there is any augmenting path, then there must be one that is of length $5$ or less. Suppose that we have some augmenting path of length greater than $5$. 
 \end{comment}
@@ -91,6 +153,11 @@ Then, after augmenting with the shortest length path $\min\{|L|,|R|\}-1$ times, 
 
 It is clear that any simple path must have length at most $2m +1$, since the path must start at $s$, then alternate back and forth between $L$ and $R$, and then end at $t$. Since augmenting paths must be simple, it is clear that our bound given for the longest augmenting path is tight.\\
 
+\noindent\textbf{Exercise 26.3-4}\\
+
+First suppose there exists a perfect matching in $G$.  Then for any subset $A \subseteq L$, each vertex of $A$ is matched with a neighbor in $R$, and since it is a matching, no two such vertices are matched with the same vertex in $R$.  Thus, there are at least $|A|$ vertices in the neighborhood of $A$.  Now suppose that $|A| \leq |N(A)|$ for all $A \subseteq L$.  Run Ford-Fulkerson on the corresponding flow network. The flow is increased by 1 each time an augmenting path is found, so it will suffice to show that this happens $|L|$ times. Suppose the while loop has run fewer than $L$ times, but there is no augmenting path.  Then fewer than $L$ edges from $L$ to $R$ have flow 1.  Let $v_1 \in L$ be such that no edge from $v_1$ to a vertex in $R$ has nonzero flow.  By assumption, $v_1$ has at least one neighbor $v_1' \in R$.  If any of $v_1$'s neighbors are connected to $t$ in $G_f$ then there is a path, so assume this is not the case. Thus, there must be some edge $(v_2, v_1)$ with flow 1.  By assumption, $N(\{v_1, v_2\}) \geq 2$, so there must exist $v_2' \neq v_1'$ such that $v_2' \in N(\{v_1, v_2\})$.  If $(v_2',t)$ is an edge in the residual network we're done since $v_2'$ must be a neighbor of $v_2$, so $s, v_1, v_1', v_2, v_2', t$ is a path in $G_f$.  Otherwise $v_2'$ must have a neighbor $v_3 \in L$ such that $(v_3, v_2')$ is in $G_f$.  Specifically, $v_3 \neq v_1$ since $(v_3, v_2')$ has flow 1, and $v_3 \neq v_2$ since $(v_2, v_1')$ has flow 1, so no more flow can leave $v_2$ without violating conservation of flow.  Again by our hypothesis, $N(\{v_1, v_2, v_3\}) \geq 3$, so there is another neighbor $v_3' \in R$.  
+
+Continuing in this fashion, we keep building up the neighborhood $v_i'$, expanding each time we find that $(v_i', t)$ is not an edge in $G_f$.  This cannot happen $L$ times, since we have run the Ford-Fulkerson while-loop fewer than $|L|$ times, so there still exist edges into $t$ in $G_f$. Thus, the process must stop at some vertex $v_k'$, and we obtain an augmenting path $s,v_1,v_1',v_2,v_2',v_3,\ldots, v_k,v_k',t$, contradicting our assumption that there was no such path.  Therefore the while loop runs at least $|L|$ times.  By Corollary 26.3 the flow strictly increases each time by $f_p$.  By Theorem 26.10 $f_p$ is an integer.  In particular, it is equal to 1.  This implies that $|f| \geq |L|$.  It is clear that $|f| \leq |L|$, so we must have $|f| = |L|$.  By Corollary 26.11 this is the cardinality of a maximum matching.  Since $|L| = |R|$, any maximum matching must be a perfect matching. \\
 
 \noindent\textbf{Exercise 26.3-5}\\
 
@@ -100,21 +167,78 @@ It is clear that any simple path must have length at most $2m +1$, since the pat
 
 \noindent\textbf{Exercise 26.4-1}\\
 
+\noindent\textbf{Exercise 26.4-2}\\
+
+We must select an appropriate data structure to store all the information which will allow us to select a valid operation in constant time.  To do this, we will need to maintain a list of overflowing vertices.  By Lemma 26.14, a push or a relabel operation always applies to an overflowing vertex.  To determine which operation to perform, we need to determine whether $u.h = v.h+1$ for some $v \in N(u)$.  We'll do this by maintaining a list $u.high$ of all neighbors of $u$ in $G_f$ which have height greater than or equal to $u$.   We'll update these attributes in the PUSH and RELABEL functions.  It is clear from the pseudocode given for PUSH that we can execute it in constant time, provided we have maintain the attributes $\delta_f(u,v)$, $u.e$, $c_f(u,v)$, $(u,v).f$, and $u.h$.  Each time we call PUSH$(u,v)$ the result is that $u$ is no longer overflowing, so we must remove it from the list.  Maintain a pointer $u.overflow$ to $u$'s position in the overflow list.  If a vertex $u$ is not overflowing, set $u.overflow = NIL$.  Next, check if $v$ became overflowing.   If so, set $v.overflow$ equal to the head of the overflow list. Since we can update the pointer in constant time and delete from a linked list given a pointer to the element to be deleted in constant time, we can maintain the list in $O(1)$.  The RELABEL operation takes $O(V)$ becaue we need to compute the minimum $v.h$ from among all $(u,v) \in E_f$, and there could be $|V|-1$ many such $v$. We will also need to update $u.high$ during RELABEL.  When RELABEL$(u)$ is called, set $u.high$ equal to the empty list and for each vertex $v$ which is adjacent to $u$, if $v.h = u.h + 1$, add $u$ to the list $v.high$.  Since this takes constant time per adjacent vertex we can maintain the attribute in $O(V)$ per call to relabel.\\
+
 \noindent\textbf{Exercise 26.4-3}\\
+
+\noindent\textbf{Exercise 26.4-4}\\
+
+In the proof of $2 \implies 3$ in Theorem 26.6 we obtain a minimum cut by letting $S = \{v \in V | \text{ there exists a path from $s$ to $v$ in $G_f$} \}$ and $T = V - S$.  Given a flow, we can form the residual graph in $O(E)$.  Then we just need to perform a depth first search to find the vertices reachable from $s$.  This can be done in $O(V+E)$, and since $|E| \geq |V| - 1$ the whole procedure can be carried out in $O(E)$. \\
 
 \noindent\textbf{Exercise 26.4-5}\\
 
+\noindent\textbf{Exercise 26.4-6}\\
+
+The number of relabel operations and saturating pushes is the same as before.  An edge can handle at most $k$ nonsaturating pushes before it becomes saturated, so the number of nonsaturating pushes is at most $2k|V||E|$. Thus, the total number of basic operations is at most $2|V|^2 + 2|V||E| + 2k|V||E| = O(kVE)$.\\
+
 \noindent\textbf{Exercise 26.4-7}\\
+
+\noindent\textbf{Exercise 26.4-8}\\
+
+We'll prove the claim by induction on the number of push and relabel operations.  Initially, we have $u.h = |V|$ if $u=s$ and 0 otherwise.  We have $s.h - |V| = 0 \leq \delta_f(s,s) = 0$ and $u.h = 0 \leq \delta_f(u,t)$ for all $u \neq s$, so the claim holds prior to the first iteration of the while loop on line 2 of the GENERIC-PUSH-RELABEL algorithm.  Suppose that the properties have been maintained thus far.  If the next iteration is a nonsaturating push then the properties are maintained because the heights and existence of edges in the residual network are preserved.  If it is a saturating push then edge $(u,v)$ is removed from the residual network, which increases both $\delta_f(u,t)$ and $\delta_f(u,s)$, so the properties are maintained regardless of the height of $u$.  Now suppose that the next iteration causes a relabel of vertex $u$.  For all $v$ such that $(u,v) \in E_f$ we must have $u.h \leq v.h$.  Let $v' = \min\{v.h | (u,v) \in E_f\}$.  There are two cases to consider.  First, suppose that $v'.h < |V|$.  Then after the relabeling we have $u.h = 1 + v'.h \leq 1 + \min_{(u,v) \in E_f} \delta_f(v,t) = \delta_f(u,t)$.  Second, suppose that $v'.h \geq |V|$.  Then after relabeling we have $u.h = 1+v'.h \leq 1 + |V| + \min_{(u,v) \in E_f} \delta_f(v,s) = \delta_f(u,s) + |V|$ which implies that $u.h - |V| \leq \delta)f(u,s)$.  Therefore the GENERIC-PUSH-RELABEL procedure maintains the desired properties. \\
 
 \noindent\textbf{Exercise 26.4-9}\\
 
+\noindent\textbf{Exercise 26.4-10}\\
+
+Each vertex has maximum height $2|V| - 1$.  Since heights don't decrease, and there are $|V| - 2$ vertices which can be overflowing, the maximum contribution of relabels to $\Phi$ over all vertices is $(2|V| - 1)(|V|-2)$.  A saturating push from $u$ to $v$ increases $\Phi$ by at most $v.h \leq 2|V| - 1$, and there are at most $2|V||E|$ saturating pushes, so the total contriubtion over all saturating pushes to $\Phi$ is at most $(2|V| - 1)(2|V||E|)$.  Since each nonsaturating push decrements $\Phi$ by at least on and $\Phi$ must equal zero upon termination, we must have that the number of nonsaturating pushes is at most
+\[ (2|V| - 1)(|V|-2) + (2|V| - 1)(2|V||E|) = 4|V|^2 |E| + 2|V|^2 - 5|V| + 3 - 2|V||E|.\]
+
+Using the fact that $|E| \geq |V| - 1$ and $|V| \geq 4$ we can bound the number of saturating pushes by $4|V|^2|E|$. \\
+
 \noindent\textbf{Exercise 26.5-1}\\
+
+\noindent\textbf{Exercise 26.5-2}\\
+
+Initially, the vertices adjacent to $s$ are the only ones which are overflowing.  The implementation is as follows:
+
+\begin{algorithm}
+\caption{PUSH-RELABEL-QUEUE(G,s)}
+\begin{algorithmic}[1]
+\State INITIALIZE-PREFLOW$(G,s)$
+\State Initialize an empty queue $q$
+\For{$v \in G.Adj[s]$}
+	\State $q.push(v)$
+\EndFor
+\While{$q.head \neq NIL$}
+	\State DISCHARGE$(q.head)$
+	\State $q.pop()$
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+Note that we need to modify the DISCHARGE algorithm to push vertices $v$ onto the queue if $v$ was not overflowing before a discharge but is overflowing after one.  Between lines 7 and 8 of DISCHARGE$(u)$, add the line ``\textbf{if} $v.e > 0$, $q.push(v)$.''  This is an implementation of the generic push-relabel algorithm, so we know it is correct.  The analysis of runtime is almost identical to that of Theorem 26.30. We just need to verify that each phase consists of at most $|V|$ calls to DISCHARGE.\\
+
+% Suppose that we call DISCHARGE on some vertex $v$ twice in a single phase.  After the first call, $v$ is no longer overflowing.  Thus, there must be some vertex $u$ such that DISCHARGE$(u)$ is called later, and flow is pushed from $u$ to $v$, and $u.h = v.h + 1$.  In order for DISCHARGE to be called on $u$, $u$ must appear in $q$, so there must have been a vertex $w$ in $q$ which pushed flow to $u$ to cause it to be overflowing, and such that $w.h = u.h + 1$.  
+
+
+%We only add a vertex $v$ after a push from $u$ to $v$, at which point $u$ is removed, and $v.h = u.h - 1$.  We cannot put $u$ back in the queue until we push flow to $u$.  %%Not sure...
 
 \noindent\textbf{Exercise 26.5-3}\\
 
+\noindent\textbf{Exercise 26.5-4}\\
+
+%Probably similar analysis to that of thm 26.30.  Would be done if you could prove that you can't discharge the same vertex twice in between relabels. (ie phase consists of at most |V| calls to DISCHARGE)
+
+
 \noindent\textbf{Exercise 26.5-5}\\
 
+
+
 \noindent\textbf{Problem 26-1}\\
+
 \begin{enumerate}[a.]
 \item
 This problem is identical to exercise 26.1-7.
@@ -124,14 +248,28 @@ Given an instance of the escape problem, we can convert it to a flow network wit
 
 \end{enumerate}
 
+\noindent\textbf{Problem 26-2}\\
+
+a. Set up the graph $G'$ as defined in the problem, give each edge capacity 1, and run a maximum-flow algorithm.  I claim that if $(x_i, y_j)$ has flow 1 in the maximum flow and we set $(i,j)$ to be an edge in our path cover, then the result is a minimum path cover.  First observe that no vertex appears twice in the same path.  If it did, then we would have $f(x_i, y_j) = f(x_k,y_j)$ for some $i \neq k \neq j$.  However, this contradicts the conservation of flow, since the capacity leaving $y_j$ is only 1.  Moreover, since the capacity from $s$ to $x_i$ is 1, we can never have two edges of the form $(x_i, y_j)$ and $(x_i, y_k)$ for $k \neq j$.  We can ensure every vertex is included in some path by asserting that if there is no edge $(x_i,y_j)$ or $(x_j, y_i$ for some $j$, then $j$ will be on a path by itself.  Thus, we are guaranteed to obtain a path cover.  If there are $k$ paths in a cover of $n$ vertices, then they will consist of $n-k$ edges in total.  Given a path cover, we can recover a flow by assigning edge $(x_i, y_j)$ flow 1 if and only if $(i,j)$ is an edge in one of the paths in the cover.  Suppose that the maximum flow algorithm yields a cover with $k$ paths, and hence flow $n-k$, but a minimum path cover uses strictly fewer than $k$ paths.  Then it must use strictly more than $n-k$ edges, so we can recover a flow which is larger than the one previously found, contradicting the fact that the previous flow was maximal.  Thus, we find a minimum path cover.  Since the maximum flow in the graph corresponds to finding a maximum matching in the bipartite graph obtained by considering the induced subgraph of $G'$ on $\{1,2,\ldots, n\}$, section 26.3 tells us that we can find a maximum flow in $O(VE)$. \\
+
+b. This doesn't work for directed graphs which contain cycles.  To see this, consider the graph on $\{1,2,3,4\}$ which contains edges $(1,2), (2,3), (3,1)$, and $(4,3)$.  The desired output would be a single path 4,3,1,2 but flow which assigns edges $(x_1,y_2)$, $(x_2,y_3)$, and $(x_3,y_1)$ flow 1 is maximal. \\
+
 \noindent\textbf{Problem 26-3}\\
+
 \begin{enumerate}[a.]
 \item
 \item
 \item
 \end{enumerate}
 
+\noindent\textbf{Problem 26-4}\\
+
+a.  If there exists a minimum cut on which $(u,v)$ doesn't lie then the maximum flow can't be increased, so there will exist no augmenting path in the residual network.  Otherwise it does cross a minimum cut, and we can possibly increase the flow by 1.   Perform one interation of Ford-Fulkerson.  If there exists an augmenting path, it will be found and increased on this iteration.  Since the edge capacities are integers, the flow values are all integral.  Since flow strictly increases, and by an integral amount each time, a single iteration of the while loop of line 3 of Ford-Fulkerson will increase the flow by 1, which we know to be maximal.  To find an augmenting path we use a BFS, which runs in $O(V+E') = O(V+E)$. \\
+
+b. If the edge's flow was already at least 1 below capacity then nothing changes.  Otherwise, find a path from $s$ to $t$ which contains $(u,v)$ using BFS in $O(V+E)$.  Decrease the flow of every edge on that path by 1.  This decreases total flow by 1.  Then run one iteration of the while loop of Ford-Fulkerson in $O(V+E)$.  By the argument given in part a, everything is integer valued and flow strictly increases, so we will either find no augmenting path, or will increase the flow by 1 and then terminate. \\
+
 \noindent\textbf{Problem 26-5}\\
+
 \begin{enumerate}[a.]
 \item Since the capacity of a cut is the sum of the capacity of the edges going from a vertex on one side to a vertex on the other, it is less than or equal to the sum of the capacities of all of the edges. Since each of the edges has a capacity that is $\le C$, if we were to replace the capacity of each edge with $C$, we would only be potentially increasing the sum of the capacities of all the edges. After so changing the capacities of the edges, the sum of the capacities of all the edges is equal to $C|E|$, potentially an overestimate of the original capacity of any cut, and so of the minimum cut.
 \item
@@ -148,5 +286,30 @@ Since any augmenting path must have a capacity of less than $2K$, we can look at
 
 \end{enumerate}
 
+\noindent\textbf{Problem 26-6}\\
+
+a.  Suppose $M$ is a matching and $P$ is an augmenting path with respect to $M$.  Then $P$ consists of $k$ edges in $M$, and $k+1$ edges not in $M$.  This is because the first edge of $P$ touches an unmatched vertex in $L$, so it cannot be in $M$.  Similary, the last edge in $P$ touches an unmatched vertex in $R$, so the last edge cannot be in $M$.  Since the edges alternate being in or not in $M$, there must be exactly one more edge not in $M$ than in $M$.   This implies that $|M \oplus P| = |M| + |P| - 2k = |M| + 2k + 1 - 2k = |M| + 1$ since we must remove each edge of $M$ which is in $P$ from both $M$ and $P$.  Now suppose $P_1, P_2, \ldots, P_k$ are veretx-disjoint augmenting paths with respect to $M$.  Let $k_i$ be the number of edges in $P_i$ which are in $M$, so that $|P_i| = 2k+i + 1$.  Then we have 
+\[ M \oplus (P_1 \cup P_2 \cup \ldots \cup P_k) = |M| + |P_1| + \ldots + |P_k| - 2k_1 - 2k_2 - \ldots - 2k_k = |M| + k.\]
+
+To see that we in fact get a matching, suppose that there was some vertex $v$ which had at least 2 incident edges $e$ and $e'$.  They cannot both come from $M$, since $M$ is a matching. They cannot both come from $P$ since $P$ is simple and every other edge of $P$ is removed.  Thus, $e \in M$ and $e' \in P\backslash M$. Suppose $v \in L$.  If $e'$ is not the first edge of $P$ then it must be preceeded by an edge $e'' \in M$, also incident with $v$.  Since $M$ is a matching, $e''$ is the only edge in $M$ which is incident with $v$.  Thus, $e = e''$.  Since $e''$ isn't in $M \oplus (P_1 \cup \ldots \cup P_k)$, $v$ can have at most one incident edge.  Furthermore, $e'$ can't be the first edge in $P$, since by definition the first edge is incident with an unmatched vertex in $M$.  An identical argument shows that if $v \in R$, $v$ is incident with at most one edge.  Therefore the symmetric difference gives a matching.\\
+
+
+b. Suppose some vertex in $G'$ has degree at least 3.  Since the edges of $G'$ come from $M \oplus M^*$, at least 2 of these edges come from the same matching.  However, a matching never contains two edges with the same endpoint, so this is impossible.  Thus every vertex has degree at most 2, so $G'$ is a disjoint union of simple paths and cycles. If edge $(u,v)$ is followed by edge $(z,w)$ in a simple path or cycle then we must have $v = z$.  Since two edges with the same endpoint cannot appear in a matching, they must belong alternately to $M$ and $M^*$.  Since edges alternate, every cycle has the same number of edges in each matching and every path has at most one more edge in one matching than in the other.  Thus, if $|M| \leq |M^*|$ there must be at least $|M^*| - |M|$ vertex-disjoint augmenting paths with respect to $M$. \\
+
+c. Every vertex matched by $M$ must be incident with some edge in $M'$.  Since $P$ is aumenting with respect to $M'$, the left endpoint of the first edge of $P$ isn't incident to a vertex touched by an edge in $M'$. In particular, $P$ starts at a vertex in $L$ which is unmatched by $M$ since every vertex of $M$ is incident with an edge in $M'$.  Since $P$ is vertex disjoint from $P_1, P_2, \ldots, P_k$, any edge of $P$ which is in $M'$ must in fact be in $M$ and any edge of $P$ which is not in $M'$ cannot be in $M$.  Since $P$ has edges alternately in $M'$ and $E - M'$, $P$ must in fact have edges alternately in $M$ and $E-M$.  Finally, the last edge of $P$ must be incident to a vertex in $R$ which is unmatched by $M'$.  Any vertex unmatched by $M'$ is also unmatched by $M$, so $P$ is an augmenting path for $M$.  $P$ must have length at least $l$ since $l$ is the length of the shorest augmenting path with respect to $M$. If $P$ had length exactly $l$ then this would contradict the fact that $P_1 \cup \ldots \cup P_k$ is a maximal set of vertex disjoing paths of length $l$ because we could add $P$ to the set. Thus $P$ has more than $l$ edges. \\
+
+d. Any edge in $M \oplus M'$ is in exactly one of $M$ or $M'$.  Thus, the only possible contributing edges from $M'$ are from $P_1 \cup \ldots \cup P_k$.  An edge from $M$ can contribute if and only if it is not in exactly one of $M$ and $P_1 \cup \ldots \cup P_k$, which means it must be in both.  Thus, the edges from $M$ are redundant so $M\oplus M' = (P_1 \cup \ldots \cup P_k)$ which implies $A = (P_1 \cup \ldots \cup P_k) \oplus P$.  
+
+Now we'll show that $P$ is edge disjoint from each $P_i$.  Suppose that an edge $e$ of $P$ is also an edge of $P_i$ for some $i$.  Since $P$ is an augmenting path with respect to $M'$, either $e \in M'$ or $e \in E-M'$.  Suppose $e \in M'$.  Since $P$ is also augmenting with respect to $M$, we must have $e \in M$.  However, if $e$ is in $M$ and $M'$ then $e$ cannot be in any of the $P_i$'s by the definition of $M'$.  Now suppose $e \in E-M'$. Then $e \in E-M$ since $P$ is augmenting with respect to $M$. Since $e$ is an edge of $P_i$, $e \in E-M'$ implies that $e \in M$, a contradiction.  
+
+Since $P$ has edges alternately in $M'$ and $E-M'$ and is edge disjoint from $P_1 \cup \ldots \cup P_k$, $P$ is also an augmenting path for $M$, which implies $|P| \geq l$.  Since every edge in $A$ is disjoint we conclude that $|A| \geq (k+1)l$.\\
+
+e. %Not sure
+
+%Suppose $M^*$ is a matching with strictly more than $|M| + |V|/(l+1)$ edges.  By part b there are more than $|V|/(l+1)$ vertex-disjoint augmenting paths with respect to $M$, and each contains at least $l$ edges, so there are $|V|l/(l+1)$ edges in total
+
+f. Consider what happens after interation number $\sqrt{|V|}$.  Let $M^*$ be a maximal matching in $G$.  Then $|M^*| \geq |M|$ so by part b, $M\oplus M^*$ contains at least $|M^*|-|M|$ vertex disjoing augmenting paths with respect to $M$. By part $c$, each of these is also a an augmenting path for $M$. Since each has lenght $\sqrt{|V|}$, there can be at most $\sqrt{|V|}$ such paths, so $|M^*|-|M| \leq \sqrt{|V|}$.  Thus, only $\sqrt{|V|}$ additional iterations of the repeat loop can occur, so there are at most $2\sqrt{|V|}$ iterations in total. \\
+
+g. For each unmatched vertex in $L$ we can perform a modified BFS to find the length of the shortest path to an unmatched vertex in $R$.  Modify the BFS to ensure that we only traverse an edge if it causes the path to alternate between an edge in $M$ and an edge in $E-M$.  The first time an unmatched vertex in $R$ is reached we know the length $k$ of a shortest augmenting path.  We can use this to stop our search early if at any point we have traversed more than that number of edges. To find disjoint paths, start at the vertics of $R$ which were found at distance $k$ in the BFS.  Run a DFS backwards from these, which maintains the property that the next vertex we pick has distance one fewer, and the edges alternate between being in $M$ and $E-M$. As we build up a path, mark the vertices as used so that we never traverse them again.  This takes $O(E)$, so by part $f$ the total runtime is $O(\sqrt{V}E)$. \\
 
 \end{document}
