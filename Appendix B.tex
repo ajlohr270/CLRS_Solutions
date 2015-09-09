@@ -1,0 +1,103 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{tikz}
+	
+\pagestyle{fancy}
+\title{Appendix B}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Exercise B.1-2}\\
+
+We'll proceed by induction.  The base case has already been taken care of for us by B.2.  Suppose that the claim holds for a collection of $n$ sets.  Then we have 
+\begin{align*}
+\overline{A_1 \cap A_2 \cap \cdots \cap A_n \cap A_{n+1}} &= \overline{(A_1 \cap A_2 \cap \cdots \cap A_n) \cap A_{n+1}} \\
+&= \overline{A_1 \cap A_2 \cap \cdots \cap A_n} \cup \overline{A_{n+1}} \\
+&= \overline{A_1} \cup \overline{A_2} \cup \cdots \cup \overline{A_n} \cup \overline{A_{n+1}}.
+\end{align*}
+
+An identical proof with the roles of intersection and union swapped gives the second result.\\
+
+\noindent\textbf{Exercise B.1-4}\\
+
+Let $f(k) = 2k+1$.  Then $f$ is a bijection from $\mathbb{N}$ to the set of odd natural numbers, so they are countable. \\
+
+\noindent\textbf{Exercise B.1-6}\\
+
+We define an $n$-tuple recursively as $(a_1, a_2, \ldots, a_n) = ((a_1, a_2, \ldots, a_{n-1}), a_n)$.\\
+
+\noindent\textbf{Exercise B.2-2}\\
+
+For all positive integers $a$ we have $a - a = 0\cdot n$ so the relation is reflexive.  If $a-b = qn$ then $b-a = (-q)n$ so the relation is symmetric.  If $a - b = qn$ and $b-c = pn$ then $a - c = a - b + b - c = (q+p)n$ so the relation is transitive. Thus, equivalence modulo $n$ is an equivalence relation.  This partitions the integers into equivalence classes consisting of numbers which differ by a multiple of $n$.  \\
+
+\noindent\textbf{Exercise B.2-4}\\
+
+Suppose that $a R b$.  Since $R$ is an equivalence relation it is symmetric, so $bRa$.  Since $R$ is antisymmetric, $aRb$ and $bRa$ imply that $a = b$.  Thus every equivalence class is a singleton. \\
+
+\noindent\textbf{Exercise B.3-2}\\
+
+When the domain and codomain are $\mathbb{N}$, the function $f(x) = x+1$ is not bijective because 0 is not in the range of $f$.  It is bijective when the domain and codomain are $\mathbb{Z}$. \\
+
+\noindent\textbf{Exercise B.3-4}\\
+
+It is easiest to see this bijection pictorally.  Imagine drawing out the elements of $\mathbb{Z} \times \mathbb{Z}$ as points in the plane.  Starting from $(0,0)$, move up one unit to $(0,1)$, then right one unit to $(1,1)$, down 2 units through $(1,0)$ to $(1,-1)$, then left, and so on, continuing in a spiraling fashion, hitting each point exactly once, not skipping any as you move outwards.  If point $(i,j)$ is the $k^{th}$ point which is hit, then let $f(i,j) = (-1)^k\lceil k/2 \rceil$.  This gives a bijection from $\mathbb{Z} \times \mathbb{Z}$ to $\mathbb{Z}$, which implies that $f$ has an inverse $g$.  The function $g$ is the desired bijection. \\
+
+\noindent\textbf{Exercise B.4-2}\\
+
+Suppose that $u = v_0, v_1, \ldots, v_k = v$ is a path $p$ from $u$ to $v$.  If it is not simple, then it contains a cycle, so there exist $i$ and $j$ such that $v_i = v_j$.  Let $p'$ be the path on vertices $v_0, v_1, \ldots, v_{i-1}, v_j, \ldots, v_k$.  This is a path from $u$ to $v$ which contains at least one fewer cycles than before.  We can continue this process until the path contains no cycles. Similarly, suppose a directed graph contains a cycle $v_0, v_1, \ldots, v_k$.  If it is not simple, then there exist $i$ and $j \neq k$ such that $v_i = v_j$.  Remove the vertices $v_i, v_{i+1}, \ldots, v_{j-1}$ from the cycle to obtain a cycle with at least one fewer duplicate vertices.  Continuing with this process will eventually produce a cycle with no repeated vertices except the first and last, so it will be simple. \\
+
+
+\noindent\textbf{Exercise B.4-4}\\
+
+Every graph is reachable from itself by the empty path so the relation is reflexive.  If $v$ is reachable from $u$ then there exists a path $u = v_0, v_1, \ldots, v_k = v$.  Thus, $v_k, v_{k-1}, \ldots, v_0$ is a path from $v$ to $u$, so $u$ is reachable from $v$ and the relation is symmetric.  If $v$ is reachable from $u$ and $w$ is reachable from $v$ then by concatenation of paths, $w$ is reachable from $u$, so the relation is transitive.  Therefore the ``is reachable from'' relation is an equivalence relation. \\
+
+\noindent\textbf{Exercise B.4-6}\\
+
+We create a bipartite graph as follows:  Let $V_1$ be the set of vertices of the hypergraph and $V_2$ be the set of hyperedges.  For each hyperedge $e = \{v_1, v_2, \ldots, v_k\} \in V_2$, draw edges $(e,v_i)$ for $1 \leq i \leq k$.  \\
+
+\noindent\textbf{Exercise B.5-2}\\
+
+Suppose vertex $u$ is not on the unique path from $v_0$ to $v$ and $v$ is not on the unique path from $v_0$ to $u$.  Then there can't be an edge from $v$ to $u$ or from $u$ to $v$, otherwise we would violate uniqueness.  This implies that in the undirected version of $G$ when we remove the arrows from the edges, there is still a unique path from $v_0$ to every vertex.  This implies that there exists a path between every pair of vertices.  Suppose the path from $u$ to $v$ is not unique. Then there must be a path $p$ from $u$ to $v$ which does not contain $v_0$.  Thus, the unique path from $v_0$ to $v$ differs from the path obtained by going from $v_0$ to $u$, then taking $p$.  This is a contradiction, because the path from $v_0$ to $v$ is unique.  By property 2 of Theorem B.2, $G$ is a free tree.\\
+
+
+
+\noindent\textbf{Exercise B.5-4}\\
+
+A tree with 1 node has height at least 0, so the claim holds for $n=1$.  Now suppose the claim holds for $n$.  Let $T$ be a binary tree with $n+1$ nodes.  Select a leaf node and remove it. By our induction hypothesis, the resulting tree has height at least $\lfloor \lg n \rfloor$. If $n+1$ is not a power of 2 then this is equal to $\lfloor \lg(n+1) \rfloor$, so we are done.  Otherwise, choose a leaf of greatest depth to remove.  The resulting tree has height at least $\lfloor \lg n \rfloor$.  If the height in fact achieves that, then the only possible tree is the complete binary tree on $n$ vertices.  Since every internal node has two children, the only place the removed leaf could have come from is from a leaf vertex.  Adding a child to any leaf vertex increases the height of the tree by 1.  Since $\lfloor \lg n\rfloor + 1 \geq \lfloor \lg(n+1) \rfloor$, the claim holds. \\
+
+\noindent\textbf{Exercise B.5-6}\\
+
+We'll proceed by strong induction on the number of nodes in the tree.  When $n=1$, there is a single leaf which has depth 0, so we have $\sum_{x \in L} w(x) = 2^{-0} = 1$.  Now suppose the claim holds for a tree with at most $n$ nodes and let $T$ be a tree on $n+1$ nodes.  If the left or right subtree of $T$ is empty then the induction hypothesis tells us that the subtree on the nonempty side satisfies the inequality with respect to depth in that tree.  Since the depth in the original tree is one greater for each leaf, the claim holds. On the other hand, if $T$ has left and right children, call the subtrees rooted at the children $T_1$ and $T_2$.  By the induction hypothesis, the sums of the weights of their leaves are each less than or equal to 1.  Since the depth of a node in $T$ is one greater than its depth in $T_1$ or $T_2$, the weight of each leaf in $T$ is halved.  Thus, the sum of the weights of the leaves in each subtree is bounded by 1/2, so the total sum of weights of leaves is bounded by 1. \\
+
+\noindent\textbf{Problem B-2}\\
+
+a. Any undirected graph with at least two vertices contains at least two vertices of the same degree.  Proof: Suppose every vertex has a different degree.  Since the degree of a vertex is bounded between 0 and $n-1$, the degrees of the vertices must be exactly $0, 1, \ldots, n-1$.  However, if some vertex has degree 0 then no vertex can have degree $n-1$.  Thus, some pair of vertices must have the same degree. \\
+
+b. Every undirected graph on 6 vertices contains 3 vertices which are all connected to one another or 3 vertices among which there are no edges.  Proof:  Suppose that we have a graph which doesn't have this property.  We'll show such a graph cannot exist.  If vertex 1 has degree at least 3, then there can be no edges among these vertices connected to 1.  Otherwise there would be a triangle.  However, if there are no edges among these vertices then there are at least 3 among which there are no edges.  Thus vertex 1 must have degree at most 2.  Since there was nothing special about this vertex, the same argument tells us that every vertex must have degree at most 2.  Now consider the graph $G' = (V, E')$ where $E' = \{(u,v) | (u,v) \notin E\}$.  Observe that $G$ has no 3 mutually connected or mutually disconnected vertices if and only if $G'$ does, so the same argument tells us that every vertex of $G'$ has at most degree 2, which implies that ever vertex of $G$ has degree at least 4, a contradiction.\\
+
+c. The vertex set $V$ of any undirected graph can be partitioned into $V = V_1 \sqcup V_2$ such that at least half of the neighbors of each $v \in V_1$ are in $V_2$, and at least half of the neighbors of each $v \in V_2$ are in $V_1$.  Proof: Consider an abritrary partition $V_1 \sqcup V_2$.  For each edge $(u,v)$ where $u \in V_1$ and $v \in V_2$, do the following:  If $u$ and $v$ already have the property that more than half of their neighbors are in the opposite partition, do nothing.  If both $u$ and $v$ fail to have this property, swap which partition $u$ and $v$ are in.  Now suppose just one vertex fails.  Without loss of generality, suppose it is $u$.  If $v$ has at least one more than half its neighbors in $V_1$, simply move $u$ into $V_1$.  Otherwise, swap $u$ and $v$.  Each time we do this for an edge $(u,v)$, the number of edges from $V_1$ to $V_2$ strictly increases.  For an edge $(u,v)$ with $u$ and $v$ in the same partition, if either $u$ or $v$ has more than half its neighbors in its own partition, move it to the other partition.  If both do, just move $u$.  Again, this will strictly increase the number of edges between $V_1$ and $V_2$.  Keep picking edges and repeating this process.  Since the number of edges between $V_1$ and $V_2$ cannot increase indefinitely, this process will eventually stop, and every vertex will have the property that at least half its neighbors are in the opposite partition.\\
+
+d. If every vertex of an undirected graph has degree at least $|V|/2$ then there exists a way to draw the graph where the vertices all lie on a circle, and vertices next to one another on the circle are always connected by an edge. Proof: Let $|V| = n$.  It is easy to check that the claim holds from $n=1, 2, 3$.  We'll proceed by induction on $n$.  Supoose the claim holds for all graphs on $\leq n $ vertices and let $G$ be a graph on $n+1$ vertices such that each vertex has degree at least $(n+1)/2$.  If $n$ is odd, consider the arrangement of the induced subgraph on $n$ vertices.  There must exist some pair of adjacent vertices both of which are connected to the $(n+1)^{st}$ vertex by an edge, so we may insert it there.  If $n$ is even, it could be the case that vertex $n+1$ is connected to every other vertex in the arrangement on $n$ vertices.  In this case, select a pair of vertices which are separated by 2 edges on the circle, both of which are connected to $n+1$.  Replace the vertex $v$ between them by $n+1$.  Excluding vertex $n+1$, its two adjacent vertices (on the circle), and $v$, there are $n-3$ remaining vertices.  Since $n$ is even, $n-3$ is odd.  Since $v$ is connected to at least $(n-3)/2$ of these, there must exist 2 which are adjacent on the circle.  We can safely place $v$ inbetween these to obtain the desired graph. \\
+
+
+\end{document}
