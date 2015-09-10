@@ -23,6 +23,7 @@
 \newcommand{\calX}{\mathcal{X}}
 \newcommand{\calA}{\mathcal{A}}
 \newcommand{\calY}{\mathcal{Y}}
+\newcommand{\Z}{\mathbb{Z}}
 
 
 
@@ -37,8 +38,161 @@
 \begin{document}
 \maketitle
 \noindent\textbf{Exercise 31.1-1}\\
+By the given equation, we can write $c = 1\cdot a + b$, with $0\ge b <a$. By the definition of remainders given just below the division theorem, this means that $b$ is the remainder when c is divided by a, that is $b=  c\mod a$.\\
+
+
+
+\noindent\textbf{Exercise 31.1-3}\\
+$a | b$ means there exists $k_1\in \Z$ so that $k_1 a = b$. $b|c$ means there exists $k_2\in \Z$ so that $k_2 b = c$. This means that $(k_1 k_2) a = c$. Since the integers are a ring, $k_1 k_2 \in \Z$, so, we have that $a | c$.\\
+
+
+
+\noindent\textbf{Exercise 31.1-5}\\
+By Theorem 31.2, since $gcd(a,n) =1$, there exist integers $p,q$ so that $pa +qn = 1$, so, $bpa+bqn=b$. Since $n | ab$, there exists an integer $k$ so that $kn = ab$. This means that $knp + pqn =(k +q)pn= b$. Since $n$ divides the left hand side, it must divide the right hand side as well.\\
+
+
+
+\noindent\textbf{Exercise 31.1-7}\\
+First, suppose that $x = yb + (x\mod b)$, $(x\mod b) = za + ((x\mod b)\mod a)$, and $ka =b$. Then, we have $x = yka +(x\mod b) = (yk+ z) a + ((x\mod b)\mod a)$. So, we have that $x\mod a =  ((x\mod b)\mod a)$.
+
+For the second part of the problem, suppose that $ x\mod b = y\mod b$. Then, by the first half of the problem, applied first to x and then to b, $x \mod a = (x\mod b) \mod a = (y\mod b)\mod a = y\mod a$. So, $x \equiv y \mod a$.\\
+
+
+
+\noindent\textbf{Exercise 31.1-9}\\
+For (31.6), we see that $a$ and $b$ in theorem 31.2 which provides a characterization of gcd appear symmetrically, so swapping the two won't change anything.
+
+For (31.7), theorem 31.2 tells us that gcd's are defined in terms of integer linear combinations. If we had some integer linear combination involving a and b, we can changed that into one involving (-a) and b by replacing the multiplier of a with its negation.
+
+For (31.8), by repeatedly applying (31.6) and (31.7), we can get this equality for all four possible cases based on the signs of both $a$ and $b$.
+
+For(31.9), consider all integer linear combinations of $a$ and $0$, the thing we multiply  by will not affect the final linear combination, so, really we are just taking the set of all integer multiples of $a$ and finding the smallest element. We can never decrease the absolute value of a by multiplying by an integer ($|ka| = |k||a|$), so, the smallest element is just what is obtained by multiplying by 1, which is $|a|$.
+
+For (31.10), again consider possible integer linear combinations $na + mka$, we can rewrite this as $(n+km)a$, so it has absolute value $|n+km||a|$. Since the first factor is an integer, we can't have it with a value less than 1 and still have a positive final answer, this means that the smallest element is when the first factor is 1, which is achievable by setting $n=1,m=0$.\\
+
+
+
+\noindent\textbf{Exercise 31.1-11}\\
+Suppose to a contradiction that we had two different prime decomposition. First, we know that the set of primes they both consist of are equal, because if there were any prime $p$ in the symmetric difference, $p$ would divide one of them but not the other. Suppose they are given by $(e_1,e_2, \ldots,e_r)$ and $(f_1,f_2,\ldots,f_r)$ and suppose that $e_i < f_i$ for some position. Then, we either have that $p_i^{e_i+1}$ divides $a$ or not. If it does, then the decomposition corresponding to $\{e_i\}$ is wrong because it doesn't have enough factors of $p_i$, otherwise, the one corresponding to $\{f_i\}$ is wrong because it has too many.\\
+
+
+
+\noindent\textbf{Exercise 31.1-13}\\
+First, we bump up the length of the original number until it is a power of two, this will not affect the asymptotics, and we just imagine padding it with zeroes on the most significant side, so it does not change its value as a number. We split the input binary integer, and split it into two segments, a less significant half $\ell$ and an more significant half $m$, so that the input is equal to $m2^{\beta/2} + \ell$. Then, we recursively convert $m$ and $\ell$ to decimal. Also, since we'll need it later, we compute the decimal versions of all the values of $2^{2^i}$ up to $2^{\beta}$. There are only $\lg(\beta)$ of these numbers, so, the straigtforward approach only takes time $O(\lg^2(\beta))$ so will be overshadowed by the rest of the algorithm. Once we've done that, we evaluate $m2^{\beta/2} + \ell$, which involves computing the product of two numbers and adding two numbers, so, we have the recurrence
+
+\[
+T( \beta) = 2T(\beta/2) + M(\beta/2)
+\]
+Since we have trouble separating $M$ from linear by a $n^{\epsilon}$ for some epsilon, the analysis gets easier if we just forget about the fact that the difficulty of the multiplication is going down in the subcases, this concession gets us the runtime that $T(\beta) \in O(M(\beta) \lg(\beta))$ by master theorem.
+
+Note that there is also a procedure to convert from binary to decimal that only takes time $\Theta(\beta)$, instead of the given algorithm which is $\Theta(M(\beta)\lg(\beta)) \in O(\beta \lg^2(\beta))$ that is rooted in automata theory. We can construct a deterministic finite transducer between the two languages, then, since we only need to take as many steps as there are bits in the input, the runtime will be linear. 
+%not done.
+
+
+
+\noindent\textbf{Exercise 31.2-1}\\
+
+First, we show that the expression given in equation (31.13) is a common divisor. To see that we just notice that 
+
+\[
+a = (\prod_{i=1}^r p_i^{e_i-\min(e_i,f_i)})\prod_{i=1}^r p_i^{\min(e_i,f_i)}
+\]
+and 
+\[
+b = (\prod_{i=1}^r p_i^{f_i-\min(e_i,f_i)})\prod_{i=1}^r p_i^{\min(e_i,f_i)}
+\]
+
+Since none of the exponents showing up are negative, everything in sight is an integer.
+
+Now, we show that there is no larger common divisor. We will do this by showing that for each prime, the power can be no higher. Suppose we had some common divisor $d$ of $a$ and $b$. First note that $d$ cannot have a prime factor that doesn't appear in both $a$ or $b$, otherwise any integer times $d$ would also have that factor, but being a common divisor means that we can write both $a$ and $b$ as an integer times $d$. So, there is some sequence $\{g_i\}$ so that $d = \prod_{i=1}^r p_i^{g_i}$. Now, we claim that for every $i$, $g_i \le \min(e_i,f_i)$. Suppose to a contradiction that there was some $i$ so that $g_i>\min(e_i,f_i)$. This means that $d$ either has more factors of $p_i$ than $a$ or than $b$. However, multiplying integers can't cause the number of factors of each prime to decrease, so this is a contradiction, since we are claiming that $d$ is a common divisor. Since the power of each prime in $d$ is less than or equal to the power of each prime in $c$, we must have that $d\le c$. So, $c$ is a GCD.
+
+
+
+\noindent\textbf{Exercise 31.2-3}\\
+Let $c$ be such that $a = cn +(a\mod n)$. If $k=0$, it is trivial, so suppose $k<0$. Then, EUCLID(a+kn,n) goes to line 3, so returns $EUCLID(n, a\mod n)$. Similarly, $EUCLID(a,n) = EUCLID((a\mod n) + cn, n) = EUCLID(n,a\mod n)$. So, by correctness of the Euclidean algorithm,
+
+\begin{align*}
+gcd(a+kn,n) &= EUCLID(a+kn,n)\\
+& =  EUCLID(n,a\mod n)\\
+& = EUCLID(a,n)\\
+& = gcd(a,n)
+\end{align*}
+
+
+
+\noindent\textbf{Exercise 31.2-5}\\
+We know that for all k, if $b < F_{k+1} < \phi^{k+1}/\sqrt{5}$, then it takes fewer than $k$ steps. If we let $k = \log_\phi{b} + 1$, then, since $b < \phi^{\log_\phi{b} + 2}/\sqrt{5} = \frac{\phi^2}{\sqrt{5}} \cdot b$, we have that it only takes $1+\log_\phi(b)$ steps.
+
+We can improve this bound to $1 + \log_{\phi}(b/gcd(a,b)) = 1+ \log_{\phi}(b) - \log_{\phi}(gcd(a,b))$ by noticing that 
+%notdone
+
+
+
+\noindent\textbf{Exercise 31.2-7}\\
+%We will show that it is independent of the order of the arguments by induction. When there are just two arguments, it is equation (31.6) which was proven in exercise 31.1-9. Now suppose that we either place $a_j$ first or $a_i$ first. This means that we want to show $gcd(a_j,gcd(\{a_k\}_{k\neq j\})) = gcd(a_i,gcd(\{a_k\}_{k\neq i}))$.
+
+To show this we will show that when we define gcd in this way, it agrees with the intuitive idea of gcd, that is, it returns the largest number that is a common divisor of all of its arguments. Since the restriction that is placed on it by its arguments is independent of their ordering, we will have that the number the gcd returns is also independent.
+
+We already know that this is what gcd does on two arguments, so, we proceed by induction on the number of arguments. consider $gcd(a_0,gcd(a_1, \ldots,a_n))$ the second argument is the largest possible $n_1$ so that there exist $k_1,k_2, \ldots k_n$ that make $n_1 k_i = a_i$ for $i=1,\ldots,n$. So, the function will return the largest possible $n_2$ so that there exist $m_0,m_1$ that make $n_2 m_0 = a_0$ and $n_2 m_1 = n_1$ this means that $n_2 m_1 k_i = a_i$ for $i=1,\ldots,n$.
+%notdone
+
+
+
+\noindent\textbf{Exercise 31.2-9}\\
+
+
+
+\noindent\textbf{Exercise 31.3-1}\\
+
+\[
+\begin{array}{c|cccc}
++_4&0&1&2&3\\
+\hline
+0&0&1&2&3\\
+1&1&2&3&0\\
+2&2&3&0&1\\
+3&3&0&1&2\\
+\end{array}
+\]
+
+\[
+\begin{array}{c|cccc}
+\cdot_5&1&2&3&4\\
+\hline
+1&1&2&3&4\\
+2&2&4&1&3\\
+3&3&1&4&2\\
+4&4&3&2&1\\
+\end{array}
+\]
+
+Then, we can see that these are equivalent under the mapping $\alpha(0) =1$, $\alpha(1)= 3$, \alpha(2) = 4$, $\alpha(3) =2$.\\
+
+
+
+\noindent\textbf{Exercise 31.3-3}\\
+
+Since $S$ was a finite group, every element had a finite order, so, if $a\in S'$, there is some number of times that you can add it to itself so that you get the identity, since adding any two things in $S'$ gets us something in $S'$, we have that $S'$ has the identity element. Assiciativity is for free because is is a propert of the binary operation, no the space that the operation draws it's arguments from. Lastly, we can see that it contains the inverse of every element, because we can just add the element to itself a number of times equal to one less than its order. Then, adding the element to that gets us the identity.\\
+
+
+
+\noindent\textbf{Exercise 31.3-5}\\
+To see this fact, we need to show that the given function is a bijection. Since the two sets have equal size, we only need to show that the function is onto. To see that it is onto, suppose we want an element that maps to $x$. Since $\Z_n^*$ is a finite abelian group by theorem 31.13, we can take inverses, in particular, there exists an element $a^{-1}$ so that $a a^{-1} = 1 \mod n$. This means that $f_a(a^{-1} x) =a a^{-1} x \mod n = (a a^{-1} \mod n) (x \mod n) = x \mod n$. Since we can find an element that maps to any element of the range and the sizes of domain and range are the same, the function is a bijection. Any bijection from a set to itself is a permutation by definition.\\
+
+
+
+\noindent\textbf{Exercise 31.4-1}\\
+First, we run extended Euclid on $35,50$ and get the result $(5,-7,10)$. Then, our initial solution is $-7*10/5 = -14 = 36$. Since $d=5$, we have four other solutions, corresponding to adding multiples of $50/5 =10$. So, we also have that our entire solution set is $x =\{6,16,26,36,46\}$.\\
+
+
+
+\noindent\textbf{Exercise 31.4-3}\\
+it will work. It just changes the initial value, and so changes the order in which solutions are output by the program. Since the program outputs all values of $x$ that are congruent to $x_0 \mod n/b$, if we shift the answer by a multiple of $n/b$ by this modification, we will not be changing the set of solutions that the procedure outputs.\\
+
+
 
 \noindent\textbf{Problem 31-1}\\
+
 \begin{enumerate}[a.]
 \item
 \end{enumerate}

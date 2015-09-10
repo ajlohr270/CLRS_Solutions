@@ -53,6 +53,8 @@ We get the solution:
 \end{array}\right)
 \]
 
+
+
 \noindent\textbf{Exercise 28.1-3}\\
 First, we find the LUP decomposition of the given matrix
 
@@ -161,13 +163,19 @@ So, finally by back substitution,
  \end{array}\right) 
 \]
 
+
+
 \noindent\textbf{Exercise 28.1-5}\\
 A LU decomposition of a permutation matrix is letting $P$ be the inverse permutation matrix, and let both L and U be the identity matrix. Now, we need show that this representation is unique. We know that the permutation matrix $A$ is non-singular. This means that $U$ has nonzero elements all along its diagonal. Now, suppose that there were some nonzero element off of the diagonal in $L$, which is to say $L_{i,j}\neq 0$ for $i\neq j$. Then, look at row $i$ in the product $LU$. This has a nonzero entry both at column $j$ and at column $i$. Since it has more than one non-zero entry, it cannot be transformed into a permutation matrix by permuting the rows. Similarly, we have that $U$ cannot have any off-diagonal elements. Lastly, since we know that both $L$ and $U$ are diagonal matrices, we know that $L$ is the identity. Since $A$ only has ones as its nonzero entries, and $LU =U$. U must also only have ones as its nonzero entries. So, we have $U$ is the identity. This means that $PA =I$, which means that $P = A^{-1}$. This completes showing that the given decomposition is unique.\\
+
+
 
 \noindent\textbf{Exercise 28.1-7}\\
 For LU decomposition, it is indeed necessary. If we didn't run the last run of the outermost for loop, $u_{nn}$ would be left its initial value of zero instead of being set equal to $a_{nn}$. This can clearly produce incorrect results, because the LU decomposition of any non-singular matrix must have both $L$ and $U$ having positive determinant. However, if $u_{nn}=0$, the determinant of $U$ will be zero by problem D.2-2.
 
 For LUP-decomposition, the iteration of the outermost for loop that occurs with $k=n$ will not change the final answer. Since $\pi$ would have to be a permutation on a single element, it cannot be non-trivial. and the for loop on line 16 will not run at all.\\
+
+
 
 \noindent\textbf{Exercise 28.2-1}\\
 Showing that being able to multiply matrices in time $M(n)$ implies being able to square matrices in time $M(n)$ is trivial because squaring a matrix is just multiplying it by itself.
@@ -222,17 +230,25 @@ C^2 = \left( \begin{array}{cc}I&A+AB\\0&B\end{array}\right)
 \]
 Then we can just take the upper right quarter of $C^2$ and subtract $A$ from it to obtain the desired result. Apart from the squaring, we've only done work that is $O(n^2)$. Since $S(n)$ is $\Omega(n^2)$ anyways, we have that the total amount of work we've done is $O(n^2)$.\\
 
+
+
 \noindent\textbf{Exercise 28.2-3}\\
 From problem 28.2-2, we can find a LU-decomposition algorithm that only takes time $O(M(n))$. So, we run that algorithm and multiply together all of the entries along the diagonal of $U$, this will be the determinant of the original matrix.
 
 Now, suppose that we have a determinant algorithm that takes time $D(n)$, we will show that we can find a matrix multiplication algorithm that takes time $O(D(n))$.
 %notdone
 
+
+
 \noindent\textbf{Exercise 28.2-5}\\
 It does not work necessarily over the field of two elements. The problem comes in in applying theorem D.6 to conclude that $A^TA$ is positive definite. In the proof of that theorem they obtain that $||Ax||^2 \ge 0$ and only zero if every entry of $Ax$ is zero. This second part is not true over the field with two elements, all that would be required is that there is an even number of ones in $Ax$. This means that we can only say that $A^TA$ is positive semi-definite instead of the positive definiteness that the algorithm requires.\\
 
+
+
 \noindent\textbf{Exercise 28.3-1}\\
 To see this, let $e_i$ be the vector that is zeroes except for a one in the $i$th position. Then, we consider the quantity $e_i^TAe_i$ for every $i$. $Ae_i$ takes each row of $A$ and pulls out the ith column of it, and puts those values into a column vector. Then, multiplying that on the left by $e_i^T$, pulls out the $i$th row of this quantity, which means that the quantity $e_i^TAe_i$ is exactly the value of $A_{i,i}$. So, we have that by positive definiteness, since $e_i$ is nonzero, that quantity must be positive. Since we do this for every i, we have that every entry along the diagonal must be positive.\\
+
+
 
 \noindent\textbf{Exercise 28.3-3}\\
 Suppose to a contradiction that there were some element $a_{ij}$ with $i\neq j$ so that $a_{ij}$ were a largest element. We will use $e_i$ to denote the vector that is all zeroes except for having a 1 at position i. Then, we consider the value $(e_i-e_j)^T A (e_i-e_j)$. When we compute $A(e_i-e_j)$ this will return a vector which is column $i$ minus column $j$. Then, when we do the last multiplication, we will get the quantity which is the $i$th row minus the $j$th row. So, 
@@ -243,9 +259,13 @@ Suppose to a contradiction that there were some element $a_{ij}$ with $i\neq j$ 
 
 Where we used symmetry to get that $a_{ij} =a_{ji}$. This result contradicts the fact that $A$ was positive definite. So, our assumption that there was a element tied for largest off the diagonal must of been false.\\
 
+
+
 \noindent\textbf{Exercise 28.3-5}\\
 We will try to proceed by induction on the value of $k$. To show it for $k=0$, we need to get that the upper left corner is the largest of all the elements in the leftmost column. Suppose that there were some entry in the the left column that was larger than the element in the top row.
 %not done
+
+
 
 \noindent\textbf{Exercise 28.3-7}\\
 
@@ -275,6 +295,7 @@ A^+AA^+ &=  ((A^TA)^{-1}A^T)A((A^TA)^{-1}A^T)\\
 &= (A^T A)^{-1} (A^TA)\\
 &= A^+ A
 \end{align*}
+
 
 
 \noindent\textbf{Problem 28-1}\\

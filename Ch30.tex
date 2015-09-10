@@ -45,22 +45,31 @@ which is
 56x^6 - 8 x^5 -34x^4 - 53 x^3-9x^2+63x-30
 \]
 
+
+
 \noindent\textbf{Exercise 30.1-3}\\
 For each pair of points, $(p,A(p))$, we can compute the pair $(\frac{1}{p}, A^{rev}(\frac{1}{p}))$. To do this, we note that $A^{rev}(\frac{1}{p}) = \sum_{j=0}^{n-1} a_{n-1-j} \left(\frac{1}{p}\right)^j = \sum_{j=0}^{n-1} a_{j} \left( \frac{1}{p}\right)^{n-1-j} = p^{1-n} \sum_{j=0}^{n-1} a_j p^j = p^{1-n} A(p)$ since we know what $A(p)$ is, we can compute $A^{rev}(\frac{1}{p})$ of course, we are using the fact that $p\neq0$ because we are dividing by it. Also, we know that each of these points are distinct, because $\frac{1}{p} = \frac{1}{p'}$  implies that $p=p'$ by cross multiplication. So, since all the x values were distinct in the point value representation of $A$, they will be distinct in this point value representation of $A^{rev}$ that we have made.\\
+
+
 
 \noindent\textbf{Exercise 30.1-5}\\
 First, we show that we can compute the coefficient representation of $\prod_{j} (x-x_j)$ in time $\Theta(n^2)$. We will do it by recursion, showing that multiplying $\prod_{j<k} (x-x_j)$ by $(x-x_k)$ only takes time $O(n)$, since this only needs to be done $n$ times, this gets is total runtime of $O(n)$. Suppose that $\sum_{i=0}^{k-1} {k_i}x^i$ is a coefficient representation of $\prod_{j<k} (x-x_j)$. To multiply this by $(x-x_k)$, we just set $(k+1)_i = k_{i-1} - x_k k_i$ for $i= 1,\ldots k$ and $(k+1)_0 = -x_k \cdot k_0$. Each of these coefficients can be computed in constant time, since there are only linearly many coefficients, then, the time to compute the next partial product is just $O(n)$.
 
 Now that we have a coefficient representation of $\prod_j (x-x_j)$, we need to compute, for each $k$ $\prod_{j-k} (x-x_j)$, each of which can be computed in time $\theta(n)$ by problem 30.1-2. Since the polynomial is defined as a product of things containing the thing we are dividing by, we have that the remainder in each case is equal to 0. Lets call these polynomials $f_k$. Then, we need only compute the sum $\sum_{k} y_k \frac{f_k(x)}{f_k(x_k)}$. That is, we compute $f(x_k)$ each in time $\Theta(n)$, so all told, only $\Theta(n^2)$ time is spent computing all the $f(x_k)$ values. For each of the terms in the sum, dividing the polynomial $f_k(x)$ by the number $f_k(x_k)$ and multiplying by $y_k$ only takes time $\Theta(n)$, so total it takes time $\Theta(n^2)$. Lastly, we are adding up $n$ polynomials, each of degree bound $n-1$, so the total time taken there is $\Theta(n^2)$.\\
 
+
+
 \noindent\textbf{Exercise 30.1-7}\\
 For the set $A$, we define the polynomial $f_A$ to have a coefficient representation that has $a_i$ equal zero if $i\not\in A$ and equal to $1$ if $i\in A$. Similarly define $f_B$. Then, we claim that looking at $f_C:=f_A \cdot f_B$ in coefficient form, we have that the $i$th coefficient, $c_i$ is exactly equal to the number of times that $i$ is realized as a sum of elements from $A$ and $B$. Since we can perform the polynomial multiplication in time $O(n\lg(n))$ by the methods of this chapter, we can get the final answer in time $O(n\lg(n))$. To see that $f_C$ has the nice property described, we'll look at the ways that we could end up having a term of $x^i$ appear. Each contribution to that coefficient must come from there being some $k$ so that $a_k \neq0$ and $b_{i-k}\neq 0$, because the powers of x attached to each are additive when we multiply. Since each of these contributions is only ever 1, the final coefficient is counting the total number of such contributions, therefore counting the number of $k\in A$ such that $i-k\in B$, which is exactly what we claimed $f_C$ was counting.\\
+
+
 
 \noindent\textbf{Exercise 30.2-1}\\
 
 \[
 \omega_{n}^{n/2} = \left(e^{2\pi i/n} \right)^{n/2} = e^{\pi i} = -1 = \omega_2
 \]
+
 
 
 \noindent\textbf{Exercise 30.2-3}\\
@@ -135,6 +144,8 @@ T(n) &= 3 T(n/3) + \Theta(n)\\
 &= \Theta(n\lg(n))
 \end{align*}
 
+
+
 \noindent\textbf{Exercise 30.2-7}\\
 We just do a bunch of multiplications. More seriously, let $P_{i,0}(x) = (x-z_{i-1})$ for $i=1,\ldots,n$. Then, we compute the following products, $P_{i,k} = P_{i,k-1} \cdot P_{2i,k-1}$, for any $i\le n/(2^k)$. If we ever index outside of the already defined $P_{i,k}$ values, we pretend that the value we get is 1. Then, our final answer will be $P_{1,\lfloor\lg(n)\rfloor+1}$. We have that obtaining a polynomial in this way that has the recurrence where we $n$ represents the time required to do it for a polynomial of degree bound n that has zeroes at $n$ given points.
 \[
@@ -142,6 +153,7 @@ T(n) = 2T(n/2) + \Theta(n\lg(n))
 \]
 
 Which, we know by exercise 4.6-2, has a solution of $T\in \Theta(n\lg^2(n))$.\\
+
 
 
 \noindent\textbf{Exercise 30.3-1}\\
@@ -157,8 +169,11 @@ A = (&19,\\
 &-4+4i+\frac{7}{\sqrt{2}} +\frac{13}{\sqrt{2}}i)
 \end{align*}\\
 
+
+
 \noindent\textbf{Exercise 30.3-3}\\
 It computes a twiddle factor for each iteration of the innermost for loop. Since there are $n/m$ iterations of the loop on line 6 and, for each $m/2$ iterations of the innermost loop, there are a total of $n/(2^s)\cdot2^{s-1} =n/2$ twiddle factors. If we, before line 6 compute all of the powers $<m/2$ of $\omega_m$, we won't have to do any computation of them later on. These are the only twiddle factors that will show up, and so, we only compute $m/2 = s^2/2 = 2^{s-1}$ of them.\\
+
 
 
 \noindent\textbf{Problem 30-1}\\
@@ -210,6 +225,8 @@ OE(n) &= 3OE(n/2) + \Theta(n)\\
 Suppose that we want to multiply two integers $A_1 = \sum_{k=0}^{\lfloor \lg(A_1) \rfloor}a_{k,1}2^k$ and $A_2 = \sum_{k=0}^{\lfloor \lg(A_2) \rfloor}a_{k,2}2^k$. Then, we'll associate to these polynomials $f_i = \sum_{k=0}^{\lfloor\lg(A_i)\rfloor} a_{k,i}x^i$. Then, we exactly have that $f_i(2) =A_i$. So, to find $A_1\cdot A_2$, all we need do is multiply the polynomials $f_1$ and $f_2$ and evaluate their product at $2$. Since both of their degrees are bounded by $n$, we can multiply them in time $\Theta(n^{\lg(3)})$ by the previous part. evaluating them also only takes linear time, so doesn't change the total runtime.
 \end{enumerate}
 
+
+
 \noindent\textbf{Problem 30-3}\\
 \begin{enumerate}[a.]
 \item
@@ -234,6 +251,8 @@ The time to do each DFT along the $k$th dimension is $O(n_k\lg(n_k))$, since we 
 Which is independent of $d$.
 
 \end{enumerate}
+
+
 
 \noindent\textbf{Problem 30-5}\\
 \begin{enumerate}[a.]

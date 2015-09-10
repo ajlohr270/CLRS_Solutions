@@ -53,6 +53,8 @@ b= \left(\begin{array}{c}7\\-7\\4\end{array}\right)
 
 with $m=n=3$\\
 
+
+
 \noindent\textbf{Exercise 29.1-3}\\
 
 \[
@@ -77,6 +79,8 @@ c= \left(\begin{array}{c}2\\-3\\3\end{array}\right)
 
 And $v=0$.\\
 
+
+
 \noindent\textbf{Exercise 29.1-5}\\
 First, we will multiply the second and third inequalities by minus one to make it so that they are all $\le$ inequalities. We will introduce the three new variables $x_4,x_5,x_6$, and perform the usual procedure for rewriting in slack form
 \begin{align*}
@@ -86,7 +90,8 @@ x_6 &= -x_1+2x_2 +2x_3\\
 x_1,x_2,x_3,x_4,x_5,x_6 &\ge 0
 \end{align*}
 
-where we are sill tring to maximize $2x_1 -6x_3$. The basic variables are $x_4,x_5,x_6$ and the nonbasic variables are $x_1,x_2,x_3$.
+where we are sill tring to maximize $2x_1 -6x_3$. The basic variables are $x_4,x_5,x_6$ and the nonbasic variables are $x_1,x_2,x_3$.\\
+
 
 
 \noindent\textbf{Exercise 29.1-7}\\
@@ -99,10 +104,14 @@ For any number $r>1$, we can set $x_1 = 2r$ and $x_2 = r$. Then, the restaints b
 
 All of these inequalities are clearly satisfied because of our initial restriction in selecting $r$. Now, we look to the objective function, it is $2r -r = r$. So, since we can select $r$ to be arbitrarily large, and still satisfy all of the constraints, we can achieve an arbitrarily large value of the objective function.\\
 
+
+
 \noindent\textbf{Exercise 29.1-9}\\
 Consider the linear program where we want to maximize $x_1-x_2$ subject to the constraints $x_1-x_2 \le 1$ and $x_1,x_2\ge 0$. clearly the objective value can never be greater than one, and it is easy to achieve the optimal value of $1$, by setting $x_1 = 1$ and $x_2 = 0$. Then, this feasable region is unbounded because for any number $r$, we could set $x_1 = x_2 =r$, and that would be feasible because the difference of the two would be zero which is $\le 1$.
 
 If we further wanted it so that there was a single solution that achieved the finite optimal value, we could add the requirements that $x_1 \le 1$.\\
+
+
 
 \noindent\textbf{Exercise 29.2-1}\\
 The objective is already in normal form. However, some of the constraints are equality constraints instead of $\le$ constraints. This means that we need to rewrite them as a pair of inequality constraints, the overlap of whose solutions is just the case where we have equality. we also need to deal with the fact that most of the variables can be negative. To do that, we will introduce variables for the negative part and positive part, each of which need be positive, and we'll just be sure to subtract the negative part. $d_s$ need not be changed in this way since it can never be negative since we are not assuming the existence of negative weight cycles.
@@ -112,6 +121,8 @@ d_v^+- d_v^- - d_u^+ +d_u^- &\le w(u,v) \hbox{for every edge $(u,v)$}\\
 d_s &\le 0\\
 \hbox{all variables are positive}
 \end{align*}
+
+
 
 \noindent\textbf{Exercise 29.2-3}\\
 We will follow a similar idea to the way to when we were finding the shortest path between two particular vertices.
@@ -123,6 +134,8 @@ We will follow a similar idea to the way to when we were finding the shortest pa
 
 The first type of constraint makes sure that we never say that a vertex is further away than it would be if we just took the edge corresponding to that constraint. Also, since we are trying to maximize all of the variables, we will make it so that there is no slack anywhere, and so all the $d_v$ values will correspond to lengths of shortest paths to $v$. This is because the only thing holding back the variables is the information about relaxing along the edges, which is what determines shortest paths.\\
 
+
+
 \noindent\textbf{Exercise 29.2-5}\\
 All we need to do to bring the number of constraints down from $O(V^2)$ to $O(V+E)$ is to replace the way we index the flows. Instead of indexing it by a pair of vertices, we will index it by an edge. This won't change anything about the analysis because between pairs of vertices that don't have an edge between them, there definitely won't be any flow. Also, it brings the number of constraints of the first and third time down to $O(E)$ and the number of constraints of the second kind stays at $O(V)$.
 
@@ -132,6 +145,8 @@ All we need to do to bring the number of constraints down from $O(V^2)$ to $O(V+
 & \sum_{\hbox{edges e leaving u}} f_e = \sum_{\hbox{edges e entering u}} f_e \hbox{  for each edge $u \in V-\{s,t\}$}\\
 &f_e \ge 0 \hbox{  for each edge e}
 \end{align*}
+
+
 
 \noindent\textbf{Exercise 29.2-7}\\
 As in the minimum cost flow problem, we have constaints for the edge capacities, for the conservation of flow, and nonegativity. The difference is that the restraint that before we required exactly $d$ units to flow, now, we require that for each commodity, the right amount of that comodity flows. the conservation equalities will be applied to each different type of commodity independently. If we super script $f$ that will denote the type of commodity the flow is describing, if we do not superscript it, it will denote the aggregate flow.
@@ -170,6 +185,8 @@ Finally, we get to the fact that all flows are nonnegative, for every $u,v\in V$
 f_{u,v} \ge 0
 \]
 
+
+
 \noindent\textbf{Exercise 29.3-1}\\
 We subtract equation (29.81) from equation (29.79). This gets us
 
@@ -184,6 +201,8 @@ which can be rearranged to
 Then, by applying Lemma 29.3, we get that for every $j$, we have $c_j = c_j'$ and also, $(v-v')=0$, so $v= v'$.\\
 
 
+
+
 \noindent\textbf{Exercise 29.3-3}\\
 To show that the two slack forms are equivalent, we will show both that they have equal objective functions, and their sets of feasible solutions are equal.
 
@@ -192,6 +211,8 @@ First, we'll check that their sets of feasible solutions are equal. Basically al
 Next, we'll see that the objective functions are equal. We decrease each $c_j$ by $c_e \hat{a}_{ej}$, which is to say that we replace the non-basic variable we are making basic with the expression we got it was equal to once we made it basic.
 
 Since the slack form returned by PIVOT, has the same feasible region and an equal objective function, it is equivalent to the original slack form passed in.\\
+
+
 
 \noindent\textbf{Exercise 29.3-5}\\
 First, we rewrite the linear program into it's slack form, we want to maximize $18x_1 + 12.5x_2$, given the constraints
@@ -224,6 +245,8 @@ x_1,x_2,x_3,x_4,x_5 &\ge 0
 We now stop since no more non-basic variables appear in the objective with a positive coefficient. Our solution is $(12,8,0,0,8)$ and has a value of $316$. Going back to the standard form we started with, we just disregard the values of $x_3$ through $x_5$ and have the solution that $x_1 = 12$ and $x_2 = 8$. We can check that this is both feasible and has the objective achieve 316.\\
 
 
+
+
 \noindent\textbf{Exercise 29.3-7}\\
 
 First, we convert this equation to the slack form. Doing so doesn't change the objective, but the constraints become
@@ -237,6 +260,8 @@ x_1,x_2,x_3,x_4,x_5 &\ge 0
 Also, since the objective is to minimize a given function, we'll change it over to maximizing the negative of that function. In particular maximize $-x_1 -x_2 -x_3$. Now, we note that the initial basic solution is not feasible, because it would leave $x_4$ and $x_5$ being negative. Since we haven't yet been introduced to what the actual way to find the initial feasible solution is (it's not until 19.5). . . 
 %notdone
 
+
+
 \noindent\textbf{Exercise 29.4-1}\\
 By just transposing $A$, swapping $b$ and $c$, and switching the maximization to a minimization, we want to minimize $20y_1 + 12 y_2 + 16 y_3$ subject to the constraints 
 \begin{align*}
@@ -244,6 +269,7 @@ y_1 + y_2 &\ge 18\\
 y_1 + y_3 &\ge 12.5\\
 y_1,y_2,y_3 &\ge 0
 \end{align*}
+
 
 
 \noindent\textbf{Exercise 29.4-3}\\
@@ -293,16 +319,27 @@ Now that we have placed the linear program in standard form, we can take its dua
 \noindent\textbf{Exercise 29.4-5}\\
 Suppose that our original linear program is in standard form for some $A,b,c$. Then, the dual of this is to minimize $\sum_{i=1}^m b_i y_i$ subject to $A^T y \ge c$ This can be rewritten as wanting to maximize $\sum_{i=1}^m (-b_i) y_i$ subject to $(-A)^T y \le -c$. Since this is a standard form, we can take its dual easily, it is minimize $\sum_{j=1}^n (-c_j) x_j$ subject to $(-A)x \ge -b$. This is the same as minimizing $\sum_{j=1}^n c_j x_j$ subject to $Ax \le b$, which was the original linear program.\\
 
+
+
 \noindent\textbf{Exercise 29.5-1}\\
-%probably won't do
+%not done
+
+
 
 \noindent\textbf{Exercise 29.5-3}\\
 Since it is in standard form, the objective function has no constant term, it is entirely given by $\sum_{i=1}^n c_i x_i$, which is going to be zero for any basic solution. The same thing goes for its dual. Since there is some solution which has the objective function achieve the same value both for the dual and the primal, by the corollary to the weak duality theorem, that common value must be the optimal value of the objective function.\\
 
+
+
 \noindent\textbf{Exercise 29.5-5}\\
 %notdone
+
+
+
 \noindent\textbf{Exercise 29.5-7}\\
 %notdone
+
+
 
 \noindent\textbf{Exercise 29.5-9}\\
 \begin{enumerate}[1.]
@@ -317,6 +354,8 @@ Again, we split into two possible cases for $r$. If $r=0$, then it is when $t$ i
 If we have that $r=0$ and $t$ is positive and $s$ is negative. If $r$ is nonzero, then we can always either make $rx$ really big or really small depending on the sign of $r$, meaning that either the primal or the dual would be feasable.
 
 \end{enumerate}
+
+
 
 \noindent\textbf{Problem 29-1}\\
 \begin{enumerate}[a.]
@@ -345,6 +384,7 @@ Lastly, it is necessary to note that if there is some optimal solution $x$, then
 \end{enumerate}
 
 
+
 \noindent\textbf{Problem 29-3}\\
 \begin{enumerate}[a.]
 \item The proof for weak duality goes through identically. Nowhere in it does it use the integrality of the solutions.
@@ -356,6 +396,8 @@ The first inequality comes from looking at the fact that by adding the restricti
 
 The middle equality is given by Theorem 29.10.
 \end{enumerate}
+
+
 
 \noindent\textbf{Problem 29-5}\\
 \begin{enumerate}[a.]
