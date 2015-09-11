@@ -10,6 +10,7 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{tikz}
+\usepackage{graphicx}
 
 	
 \pagestyle{fancy}
@@ -56,8 +57,12 @@ It will return the least negative position. As each of the cross sums are comput
 \end{algorithm}
 
 \noindent\textbf{Exercise 4.1-3}\\
+The crossover point is at around a length 20 array, however, the times were incredibly noisy and I think that there was a garbage collection during the run, so it is not reliable. It would probably be more effective to use an acutal profiler for measuring runtimes. By switching over the way the recursive algorithm handles the base case, the recursive algorithm is now better for smaller values of $n$. The chart included has really strange runtimes for the brute force algorithm. These times were obtained on a Core 2 duo P8700 and java 1.8.0.51.
 
-Will be done later. \\
+In the chart of runtimes, the x axis is the length of the array input. The y axis is the measured runtime in nanoseconds.\\
+
+\includegraphics{4(1)}
+
 
 \noindent\textbf{Exercise 4.1-4}\\
 
@@ -65,7 +70,10 @@ First do a linear scan of the input array to see if it contains any positive ent
 
 \noindent\textbf{Exercise 4.1-5}\\
 
+See the algorithm labeled linear time maximum subarray.
+
 \begin{algorithm}
+\caption{linear time maximum subarray(A)}
 \begin{algorithmic}[1]
 \State $M =-\infty$
 \State $low_M, high_M = null$
@@ -507,16 +515,41 @@ b.\\
 By Master Theorem, $T(n) \in \Theta(n^{\log_3(4)})$
 
 \item
+We first show by substitution that $T(n)\le n\lg(n)$.
+
+\[
+T(n) = 3T(n/3) + n/\lg(n) \le cn\lg(n) - cn\lg(3) + n/\lg(n) = cn\lg(n) + n(\frac{1}{\lg(n)} - c \lg(3)) \le cn\lg(n)
+\]
+
+now, we show that $T(n) \ge cn^{1-\epsilon}$ for every $\epsilon>0$.
+
+\[
+T(n) = 3T(n/3) + n/\lg(n) \ge 3 c/3^{1-\epsilon}n^{1-\epsilon} + n/\lg(n) = 3^{\epsilon}cn^{1-\epsilon} +n/\lg(n)
+\]
+showing that this is $\le cn^{1-\epsilon}$ is the same as showing
+\[
+3^{\epsilon} + n^{\epsilon}/(c\lg(n)) \ge 1
+\]
+Since $\lg(n)\in o(n^{\epsilon})$ this inequality holds. So, we have that The function is soft Theta of $n$, see problem 3-5.
 
 \item
 By Master Theorem, $T(n) \in \Theta(n^{2.5})$
 
 
 \item
+it is $\Theta(n\lg(n))$. The subtraction occurring inside the argument to $T$ won't change the saymptotics of the solution, that is, for large $n$ the division is so much more of a change than the subtraction that it is the only part that matters. once we drop that subtraction, the solution comes by the master theorem.% To see this, we can write $S(n) = T(\lg(n))$, then, $S(n) = T(\lg(n)) = 3T(\lg(\sqrt[3]{n}/2^3)) + \lg(n) = 3S(\sqrt[3]{n}/8) + \lg(n)$
+
+\item
+By the same reasoning as part 2, the function is $O(n\lg(n))$ and $\Omega(n^{1-\epsilon})$ for every $\epsilon$ and so is soft theta of $n$, see problem 3-5.
 
 \item
 
-\item
+We will show that this is $O(n)$ by substitution. We want that $T(k) \le ck$ for $k<n$, then, 
+\[
+T(n) = T(n/2) + T(n/4)+T(n/8) + n \le \frac{7}{8}cn + n 
+\]
+
+So, this is $\le cn$ so long as $\frac{7}{8}c +1 \le c$ which happens whenever $c\ge 8$.
 
 \item
 Recall that $\chi_A$ denotes the indicator function of $A$, then, we see that the sum is
