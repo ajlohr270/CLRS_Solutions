@@ -100,6 +100,10 @@ The running time of MIN-HEAPIFY is the same as that of MAX-HEAPIFY. \\
 
 The array remains unchanged since the if statement on line line 8 will be false.\\
 
+\noindent\textbf{Exercise 6.2-4}\\
+
+If $i > A.heap-size/2$ then $l$ and $r$ will both exceed $A.heap-size$ so the if statement conditions on lines 3 and 6 of the algorithm will never be satisfied.  Therefore $largest = i$ so the recursive call will never be made and nothing will happen. This makes sense because $i$ necessarily corresponds to a leaf node, so MAX--HEAPIFY shouldn't alter the heap. \\
+
 \noindent\textbf{Exercise 6.2-5}\\
 Iterative Max Heapify$(A,i)$
 \begin{algorithm}
@@ -123,9 +127,10 @@ Iterative Max Heapify$(A,i)$
 \end{algorithmic}
 \end{algorithm}\\
 
-\noindent\textbf{Exercise 6.2-4}\\
 
-If $i > A.heap-size/2$ then $l$ and $r$ will both exceed $A.heap-size$ so the if statement conditions on lines 3 and 6 of the algorithm will never be satisfied.  Therefore $largest = i$ so the recursive call will never be made and nothing will happen. This makes sense because $i$ necessarily corresponds to a leaf node, so MAX--HEAPIFY shouldn't alter the heap. \\
+\noindent\textbf{Exercise 6.2-6}\\
+
+Consider the heap resulting from $A$ where $A[1] = 1$ and $A[i] = 2$ for $2 \leq i \leq n$.  Since 1 is the smallest element of the heap, it must be swapped through each level of the heap until it is a leaf node.  Since the heap has height $\lfloor \lg n \rfloor$, MAX-HEAPIFY has worst-case time $\Omega(\lg n)$. \\
 
 \noindent\textbf{Exercise 6.3-1}\\
 
@@ -246,8 +251,9 @@ Consider calling HEAPSORT on an array which is sorted in decreasing order.  Ever
 
 \noindent\textbf{Exercise 6.4-5}\\
 
-Since the call on line one could possibly take only linear time (if the input was already a max-heap for example), we will focus on showing that the for loop takes n log n time. This is the case because each time that the last element is placed at the beginning to replace the max element being removed, it has to go through every layer, because it was already very small since it was at the bottom level of the heap before.
+Since the call on line one could possibly take only linear time (if the input was already a max-heap for example), we will focus on showing that the for loop takes n log n time. This is the case because each time that the last element is placed at the beginning to replace the max element being removed, it has to go through every layer, because it was already very small since it was at the bottom level of the heap before.\\
 %might need more rigor
+
 \noindent\textbf{Exercise 6.5-1}\\
 
 
