@@ -108,9 +108,12 @@ In the worst case, RANDOM returns the index of the largest element each time it'
 
 \noindent\textbf{Exercise 7.4-1}\\
 By definition of $\Theta$, we know that there exists $c_1,c_2$ so that the $\Theta(n)$ term is between $c_1 n$ and $c_2 n$. We make that inductive hypothesis be that $c_1 m^2 \le T(m) \le c_2 m^2$ for all $m < n$, then, for large enough $n$, 
-\[
-c_1 n^2 \le c_1 \max_{q\in [n]} n^2 -2 n(q+2) + (q+1)^2 +(q+1)^2 + n = \max_{q\in [n]} c_1 (n-q-2)^2 + c_1 (q+1)^2 +c_1 n \le \max_{q\in [n]} T( n-q-2) + T(q+1) + \Theta(n) = T(n)
-\]
+\begin{align*}
+c_1 n^2 &\le c_1 \max_{q\in [n]} n^2 -2 n(q+2) + (q+1)^2 +(q+1)^2 + n\\
+& = \max_{q\in [n]} c_1 (n-q-2)^2 + c_1 (q+1)^2 +c_1 n\\
+& \le \max_{q\in [n]} T( n-q-2) + T(q+1) + \Theta(n) \\
+&= T(n)
+\end{align*}
 Similarly for the other direction
 \\
 
