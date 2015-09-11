@@ -252,7 +252,7 @@ Consider calling HEAPSORT on an array which is sorted in decreasing order.  Ever
 \noindent\textbf{Exercise 6.4-5}\\
 
 Since the call on line one could possibly take only linear time (if the input was already a max-heap for example), we will focus on showing that the for loop takes n log n time. This is the case because each time that the last element is placed at the beginning to replace the max element being removed, it has to go through every layer, because it was already very small since it was at the bottom level of the heap before.\\
-%might need more rigor
+%check
 
 \noindent\textbf{Exercise 6.5-1}\\
 
@@ -584,12 +584,12 @@ Each insert step takes at most $O(\lg(n))$, since we are doing it $n$ times, we 
 \end{enumerate}
 
 \noindent\textbf{Problem 6-2}\\
+\begin{enumerate}[a.]
+\item It will suffice to show how to access parent and child nodes.  In a $d$-ary array, PARENT$(i) = \lfloor i/d \rfloor$, and CHILD$(k,i) = di - d + 1 + k$, where CHILD$(k,i)$ gives the $k^{th}$ child of the node indexed by $i$. \\
 
-a. It will suffice to show how to access parent and child nodes.  In a $d$-ary array, PARENT$(i) = \lfloor i/d \rfloor$, and CHILD$(k,i) = di - d + 1 + k$, where CHILD$(k,i)$ gives the $k^{th}$ child of the node indexed by $i$. \\
+\item The height of a $d$-ary heap of $n$ elements is with 1 of $\log_d n$. \\
 
-b. The height of a $d$-ary heap of $n$ elements is with 1 of $\log_d n$. \\
-
-c.  The following is an implementation of HEAP-EXTRACT-MAX for a $d$-ary heap.  An implementation of DMAX-HEAPIFY is also given, which is the analog of MAX-HEAPIFY for $d$-ary heap.  HEAP-EXTRACT-MAX consists of constant time operations, followed by a call to DMAX-HEAPIFY.  The number of times this recursively calls itself is bounded by the height of the $d$-ary heap, so the running time is $O(d\log_d n)$.  Note that the CHILD function is meant to be the one described in part (a).\\
+\item  The following is an implementation of HEAP-EXTRACT-MAX for a $d$-ary heap.  An implementation of DMAX-HEAPIFY is also given, which is the analog of MAX-HEAPIFY for $d$-ary heap.  HEAP-EXTRACT-MAX consists of constant time operations, followed by a call to DMAX-HEAPIFY.  The number of times this recursively calls itself is bounded by the height of the $d$-ary heap, so the running time is $O(d\log_d n)$.  Note that the CHILD function is meant to be the one described in part (a).\\
 
 \begin{algorithm}
 \caption{HEAP-EXTRACT-MAX(A) for a $d$-ary heap}
@@ -622,7 +622,7 @@ c.  The following is an implementation of HEAP-EXTRACT-MAX for a $d$-ary heap.  
 \end{algorithmic}
 \end{algorithm}
 
-d.  The runtime of this implementation of INSERT is $O(\log_d n)$ since the while loop runs at most as many times as the height of the $d$-ary array.  Note that when we call PARENT, we mean it as defined in part (a).\\
+\item  The runtime of this implementation of INSERT is $O(\log_d n)$ since the while loop runs at most as many times as the height of the $d$-ary array.  Note that when we call PARENT, we mean it as defined in part (a).\\
 
 \begin{algorithm}
 \caption{INSERT(A,key)}
@@ -637,7 +637,7 @@ d.  The runtime of this implementation of INSERT is $O(\log_d n)$ since the whil
 \end{algorithmic}
 \end{algorithm}
 
-e. This is identical to the implementation of HEAP-INCREASE-KEY for 2-ary heaps, but with the PARENT function interpreted as in part (a).  The runtime is $O(\log_d n)$ since the while loop runs at most as many times as the height of the $d$-ary array.\\
+\item This is identical to the implementation of HEAP-INCREASE-KEY for 2-ary heaps, but with the PARENT function interpreted as in part (a).  The runtime is $O(\log_d n)$ since the while loop runs at most as many times as the height of the $d$-ary array.\\
 
 \begin{algorithm}
 \caption{INCREASE-KEY(A,i,key)}
@@ -653,6 +653,7 @@ e. This is identical to the implementation of HEAP-INCREASE-KEY for 2-ary heaps,
 \end{algorithmic}
 \end{algorithm}
 
+\end{enumerate}
 
 \noindent\textbf{Problem 6-3}\\
 \begin{enumerate}[a.]

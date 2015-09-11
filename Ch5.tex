@@ -247,8 +247,8 @@ For this choice of $n_i$, we have that at each increment operation, the probabil
 \end{enumerate}
 
 \noindent\textbf{Problem 5-2}\\
-
-a. Assume that $A$ has $n$ elements.  Our algorithm will use an array $P$ to track the elements which have been seen, and add to a counter $c$ each time a new element is checked.  Once this counter reaches $n$, we will know that every element has been checked.  Let $RI(A)$ be the function that returns a random index of $A$.
+\begin{enumerate}[a.]
+\item Assume that $A$ has $n$ elements.  Our algorithm will use an array $P$ to track the elements which have been seen, and add to a counter $c$ each time a new element is checked.  Once this counter reaches $n$, we will know that every element has been checked.  Let $RI(A)$ be the function that returns a random index of $A$.
 \begin{algorithm}
 \caption{RANDOM-SEARCH}
 \begin{algorithmic}
@@ -268,7 +268,7 @@ a. Assume that $A$ has $n$ elements.  Our algorithm will use an array $P$ to tra
 \end{algorithmic}
 \end{algorithm}
 
-b. Let $N$ be the random variable for the number of searches required.  Then
+\item Let $N$ be the random variable for the number of searches required.  Then
 \begin{align*}
  E[N] &= \sum_{i\geq 1} iP(i \mbox{ iterations are required}) \\
 &= \sum_{i\geq 1} i \left(\frac{n-1}{n}\right)^{i-1}\left(\frac{1}{n}\right) \\
@@ -276,7 +276,7 @@ b. Let $N$ be the random variable for the number of searches required.  Then
 &= n.
 \end{align*}
 
-c.  Let $N$ be the random variable for the number of searches required.  Then
+\item  Let $N$ be the random variable for the number of searches required.  Then
 \begin{align*}
  E[N] &= \sum_{i\geq 1} iP(i \mbox{ iterations are required}) \\
 &= \sum_{i\geq 1} i \left(\frac{n-k}{n}\right)^{i-1}\left(\frac{k}{n}\right) \\
@@ -284,18 +284,18 @@ c.  Let $N$ be the random variable for the number of searches required.  Then
 &= \frac{n}{k}.
 \end{align*}
 
-d. This is identical to the "How many balls must we toss until every bin contains at least one ball?" problem solved in section 5.4.2, whose solution is $b(\ln b + O(1))$.\\
+\item This is identical to the "How many balls must we toss until every bin contains at least one ball?" problem solved in section 5.4.2, whose solution is $b(\ln b + O(1))$.\\
 
-e. The average case running time is $(n+1)/2$ and the worst case running time is $n$. \\
+\item The average case running time is $(n+1)/2$ and the worst case running time is $n$. \\
 
-f. Let $X$ be the random variable which gives the number of elements examined before the algorithm terminates.  Let $X_i$ be the indicator variable that the $i^{th}$ element of the array is examined.  If $i$ is an index such that $A[i] \neq x$ then $P(X_i) = \frac{1}{k+1}$ since we examine it only if it occurs before every one of the $k$ indices that contains $x$.  If $i$ is an index such that $A[i] = x$ then $P(X_i) = \frac{1}{k}$ since only one of the indices corresponding to a solution will be examined.  Let $S = \{i | A[i] = x\}$ and $S' = \{i | A[i] \neq x\}$.  Then we have
+\item Let $X$ be the random variable which gives the number of elements examined before the algorithm terminates.  Let $X_i$ be the indicator variable that the $i^{th}$ element of the array is examined.  If $i$ is an index such that $A[i] \neq x$ then $P(X_i) = \frac{1}{k+1}$ since we examine it only if it occurs before every one of the $k$ indices that contains $x$.  If $i$ is an index such that $A[i] = x$ then $P(X_i) = \frac{1}{k}$ since only one of the indices corresponding to a solution will be examined.  Let $S = \{i | A[i] = x\}$ and $S' = \{i | A[i] \neq x\}$.  Then we have
 \[E[X] = \sum_{i=1}^n E[X_i] = \sum_{i \in S} P(X_i) + \sum_{i \in S'}P(X_i) = \frac{k}{k} + \frac{n-k}{k+1} = \frac{n+1}{k+1}.\]
 Thus the average case running time is $\frac{n+1}{k+1}$.  The worst case happens when every occurrence of $x$ is in the last $k$ positions of the array.  This has running time $n-k+1$.\\
 
-g. The average and worst case running times are both $n$. \\
+\item The average and worst case running times are both $n$. \\
 
-h. SCRAMBLE-SEARCH works identically to DETERMINISTIC-SEARCH, except that we add to the running time the time it takes to randomize the input array. \\
+\item SCRAMBLE-SEARCH works identically to DETERMINISTIC-SEARCH, except that we add to the running time the time it takes to randomize the input array. \\
 
-i. I would use DETERMINISTIC-SEARCH since it has the best expected runtime and is guaranteed to terminate after $n$ steps, unlike RANDOM-SEARCH.  Moreover, in the time it takes SCRAMBLE-SEARCH to randomly permute the input array we could have performed a linear search anyway.
-
+\item I would use DETERMINISTIC-SEARCH since it has the best expected runtime and is guaranteed to terminate after $n$ steps, unlike RANDOM-SEARCH.  Moreover, in the time it takes SCRAMBLE-SEARCH to randomly permute the input array we could have performed a linear search anyway.
+\end{enumerate}
 \end{document}

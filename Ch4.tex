@@ -57,6 +57,7 @@ It will return the least negative position. As each of the cross sums are comput
 \end{algorithm}
 
 \noindent\textbf{Exercise 4.1-3}\\
+
 The crossover point is at around a length 20 array, however, the times were incredibly noisy and I think that there was a garbage collection during the run, so it is not reliable. It would probably be more effective to use an acutal profiler for measuring runtimes. By switching over the way the recursive algorithm handles the base case, the recursive algorithm is now better for smaller values of $n$. The chart included has really strange runtimes for the brute force algorithm. These times were obtained on a Core 2 duo P8700 and java 1.8.0.51.
 
 In the chart of runtimes, the x axis is the length of the array input. The y axis is the measured runtime in nanoseconds.\\
@@ -278,7 +279,9 @@ T(n) &= 2T(\lfloor n/2 \rfloor) + n\\
 
 \noindent\textbf{Exercise 4.3-5}\\
 
-Will be done later\\
+If $n$ is even, then that step of the induction is the same as the ``inexact'' recurrence for merge sort. So, suppose that $n$ is odd, then, the recurrence is 
+
+$T(n) = T((n+1)/2) + T((n-1)/2) + \Theta(n)$. However, shifting the argument in $n\lg(n)$ by a half will only change the value of the function by at most $\frac{1}{2}\cdot \frac{d}{dn}( n\lg(n)) = \frac{\lg(n)}{2} + 1$, but this is $o(n)$ and so will be absorbed into the $\Theta(n)$ term.\\
 
 \noindent\textbf{Exercise 4.3-6}\\
 
@@ -345,6 +348,16 @@ S(k) = 3S(k/2) +k \ge (S(1)+2)k^{\log_23} -2k
 \]
 So, we have that $S(k) = (S(1)+2)k^{\log_23}-2k$. Translating this back to $T$, $T(2^k) = (T(2)+2) k^{\log_23} -2k$. So, $T(n) = (T(2)+2)(\lg(n))^{\log_23} - 2\lg(n)$.\\
 
+\noindent\textbf{Exercise 4.4-1}\\
+
+Since in a recursion tree, the depth of the tree will be $\lg(n)$, and the number of nodes that are $i$ levels below the root is $3^i$. This means that we would estimate that the runtime is $\sum_{i=0}^{\lg(n)} 3^i (n/2^i) = n \sum_{i=0}^{\lg(n)} (3/2)^i = n \frac{(3/2)^{\lg(n)}-1}{.5} \approx n^{\lg(3)}$. We can see this by performing a substutiton $T(n) \le c n^{\lg(3)} -2 n$. Then, we have that 
+\begin{align*}
+T(n)&= 3T(n\lfloor n/2\rfloor) + n \\
+&\le 3cn^{\lg(3)}/2^{\lg(3)} - 3n +n\\
+&= cn^{\lg(3)} -n
+\end{align*}
+So, we have that $T(n)\in O(n^{\lg(3)})$.\\
+
 \noindent\textbf{Exercise 4.4-2}\\
 
 As we construct the tree, there is only one node at depth $d$, and its weight is $n^2/(2^d)^2$.  Since the tree has $\log(n)$ levels, we guess that the solution is roughly $\sum_{i=0}^{\log n} \frac{n^2}{4^i} = O(n^2)$.  Next we use the substitution method to verify that $T(n) \leq cn^2$.  
@@ -356,6 +369,18 @@ T(n) &= T(n/2) + n^2 \\
 \end{align*}
 provided that $c \geq 4/3$.  \\
 
+\noindent\textbf{Exercise 4.4-3}\\
+
+Again, we notice that the depth of the tree is around $\lg(n)$, and there are $4^i$ vertices on the $i$th level below the root, so, we have that our guess is $n^2$. We show this fact by the substitution method. We show that $T(n) \le cn^2 -6n$
+
+\begin{align*}
+T(n)  &=4T(n/2+2)+n\\
+&\le4c(n^2/4 + 2n + 4 - 3n-12) + n\\
+=cn^2 - 4cn-32c + n
+\end{align*}
+
+Which will be $\le cn^2-6$ so long as we have $-4c+1 \le -6$ and $c\ge0$. These can both be satisfied so long as $c\ge \frac{7}{4}$.\\
+
 \noindent\textbf{Exercise 4.4-4}\\
 
 The recursion tree looks like a complete binary tree of height $n$ with cost 1 at each node.  Thus we guess that the solution is $O(2^n)$.  We'll use the substitution method to verify that $T(n) \leq 2^n - 1$. 
@@ -365,9 +390,99 @@ T(n) &= 2T(n-1) + 1 \\
 &= 2^n - 1.
 \end{align*}
 
+\noindent\textbf{Exercise 4.4-5}\\
+
+The recursion tree looks like one long branch and off of it, branches that jump all the way down to half. This seems like a pretty full tree, we'll we'll guess that the runtime is $O(n^2)$. To see this by the substitution method, we try to show that $T(n)\le 2^n$ by the substitution method.
+
+\begin{align*}
+T(n) = T(n-1) + T(n/2) + n\\
+\le 2^{n-1} + \sqrt{2^{n}} + n\\
+\le 2^{n}
+\end{align*}
+
+Now, to jsutfiy that this is acutally a pretty dight bound, we'll show that we can't have any polynomial upper bound. That is, if we have that $T(n)\le cn^k$ then, when we substitute into the recurrence, we get that the new coeffient for $n^k$ can be as high as $c(1+\frac{1}{2^k})$ which is bigger than $c$ regardless of how we choose $c$.\\ 
+
 \noindent\textbf{Exercise 4.4-6}\\
 
 Examining the tree in figure 4.6 we observe that the cost at each level of the tree is exactly $cn$.  To find a lower bound on the cost of the algorithm, we need a lower bound on the height of the tree.  The shortest simple path from root to leaf is found by following the left child at each node.  Since we divide by 3 at each step, we see that this path has length $\log_3 n$, so the cost of the algorithm is $cn(\log_3 n + 1) \geq cn\log_3 n = \frac{c}{log 3} n \log n = \Omega(n \log n)$. \\
+
+\noindent\textbf{Exercise 4.4-7}\\
+
+Here is an example for $n=4$.
+
+
+\begin{tikzpicture}[
+level 1/.style={sibling distance=40mm},
+level 2/.style={sibling distance=9mm} ]
+\node [circle,draw] (a){ n}
+  child {
+  node [circle,draw] (i) { $\frac{n}{2}$}
+    child {
+      node [circle,draw] (j) { $\frac{n}{4}$}
+      }
+    child {
+      node [circle,draw] (k) {$\frac{n}{4}$ }
+      }
+    child {
+      node [circle,draw] (l) { $\frac{n}{4}$}
+      }
+    child {
+      node [circle,draw] (m) {$\frac{n}{4}$ }
+      }
+      }      
+  child {
+  node [circle,draw] (n) { $\frac{n}{2}$}
+    child {
+      node [circle,draw] (o) { $\frac{n}{4}$}
+      }
+    child {
+      node [circle,draw] (p) { $\frac{n}{4}$}
+      }
+    child {
+      node [circle,draw] (q) { $\frac{n}{4}$}
+      }
+    child {
+      node [circle,draw] (r) { $\frac{n}{4}$}
+      }      
+      }
+  child {
+  node [circle,draw] (s) { $\frac{n}{2}$}
+    child {
+      node [circle,draw] (t) { $\frac{n}{4}$}
+      }
+    child {
+      node [circle,draw] (u) {$\frac{n}{4}$ }
+      }
+    child {
+      node [circle,draw] (v) {$\frac{n}{4}$ }
+      }
+    child {
+      node [circle,draw] (w) {$\frac{n}{4}$ }
+      }
+      }      
+  child {
+  node [circle,draw] (x) { $\frac{n}{2}$}
+    child {
+      node [circle,draw] (y) { $\frac{n}{4}$}
+      }
+    child {
+      node [circle,draw] (z) { $\frac{n}{4}$}
+      }
+    child {
+      node [circle,draw] (b) { $\frac{n}{4}$}
+      }
+    child {
+      node [circle,draw] (c) { $\frac{n}{4}$}
+      }      
+  }  ;
+\end{tikzpicture}
+
+We can see by an wasy substitution that the answer is $\Theta(n^2)$. Suppose that $T(n) \le c' n^2$ then
+\begin{align*}
+T(n) = 4T(\lfloor n/2\rfloor) + cn\\
+\le c' n^2 + cn
+\end{align*}
+which is $\le c'n^2$ whenever we have that $c' + \frac{c}{n} \le 1$, which, for large enough $n$ is true so long as $c' <1$. We can do a similar thing to show that it is also bounded below by $n^2$.\\
 
 \noindent\textbf{Exercise 4.4-8}\\
 
@@ -388,10 +503,21 @@ Since each node of the recursion tree has only one child, the cost at each level
 To compute the asymptotoics we can assume $n$ is divisible by $a$ and ignore the ceiling functions.  Then this becomes
 \[ \frac{c}{2a}n^2 + (T(a)/a + c/2)n = \Theta(n^2).\]\\
 
+\noindent\textbf{Exercise 4.4-9}\\
+
+Since the sum of the sizes of the two children is $\alpha n + (1-\alpha) n = n$, we would guess that this behaves the same way as in the analysis of merge sort, so, we'll try to show that it has a solution that is $T(n) \le c' n\lg(n)-cn$. 
+\begin{align*}
+T(n)&= T(\alpha n)+ T((1-\alpha)n) + cn\\
+&\le c'\alpha n (\lg(\alpha)+\lg(n)) - c\alpha n + c'(1-\alpha) n (\lg(1-\alpha) + \lg(n)) - c(1-\alpha) n + cn\\
+&= c'n\lg(n) + c'n( \alpha\lg(\alpha) + (1-\alpha)\lg(1-\alpha))\\
+& \le  c'n\lg(n) - c'n
+\end{align*}
+
+Where we use the fact that $x\lg(x)$ is convex for the last inequality. This then completes the induction if we have $c' \ge c$ which is easy to do.\\
 
 \noindent\textbf{Exercise 4.5-1}\\
 
-\begin{enumerate}[a)]
+\begin{enumerate}[a.]
 \item
 $\Theta(\sqrt{n})$
 \item
@@ -462,7 +588,7 @@ Completing the induction. \\
 
 \noindent\textbf{Problem 4-1}\\
 
-\begin{enumerate}[a)]
+\begin{enumerate}[a.]
 \item
 By Master Theorem, $T(n) \in \Theta(n^4)$
 
@@ -491,26 +617,29 @@ This has a leading term of $n^3/6$, and so $T(n) \in \Theta(n^3)$
 \end{enumerate}
 
 \noindent\textbf{Problem 4-2}\\
+\begin{enumerate}[a.]
+\item 
+\begin{enumerate}[1.]
+\item $T(n) = T(n/2) + \Theta(1)$.  Solving the recursion we have $T(N) = \Theta(\lg N)$.
 
-a. \\
+\item $T(n) = T(n/2) + \Theta(N)$.  Solving the recursion we have $T(N) = \Theta(N \lg N)$.
 
-1. $T(n) = T(n/2) + \Theta(1)$.  Solving the recursion we have $T(N) = \Theta(\lg N)$.
+\item $T(n) = T(n/2) + \Theta(n/2)$. Solving the recursion we have $T(N) = \Theta(N)$. \\
 
-2. $T(n) = T(n/2) + \Theta(N)$.  Solving the recursion we have $T(N) = \Theta(N \lg N)$.
+\end{enumerate}
+\item
+\begin{enumerate}[1.]
+  \item $T(n) = 2T(n/2) + cn$. Solving the recursion we have $T(N) = \Theta(N\lg N)$.
 
-3. $T(n) = T(n/2) + \Theta(n/2)$. Solving the recursion we have $T(N) = \Theta(N)$. \\
+\item $T(n) = 2T(n/2) + cn + 2\Theta(N)$.  Solving the recursion we have $T(N) = \Theta(N\lg N) + \Theta(N^2) = \Theta(N^2)$.
 
-b.\\
+\item $T(n) = 2T(n/2) + cn + 2c'n/2$.  Solving the recursion we have $T(N) = \Theta(N\ln N)$. \\
 
-  1. $T(n) = 2T(n/2) + cn$. Solving the recursion we have $T(N) = \Theta(N\lg N)$.
-
-2. $T(n) = 2T(n/2) + cn + 2\Theta(N)$.  Solving the recursion we have $T(N) = \Theta(N\lg N) + \Theta(N^2) = \Theta(N^2)$.
-
-3. $T(n) = 2T(n/2) + cn + 2c'n/2$.  Solving the recursion we have $T(N) = \Theta(N\ln N)$. \\
-
+\end{enumerate}
+\end{enumerate}
 \noindent\textbf{Problem 4-3}\\
 
-\begin{enumerate}[a)]
+\begin{enumerate}[a.]
 \item
 By Master Theorem, $T(n) \in \Theta(n^{\log_3(4)})$
 
@@ -594,8 +723,8 @@ T(n) = n^{1 - \frac{1}{2^i}} T(2) + n + n \sum_{j=1}^i 1 \in \Theta(n\lg(\lg(n))
 \end{enumerate}
 
 \noindent\textbf{Problem 4-4}\\
-
-a. Recall that $F_0 = 0$, $F_1 = 1$, and $F_i = F_{i-1} + F_{i-2}$ for $i \geq 2$.  Then we have
+\begin{enumerate}[a.]
+\item Recall that $F_0 = 0$, $F_1 = 1$, and $F_i = F_{i-1} + F_{i-2}$ for $i \geq 2$.  Then we have
 \begin{align*}
 \mathcal{F}(z) &= \sum_{i=0}^\infty F_i z^i \\
 &= F_0 + F_1z + \sum_{i=2}^\infty (F_{i-1} + F_{i-2})z^i \\
@@ -604,22 +733,23 @@ a. Recall that $F_0 = 0$, $F_1 = 1$, and $F_i = F_{i-1} + F_{i-2}$ for $i \geq 2
 &= z + z\mathcal{F}(z) + z^2\mathcal{F}(z).
 \end{align*}
 
-b. Manipulating the equation given in part (a) we have $\mathcal{F}(z) - z\mathcal{F}(z) - z^2\mathcal{F}(z) = z$, so factoring and dividing gives 
+\item Manipulating the equation given in part (a) we have $\mathcal{F}(z) - z\mathcal{F}(z) - z^2\mathcal{F}(z) = z$, so factoring and dividing gives 
 \[ \mathcal{F}(z) = \frac{z}{1-z-z^2}.\]
 Factoring the denominator with the quadratic formula shows $1 - z - z^2 = (1-\phi z)(1 - \hat{\phi} z)$, and the final equality comes from a partial fraction decomposition. \\
 
-c. From part (b) and our knowledge of geometric series we have
+\item From part (b) and our knowledge of geometric series we have
 \begin{align*}
  \mathcal{F}(z) &= \frac{1}{\sqrt{5}}\left(\frac{1}{1-\phi z} - \frac{1}{1-\hat{\phi}z}\right) \\
 &= \frac{1}{\sqrt{5}}\left(\sum_{i=0}^\infty (\phi z)^i - \sum_{i=0}^\infty (\hat{\phi}z)^i \right) \\
 &=\sum_{i=0}^\infty  \frac{1}{\sqrt{5}} (\phi^i - \hat{\phi}^i)z^i.
 \end{align*}
 
-d. From the definition of the generating function, $F_i$ is the coefficient of $z^i$ in $\mathcal{F}(z)$.  By part (c) this is given by $\frac{1}{\sqrt{5}} (\phi^i - \hat{\phi}^i)$. Since $|\hat{\phi}| < 1$ we must have $| \frac{\hat{\phi}^i}{\sqrt{5}} | < | \frac{\hat{\phi}}{\sqrt{5}} | < \frac{1}{2}$.  Finally, since the Fibonacci numbers are integers we see that the exact solution must be the approximated solution $\frac{\phi^i}{\sqrt{5}}$ rounded to the nearest integer. \\
+\item From the definition of the generating function, $F_i$ is the coefficient of $z^i$ in $\mathcal{F}(z)$.  By part (c) this is given by $\frac{1}{\sqrt{5}} (\phi^i - \hat{\phi}^i)$. Since $|\hat{\phi}| < 1$ we must have $| \frac{\hat{\phi}^i}{\sqrt{5}} | < | \frac{\hat{\phi}}{\sqrt{5}} | < \frac{1}{2}$.  Finally, since the Fibonacci numbers are integers we see that the exact solution must be the approximated solution $\frac{\phi^i}{\sqrt{5}}$ rounded to the nearest integer. \\
+\end{enumerate}
 
 \noindent\textbf{Problem 4-5}\\
 
-\begin{enumerate}[a)]
+\begin{enumerate}[a.]
 
 \item
 The strategy for the bad chips is to always say that other bad chips are good and other good chips are bad. This mirrors the strategy used by the good chips, and so, it would be impossible to distinguish
@@ -638,10 +768,11 @@ This has solution $\Theta(n)$ by the Master Theorem. So, we have the problem can
 \end{enumerate}
 
 \noindent\textbf{Problem 4-6}\\
-
-a. If an array $A$ is Monge then trivially it must satisfy the inequality by taking $k = i+1$ and $l = j+1$.  Now suppose $A[i,j] + A[i+1,j+1] \leq A[i,j+1] + A[i+1,j]$.  We'll use induction on rows and columns to show that the array is Monge.  The base cases are each covered by the given inequality.  Now fix $i$ and $j$, let $r \geq 1$, and suppose that $A[i,j] + A[i+1,j+r] \leq A[i,j+r] + A[i+1,j]$.  By applying the induction hypothesis and given inequality we have
+\begin{enumerate}[a.]
+\item If an array $A$ is Monge then trivially it must satisfy the inequality by taking $k = i+1$ and $l = j+1$.  Now suppose $A[i,j] + A[i+1,j+1] \leq A[i,j+1] + A[i+1,j]$.  We'll use induction on rows and columns to show that the array is Monge.  The base cases are each covered by the given inequality.  Now fix $i$ and $j$, let $r \geq 1$, and suppose that $A[i,j] + A[i+1,j+r] \leq A[i,j+r] + A[i+1,j]$.  By applying the induction hypothesis and given inequality we have
 \begin{align*}
-A[i,j] + A[i+1,j+r+1] &\leq  A[i,j+r] + A[i+1,j] -  A[i+1,j+r] + A[i, j+r+1] + A[i+1, j+r] - A[i, j+r] \\
+A[i,j] + A[i+1,j+r+1] &\leq  A[i,j+r] + A[i+1,j] -  A[i+1,j+r]\\
+& \,\,\,\,\,\,\,\,\,+ A[i, j+r+1] + A[i+1, j+r] - A[i, j+r] \\
 &=  A[i+1,j] + A[i, j+r+1]  \\
 \end{align*}
 so it follows that we can extend columns and preserve the Monge property.  Next we induct on rows.  Suppose that $A[i,j] + A[k,l] \leq A[i,l] + A[k,j]$.  Then we have
@@ -653,13 +784,13 @@ A[i,j] + A[k+1,l] &\leq A[i,l] + A[k,j] - A[k,l] +  A[k+1,l] \hspace{4.2cm} \mbo
 &= A[i,l] + A[k+1,j].
 \end{align*}
 
-b. Change the 7 to a 5. \\
+\item Change the 7 to a 5. \\
 
-c. Suppose that there exist $i$ and $k$ such that $i < k$ but $f(i) > f(k)$.  Since $A$ is Monge we must have $A[i,f(k)] + A[k,f(i)] \leq A[k,f(k)] + A[i,f(i)]$. Since $f(i)$ gives the position of the leftmost minimum element in row $i$, this implies that $A[i,f(k)] > A[i,f(i)]$.  Moreover, $A[k, f(k)] \leq A[k,f(i)]$.  Combining these with the Monge inequality implies $A[i,f(i)] + A[k,f(i)] < A[k,f(i)] + A[i,f(i)]$, which is impossible since the two sides are equal.  Therefore no such $i$ and $k$ can exist. \\
+\item Suppose that there exist $i$ and $k$ such that $i < k$ but $f(i) > f(k)$.  Since $A$ is Monge we must have $A[i,f(k)] + A[k,f(i)] \leq A[k,f(k)] + A[i,f(i)]$. Since $f(i)$ gives the position of the leftmost minimum element in row $i$, this implies that $A[i,f(k)] > A[i,f(i)]$.  Moreover, $A[k, f(k)] \leq A[k,f(i)]$.  Combining these with the Monge inequality implies $A[i,f(i)] + A[k,f(i)] < A[k,f(i)] + A[i,f(i)]$, which is impossible since the two sides are equal.  Therefore no such $i$ and $k$ can exist. \\
 
-d.  Linearly scan row 1 indices 1 through $f(2)$ for the minimum element of row 1 and record as $f(1)$.  Next linearly scan indices $f(2)$ through $f(4)$ of row 3 for the minimum element of row 3.  In general, we need only scan indices $f(2k)$ through $f(2k+2)$ of row $2k+1$ to find the leftmost minimum element of row $2k+1$.  If $m$ is odd, we'll need to search indices $f(m-1)$ through $n$ to find the leftmost minimum in row $m$.  By part (c) we know that the indices of the leftmost minimum elements are increasing, so we are guaranteed to find the desired minimum from among the indices scanned. An element of column $j$ will be scanned $N_j + 1$ times, where $N_j$ is the number of $i$ such that $f(i) = j$. Since $\sum_{j=1}^n N_j= n$, the total number of comparisons is $m + n$, giving a running time of $O(m+n)$. \\
+\item Linearly scan row 1 indices 1 through $f(2)$ for the minimum element of row 1 and record as $f(1)$.  Next linearly scan indices $f(2)$ through $f(4)$ of row 3 for the minimum element of row 3.  In general, we need only scan indices $f(2k)$ through $f(2k+2)$ of row $2k+1$ to find the leftmost minimum element of row $2k+1$.  If $m$ is odd, we'll need to search indices $f(m-1)$ through $n$ to find the leftmost minimum in row $m$.  By part (c) we know that the indices of the leftmost minimum elements are increasing, so we are guaranteed to find the desired minimum from among the indices scanned. An element of column $j$ will be scanned $N_j + 1$ times, where $N_j$ is the number of $i$ such that $f(i) = j$. Since $\sum_{j=1}^n N_j= n$, the total number of comparisons is $m + n$, giving a running time of $O(m+n)$. \\
 
-e. Let $T(m,n)$ denote the running time of the algorithm applied to an $m$ by $n$ matrix.  $T(m,n) = T(m/2,n) + c(m+n)$ for some constant $c$.  We'll show $T(m,n) \leq c(m + n\log m) - 2cm$.
+\item Let $T(m,n)$ denote the running time of the algorithm applied to an $m$ by $n$ matrix.  $T(m,n) = T(m/2,n) + c(m+n)$ for some constant $c$.  We'll show $T(m,n) \leq c(m + n\log m) - 2cm$.
 \begin{align*}
 T(m,n) &= T(m/2,n) + c(m+n)\\
 &\leq c(m/2 + n\log(m/2)) - 2cm + c(m+n) \\
@@ -667,5 +798,5 @@ T(m,n) &= T(m/2,n) + c(m+n)\\
 & \leq c(m+n\log m) - cm
 \end{align*}
 so by induction we have $T(m,n) = O(m+n\log m)$.
-
+\end{enumerate}
 \end{document}
