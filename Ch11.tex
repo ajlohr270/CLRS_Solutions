@@ -103,7 +103,12 @@ The keys 61, 62, 63, 64, and 65 are mapped to locations 700, 318, 936, 554, and 
 
 \noindent\textbf{ Exercise 11.3-5} \\
 
-%Suppose to a contradiction that we had an $\epsilon < \frac{1}{|B|} - \frac{1}{|U|}$ so that for every pair $k$ and $\ell$ in the universe, $Pr\{h(k) = h(l) \} \le \epsilon$.
+As a simplifying assumption, assume that $|B|$ divides $|U|$. It's just a bit messier if it doesn't divide evenly.
+
+Suppose to a contradiction that $\epsilon > \frac{1}{|B|} - \frac{1}{|U|}$. This means that for all pairs $k,\ell$ in $U$, we have that the number $n_{k,\ell}$ of hash functions in $\mathcal{H}$ that have a collision on those two elements satisfies $n_{k,\ell} \le \frac{|\mathcal{H}|}{|B|} - \frac{|\mathcal{H}|}{|U|}$. So, summing over all pairs of elements in $U$, we have that the total number is less than$\le \frac{|\mathcal{H}||U|^2}{2|B|} - \frac{|\mathcal{H}||U|}{2}$.
+
+Any particular hash function must have that there are at least $|B| \binom{|U|/|B|}{2} = |B|\frac{|U|^2 - |U||B|}{2|B|^2} = \frac{|U|^2}{2|B|} - \frac{|U|}{2}$ colliding pairs for that hash function, summing over all hash functions, we get that there are at least $|\mathcal{H}| \left( \frac{|U|^2}{2|B|} - \frac{|U|}{2}\right)$ colliding pairs total. Since we have that there are at most some number less than this many, we have a contradiction, and so must have the desired restriction on $\epsilon$.\\
+
 
 \noindent\textbf{Exercise 11.3-6}\\
 
@@ -195,8 +200,6 @@ Unfortunately, this trancendental equation cannot be solved using simple techniq
 Which evaluates to approximately $\alpha = .7153$.\\
 
 \noindent\textbf{ Exercise 11.5-1} \\
-
-%There are $\binom{n}{2}$ pairs of elements, each colliding with probability $\frac{1}{m}$. So, the probability that that pair does not collide is $\frac{m-1}{m}$. So, by the union bound, none of these pairs collide with probability $\binom{n}{2} \frac{m-1}{m}$.\\
 
 Let $A_{j,k}$ be the event that $j$ and $k$ hash to different things. Due to uniform hashing, $Pr(A_{j,k})  = \frac{m-1}{m}$. Also, we can say that there is a negative correlation between the events. That is, if we know that several pairs of elements hashed to the same thing, then we can only decrease the likelyhood that some other pair hashed to different things. This gets us that the probability that all events happen is $\le$ the probability that the all happened if they were independent, so,
 \[

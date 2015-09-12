@@ -137,7 +137,8 @@ We call each algorithm on $T.root$.
 
 
 \noindent\textbf{ Exercise 12.1-5} \\
-Suppose to a contradiction that we could build a bst in worst case time $o(n\lg(n))$. Then, to sort, we would just construct the BST and then read off the elements in an inorder traversal. This second step can be done in time $\Theta(n)$ by Theorem 12.1. Also, an inorder traversal must be in sorted order because the elements in the left subtree are all those that are smaller than the current element, and they all get printed out before the current element, and the elements of the right subtree are all those elements that are larger and they get printed out  after the current element. This would allow us to sort in time $o(n\lg(n))$ a contradiction\\
+
+Suppose to a contradiction that we could build a BST in worst case time $o(n\lg(n))$. Then, to sort, we would just construct the BST and then read off the elements in an inorder traversal. This second step can be done in time $\Theta(n)$ by Theorem 12.1. Also, an inorder traversal must be in sorted order because the elements in the left subtree are all those that are smaller than the current element, and they all get printed out before the current element, and the elements of the right subtree are all those elements that are larger and they get printed out  after the current element. This would allow us to sort in time $o(n\lg(n))$ a contradiction\\
 
 
 \noindent\textbf{ Exercise 12.2-1} \\
@@ -414,12 +415,12 @@ Let the first pivot selected be the first element added to the binary tree. Sinc
 \end{enumerate}
 
 \noindent\textbf{Problem 12-4}\\
-
-a. There is a single binary tree on one vertex consisting of just a root, so $b_0 = 1$.  To count the number of binary trees with $n$ nodes, we first choose a root from among the $n$ vertices.  If the root node we have chosen is the $i^{th}$ smallest element, the left subtree will have $i-1$ vertices, and the right subtree will have $n-i$ vertices.  The number of such left and right subtrees are counted by $b_{i-1}$ and $b_{n-i}$ respectively.  Summing over all possibly choices of root vertex gives:
+\begin{enumerate}[a.]
+\item There is a single binary tree on one vertex consisting of just a root, so $b_0 = 1$.  To count the number of binary trees with $n$ nodes, we first choose a root from among the $n$ vertices.  If the root node we have chosen is the $i^{th}$ smallest element, the left subtree will have $i-1$ vertices, and the right subtree will have $n-i$ vertices.  The number of such left and right subtrees are counted by $b_{i-1}$ and $b_{n-i}$ respectively.  Summing over all possibly choices of root vertex gives:
 
 \[ b_n = \sum_{k=1}^n b_{k-1}b_{n-k} = \sum_{k=0}^{n-1} b_kb_{n-k-1}.\]
 
-b. 
+\item
 
 \begin{align*}
 B(x) &= \sum_{n=0}^\infty b_nx^n \\
@@ -431,7 +432,7 @@ B(x) &= \sum_{n=0}^\infty b_nx^n \\
 \end{align*}
 Applying the quadratic formula and noting that the minus sign is to be taken so that $B(0) = 0$ proves the result. \\
 
-c. Using the Taylor expansion of $\sqrt{1-4x}$ we have:
+\item Using the Taylor expansion of $\sqrt{1-4x}$ we have:
 \begin{align*}
 B(x) &= \frac{1}{2x}\left(1-\sum_{n=0}^\infty \frac{1}{1-2n}{2n \choose n}x^n\right) \\
 &=\frac{-1}{2x}\sum_{n=1}^\infty \frac{1}{1-2n}{2n \choose n}x^n \\
@@ -440,8 +441,9 @@ B(x) &= \frac{1}{2x}\left(1-\sum_{n=0}^\infty \frac{1}{1-2n}{2n \choose n}x^n\ri
 \end{align*}
 Extracting the coefficient from $x^n$ and simplifying yields the result. \\
 
-d. The asymptotic follows from applying Sirling's formula to $b_n$.
+\item The asymptotic follows from applying Sirling's formula to $b_n$.
 
+\end{enumerate}
 
 
 \end{document} 
