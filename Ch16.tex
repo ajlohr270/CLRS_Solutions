@@ -29,7 +29,7 @@
 
 \noindent\textbf{Exercise 16.1-1}\\
 
-The given algorithm would just stupidly compute the minimum of the $O(n)$ numbers or return zero depending on the size of $S_{ij}$. There are a possible number of subproblems that is $O(n^2)$ since we are selecting $i$ and $j$ so that $1\le i \le j\le n$. So, the runtime would be $O(n^3)$. 
+The given algorithm would just stupidly compute the minimum of the $O(n)$ numbers or return zero depending on the size of $S_{ij}$. There are a possible number of subproblems that is $O(n^2)$ since we are selecting $i$ and $j$ so that $1\le i \le j\le n$. So, the runtime would be $O(n^3)$. \\
 
 \noindent\textbf{Exercise 16.1-2}\\
 
@@ -106,7 +106,7 @@ If we have that $x.freq = b.freq$, then we know that $b$ is tied for lowest freq
 
 \noindent\textbf{Exercise 16.3-2}\\
 
-Let $T$ be a binary tree corresponding to an optimal prefix code and suppose that $T$ is not full.  Let node $n$ have a single child $x$.  Let $T'$ be the tree obtained by removing $n$ and replacing it by $x$.  Let $m$ be a leaf node which is a descendent of $x$.  Then we have
+Let $T$ be a binary tree corresponding to an optimal prefix code and suppose that $T$ is not full.  Let node $n$ have a single child $x$.  Let $T'$ be the tree obtained by removing $n$ and replacing it by $x$.  Let $m$ be a leaf node which is a descendant of $x$.  Then we have
 
 \[ cost(T') \leq \sum_{c \in C \backslash \{m\} } c.freq \cdot d_{T}(c) + m.freq(d_T(m) - 1) < \sum_{c \in C} c.freq \cdot d_{T}(c) = cost(T)\]
 
@@ -127,7 +127,7 @@ An optimal huffman code would be
 1 &\rightarrow h\\
 \end{align*}
 
-This generalizes to having the first $n$ fibonacci numbers as the frequencies in that the $n$th most frequent letter has codeword $0^{n-1}1$. To see this holds, we will prove the recurrence 
+This generalizes to having the first $n$ Fibonacci numbers as the frequencies in that the $n$th most frequent letter has codeword $0^{n-1}1$. To see this holds, we will prove the recurrence 
 \[
 \sum_{i=0}^{n-1} F(i) = F(n+1)-1
 \]
@@ -142,8 +142,7 @@ See also Lemma 19.2.
 Let $x$ be a leaf node.  Then $x.freq$ is added to the cost of each internal node which is an ancestor of $x$ exactly once, so its total contribution to the new way of computing cost is $x.freq\cdot d_T(x)$, which is the same as its old contribution.  Therefore the two ways of computing cost are equivalent. \\
 
 \noindent\textbf{Exercise 16.3-5}\\
-We construct this codeword with monotonically increasing lengths by always resolving ties in terms of which two nodes to join together by joining together those with the two latest occurring earliest elements. We will show that the the depths of elements is always monotonically decreasing after every merge operation. Every charater is at depth 0 before any merges occur. Then, we have that 
-%notdone
+We construct this codeword with monotonically increasing lengths by always resolving ties in terms of which two nodes to join together by joining together those with the two latest occurring earliest elements. We will show that the ending codeword has that the least frequent words are all having longer codewords. Suppose to a contradiction that there were two words, $w_1$ and $w_2$ so that $w_1$ appears more frequently, but has a longer codeword. This means that it was involved in more merge operation than $w_2$ was. However, since we are always merging together the two sets of words with the lowest combined frequency, this would contradict the fact that $w_1$ has a higher frequency than $w_2$.\\
 
 \noindent\textbf{Exercise 16.3-6}\\
 
@@ -177,8 +176,7 @@ Lastly we prove the exchange property. That is, if we have $B,A \in \mathcal{I}'
 
 Our first case is that $|A| = |B|+1$. We clearly need to select $x$ to be the single element in $A-B$. Since $S-B$ contains a maximal independent set
 
-Our second case is if the first case does not hold. Let $C$ be a maximal independent set of $\mathcal{I}$ contained in $S-A$. Pick an aribitrary set of size $|C|-1$ from some maximal independent set contained in $S-B$, call it $D$. Since $D$ is a subset of a maximal independent set, it is also independent, and so, by the exchange property, there is some $y\in C-D$ so that $D\cup\{y\}$ is a maximal independent set in $\mathcal{I}$. Then, we select $x$ to be any element other than $y$ in $A-B$. Then, $S - (B\cup\{x\})$ will still contain $D\cup\{y\}$.\\
-%unsure
+Our second case is if the first case does not hold. Let $C$ be a maximal independent set of $\mathcal{I}$ contained in $S-A$. Pick an aribitrary set of size $|C|-1$ from some maximal independent set contained in $S-B$, call it $D$. Since $D$ is a subset of a maximal independent set, it is also independent, and so, by the exchange property, there is some $y\in C-D$ so that $D\cup\{y\}$ is a maximal independent set in $\mathcal{I}$. Then, we select $x$ to be any element other than $y$ in $A-B$. Then, $S - (B\cup\{x\})$ will still contain $D\cup\{y\}$. This means that $B\cup \{x\}$ is independent in $\mathcal(I)'$\\
 
 \noindent\textbf{Exercise 16.4-4}\\
 
@@ -188,7 +186,7 @@ Now Let $A, B \in \mathcal{I}$ with $|A| = |B| + 1$.  Then there must exist some
 
 \noindent\textbf{Exercise 16.4-5}\\
 
-Suppose that $W$ is the largest weight that any one element takes. Then, define the new weight function $w_2(x) = 1+ W - w(x)$. This then assigns a strictly positive weight, and we will show that any independent set that that has maximum weight with respect to $w_2$ will have minimum wwight with respect to $w$. Recall Theorem 16.6 since we will be using it, suppose that for our matriod, all maximal independent sets have size $S$. Then, suppose $M_1$ and $M_2$ are maximal independent sets so that $M_1$ is maximal with respect to $w_2$ and $M_2$ is minimal with respect to $w$. Then, we need to show that $w(M_1) = w(M_2)$. Suppose not to acheive a contradiction, then, by minimality of $M_2$, $w(M_1) > w (M_2)$. Rewriting both sides in terms of $w_2$, we have $w_2(M_2) - (1+W)S > w_2(M_1) - (1+W)S$, so, $w_2(M_2) > w_2(M_1)$. This however contradicts maximality of $M_1$ with respect to $w_2$. So, we must have that $w(M_1) = w(M_2)$. So, a maximal independent set that has the largest weight with respect to $w_2$ also has the smallest weight with respect to $w$.
+Suppose that $W$ is the largest weight that any one element takes. Then, define the new weight function $w_2(x) = 1+ W - w(x)$. This then assigns a strictly positive weight, and we will show that any independent set that that has maximum weight with respect to $w_2$ will have minimum weight with respect to $w$. Recall Theorem 16.6 since we will be using it, suppose that for our matriod, all maximal independent sets have size $S$. Then, suppose $M_1$ and $M_2$ are maximal independent sets so that $M_1$ is maximal with respect to $w_2$ and $M_2$ is minimal with respect to $w$. Then, we need to show that $w(M_1) = w(M_2)$. Suppose not to achieve a contradiction, then, by minimality of $M_2$, $w(M_1) > w (M_2)$. Rewriting both sides in terms of $w_2$, we have $w_2(M_2) - (1+W)S > w_2(M_1) - (1+W)S$, so, $w_2(M_2) > w_2(M_1)$. This however contradicts maximality of $M_1$ with respect to $w_2$. So, we must have that $w(M_1) = w(M_2)$. So, a maximal independent set that has the largest weight with respect to $w_2$ also has the smallest weight with respect to $w$.
 
 \noindent\textbf{Exercise 16.5-1}\\
 
@@ -248,18 +246,19 @@ See algorithm MAKE-CHANGE(S,v) which does a dynamic programming solution. Since 
 \end{enumerate}
 
 \noindent\textbf{Problem 16-2}\\
+\begin{enumerate}[a.]
+\item Order the tasks by processing time from smallest to largest and run them in that order.  To see that this greedy solution is optimal, first observe that the problem exhibits optimal substructure: if we run the first task in an optimal solution, then we obtain an optimal solution by running the remaining tasks in a way which minimizes the average completion time.  Let $O$ be an optimal solution.  Let $a$ be the task which has the smallest processing time and let $b$ be the first task run in $O$.  Let $G$ be the solution obtained by switching the order in which we run $a$ and $b$ in $O$.  This amounts reducing the completion times of $a$ and the completion times of all tasks in $G$ between $a$ and $b$ by the difference in processing times of $a$ and $b$.  Since all other completion times remain the same, the average completion time of $G$ is less than or equal to the average completion time of $O$, proving that the greedy solution gives an optimal solution. This has runtime $O(n\lg n)$ because we must first sort the elements.\\
 
-a. Order the tasks by processing time from smallest to largest and run them in that order.  To see that this greedy solution is optimal, first observe that the problem exhibits optimal substructure: if we run the first task in an optimal solution, then we obtain an optimal solution by running the remaining tasks in a way which minimizes the average completion time.  Let $O$ be an optimal solution.  Let $a$ be the task which has the smallest processing time and let $b$ be the first task run in $O$.  Let $G$ be the solution obtained by switching the order in which we run $a$ and $b$ in $O$.  This amounts reducing the completion times of $a$ and the completion times of all tasks in $G$ between $a$ and $b$ by the difference in processing times of $a$ and $b$.  Since all other completion times remain the same, the average completion time of $G$ is less than or equal to the average completion time of $O$, proving that the greedy solution gives an optimal solution. This has runtime $O(n\lg n)$ because we must first sort the elements.\\
-
-b. Without loss of generality we my assume that every task is a unit time task.  Apply the same strategy as in part (a), except this time if a task which we would like to add next to the schedule isn't allowed to run yet, we must skip over it.  Since there could be many tasks of short processing time which have late release time, the runtime becomes $O(n^2)$ since we might have to spend $O(n)$ time deciding which task to add next at each step. \\
+\item Without loss of generality we my assume that every task is a unit time task.  Apply the same strategy as in part (a), except this time if a task which we would like to add next to the schedule isn't allowed to run yet, we must skip over it.  Since there could be many tasks of short processing time which have late release time, the runtime becomes $O(n^2)$ since we might have to spend $O(n)$ time deciding which task to add next at each step. \\
+\end{enumerate}
 
 \noindent\textbf{Problem 16-3}\\
 
 \begin{enumerate}[a.]
 \item
-First, suppose that a set of columns is not linearly independent over $\mathbb{F}_2$ then, there is some subest of those columns, say $S$ so that a linear combination of $S$ is 0. However, over $\mathbb{F}_2$, since the only two elements are 1 and 0, a linear combination is a sum over some subset. Suppose that this subset is $S'$, note that it has to be nonempty because of linear dependence. Now, consider the set of edges that these columns correspond to. Since the columns had their total incidence with each vertex 0 in $\mathbb{F}_2$, it is even. So, if we consider the subgraph on these edges, then every vertex has a even degree. Also, since our $S'$ was nonempty, some component has an edge. Restrict our attention to any such component. Since this component is connected and has all even vertex degrees, it contains an Euler Circuit, which is a cycle.
+First, suppose that a set of columns is not linearly independent over $\mathbb{F}_2$ then, there is some subset of those columns, say $S$ so that a linear combination of $S$ is 0. However, over $\mathbb{F}_2$, since the only two elements are 1 and 0, a linear combination is a sum over some subset. Suppose that this subset is $S'$, note that it has to be nonempty because of linear dependence. Now, consider the set of edges that these columns correspond to. Since the columns had their total incidence with each vertex 0 in $\mathbb{F}_2$, it is even. So, if we consider the subgraph on these edges, then every vertex has a even degree. Also, since our $S'$ was nonempty, some component has an edge. Restrict our attention to any such component. Since this component is connected and has all even vertex degrees, it contains an Euler Circuit, which is a cycle.
 
-Now, suppose that our graph had some subset of edges which was a cycle. Then, the degree of any vertex with respect to this set of edges is even, so, when we add the corrseponding columns, we will get a zero column in $\mathbb{F}_2$.
+Now, suppose that our graph had some subset of edges which was a cycle. Then, the degree of any vertex with respect to this set of edges is even, so, when we add the corresponding columns, we will get a zero column in $\mathbb{F}_2$.
 
 Since sets of linear independent columns form a matroid, by problem 16.4-2, the acyclic sets of edges form a matroid as well.
 \item
@@ -276,26 +275,27 @@ There is not a perfect correspondence because we didn't show that not containing
 
 \noindent\textbf{Problem 16-4}\\
 
-a. Let $O$ be an optimal solution.  If $a_j$ is scheduled before its deadline, we can always swap it with whichever activity is scheduled at its deadline without changing the penalty.  If it is scheduled after its deadline but $a_j.deadline \leq j$ then there must exist a task from among the first $j$ with penalty less than that of $a_j$.  We can then swap $a_j$ with this tast to reduce the overall penalty incurred.  Since $O$ is optimal, this can't happen.  Finally, if $a_j$ is scheduled after its deadline and $a_j.deadline > j$ we can swap $a_j$ with any other late task without inreasing the penalty incurred.  Since the problem exhibits the greedy choice property as well, this greedy strategy always yields on optimal solution. \\
+\begin{enumerate}[a.]
+\item Let $O$ be an optimal solution.  If $a_j$ is scheduled before its deadline, we can always swap it with whichever activity is scheduled at its deadline without changing the penalty.  If it is scheduled after its deadline but $a_j.deadline \leq j$ then there must exist a task from among the first $j$ with penalty less than that of $a_j$.  We can then swap $a_j$ with this task to reduce the overall penalty incurred.  Since $O$ is optimal, this can't happen.  Finally, if $a_j$ is scheduled after its deadline and $a_j.deadline > j$ we can swap $a_j$ with any other late task without increasing the penalty incurred.  Since the problem exhibits the greedy choice property as well, this greedy strategy always yields on optimal solution. \\
 
-b. %% Need to do after reading chapter 21
+\item %% Need to do after reading chapter 21
 
+\end{enumerate}
 
 \noindent\textbf{Problem 16-5}\\
 \begin{enumerate}[a.]
 \item
-Suppose there are $m$ distinct elements that could be requested. There may be some room for improvement in terms of keeping track of the furthest in future element at each position. If you maintain a (double circular) linked list with a node for each possible cache element and an array so that in index $i$ there is a pointer corresponding to the node in the linked list corrrespondig to the possible cache request $i$. Then, starting with the elements in an arbitrary order, process the sequence $\langle r_1,\ldots, r_n\rangle$ from right to left. Upon processing a request move the node corrseponding to that request to the beginning of the linked list and make a note in some other array of length $n$ of the element at the end of the linked list. This element is tied for furthest-in-future. Then, just scan left to right through the sequence, each time just checking some set for which elements are currently in the cache. It can be done in constant time to check if an element is in the cache or not by a direct address table. If an element need be evicted, evict the furthest-in-future one noted earlier. This algorithm will take time $O(n+m)$ and use additional space $O(m+n)$. If we were in the stupid case that $m>n$, we could restrict our attention to the possible cache requests that actually happen, so we have a solution that is $O(n)$ both in time and in additional space required.
+Suppose there are $m$ distinct elements that could be requested. There may be some room for improvement in terms of keeping track of the furthest in future element at each position. If you maintain a (double circular) linked list with a node for each possible cache element and an array so that in index $i$ there is a pointer corresponding to the node in the linked list corresponding to the possible cache request $i$. Then, starting with the elements in an arbitrary order, process the sequence $\langle r_1,\ldots, r_n\rangle$ from right to left. Upon processing a request move the node corresponding to that request to the beginning of the linked list and make a note in some other array of length $n$ of the element at the end of the linked list. This element is tied for furthest-in-future. Then, just scan left to right through the sequence, each time just checking some set for which elements are currently in the cache. It can be done in constant time to check if an element is in the cache or not by a direct address table. If an element need be evicted, evict the furthest-in-future one noted earlier. This algorithm will take time $O(n+m)$ and use additional space $O(m+n)$. If we were in the stupid case that $m>n$, we could restrict our attention to the possible cache requests that actually happen, so we have a solution that is $O(n)$ both in time and in additional space required.
 
 \item
-Index the subproblems $c[i,S]$ by a number $i\in [n]$ and a subset $S \in \binom{[m]}{k}$. Which indicates the lowest number of misses that can be acheived with an initial cache of $S$ starting after index $i$. Then, 
+Index the subproblems $c[i,S]$ by a number $i\in [n]$ and a subset $S \in \binom{[m]}{k}$. Which indicates the lowest number of misses that can be achieved with an initial cache of $S$ starting after index $i$. Then, 
 \[
 c[i,S] = \min_{x\in\{S\}} (c[i+1,\{r_i\}\cup(S-\{x\})] + (1-\chi_{\{r_i\}}(x)) )
 \]
-which means that $x$ is the element that is removed from the cache unless it is the current element being accessed, in chiech case there is no cost of eviction.
+which means that $x$ is the element that is removed from the cache unless it is the current element being accessed, in which case there is no cost of eviction.
 
 \item
-At each time we need to add something new, we can pick which entry to evict from the cache. By picking to evict the element that is used furthest in the future, the
-%incomplete
+At each time we need to add something new, we can pick which entry to evict from the cache. We need to show the there is an exchange property. That is, if we are at round $i$ and need to evict someone, suppose we evict $x$. Then, if we were to instead evict the furthest in future element $y$, we would have no more evictions than before. To see this, since we evicted $x$, we will have to evict someone else once we get to $x$, whereas, if we had used the other strategy, we wouldn't of had to evict anyone until we got to $y$. This is a point later in time than when we had to evict someone to put $x$ back into the cache, so we could, at reloading $y$, just evict the person we would of evicted when we evicted someone to reload $x$. This causes the same number of misses unless there was an access to that element that wold of been evicted at reloading $x$ some point in between when $x$ any $y$ were needed, in which case furthest in future would be better.
 
 \end{enumerate}
 

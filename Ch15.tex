@@ -485,10 +485,10 @@ Since the runtime is indexed by the same things, we have that we will call it wi
 \end{enumerate}
 
 \noindent\textbf{Problem 15-8}\\
+\begin{enumerate}[a.]
+\item If $n>1$ then for every choice of pixel at a given row, we have at least 2 choices of pixel in the next row to add to the seam (3 if we're not in column 1 or $n$).  Thus the total number of possibilities is bounded below by $2^m$. \\
 
-a. If $n>1$ then for every choice of pixel at a given row, we have at least 2 choices of pixel in the next row to add to the seam (3 if we're not in column 1 or $n$).  Thus the total number of possibilities is bounded below by $2^m$. \\
-
-b. We create a table $D[1..m,1..n]$ such that $D[i,j]$ stores the disruption of an optimal seam ending at position $[i,j]$, which started in row 1.  We also create a table $S[i,j]$ which stores the list of ordered pairs indicating which pixels were used to create the optimal seam ending at position $(i,j)$.  To find the solution to the problem, we look for the minimum $k$ entry in row $m$ of table $D$, and use the list of pixels stored at $S[m,k]$ to determine the optimal seam.  To simplify the algorithm Seam(A), let $MIN(a,b,c)$ be the function which returns $-1$ if $a$ is the minimum, 0 if $b$ is the minimum, and 1 if $c$ is the minimum value from among $a, b, $ and $c$.  The time complexity of the algorithm is $O(mn)$.\\
+\item We create a table $D[1..m,1..n]$ such that $D[i,j]$ stores the disruption of an optimal seam ending at position $[i,j]$, which started in row 1.  We also create a table $S[i,j]$ which stores the list of ordered pairs indicating which pixels were used to create the optimal seam ending at position $(i,j)$.  To find the solution to the problem, we look for the minimum $k$ entry in row $m$ of table $D$, and use the list of pixels stored at $S[m,k]$ to determine the optimal seam.  To simplify the algorithm Seam(A), let $MIN(a,b,c)$ be the function which returns $-1$ if $a$ is the minimum, 0 if $b$ is the minimum, and 1 if $c$ is the minimum value from among $a, b, $ and $c$.  The time complexity of the algorithm is $O(mn)$.\\
 
 \begin{algorithm}
 \caption{Seam(A)}
@@ -531,6 +531,7 @@ b. We create a table $D[1..m,1..n]$ such that $D[i,j]$ stores the disruption of 
 \State Print the list stored at $S[m,q]$.
 \end{algorithmic}
 \end{algorithm}
+\end{enumerate}
 
 \noindent\textbf{Problem 15-9}\\
 
@@ -553,12 +554,12 @@ The subproblems will be indexed by contiguous subarrays of the arrays of cuts ne
 \end{algorithm}
 
 \noindent\textbf{Problem 15-10}\\
+\begin{enumerate}
+\item Without loss of generality, suppose that there exists an optimal solution $S$ which involves investing $d_1$ dollars into investment $k$ and $d_2$ dollars into investement $m$ in year 1.  Further, suppose in this optimal solution, you don't move your money for the first $j$ years.   If $r_{k1} + r_{k2} + \ldots + r_{kj} > r_{m1} + r_{m2} + \ldots + r_{mj}$ then we can perform the usual cut-and-paste maneauver and instead invest $d_1 + d_2$ dollars into investment $k$ for $j$ years.  Keeping all other investments the same, this results in a strategy which is at least as profitable as $S$, but has reduced the number of different investments in a given span of years by 1.  Continuing in this way, we can reduce the optimal strategy to consist of only a single investment each year.  \\
 
-a. Without loss of generality, suppose that there exists an optimal solution $S$ which involves investing $d_1$ dollars into investment $k$ and $d_2$ dollars into investement $m$ in year 1.  Further, suppose in this optimal solution, you don't move your money for the first $j$ years.   If $r_{k1} + r_{k2} + \ldots + r_{kj} > r_{m1} + r_{m2} + \ldots + r_{mj}$ then we can perform the usual cut-and-paste maneauver and instead invest $d_1 + d_2$ dollars into investment $k$ for $j$ years.  Keeping all other investments the same, this results in a strategy which is at least as profitable as $S$, but has reduced the number of different investments in a given span of years by 1.  Continuing in this way, we can reduce the optimal strategy to consist of only a single investment each year.  \\
+\item If a particular investment strategy is the year-one-plan for a optimal investement strategy, then we must solve two kinds of optimal suproblem: either we maintain the strategy for an additional year, not incurring the money-moving fee, or we move the money, which amounts to solving the problem where we ignore all information from year 1. Thus, the problem exhibits optimal substructure. \\
 
-b. If a particular investment strategy is the year-one-plan for a optimal investement strategy, then we must solve two kinds of optimal suproblem: either we maintain the strategy for an additional year, not incurring the money-moving fee, or we move the money, which amounts to solving the problem where we ignore all information from year 1. Thus, the problem exhibits optimal substructure. \\
-
-c.  The algorithm works as follows: We build tables $I$ and $R$ of size $10$ such that $I[i]$ tells which investment should be made (with all money) in year $i$, and $R[i]$ gives the total return on the investment strategy in years $i$ through $10$.  \\
+\item  The algorithm works as follows: We build tables $I$ and $R$ of size $10$ such that $I[i]$ tells which investment should be made (with all money) in year $i$, and $R[i]$ gives the total return on the investment strategy in years $i$ through $10$.  \\
 \begin{algorithm}
 \caption{Invest(d,n)}
 \begin{algorithmic}
@@ -583,7 +584,9 @@ c.  The algorithm works as follows: We build tables $I$ and $R$ of size $10$ suc
 \end{algorithm}
 
 
-d. %Not sure
+\item %Not sure
+
+\end{enumerate}
 
 \noindent\textbf{Problem 15-11}\\
 

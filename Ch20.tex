@@ -39,7 +39,7 @@ All operations will remain the same, except instead of the leaves of the tree be
 
 \noindent\textbf{Exercise 20.1-3}\\
 
-To find the successor of a given key k from a binary tree, call the procedure $SUCC(k, T.root)$. Note that this will return NIL if there is no entry in the tree with a larger key.\\
+To find the successor of a given key k from a binary tree, call the procedure $SUCC(x, T.root)$. Note that this will return NIL if there is no entry in the tree with a larger key.\\
 \begin{algorithm}
 \caption{ SUCC(k,x)}
 \begin{algorithmic}
@@ -55,15 +55,14 @@ To find the successor of a given key k from a binary tree, call the procedure $S
 	\EndIf
 \Else
 	\If {$x.right == NIL$}
-		\State \Return x
-	\Else
 		\State \Return NIL
+	\Else
+		\State \Return SUCC(k,x.right)
 	\EndIf
 \EndIf
 \end{algorithmic}
 \end{algorithm}
 
-% ^ Boo, i think your \Else case is wrong. There's no recursive call to the right subtree!
 
 \noindent\textbf{Exercise 20.1-4}\\
 
@@ -84,7 +83,7 @@ See the two algorithms, PROTO-vEB-MAXIMUM and PROTO-vEB-PREDECESSOR.
 \State \Return NIL
 \EndIf
 \Else
-\State $max-cluster = PROTO-vEB-MAXIMUM(V.summary)$
+\State max-cluster = PROTO-vEB-MAXIMUM$(V.summary)$
 \If{max-cluster ==NIL}
 \State \Return NIL
 \Else
@@ -161,7 +160,7 @@ The array $A$ found in a proto van Emde Boas structure of size 2 should now supp
 
 \noindent\textbf{Exercise 20.2-5}\\
 
-The only modification neccesary would be fore the u=2 trees. They would need to also include a length two array that had pointers to the corresponding sattelite data which would be populated in case the corresponding entry in A were 1.\\
+The only modification necessary would be fore the u=2 trees. They would need to also include a length two array that had pointers to the corresponding satellite data which would be populated in case the corresponding entry in A were 1.\\
 
 \noindent\textbf{Exercise 20.2-6}\\
 
@@ -185,7 +184,7 @@ This algorithm recursively allocates proper space and appropriately initializes 
 
 \noindent\textbf{Exercise 20.2-7}\\
 
-For line 9 to be executed, we would need that in the summary data, we walso had a NIL returned. This could of either happend through line 9, or 6. Eventually though, it would need to happen in line 6, so, there must be some number of summarizations that happened of V that caused us to get an empty u=2 vEB. However, a summarization has an entry of one if any of the corresponding entries in the datastructure are one. This means that there are no entries in $V$, and so, we have that $V$ is empty.\\
+For line 9 to be executed, we would need that in the summary data, we walso had a NIL returned. This could of either happened through line 9, or 6. Eventually though, it would need to happen in line 6, so, there must be some number of summarizations that happened of V that caused us to get an empty u=2 vEB. However, a summarization has an entry of one if any of the corresponding entries in the data structure are one. This means that there are no entries in $V$, and so, we have that $V$ is empty.\\
 
 \noindent\textbf{Exercise 20.2-8}\\
 
@@ -203,7 +202,7 @@ For any key which is a minimum on some vEB, we'll need to store its satellite da
 
 We define the procedure for any $u$ that is a power of 2. If $u=2$, then, just slap that fact together with an array of length 2 that contains 0 in both entries. 
 
-If $u = 2^k > 2$, then, we create an empty vEB tree called Summary with $u= 2^{\lceil k/2\rceil}$. We also make an array called cluster of length $2^{\lceil k/2\rceil}$ with each entry initialized to an empty vEB tree with $u = 2^{\lfloor k/2\rfloor}$. Lastly, we create a min and max element, both initallized to NIL.\\
+If $u = 2^k > 2$, then, we create an empty vEB tree called Summary with $u= 2^{\lceil k/2\rceil}$. We also make an array called cluster of length $2^{\lceil k/2\rceil}$ with each entry initialized to an empty vEB tree with $u = 2^{\lfloor k/2\rfloor}$. Lastly, we create a min and max element, both initialized to NIL.\\
 
 \noindent\textbf{Exercise 20.3-4}\\
 
@@ -244,9 +243,9 @@ We recall from our solution to problem 3-6.e (it seems like so long ago now) tha
 \[
 P(u) \le \left(\prod_{i=1}^{\lg(\lg(u))}(u^{1/2^i}+1)\right) P(2) + \sum_{i=1}^{\lg(\lg(u))} \Theta(u^{1/2^i})(u^{1/2i}+1)
 \]
-The first product has a highest power of $u$ corresponding to always multiplying the first terms of each binomial. The power in this term is equal to $\sum_{i=1}^{\lg(\lg(u))} \frac{1}{2^i}$ which is a partial sum of a geometric series whoose sum is 1. This means that the first term is $o(u)$. The order of the $i$th term in the summation appearing in the formula is $u^{2/2^i}$. In particular, for $i=1$ is it $O(u)$, and for any $i>1$, we have that $2/2^i <1$, so those terms will be $o(u)$. Putting it all together, the largest term appearing is $O(u)$, and so, $P(u)$ is $O(u)$.
+The first product has a highest power of $u$ corresponding to always multiplying the first terms of each binomial. The power in this term is equal to $\sum_{i=1}^{\lg(\lg(u))} \frac{1}{2^i}$ which is a partial sum of a geometric series whose sum is 1. This means that the first term is $o(u)$. The order of the $i$th term in the summation appearing in the formula is $u^{2/2^i}$. In particular, for $i=1$ is it $O(u)$, and for any $i>1$, we have that $2/2^i <1$, so those terms will be $o(u)$. Putting it all together, the largest term appearing is $O(u)$, and so, $P(u)$ is $O(u)$.
 \item
-For this problem we just use the version written for normal vEB trees, with minor modifications. That is, since there are entries in cluster that may not exist, and summary may of not yet been initiallized, just before we try to access either, we check to see if it's initiallized. If it isn't, we do so then.
+For this problem we just use the version written for normal vEB trees, with minor modifications. That is, since there are entries in cluster that may not exist, and summary may of not yet been initialized, just before we try to access either, we check to see if it's initialized. If it isn't, we do so then.
 
 \begin{algorithm}
 \caption{RS-vEB-TREE-INSERT(V,x)}
@@ -315,7 +314,7 @@ As in the previous problem, we just wait until just before either of the two thi
 \end{algorithm}
 
 \item
-Since the initiallizations performed only take constant time, those modifications don't ruin the the desired runtime bound for the original algorithms already had. So, our responces to parts c and d are $O(\lg(\lg(n)))$.
+Since the initiallizations performed only take constant time, those modifications don't ruin the the desired runtime bound for the original algorithms already had. So, our responses to parts c and d are $O(\lg(\lg(n)))$.
 
 \item
 As mentioned in the errata, this part should instead be changed to $O(n\lg(n))$ space.
@@ -323,7 +322,7 @@ As mentioned in the errata, this part should instead be changed to $O(n\lg(n))$ 
 %notdone
 
 \item
-It only takes a constant amount of time to create an empty RS-vEB tree. This is immediate since the only dependence on u in CREAT-NEW-RS-vEB-TREE(u) is on line 2 when V.u is initiallized, but this only takes a constant amount of time. Since nothing else in the procedure depends on u, it must take a constant amount of time.
+It only takes a constant amount of time to create an empty RS-vEB tree. This is immediate since the only dependence on u in CREATE-NEW-RS-vEB-TREE(u) is on line 2 when V.u is initialized, but this only takes a constant amount of time. Since nothing else in the procedure depends on u, it must take a constant amount of time.
 \end{enumerate}
 
 \noindent\textbf{Problem 20-2}\\

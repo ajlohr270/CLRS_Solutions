@@ -472,6 +472,7 @@ child{node [circle,draw,color=white, fill=black] (e) {N}};
 
 
 \noindent\textbf{ Exercise 13.3-3} \\
+
 For the z being a right child case, we append the black height of each node to get
 \begin{tikzpicture}[level/.style={sibling distance=75mm/#1}]
 \node [circle,draw,color=white, fill=black] (a){C:k}
@@ -535,8 +536,76 @@ Suppose that both $x$ and $x.p$ are red in RB-DELETE.  This can only happen in t
 
 \noindent\textbf{ Exercise 13.4-3} \\
 
-%waiting on the completion of exercise 13.3-2
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
+\node [circle,draw,color=white, fill=black] (a){38}
+	child{node [circle,draw,color=black, fill=red] (b) {19}
+		child{node [circle,draw,color=white, fill=black] (c) {12}
+			child{node [circle,draw,color=black, fill=red] (h) {8}
+				child{node [circle,draw,color=white, fill=black] (l) {N}}
+				child{node [circle,draw,color=white, fill=black] (m) {N}}}
+			child{node [circle,draw,color=white, fill=black] (i) {N}}}
+		child{node [circle,draw,color=white, fill=black] (d) {31}
+			child{node [circle,draw,color=white, fill=black] (j) {N}}
+			child{node [circle,draw,color=white, fill=black] (k) {N}}}}
+	child{node [circle,draw,color=white, fill=black] (e) {41}
+		child{node [circle,draw,color=white, fill=black] (f) {N}}
+		child{node [circle,draw,color=white, fill=black] (g) {N}}};
+\end{tikzpicture}\\
 
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
+\node [circle,draw,color=white, fill=black] (a){38}
+	child{node [circle,draw,color=black, fill=red] (b) {19}
+		child{node [circle,draw,color=white, fill=black] (c) {12}
+			child{node [circle,draw,color=white, fill=black] (l) {N}}
+			child{node [circle,draw,color=white, fill=black] (i) {N}}}
+		child{node [circle,draw,color=white, fill=black] (d) {31}
+			child{node [circle,draw,color=white, fill=black] (j) {N}}
+			child{node [circle,draw,color=white, fill=black] (k) {N}}}}
+	child{node [circle,draw,color=white, fill=black] (e) {41}
+		child{node [circle,draw,color=white, fill=black] (f) {N}}
+		child{node [circle,draw,color=white, fill=black] (g) {N}}};
+\end{tikzpicture}\\
+
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
+\node [circle,draw,color=white, fill=black] (a){38}
+	child{node [circle,draw,color=white, fill=black] (b) {19}
+		child{node [circle,draw,color=white, fill=black] (i) {N}}
+		child{node [circle,draw,color=black, fill=red] (d) {31}
+			child{node [circle,draw,color=white, fill=black] (j) {N}}
+			child{node [circle,draw,color=white, fill=black] (k) {N}}}}
+	child{node [circle,draw,color=white, fill=black] (e) {41}
+		child{node [circle,draw,color=white, fill=black] (f) {N}}
+		child{node [circle,draw,color=white, fill=black] (g) {N}}};
+\end{tikzpicture}\\
+
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
+\node [circle,draw,color=white, fill=black] (a){38}
+	child{node [circle,draw,color=white, fill=black] (b) {31}
+		child{node [circle,draw,color=white, fill=black] (i) {N}}
+		child{node [circle,draw,color=white, fill=black] (k) {N}}}
+	child{node [circle,draw,color=white, fill=black] (e) {41}
+		child{node [circle,draw,color=white, fill=black] (f) {N}}
+		child{node [circle,draw,color=white, fill=black] (g) {N}}};
+\end{tikzpicture}\\
+
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
+\node [circle,draw,color=white, fill=black] (a){38}
+	child{node [circle,draw,color=white, fill=black] (k) {N}}
+	child{node [circle,draw,color=black, fill=red] (e) {41}
+		child{node [circle,draw,color=white, fill=black] (f) {N}}
+		child{node [circle,draw,color=white, fill=black] (g) {N}}};
+\end{tikzpicture}\\
+
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
+\node [circle,draw,color=black, fill=red] (a){41}
+	child{node [circle,draw,color=white, fill=black] (k) {N}}
+	child{node [circle,draw,color=white, fill=black] (g) {N}};
+\end{tikzpicture}\\
+
+
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
+\node [circle,draw,color=white, fill=black] (a){N};
+\end{tikzpicture}\\
 
 \noindent\textbf{Exercise 13.4-4} \\
 
@@ -548,14 +617,13 @@ Our count will include the root (if it is black).
 
 Case 1: The count to each subtree is 2 both before and after
 
-Case 2: The count to the subtrees $\alpha$ and $\beta$ is 1+count(c) in both cases, and the count for the rest of the subtrees goes from 2+count(c) to 1+count(c).
+Case 2: The count to the subtrees $\alpha$ and $\beta$ is 1+count(c) in both cases, and the count for the rest of the subtrees goes from 2+count(c) to 1+count(c). This decrease in the count for the other subtreese is handled by then having $x$ represent an additional black.
 
 Case 3: The count to $\epsilon$ and $\zeta$ is 2+count(c) both before and after, for all the other subtrees, it is 1+count(c) both before and after
 
-Case 4: For $\alpha$ and $\beta$, the count goes from 1+count(c) to 2+count(c). For $\gamma$ and $\delta$, it is 1+count(c)+count(c') both before and after. For $\epsilon$ and $\zeta$, it is 1+ count(c) both before and after.
+Case 4: For $\alpha$ and $\beta$, the count goes from 1+count(c) to 2+count(c). For $\gamma$ and $\delta$, it is 1+count(c)+count(c') both before and after. For $\epsilon$ and $\zeta$, it is 1+ count(c) both before and after. This increase in the count for $\alpha$ and $\beta$ is because $x$ before indicated an extra black.\\
+%check cases 2 and 4
 
-Cases 2 and 4 seem to violate what we were supposed to show.
-%TODO
 
 \noindent\textbf{Exercise 13.4-6}\\
 
@@ -650,19 +718,20 @@ Since the rebalancing operations can only change ancestors, and children of ance
 \end{enumerate}
 
 \noindent\textbf{Problem 13-2}\\
+\begin{enumerate}[a.]
+\item When we call insert or delete we modify the black-height of the tree by at most 1 and we can modify it according to which case we're in, so no additional storage is required. When descending through $T$, we can determine the black-height of each node we visit in $O(1)$ time per node visited.  Start by determining the black height of the root in $O(\log n)$ time.  As we move down the tree, we need only decrement the height by 1 for each black node we see to determine the new height which can be done in $O(1)$.  Since there are $O(\log n)$ nodes on the path from root to leaf, the time per node is constant. \\
 
-a. When we call insert or delete we modify the black-height of the tree by at most 1 and we can modify it according to which case we're in, so no additional storage is required. When descending through $T$, we can determine the black-height of each node we visit in $O(1)$ time per node visited.  Start by determining the black height of the root in $O(\log n)$ time.  As we move down the tree, we need only decrement the height by 1 for each black node we see to determine the new height which can be done in $O(1)$.  Since there are $O(\log n)$ nodes on the path from root to leaf, the time per node is constant. \\
+ \item Find the black-height of $T_1$ in $O(\log n)$ time. Then find the black-height of $T_2$ in $O(\log n)$ time.  Finally, set $z = T_1.root$.  While the black height of $z$ is strictly greater than $T_2.bh$, update $z$ to be $z.right$ if such a child exists, otherwise update $z$ to be $z.left$.  Once the height of $z$ is equal to $T_2.bh$, set $y$ equal to $z$.  The runtime of the algorithm is $O(\log n)$ since the height of $T_1$, and hence the number of iterations of the while-loop, is at most $O(\log n)$.\\
 
-b. Find the black-height of $T_1$ in $O(\log n)$ time. Then find the black-height of $T_2$ in $O(\log n)$ time.  Finally, set $z = T_1.root$.  While the black height of $z$ is strictly greater than $T_2.bh$, update $z$ to be $z.right$ if such a child exists, otherwise update $z$ to be $z.left$.  Once the height of $z$ is equal to $T_2.bh$, set $y$ equal to $z$.  The runtime of the algorithm is $O(\log n)$ since the height of $T_1$, and hence the number of iterations of the while-loop, is at most $O(\log n)$.\\
+\item Let $T$ denote the desired tree.  Set $T.root = x$, $x.left = y$, $y.p = x$, $x.right = T_2.root$ and $T_2.root.p = x$.  Every element of $T_y$ is in $T_1$ which contains only elements smaller than $x$ and every element of $T_2$ is larger than $x$.  Since $T_y$ and $T_2$ each have the binary search tree property, $T$ does as well. \\
 
-c. Let $T$ denote the desired tree.  Set $T.root = x$, $x.left = y$, $y.p = x$, $x.right = T_2.root$ and $T_2.root.p = x$.  Every element of $T_y$ is in $T_1$ which contains only elements smaller than $x$ and every element of $T_2$ is larger than $x$.  Since $T_y$ and $T_2$ each have the binary search tree property, $T$ does as well. \\
+\item Color $x$ red.  Find $y$ in $T_1$, as in part b, and form $T = T_y \cup \{ x \} \cup T_2$ as in part c in constant time.  Call T' = RB-TRANSPLANT(T,y,x).  We have potentially violated the red black property if $y$'s parent was red.  To remedy this, call RB-INSERT-FIXUP(T', x).\\
 
-d. Color $x$ red.  Find $y$ in $T_1$, as in part b, and form $T = T_y \cup \{ x \} \cup T_2$ as in part c in constant time.  Call T' = RB-TRANSPLANT(T,y,x).  We have potentially violated the red black property if $y$'s parent was red.  To remedy this, call RB-INSERT-FIXUP(T', x).\\
+\item In the symmetric situation, simply reverse the roles of $T_1$ and $T_2$ in parts b through d. \\
 
-e. In the symmetric situation, simply reverse the roles of $T_1$ and $T_2$ in parts b through d. \\
+\item  If $T_1.bh \geq T_2.bh$, run the steps outlined in part d.  Otherwise, reverse the roles of parts $T_1$ and $T_2$ in d and then proceed as before.  Either way, the algorithm takes $O(\log n)$ time because RB-INSERT-FIXUP is $O(\log n)$.
 
-f.  If $T_1.bh \geq T_2.bh$, run the steps outlined in part d.  Otherwise, reverse the roles of parts $T_1$ and $T_2$ in d and then proceed as before.  Either way, the algorithm takes $O(\log n)$ time because RB-INSERT-FIXUP is $O(\log n)$.
-
+\end{enumerate}
 
 \noindent\textbf{ Problem 13-3} \\
 
@@ -745,22 +814,22 @@ Since both for loops only run for $O(h) = O(\lg(n))$ iterations, we have that th
 
 
 \noindent\textbf{Problem 13-4}\\
+\begin{enumerate}[a.]
+\item The root $r$ is uniquely determined because it must contain the smallest priority.  Then we partition the set of nodes into those which have key values less than $r$ and those which have values greater than $r$.  We must make a treap out of each of these and make them the left and right children of $r$.  By induction on the number of nodes, we see that the treap is uniquely determined. \\
 
-a. The root $r$ is uniquely determined because it must contain the smallest priority.  Then we partition the set of nodes into those which have key values less than $r$ and those which have values greater than $r$.  We must make a treap out of each of these and make them the left and right children of $r$.  By induction on the number of nodes, we see that the treap is uniquely determined. \\
+\item  Since choosing random priorities corresponds to inserting in a random order, the expected height of a treap is the same as the expected height of a randomly built binary search tree, $\Theta(\log n)$. \\
 
-b.  Since choosing random priorities corresponds to inserting in a random order, the expected height of a treap is the same as the expected height of a randomly built binary search tree, $\Theta(\log n)$. \\
+\item First insert a node as usual using the binary-search-tree insertion procedure.  Then perform left and right rotations until the parent of the inserted node no longer has larger priority. \\
 
-c. First insert a node as usual using the binary-search-tree insertion procedure.  Then perform left and right rotations until the parent of the inserted node no longer has larger priority. \\
+\item The expected runtime of TREAP-INSERT is $\Theta(\log n)$ since the expected height of a treap is $\Theta(\log n)$.\\
 
-d. The expected runtime of TREAP-INSERT is $\Theta(\log n)$ since the expected height of a treap is $\Theta(\log n)$.\\
+\item To insert $x$, we initially run the BST insert procedure, so $x$ is a leaf node.  Every time we perform a left rotation, we increase the length of the right spine of the left subtree by 1.  Every time we perform a right rotation, we increase the length of the left spine of the right subtree by 1. Since we only perform left and right rotations, the claim follows. \\
 
-e. To insert $x$, we initially run the BST insert procedure, so $x$ is a leaf node.  Every time we perform a left rotation, we increase the length of the right spine of the left subtree by 1.  Every time we perform a right rotation, we increase the length of the left spine of the right subtree by 1. Since we only perform left and right rotations, the claim follows. \\
+\item If $X_{ik} = 1$ then the properties must hold by the binary-search-tree property and the definition of treap.  On the other hand, suppose $y.key < z.key < x.key$ implies $y.priority < z.priority$.  If $y$ wasn't a child of $x$ then taking $z$ to be the lowest common ancestor of $x$ and $y$ would violate this.  Since $y.priority > x.priority$,$y$ must be a child of $x$.  Since $y.key < x.key$, $y$ is in the left subtree of $x$.  If $y$ is not in the right spine of the left subtree of $x$ then there must exist some $z$ such that $y.priority > z.priority > x.priority$ and $y.key < z.key <x.key$, a contradiction. \\
 
-f. If $X_{ik} = 1$ then the properties must hold by the binary-search-tree property and the definition of treap.  On the other hand, suppose $y.key < z.key < x.key$ implies $y.priority < z.priority$.  If $y$ wasn't a child of $x$ then taking $z$ to be the lowest common ancestor of $x$ and $y$ would violate this.  Since $y.priority > x.priority$,$y$ must be a child of $x$.  Since $y.key < x.key$, $y$ is in the left subtree of $x$.  If $y$ is not in the right spine of the left subtree of $x$ then there must exist some $z$ such that $y.priority > z.priority > x.priority$ and $y.key < z.key <x.key$, a contradiction. \\
+\item We need to compute the probability that the conditions of part f are satisfied. For all $z \in [i+1, k-1]$ we must have $x.priority < y.priority < z.priority$.  There are $(k-i-1)!$ ways to permute the priorities corresponding to these $z$, out of $(k-i+1)!$ ways to permute the priorities corresponding to all elements in $[i,k]$.  Cancelation gives $P\{X_{ik}\} = \frac{1}{(k-i+1)(k-i)}$. \\
 
-g. We need to compute the probability that the conditions of part f are satisfied. For all $z \in [i+1, k-1]$ we must have $x.priority < y.priority < z.priority$.  There are $(k-i-1)!$ ways to permute the priorities corresponding to these $z$, out of $(k-i+1)!$ ways to permute the priorities corresponding to all elements in $[i,k]$.  Cancelation gives $P\{X_{ik}\} = \frac{1}{(k-i+1)(k-i)}$. \\
-
-h. We use part g then simplify the telescoping series:
+\item We use part g then simplify the telescoping series:
 \begin{align*}
 E[C] &= \sum_{j=1}^{k-1} E[X_{jk}] \\
 &= \sum_{j=1}^{k-1} \frac{1}{(k-j+1)(k-j)}\\
@@ -769,10 +838,10 @@ E[C] &= \sum_{j=1}^{k-1} E[X_{jk}] \\
 &= 1 - \frac{1}{k}.
 \end{align*}
 
-i. A node $y$ is in the left spine of the right subtree of $x$ if and only if it would be in the right spine of the left subtree of $x$ in the treap where every node with key $k$ is replaced by a node with key $n-k$.  Replacing $k$ by $n-k$ in the expectation computation of part h gives the result. \\
+\item A node $y$ is in the left spine of the right subtree of $x$ if and only if it would be in the right spine of the left subtree of $x$ in the treap where every node with key $k$ is replaced by a node with key $n-k$.  Replacing $k$ by $n-k$ in the expectation computation of part h gives the result. \\
 
-j.  By part e, the number of rotations is $C + D$.  By linearity of expectation, $E[C+D] = 2 - \frac{1}{k} - \frac{1}{n-k+1} \leq 2$ for any choice of $k$.
+\item  By part e, the number of rotations is $C + D$.  By linearity of expectation, $E[C+D] = 2 - \frac{1}{k} - \frac{1}{n-k+1} \leq 2$ for any choice of $k$.
 
-
+\end{enumerate}
 
 \end{document} 
