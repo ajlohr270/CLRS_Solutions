@@ -37,6 +37,7 @@
 \begin{document}
 \maketitle
 \noindent\textbf{Exercise 29.1-1}\\
+
 \[
 c= \left(\begin{array}{c}2\\-3\\3\end{array}\right)
 \]
@@ -56,6 +57,7 @@ with $m=n=3$\\
 
 
 \noindent\textbf{Exercise 29.1-3}\\
+
 
 \[
 N = \{1,2,3\}
@@ -82,6 +84,7 @@ And $v=0$.\\
 
 
 \noindent\textbf{Exercise 29.1-5}\\
+
 First, we will multiply the second and third inequalities by minus one to make it so that they are all $\le$ inequalities. We will introduce the three new variables $x_4,x_5,x_6$, and perform the usual procedure for rewriting in slack form
 \begin{align*}
 x_4 &= 7-x_1 - x_2 +x_3\\
@@ -95,6 +98,7 @@ where we are sill tring to maximize $2x_1 -6x_3$. The basic variables are $x_4,x
 
 
 \noindent\textbf{Exercise 29.1-7}\\
+
 For any number $r>1$, we can set $x_1 = 2r$ and $x_2 = r$. Then, the restaints become
 \begin{align*}
 -2r +r &= -r \le -1\\
@@ -107,6 +111,7 @@ All of these inequalities are clearly satisfied because of our initial restricti
 
 
 \noindent\textbf{Exercise 29.1-9}\\
+
 Consider the linear program where we want to maximize $x_1-x_2$ subject to the constraints $x_1-x_2 \le 1$ and $x_1,x_2\ge 0$. clearly the objective value can never be greater than one, and it is easy to achieve the optimal value of $1$, by setting $x_1 = 1$ and $x_2 = 0$. Then, this feasable region is unbounded because for any number $r$, we could set $x_1 = x_2 =r$, and that would be feasible because the difference of the two would be zero which is $\le 1$.
 
 If we further wanted it so that there was a single solution that achieved the finite optimal value, we could add the requirements that $x_1 \le 1$.\\
@@ -114,6 +119,7 @@ If we further wanted it so that there was a single solution that achieved the fi
 
 
 \noindent\textbf{Exercise 29.2-1}\\
+
 The objective is already in normal form. However, some of the constraints are equality constraints instead of $\le$ constraints. This means that we need to rewrite them as a pair of inequality constraints, the overlap of whose solutions is just the case where we have equality. we also need to deal with the fact that most of the variables can be negative. To do that, we will introduce variables for the negative part and positive part, each of which need be positive, and we'll just be sure to subtract the negative part. $d_s$ need not be changed in this way since it can never be negative since we are not assuming the existence of negative weight cycles.
 
 \begin{align*}
@@ -125,6 +131,7 @@ d_s &\le 0\\
 
 
 \noindent\textbf{Exercise 29.2-3}\\
+
 We will follow a similar idea to the way to when we were finding the shortest path between two particular vertices.
 \begin{align*}
 \hbox{maximize }&\sum_{v\in V} d_v\\
@@ -137,6 +144,7 @@ The first type of constraint makes sure that we never say that a vertex is furth
 
 
 \noindent\textbf{Exercise 29.2-5}\\
+
 All we need to do to bring the number of constraints down from $O(V^2)$ to $O(V+E)$ is to replace the way we index the flows. Instead of indexing it by a pair of vertices, we will index it by an edge. This won't change anything about the analysis because between pairs of vertices that don't have an edge between them, there definitely won't be any flow. Also, it brings the number of constraints of the first and third time down to $O(E)$ and the number of constraints of the second kind stays at $O(V)$.
 
 \begin{align*}
@@ -149,6 +157,7 @@ All we need to do to bring the number of constraints down from $O(V^2)$ to $O(V+
 
 
 \noindent\textbf{Exercise 29.2-7}\\
+
 As in the minimum cost flow problem, we have constaints for the edge capacities, for the conservation of flow, and nonegativity. The difference is that the restraint that before we required exactly $d$ units to flow, now, we require that for each commodity, the right amount of that comodity flows. the conservation equalities will be applied to each different type of commodity independently. If we super script $f$ that will denote the type of commodity the flow is describing, if we do not superscript it, it will denote the aggregate flow.
 
 We want to minimize
@@ -188,6 +197,7 @@ f_{u,v} \ge 0
 
 
 \noindent\textbf{Exercise 29.3-1}\\
+
 We subtract equation (29.81) from equation (29.79). This gets us
 
 \[
@@ -204,6 +214,7 @@ Then, by applying Lemma 29.3, we get that for every $j$, we have $c_j = c_j'$ an
 
 
 \noindent\textbf{Exercise 29.3-3}\\
+
 To show that the two slack forms are equivalent, we will show both that they have equal objective functions, and their sets of feasible solutions are equal.
 
 First, we'll check that their sets of feasible solutions are equal. Basically all we do to the constraints when we pivot is take the non-basic variable, e, and solve the equation corresponding to the basic variable $l$ for $e$. We are then taking that expression and replacing $e$ in all the constraints with this expression we got by solving the equation corresponding to $l$. Since each of these algebraic operations are valid, the result of the sequence of them is also algebraically equivalent to the original.
@@ -215,6 +226,7 @@ Since the slack form returned by PIVOT, has the same feasible region and an equa
 
 
 \noindent\textbf{Exercise 29.3-5}\\
+
 First, we rewrite the linear program into it's slack form, we want to maximize $18x_1 + 12.5x_2$, given the constraints
 
 \begin{align*}
@@ -257,12 +269,13 @@ x_5 & = -30000 + 20x_1 + 5x_2 + 10x_3 \\
 x_1,x_2,x_3,x_4,x_5 &\ge 0
 \end{align*}
 
-Also, since the objective is to minimize a given function, we'll change it over to maximizing the negative of that function. In particular maximize $-x_1 -x_2 -x_3$. Now, we note that the initial basic solution is not feasible, because it would leave $x_4$ and $x_5$ being negative. Since we haven't yet been introduced to what the actual way to find the initial feasible solution is (it's not until 19.5). . . 
+Also, since the objective is to minimize a given function, we'll change it over to maximizing the negative of that function. In particular maximize $-x_1 -x_2 -x_3$. Now, we note that the initial basic solution is not feasible, because it would leave $x_4$ and $x_5$ being negative. Since we haven't yet been introduced to what the actual way to find the initial feasible solution is (it's not until 29.5). . . 
 %notdone
 
 
 
 \noindent\textbf{Exercise 29.4-1}\\
+
 By just transposing $A$, swapping $b$ and $c$, and switching the maximization to a minimization, we want to minimize $20y_1 + 12 y_2 + 16 y_3$ subject to the constraints 
 \begin{align*}
 y_1 + y_2 &\ge 18\\
@@ -273,6 +286,7 @@ y_1,y_2,y_3 &\ge 0
 
 
 \noindent\textbf{Exercise 29.4-3}\\
+
 First, we'll convert the linear program for maximum flow described in equation (29.47)-(29.50) into standard form. The objective function says that $c$ is a vector indexed by a pair of vertices, and it is positive one if $s$ is the first index and negative one if $s$ is the second index (zero if it is both). Next, we'll modify the constraints by switching the equalities over into inequalities to get
 
 \begin{align*}
@@ -317,6 +331,7 @@ Now that we have placed the linear program in standard form, we can take its dua
 
 
 \noindent\textbf{Exercise 29.4-5}\\
+
 Suppose that our original linear program is in standard form for some $A,b,c$. Then, the dual of this is to minimize $\sum_{i=1}^m b_i y_i$ subject to $A^T y \ge c$ This can be rewritten as wanting to maximize $\sum_{i=1}^m (-b_i) y_i$ subject to $(-A)^T y \le -c$. Since this is a standard form, we can take its dual easily, it is minimize $\sum_{j=1}^n (-c_j) x_j$ subject to $(-A)x \ge -b$. This is the same as minimizing $\sum_{j=1}^n c_j x_j$ subject to $Ax \le b$, which was the original linear program.\\
 
 
@@ -327,6 +342,7 @@ Suppose that our original linear program is in standard form for some $A,b,c$. T
 
 
 \noindent\textbf{Exercise 29.5-3}\\
+
 Since it is in standard form, the objective function has no constant term, it is entirely given by $\sum_{i=1}^n c_i x_i$, which is going to be zero for any basic solution. The same thing goes for its dual. Since there is some solution which has the objective function achieve the same value both for the dual and the primal, by the corollary to the weak duality theorem, that common value must be the optimal value of the objective function.\\
 
 
@@ -342,6 +358,7 @@ Since it is in standard form, the objective function has no constant term, it is
 
 
 \noindent\textbf{Exercise 29.5-9}\\
+
 \begin{enumerate}[1.]
 \item
 One option is that $r= 0$, $s\ge 0$ and $t\le 0$. Suppose that $r>0$, then, if we have that $s$ is non-negative and $t$ is non-positive, it will be as we want. 
@@ -358,6 +375,7 @@ If we have that $r=0$ and $t$ is positive and $s$ is negative. If $r$ is nonzero
 
 
 \noindent\textbf{Problem 29-1}\\
+
 \begin{enumerate}[a.]
 \item
 We just let the linear inequalities that we need to satisfy be our set of constraints in the linear program. We let our function to maximize just be a constant. The solver for linear programs would fail to detect any feasible solution if the linear constraints were not feasible. If the linear programming solver returns any solution at all, we know that the linear constraints are feasible. 
@@ -386,6 +404,7 @@ Lastly, it is necessary to note that if there is some optimal solution $x$, then
 
 
 \noindent\textbf{Problem 29-3}\\
+
 \begin{enumerate}[a.]
 \item The proof for weak duality goes through identically. Nowhere in it does it use the integrality of the solutions.
 \item Consider the linear program given in standard form by $A = \left(1\right)$, $b = \left(\frac{1}{2}\right)$ and $c = \left( 2 \right)$. The highest we can get this is $0$ since that's that only value that $x$ can be. Now, consider the dual to this, that is, we are trying to minimize $\frac{x}{2}$ subject to the constraint that $x \ge 2$. This will be minimized when $x=2$, so, the smallest solution we can get is 1.
@@ -400,6 +419,7 @@ The middle equality is given by Theorem 29.10.
 
 
 \noindent\textbf{Problem 29-5}\\
+
 \begin{enumerate}[a.]
 \item
 This is exactly the linear program given in equations (29.51) - (29.52) except that the equation on the third line of the constraints should be removed, and for the equation on the second line of the constraints, u should be selected from all of $V$ instead of from $V \setminus \{s,t\}$.
