@@ -205,9 +205,9 @@ We will present a simple solution to this problem that runs in time $O(n\lg(n))$
 \end{enumerate}
 
 \noindent\textbf{Problem 14-2}\\
+\begin{enumerate}[a.]
+\item Create a circular doubly linked list.  Continue to advance $m$ places in the list (not  counting the sentinal), followed by printing and deleting the current node, until the list is empty. Since $m$ is a constant and we advance at most $mn$ places, the runtime is $O(n)$.\\
 
-a. Create a circular doubly linked list.  Continue to advance $m$ places in the list (not  counting the sentinal), followed by printing and deleting the current node, until the list is empty. Since $m$ is a constant and we advance at most $mn$ places, the runtime is $O(n)$.\\
-
-b. Begin by creating an order statistic tree for the given elements, where rank starts at 0 and ends at $n-1$, the rank of a node is its position in the original order minus 1, and we store each element's value in an attribute $x.value$.  Print the element with rank $m(n) - 1$, then delete it from the tree.  Then proceed as follows:  If you've just printed the $k^{th}$ value which had rank $r$, delete that node from the tree, and the $(k+1)^{st}$ value to be printed will have rank $r - 1 + m(n) \mod (n-k)$.  Since deletion and lookup take $O(\lg n)$ and there are $n$ nodes, the runtime is $O(n\lg n)$.
-
+\item Begin by creating an order statistic tree for the given elements, where rank starts at 0 and ends at $n-1$, the rank of a node is its position in the original order minus 1, and we store each element's value in an attribute $x.value$.  Print the element with rank $m(n) - 1$, then delete it from the tree.  Then proceed as follows:  If you've just printed the $k^{th}$ value which had rank $r$, delete that node from the tree, and the $(k+1)^{st}$ value to be printed will have rank $r - 1 + m(n) \mod (n-k)$.  Since deletion and lookup take $O(\lg n)$ and there are $n$ nodes, the runtime is $O(n\lg n)$.
+\end{enumerate}
 \end{document} 

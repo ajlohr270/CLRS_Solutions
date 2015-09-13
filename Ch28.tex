@@ -37,6 +37,7 @@
 \begin{document}
 \maketitle
 \noindent\textbf{Exercise 28.1-1}\\
+
 We get the solution:
 
 \[
@@ -53,9 +54,14 @@ We get the solution:
 \end{array}\right)
 \]
 
+\noindent\textbf{Exercise 28.1-2}\\
 
+An LU decomposition of the matrix is given by 
+
+\[ \left(\begin{array}{ccc} 4 & -5 & 6 \\ 8 & -6 & 7 \\ 12 & -7 & 12 \end{array} \right) =  \left(\begin{array}{ccc} 1 & 0 & 0 \\ 2 & 1 & 0 \\ 3 & 2 & 1 \end{array} \right) \left(\begin{array}{ccc} 4 & -5 & 6 \\ 0 & 4 & -5 \\ 0 & 0 & 4 \end{array} \right).\]
 
 \noindent\textbf{Exercise 28.1-3}\\
+
 First, we find the LUP decomposition of the given matrix
 
 \[
@@ -163,14 +169,20 @@ So, finally by back substitution,
  \end{array}\right) 
 \]
 
+\noindent\textbf{Exercise 28.1-4}\\
 
+The LUP decomposition of a diagonal matrix $D$ is $D = I D I$ where $I$ is the identity matrix.\\
 
 \noindent\textbf{Exercise 28.1-5}\\
+
 A LU decomposition of a permutation matrix is letting $P$ be the inverse permutation matrix, and let both L and U be the identity matrix. Now, we need show that this representation is unique. We know that the permutation matrix $A$ is non-singular. This means that $U$ has nonzero elements all along its diagonal. Now, suppose that there were some nonzero element off of the diagonal in $L$, which is to say $L_{i,j}\neq 0$ for $i\neq j$. Then, look at row $i$ in the product $LU$. This has a nonzero entry both at column $j$ and at column $i$. Since it has more than one non-zero entry, it cannot be transformed into a permutation matrix by permuting the rows. Similarly, we have that $U$ cannot have any off-diagonal elements. Lastly, since we know that both $L$ and $U$ are diagonal matrices, we know that $L$ is the identity. Since $A$ only has ones as its nonzero entries, and $LU =U$. U must also only have ones as its nonzero entries. So, we have $U$ is the identity. This means that $PA =I$, which means that $P = A^{-1}$. This completes showing that the given decomposition is unique.\\
 
+\noindent\textbf{Exercise 28.1-6}\\
 
+The zero matrix always has an LU decomposition by taking $L$ to be any unit lower-triangular matrix and $U$ to be the zero matrix, which is upper triangular. \\
 
 \noindent\textbf{Exercise 28.1-7}\\
+
 For LU decomposition, it is indeed necessary. If we didn't run the last run of the outermost for loop, $u_{nn}$ would be left its initial value of zero instead of being set equal to $a_{nn}$. This can clearly produce incorrect results, because the LU decomposition of any non-singular matrix must have both $L$ and $U$ having positive determinant. However, if $u_{nn}=0$, the determinant of $U$ will be zero by problem D.2-2.
 
 For LUP-decomposition, the iteration of the outermost for loop that occurs with $k=n$ will not change the final answer. Since $\pi$ would have to be a permutation on a single element, it cannot be non-trivial. and the for loop on line 16 will not run at all.\\
@@ -178,6 +190,7 @@ For LUP-decomposition, the iteration of the outermost for loop that occurs with 
 
 
 \noindent\textbf{Exercise 28.2-1}\\
+
 Showing that being able to multiply matrices in time $M(n)$ implies being able to square matrices in time $M(n)$ is trivial because squaring a matrix is just multiplying it by itself.
 
 The more tricky direction is showing that being able to square matrices in time $S(n)$ implies being able to multiply matrices in time $O(S(n))$. \begin{comment}
@@ -230,27 +243,57 @@ C^2 = \left( \begin{array}{cc}I&A+AB\\0&B\end{array}\right)
 \]
 Then we can just take the upper right quarter of $C^2$ and subtract $A$ from it to obtain the desired result. Apart from the squaring, we've only done work that is $O(n^2)$. Since $S(n)$ is $\Omega(n^2)$ anyways, we have that the total amount of work we've done is $O(n^2)$.\\
 
+\noindent\textbf{Exercise 28.2-2}\\
 
+Let $A$ be an $n \times n$ matrix.  Without loss of generality we'll assume $A$ is a power of 2, and impose the regularity condition that $L(n/2) \leq c L(n)$ where $c < 1/2$ and $L(n)$ is the time it takes to find an LUP decomposition of an $n \times n$ matrix.  \\
+
+%Not done.  For the LU case, the thought was to write A = {{A_1, A_2},{A_3, A_4}}, do a decomp of A_1 and A_4 in good time by a regularity assumption, and write A = {{L_1, 0}, {A_3U_1^{-1}, L_4}} * {{U_1, L_1^{-1}A_2}, {0, U_4 - L_4^{-1}(A_3U_1^{-1}L_1^{-1}A_2)}}.  This gives an LU decomp recursively which is nice, but it doesn't deal with the pivoting, which can't only be considered on a part of the matrix.  We need to pivot everywhere!
 
 \noindent\textbf{Exercise 28.2-3}\\
+
 From problem 28.2-2, we can find a LU-decomposition algorithm that only takes time $O(M(n))$. So, we run that algorithm and multiply together all of the entries along the diagonal of $U$, this will be the determinant of the original matrix.
 
-Now, suppose that we have a determinant algorithm that takes time $D(n)$, we will show that we can find a matrix multiplication algorithm that takes time $O(D(n))$.
+Now, suppose that we have a determinant algorithm that takes time $D(n)$, we will show that we can find a matrix multiplication algorithm that takes time $O(D(n))$.\\
 %notdone
 
+\noindent\textbf{Exercise 28.2-4}\\
 
+Suppose we can multiply boolean matrices in $M(n)$ time, where we assume this means that if we're multiplying boolean matrices $A$ and $B$, then $(AB)_{ij} = (a_{i1}\wedge b_{1j}) \vee \ldots \vee (a_{in} \wedge b_{nj})$.  To find the transitive closure of a boolean matrix $A$ we just need to find the $n^{th}$ power of $A$.  We can do this by computing $A^2$, then $(A^2)^2$, then $((A^2)^2)^2)$, and so on.  This requires only $\lg n$ multiplications, so the transitive closure can be computed in $O(M(n)\lg n)$.  
+
+For the other direction, first view $A$ and $B$ as adjacency matrices, and impose the regularity condition $T(3n) = O(T(n))$, where $T(n)$ is the time to compute the transitive closure of a graph on $n$ vertices.  We will define a new graph whose transitive closure matrix contains the boolean product of $A$ and $B$.  Start by placing $3n$ vertices down, labeling them $1,2,\ldots, n, 1', 2', \ldots, n', 1'', 2'', \ldots, n''$.  Connect vertex $i$ to vertex $j'$ if and only if $A_{ij} = 1$.  Connect vertex $j'$ to vertex $k''$ if and only if $B_{jk} = 1$. In the resulting graph, the only way to get from the first set of $n$ vertices to the third set is to first take an edge which ``looks like'' an edge in $A$, then take an edge which ``looks like '' an edge in $B$. In particular, the transitive closure of this graph is:
+
+\[ \left[ \begin{array}{ccc} I & A & AB \\ 0 & I & B \\ 0 & 0 & I \end{array} \right].\]
+
+Since the graph is only of size $3n$, computing its transitive closure can be done in $O(T(3n)) = O(T(n))$ by the regularity condition.  Therefore multiplying matrices and finding transitive closure are are equally hard. \\
 
 \noindent\textbf{Exercise 28.2-5}\\
+
 It does not work necessarily over the field of two elements. The problem comes in in applying theorem D.6 to conclude that $A^TA$ is positive definite. In the proof of that theorem they obtain that $||Ax||^2 \ge 0$ and only zero if every entry of $Ax$ is zero. This second part is not true over the field with two elements, all that would be required is that there is an even number of ones in $Ax$. This means that we can only say that $A^TA$ is positive semi-definite instead of the positive definiteness that the algorithm requires.\\
 
+\noindent\textbf{Exercise 28.2-6}\\
 
+We may again assume that our matrix is a power of 2, this time with complex entries. For the moment we assume our matrix $A$ is Hermitian and positive-definite. The proof goes through exactly as before, with matrix transposes replaced by conjugate transposes, and using the fact that Hermitian positive-definite matrices are invertible.  Finally, we need to justify that we can obtain the same asymptotic running time for amtrix multiplication as for matrix inversion when $A$ is invertible, but not Hermitian positive-definite. For any nonsingular matrix $A$, the matrix $A^*A$ is Hermitian and positive definite, since for any $x$ we have $x^*A^*Ax = \langle Ax, Ax \rangle > 0$ by the definition of inner product. To invert $A$, we first compute $(A^*A)^{-1} = A^{-1} (A^*)^{-1}$.  Then we need only multiply this result on the right by $A^*$. Each of these steps takes $O(M(n))$ time, so we can invert any nonsingluar matrix with complex entries in $O(M(n))$ time. \\
 
 \noindent\textbf{Exercise 28.3-1}\\
+
 To see this, let $e_i$ be the vector that is zeroes except for a one in the $i$th position. Then, we consider the quantity $e_i^TAe_i$ for every $i$. $Ae_i$ takes each row of $A$ and pulls out the ith column of it, and puts those values into a column vector. Then, multiplying that on the left by $e_i^T$, pulls out the $i$th row of this quantity, which means that the quantity $e_i^TAe_i$ is exactly the value of $A_{i,i}$. So, we have that by positive definiteness, since $e_i$ is nonzero, that quantity must be positive. Since we do this for every i, we have that every entry along the diagonal must be positive.\\
 
+\noindent\textbf{Exercise 28.3-2}\\
 
+Let $x = -by/a$.  Since $A$ is positive-definite we must have 
+
+\begin{align*}
+0 & < [x y ]^T A  \left[ \begin{array}{c} x \\ y \end{array} \right] \\
+&= [x y]^T \left[ \begin{array}{c} ax + by \\ bx + cy \end{array}\right] \\
+&= ax^2 + 2bxy + cy^2 \\
+&= cy^2 - \frac{b^2 y^2}{a} \\
+&= (c-b^2/a)y^2.
+\end{align*}
+
+Thus, $c-b^2/a > 0$ which implies $ca - b^2 > 0$, since $a>0$.  \\
 
 \noindent\textbf{Exercise 28.3-3}\\
+
 Suppose to a contradiction that there were some element $a_{ij}$ with $i\neq j$ so that $a_{ij}$ were a largest element. We will use $e_i$ to denote the vector that is all zeroes except for having a 1 at position i. Then, we consider the value $(e_i-e_j)^T A (e_i-e_j)$. When we compute $A(e_i-e_j)$ this will return a vector which is column $i$ minus column $j$. Then, when we do the last multiplication, we will get the quantity which is the $i$th row minus the $j$th row. So, 
 \begin{align*}
 (e_i-e_j)^T A (e_i-e_j) &= a_{ii} - a_{ij} - a_{ji}  +a_{jj}\\
@@ -259,13 +302,36 @@ Suppose to a contradiction that there were some element $a_{ij}$ with $i\neq j$ 
 
 Where we used symmetry to get that $a_{ij} =a_{ji}$. This result contradicts the fact that $A$ was positive definite. So, our assumption that there was a element tied for largest off the diagonal must of been false.\\
 
+\noindent\textbf{Exercise 28.3-4}\\
 
+The claim clearly holds for matrices of size 1 because the single entry in the matrix is positive the only leading submatrix is the matrix itself.  Now suppose the claim holds for matrices of size $n$, and let $A$ be an $(n+1) \times (n+1)$ symmetric positive-definite matrix. We can write $A$ as 
+
+\[A = \left[ \begin{array}{ccc|c} & & & \\  & A' & & w \\ & & & \\ \hline & v & & c\end{array} \right]. \]
+
+Then $A'$ is clearly symmetric, and for any $x$ we have $x^T A' x = [x 0] A \left[ \begin{array}{c} x \\ 0 \end{array} \right] > 0$, so $A'$ is positive-definite.  By our induction hypothesis, every leading submatrix of $A'$ has positive determinant, so we are left only to show that $A$ has positive determinant.  By Theorem D.4, the determinant of $A$ is equal to the determinant of the matrix 
+
+\[ B = \left[ \begin{array}{c|ccc}  c &  & v & \\ \hline & & & \\  w & & A' &  \\ & &  & \\ \end{array} \right]. \]
+
+Theorem D.4 also tells us that  the determinant is unchanged if we add a multiple of one column of a matrix to another.  Since $0 < e_{n+1}^T A e_{n+1} = c$, we can use multiples of the first column to zero out every entry in the first row other than $c$.  Specifically, the determinant of $B$ is the same as the determinant of the matrix obtained in this way, which looks like
+
+\[C = \left[ \begin{array}{c|ccc}  c &  & 0 & \\ \hline & & & \\  w & & A'' &  \\ & &  & \\ \end{array} \right]. \]
+
+By definition, $\det(A) = c\det(A'')$.  By our induction hypothesis, $\det(A'') > 0$.  Since $c > 0$ as well, we conclude that $\det(A) > 0$, which completes the proof. \\
 
 \noindent\textbf{Exercise 28.3-5}\\
-We will try to proceed by induction on the value of $k$. To show it for $k=0$, we need to get that the upper left corner is the largest of all the elements in the leftmost column. Suppose that there were some entry in the the left column that was larger than the element in the top row.
+
+We will try to proceed by induction on the value of $k$. To show it for $k=0$, we need to get that the upper left corner is the largest of all the elements in the leftmost column. Suppose that there were some entry in the the left column that was larger than the element in the top row.\\
 %not done
 
+\noindent\textbf{Exercise 28.3-6}\\
 
+First we form the $A$ matrix 
+
+\[ A = \left[ \begin{array}{ccc} 1 & 0 & e \\ 1 & 2 & e^2 \\ 1 & 3 \lg 3 & e^3 \\ 1 & 8 & e^4 \end{array} \right]. \]
+
+We'll compute the pseudoinverse using Wolfram Alpha, then multiply it by $y$, to obtain the coefficient vector 
+
+\[ c = \left[ \begin{array}{c} .411741 \\ -.20487 \\ .16546 \end{array} \right].\]
 
 \noindent\textbf{Exercise 28.3-7}\\
 
@@ -299,6 +365,7 @@ A^+AA^+ &=  ((A^TA)^{-1}A^T)A((A^TA)^{-1}A^T)\\
 
 
 \noindent\textbf{Problem 28-1}\\
+
 \begin{enumerate}[a.]
 \item
 By applying the procedure of the chapter, we obtain that
@@ -438,8 +505,34 @@ Since the asymptotics of performing the LU decomposition on a positive definite 
 \item
 This was done at the beginning of the previous part.
 %I think
+
+%Boo, I think part d is asking about why you can get away with an LU decomp as opposed to LUP, since you have the additional assumption of positive definiteness.  Without it, symmetric + tridiagonal doesn't imply nonzero diagonal entries, so the LU algorithm could fail.  In part e, the weaker assumptions mean that an LU decomp might not be enough, but there is always an LUP decomp of a square matrix.
 \end{enumerate}
 
+\noindent\textbf{Problem 28-2}\\
+
+\begin{enumerate}[a.]
+\item We have $a_i = f_i(0) = y_i$ and $b_i = f_i'(0) = f'(x_i) = D_i$.  Since $f_i(1) = a_i + b_i + c_i + d_i$ and $f_i'(1) = b_i + 2c_i + 3d_i$ we have $d_i = D_{i+1} - 2y_{i+1} + 2y_i + D_i$ which implies $c_i = 3y_{i+1} - 3 y_i - D_{i+1} - 2D_i$. Since each coefficient can be computed in constant time from the known values, we can compute the $4n$ coefficients in linear time.  
+
+\item By the continuity constraints we have $f_i''(1) = f_{i+1}''(0)$ which implies that $2c_i + 6d_i = 2c_{i+1}$, or $c_i + 3d_i = c_{i+1}$. Using our equations from above, this is equivalent to 
+\[ D_i + 2D_{i+1} + 3y_i - 3y_{i+1} = 3y_{i+2} - 3y_{i+1} - D_{i+2} - 2D_{i+1}.\]
+Rearranging gives the desired equation
+\[ D_i + 4D_{i+1} + D_{i+2} = 3(y_{i+2} - y_i).\]
+
+\item The condition on the left endpoint tells us that $f_0''(0) = 0$, which implies $2c_0 = 0$.  By part a, this means $3(y_1-y_0) = 2D_0 + D_1$.  The condition on the right endpoint tells us that $f_{n-1}''(1) = 0$, which implies $c_{n-1} + 3d_{n-1} = 0$.  By part a, this means $3(y_n - y_{n-1}) = D_{n-1} + 2D_n$. 
+
+\item The matrix equation has the form $AD = Y$, where $A$ is symmetric and tridiagonal.  It looks like this:
+
+\[ \left[ \begin{array}{cccccc} 2&1&0&0&\cdots&0\\1&4&1&0&\cdots&0\\ 0&\ddots&\ddots&\ddots&\cdots&\vdots\\ \vdots&\cdots&1&4&1&0\\
+0&\cdots&0&1&4&1\\0&\cdots&0&0&1&2 \end{array}\right]
+\left[ \begin{array}{c} D_0 \\ D_1 \\ D_2 \\ \vdots \\ D_{n-1} \\ D_{n} \end{array}\right] = 
+\left[ \begin{array}{c} 3(y_1 - y_0) \\ 3(y_2 - y_0) \\ 3(y_3 - y_1) \\ \vdots \\ 3(y_n - y_{n-2}) \\ 3(y_n - y_{n-1}) \end{array} \right]
+.\]
+
+\item Since the matrix is symmetric and tridiagonal, Problem 28-1 e tells us that we can solve the equation in $O(n)$ time by performing an LUP decomposition.  By part a of this problem, once we know each $D_i$ we can compute each $f_i$ in $O(n)$ time. 
+
+\item For the general case of solving the nonuniform natural cubic spline problem, we require that $f(x_{i+1}) = f_i(x_{i+1} - x_i) = y_{i+1}$, $f'(x_{i+1}) = f_i'(x_{i+1}-x_i) = f_{i+1}'(0)$ and $f''(x_{i+1}) = f_i''(x_{i+1} - x_i) = f_{i+1}''(0)$. We can still solve for each of $a_i$, $b_i$, $c_i$, and $d_i$ in terms of $y_i$, $y_{i+1}$, $D_i$, and $D_{i+1}$, so we still get a tridiagonal matrix equation.  The solution will be slightly messier, but ultimately it is solved just like the simpler case, in $O(n)$ time. 
+\end{enumerate}
 
 
 \end{document}

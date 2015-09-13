@@ -30,6 +30,7 @@
 \maketitle
 
 \noindent\textbf{Exercise 7.1-1}\\
+
 $
 \begin{array}{|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
@@ -77,6 +78,7 @@ The for loop makes exactly $r-p$ iterations, each of which takes at most constan
 To modify QUICKSORT to run in nonincreasing order we need only modify line 4 of PARTITION, changing $\leq$ to $\geq$. \\
 
 \noindent\textbf{Exercise 7.2-1}\\
+
 By definition of $\Theta$, we know that there exists $c_1,c_2$ so that the $\Theta(n)$ term is between $c_1 n$ and $c_2 n$. We make that inductive hypothesis be that $c_1 m^2 \le T(m) \le c_2 m^2$ for all $m < n$, then, for large enough $n$, 
 \[c_1 n^2 \le c_1 (n-1)^2 + c_1 n \le T(n-1) + \Theta(n)\] \[= T(n) = T(n-1) + \Theta(n) \le c_2 (n-1)^2 +c_2 n \le c_2 n^2\]\\
 
@@ -86,6 +88,7 @@ By definition of $\Theta$, we know that there exists $c_1,c_2$ so that the $\The
 The running time of QUICKSORT on an array in which evey element has the same value is $n^2$.  This is because the partition will always occur at the last position of the array (Exercise 7.1-2) so the algorithm exhibits worst-case behavior. \\
 
 \noindent\textbf{Exercise 7.2-3}\\
+
 If the array is already sorted in decreasing order, then, the pivot element is less than all the other elements. The partition step takes $\Theta(n)$ time, and then leaves you with a subproblem of size $n-1$ and a subproblem of size 0. This gives us the recurrence considered in 7.2-1. Which we showed has a solution that is $\Theta(n^2)$.\\
 
 \noindent\textbf{Exercise 7.2-4}\\
@@ -93,6 +96,7 @@ If the array is already sorted in decreasing order, then, the pivot element is l
 Let's say that by ``almost sorted'' we mean that $A[i]$ is at most $c$ positions from its correct place in the sorted array, for some constant $c$. For INSERTION-SORT, we run the inner-while loop at most $c$ times before we find where to insert $A[j]$ for any particular iteration of the outer for loop.  Thus the running time time is $O(cn) = O(n)$, since $c$ is fixed in advance.  Now suppose we run QUICKSORT.  The split of PARTITION will be \emph{at best} $n-c$ to $c$, which leads to $O(n^2)$ running time. \\
 
 \noindent\textbf{Exercise 7.2-5}\\
+
 The minimum depth corresponds to repeatedly taking the smaller subproblem, that is, the branch whoose size is proportional to $\alpha$. Then, this will fall to 1 in $k$ steps where $1 \approx (\alpha)^k n$. So, $k \approx \log_{\alpha}(1/n) = - \frac{\lg(n)}{\lg(\alpha)} $. The longest depth corresponds to always taking the larger subproblem. we then have and identical expression, replacing $\alpha$ with $1-\alpha$.\\
 
 \noindent\textbf{Exercise 7.2-6}\\
@@ -100,6 +104,7 @@ The minimum depth corresponds to repeatedly taking the smaller subproblem, that 
 Without loss of generality, assume that the entries of the input array are distinct.  Since only the relative sizes of the entries matter, we may assume that $A$ contains a random permutation of the numbers 1 through $n$.  Now fix $0 < \alpha \leq 1/2$.  Let $k$ denote the number of entries of $A$ which are less than $A[n]$. PARTITION produces a split more balanced than $1-\alpha$ to $\alpha$ if and only if $\alpha n \leq k \leq (1-\alpha)n$.  This happens with probability $\frac{(1-\alpha)n - \alpha n + 1}{n} = 1-2\alpha + 1/n \approx 1 - 2\alpha$.\\
 
 \noindent\textbf{Exercise 7.3-1}\\
+
 We analyize the exprected run time because it represents the more typical time cost. Also, we are doing the expected run time over the possible randomness used during computation because it can't be produced adversatially, unlike when doing expected run time over all possible inputs to the algorithm.\\
 
 \noindent\textbf{Exercise 7.3-2}\\
@@ -107,10 +112,14 @@ We analyize the exprected run time because it represents the more typical time c
 In the worst case, RANDOM returns the index of the largest element each time it's called, so $\Theta(n)$ calls are made.  In the best case, RANDOM returns the index of the element in the middle of the array and the array has distinct elements, so $\Theta(\lg n)$ calls are made. \\
 
 \noindent\textbf{Exercise 7.4-1}\\
+
 By definition of $\Theta$, we know that there exists $c_1,c_2$ so that the $\Theta(n)$ term is between $c_1 n$ and $c_2 n$. We make that inductive hypothesis be that $c_1 m^2 \le T(m) \le c_2 m^2$ for all $m < n$, then, for large enough $n$, 
-\[
-c_1 n^2 \le c_1 \max_{q\in [n]} n^2 -2 n(q+2) + (q+1)^2 +(q+1)^2 + n = \max_{q\in [n]} c_1 (n-q-2)^2 + c_1 (q+1)^2 +c_1 n \le \max_{q\in [n]} T( n-q-2) + T(q+1) + \Theta(n) = T(n)
-\]
+\begin{align*}
+c_1 n^2 &\le c_1 \max_{q\in [n]} n^2 -2 n(q+2) + (q+1)^2 +(q+1)^2 + n\\
+& = \max_{q\in [n]} c_1 (n-q-2)^2 + c_1 (q+1)^2 +c_1 n\\
+& \le \max_{q\in [n]} T( n-q-2) + T(q+1) + \Theta(n) \\
+&= T(n)
+\end{align*}
 Similarly for the other direction
 \\
 
@@ -129,6 +138,7 @@ T(n) &\geq \min_{1 \leq q \leq n-1} (cq\lg q + 2cq + c(n-q-1)\lg(n-q-1) + 2c(n-q
 Taking a derivative with respect to $q$ shows that the minimum is obtained when $q = n/2$.  Taking $c$ large enough to dominate the $-\lg n + 2 - 2c + \Theta(n)$ term makes this greater than $cn\lg n$, proving the bound. \\
 
 \noindent\textbf{Exercise 7.4-3}\\
+
 We will treat the given expression to be continuous in $q$, and then, any extremal values must be either adjacent to a critical point, or one of the endpoints. The second derivative with respect to $q$ is $4$, So, we have that any ciritcal points we find will be minima. The expression has a derivative with respect to q of $2q - 2 (n-q-2) = -2n + 4q +4$ which is zero when we have $2q+2 =n$. So, there will be a minima at $q= \frac{n-2}{2}$. So, the maximal values must only be the endpoints. We can see that the endpoints are equally large because at $q=0$, it is $(n-1)^2$, and at $q=n-1$, it is $(n-1)^2+ (n-n+1 -1)^2 = (n-1)^2$.
 
 
@@ -158,6 +168,7 @@ In theory, we should pick $k$ to minimze this expression, that is, taking a deri
 For simplicity of analysis, we will assume that the elements of the array $A$ are the numbers 1 to $n$.  If we let $k$ denote the median value, the probability of getting at worst an $\alpha$ to $1-\alpha$ split is the probability that $\alpha n \leq k \leq (1-\alpha)n$.  The number of ``bad'' triples is equal to the number of triples such that at least two of the numbers come from $[1,\alpha n]$ or at least two of the numbers come from $[(1-\alpha)n, n]$.  Since both intervals have the same size, the probability of a bad triple is $2(\alpha^3 +3\alpha^2(1-\alpha))$.  Thus the probability of selecting a ``good'' triple, and thus getting at worst an $\alpha$ to $1-\alpha$ split, is $1 - 2(\alpha^3 +3\alpha^2(1-\alpha)) = 1 + 4\alpha^3 - 6\alpha^2$.
 
 \noindent\textbf{Problem 7-1}\\
+
 \begin{enumerate}[a.]
 \item
 We will be calling with the parameters $p=1$, $r=|A|=12$. So, throughout, $x=13$.
@@ -222,10 +233,10 @@ Quicksort(A,p,r)
 \end{enumerate}
 
 \noindent\textbf{Problem 7-2}\\
+\begin{enumerate}[a.]
+\item  Since all elements are the same, the initial random choice of index and swap change nothing.  Thus, randomized quicksort's running time will be the same as that of quicksort.  Since all elements are equal, PARTITION$(A,P,r)$ will always return $r-1$.  This is worst-case partitinoing, so the runtime is $\Theta(n^2)$. \\
 
-a.  Since all elements are the same, the initial random choice of index and swap change nothing.  Thus, randomized quicksort's running time will be the same as that of quicksort.  Since all elements are equal, PARTITION$(A,P,r)$ will always return $r-1$.  This is worst-case partitinoing, so the runtime is $\Theta(n^2)$. \\
-
-b. See the PARTITION' algorithm for modifications. \\
+\item  See the PARTITION' algorithm for modifications.
 \begin{algorithm}
 \caption{PARTITION'(A,p,r)}
 \begin{algorithmic}[1]
@@ -250,7 +261,8 @@ b. See the PARTITION' algorithm for modifications. \\
 \end{algorithmic}
 \end{algorithm}
 
-c. See the RANDOMIZED-PARTITION' algorithm for modifications.  
+
+\item See the RANDOMIZED-PARTITION' algorithm for modifications.  
 \begin{algorithm}
 \caption{RANDOMIZED-PARTITION'}
 \begin{algorithmic}[1]
@@ -271,7 +283,8 @@ c. See the RANDOMIZED-PARTITION' algorithm for modifications.
 \end{algorithmic}
 \end{algorithm}
 
-d. Let $d$ be the number of distinct elements in $A$.  The running time is dominated by the time spent in the PARTITION procedure, and there can be at most $d$ calls to PARTITION.  If $X$ is the number of comparisons performed in line 4 of PARTITION over the entire execution of QUICKSORT', then the running time is $O(d+X)$. It remains true that each pair of elements is compared at most once. If $z_i$ is the $i^{th}$ smallest element, we need to compute the probability that $z_i$ is compared to $z_j$. This time, once a pivot $x$ is chosen with $z_i \leq x \leq z_j$, we know that $z_i$ and $z_j$ cannot be compared at any subsequent time. This is where the analysis differs, because there could be many elements of the array equal to $z_i$ or $z_j$, so the probability that $z_i$ and $z_j$ are compared decreases. However, the expected percentage of distinct elements in a random array tends to $1-\frac{1}{e}$, so asymptotically the expected number of comparisons is the same. \\
+\item Let $d$ be the number of distinct elements in $A$.  The running time is dominated by the time spent in the PARTITION procedure, and there can be at most $d$ calls to PARTITION.  If $X$ is the number of comparisons performed in line 4 of PARTITION over the entire execution of QUICKSORT', then the running time is $O(d+X)$. It remains true that each pair of elements is compared at most once. If $z_i$ is the $i^{th}$ smallest element, we need to compute the probability that $z_i$ is compared to $z_j$. This time, once a pivot $x$ is chosen with $z_i \leq x \leq z_j$, we know that $z_i$ and $z_j$ cannot be compared at any subsequent time. This is where the analysis differs, because there could be many elements of the array equal to $z_i$ or $z_j$, so the probability that $z_i$ and $z_j$ are compared decreases. However, the expected percentage of distinct elements in a random array tends to $1-\frac{1}{e}$, so asymptotically the expected number of comparisons is the same. 
+\end{enumerate}
 
 \noindent\textbf{Problem 7-3}\\
 \begin{enumerate}[a.]
@@ -307,11 +320,12 @@ E[T(n)] = \frac{2}{n} \sum_{q=2}^{n-1} E[T(q)] + \Theta(n) \le \frac{2}{n} \sum_
 
 \noindent\textbf{Problem 7-4}\\
 
-a. We'll proceed by induction.  For the base case, if $A$ contains 1 element then $p = r$ so the algorithm terminates immediately, leave a single sorted element.  Now suppose that for $1 \leq k \leq n-1$, TAIL-RECURSIVE-QUICKSORT correctly sorts an array $A$ containing $k$ elements. Let $A$ have size $n$.  We set $q$ equal to the pivot and by the induction hypothesis, TAIL-RECURSIVE-QUICKSORT correctly sorts the left subarray which is of strictly smaller size.  Next, $p$ is updated to $q+1$ and the exact same sequence of steps follows as if we had originally called TAIL-RECURSIVE-QUICKSORT(A,q+1,n).  Again, this array is of strictly smaller size, so by the induction hypothesis it correctly sorts $A[q+1...n]$ as desired. \\
+\begin{enumerate}[a.]
+\item We'll proceed by induction.  For the base case, if $A$ contains 1 element then $p = r$ so the algorithm terminates immediately, leave a single sorted element.  Now suppose that for $1 \leq k \leq n-1$, TAIL-RECURSIVE-QUICKSORT correctly sorts an array $A$ containing $k$ elements. Let $A$ have size $n$.  We set $q$ equal to the pivot and by the induction hypothesis, TAIL-RECURSIVE-QUICKSORT correctly sorts the left subarray which is of strictly smaller size.  Next, $p$ is updated to $q+1$ and the exact same sequence of steps follows as if we had originally called TAIL-RECURSIVE-QUICKSORT(A,q+1,n).  Again, this array is of strictly smaller size, so by the induction hypothesis it correctly sorts $A[q+1...n]$ as desired. \\
 
-b. The stack depth will be $\Theta(n)$ if the input array is already sorted. The right subarray will always have size 0 so there will be $n-1$ recursive calls before the while-condition $p<r$ is violated. \\
+\item The stack depth will be $\Theta(n)$ if the input array is already sorted. The right subarray will always have size 0 so there will be $n-1$ recursive calls before the while-condition $p<r$ is violated. \\
 
-c. We modify the algorithm to make the recursive call on the smaller subarray to avoid building pushing too much on the stack:
+\item We modify the algorithm to make the recursive call on the smaller subarray to avoid building pushing too much on the stack:
 
 \begin{algorithm}
 \caption{MODIFIED-TAIL-RECURSIVE-QUICKSORT(A,p,r)}
@@ -328,6 +342,7 @@ c. We modify the algorithm to make the recursive call on the smaller subarray to
 \EndWhile
 \end{algorithmic}
 \end{algorithm}
+\end{enumerate}
 
 \noindent\textbf{Problem 7-5}\\
 \begin{enumerate}[a.]
@@ -360,8 +375,8 @@ Since the new algorithm always has a ``bad'' choice that is within a constant fa
 \end{enumerate}
 
 \noindent\textbf{Problem 7-6}\\
-
-Our algorithm will be essentially the same as the modified randomized quicksort written in problem 2.  We sort the $a_i$'s, but we replace the comparison operators to check for overlapping intervals.  The only modifications needed are made in PARTITION, so we will just rewrite that here.  For a given element $x$ in position $i$, we'll use $x.a$ and $x.b$ to denote $a_i$ and $b_i$ respectively.
+\begin{enumerate}[a.]
+\item Our algorithm will be essentially the same as the modified randomized quicksort written in problem 2.  We sort the $a_i$'s, but we replace the comparison operators to check for overlapping intervals.  The only modifications needed are made in PARTITION, so we will just rewrite that here.  For a given element $x$ in position $i$, we'll use $x.a$ and $x.b$ to denote $a_i$ and $b_i$ respectively.
 
 \begin{algorithm}
 \caption{FUZZY-PARTITION(A,p,r)}
@@ -389,6 +404,6 @@ Our algorithm will be essentially the same as the modified randomized quicksort 
 \end{algorithm}
 When intervals overlap we treat them as equal elements, thus cutting down on the time required to sort.  \\
 
-b. For distinct intervals the algorithm runs exactly as regular quicksort does, so its expected runtime will be $\Theta(n \lg n)$ in general.  If all of the intervals overlap then the condition on line 12 will be satisfied for every iteration of the for loop.  Thus the algorithm returns $p$ and $r$, so only empty arrays remain to be sorted. FUZZY-PARTITION will only be called a single time, and since its runtime remains $\Theta(n)$, the total expected runtime is $\Theta(n)$.
-
+\item For distinct intervals the algorithm runs exactly as regular quicksort does, so its expected runtime will be $\Theta(n \lg n)$ in general.  If all of the intervals overlap then the condition on line 12 will be satisfied for every iteration of the for loop.  Thus the algorithm returns $p$ and $r$, so only empty arrays remain to be sorted. FUZZY-PARTITION will only be called a single time, and since its runtime remains $\Theta(n)$, the total expected runtime is $\Theta(n)$.
+\end{enumerate}
 \end{document}

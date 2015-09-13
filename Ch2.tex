@@ -276,7 +276,7 @@ Note that one of these two cases must be true since the set of considered points
 
 \noindent\textbf{Problem 2-1} \\
 
-\begin{enumerate}[a)]
+\begin{enumerate}[a.]
 \item
 The time for insertion sort to sort a single list of length $k$ is $\Theta(k^2)$, so, $n/k$ of them will take time $\Theta(\frac{n}{k}k^2) = \Theta(nk)$.
 
@@ -294,18 +294,20 @@ If we optimize the previous expression using our calculus 1 skills to get $k$, w
 
 \noindent\textbf{Problem 2-2}\\
 
-a. We need to prove that $A'$ contains the same elements as $A$, which is easily seen to be true because the only modification we make to $A$ is swapping its elements, so the resulting array must contain a rearrangement of the elements in the original array. \\
+\begin{enumerate}
+\item We need to prove that $A'$ contains the same elements as $A$, which is easily seen to be true because the only modification we make to $A$ is swapping its elements, so the resulting array must contain a rearrangement of the elements in the original array. \\
 
-b. The \textbf{for} loop in lines 2 through 4 maintains the following loop invariant: At the start of each iteration, the position of the smallest element of $A[i..n]$ is at most $j$.  This is clearly true prior to the first iteration because the position of any element is at most $A.length$.  To see that each iteration maintains the loop invariant, suppose that $j=k$ and the position of the smallest element of $A[i..n]$ is at most $k$.  Then we compare $A[k]$ to $A[k-1]$.  If $A[k] < A[k-1]$ then $A[k-1]$ is not the smallest element of $A[i..n]$, so when we swap $A[k]$ and $A[k-1]$ we know that the smallest element of $A[i..n]$ must occur in the first $k-1$ positions of the subarray, the maintaining the invariant.  On the other hand, if $A[k] \geq A[k-1]$ then the smallest element can't be $A[k]$.  Since we do nothing, we conclude that the smallest element has position at most $k-1$.  Upon termination, the smallest element of $A[i..n]$ is in position $i$.  \\
+\item The \textbf{for} loop in lines 2 through 4 maintains the following loop invariant: At the start of each iteration, the position of the smallest element of $A[i..n]$ is at most $j$.  This is clearly true prior to the first iteration because the position of any element is at most $A.length$.  To see that each iteration maintains the loop invariant, suppose that $j=k$ and the position of the smallest element of $A[i..n]$ is at most $k$.  Then we compare $A[k]$ to $A[k-1]$.  If $A[k] < A[k-1]$ then $A[k-1]$ is not the smallest element of $A[i..n]$, so when we swap $A[k]$ and $A[k-1]$ we know that the smallest element of $A[i..n]$ must occur in the first $k-1$ positions of the subarray, the maintaining the invariant.  On the other hand, if $A[k] \geq A[k-1]$ then the smallest element can't be $A[k]$.  Since we do nothing, we conclude that the smallest element has position at most $k-1$.  Upon termination, the smallest element of $A[i..n]$ is in position $i$.  \\
 
-c. The \textbf{for} loop in lines 1 through 4 maintain the following loop invariant:  At the start of each iteration the subarray $A[1..i-1]$ contains the $i-1$ smallest elements of $A$ in sorted order.  Prior to the first iteration $i=1$, and the first 0 elements of $A$ are trivially sorted.  To see that each iteration maintains the loop invariant, fix $i$ and suppose that $A[1..i-1]$ contains the $i-1$ smallest elements of $A$ in sorted order.  Then we run the loop in lines 2 through 4.  We showed in part b that when this loop terminates, the smallest element of $A[i..n]$ is in position $i$.  Since the $i-1$ smallest elements of $A$ are already in $A[1..i-1]$, $A[i]$ must be the $i^{th}$ smallest element of $A$.  Therefore $A[1..i]$ contains the $i$ smallest elements of $A$ in sorted order, maintaining the loop invariant.  Upon termination, $A[1..n]$ contains the $n$ elements of $A$ in sorted order as desired. \\
+\item The \textbf{for} loop in lines 1 through 4 maintain the following loop invariant:  At the start of each iteration the subarray $A[1..i-1]$ contains the $i-1$ smallest elements of $A$ in sorted order.  Prior to the first iteration $i=1$, and the first 0 elements of $A$ are trivially sorted.  To see that each iteration maintains the loop invariant, fix $i$ and suppose that $A[1..i-1]$ contains the $i-1$ smallest elements of $A$ in sorted order.  Then we run the loop in lines 2 through 4.  We showed in part b that when this loop terminates, the smallest element of $A[i..n]$ is in position $i$.  Since the $i-1$ smallest elements of $A$ are already in $A[1..i-1]$, $A[i]$ must be the $i^{th}$ smallest element of $A$.  Therefore $A[1..i]$ contains the $i$ smallest elements of $A$ in sorted order, maintaining the loop invariant.  Upon termination, $A[1..n]$ contains the $n$ elements of $A$ in sorted order as desired. \\
 
-d. The $i^{th}$ iteration of the \textbf{for} loop of lines 1 through 4 will cause $n-i$ iterations of the \textbf{for} loop of lines 2 through 4, each with constant time execution, so the worst-case running time is $\Theta(n^2)$.  This is the same as that of insertion sort; however, bubble sort also has best-case running time $\Theta(n^2)$ whereas insertion sort has best-case running time $\Theta(n)$. \\
+\item The $i^{th}$ iteration of the \textbf{for} loop of lines 1 through 4 will cause $n-i$ iterations of the \textbf{for} loop of lines 2 through 4, each with constant time execution, so the worst-case running time is $\Theta(n^2)$.  This is the same as that of insertion sort; however, bubble sort also has best-case running time $\Theta(n^2)$ whereas insertion sort has best-case running time $\Theta(n)$. \\
 
+\end{enumerate}
 
 \noindent\textbf{Problem 2-3}\\
 
-\begin{enumerate}[a)]
+\begin{enumerate}[a.]
 \item
 
 If we assume that the arithmeticcan all  be done in constant time, then since  the loop is being executed $n$ times, it has runtime $\Theta(n)$.
@@ -340,13 +342,14 @@ We just showed that the algorithm evaluated $\Sigma_{k=0}^n a_kx^k$. This is the
 
 \noindent\textbf{Problem 2-4}
 
-a. The five inversions are $(2,1)$, $(3,1)$, $(8,6)$, $(8,1)$, and $(6,1)$. \\
+\begin{enumerate}[a.]
+\item The five inversions are $(2,1)$, $(3,1)$, $(8,6)$, $(8,1)$, and $(6,1)$. \\
 
-b. The n-element array with the most inversions is $\langle n, n-1, \ldots, 2, 1 \rangle$.  It has $n-1 + n-2 + \ldots + 2 + 1 = \frac{n(n-1)}{2}$ inversions. \\
+\item The n-element array with the most inversions is $\langle n, n-1, \ldots, 2, 1 \rangle$.  It has $n-1 + n-2 + \ldots + 2 + 1 = \frac{n(n-1)}{2}$ inversions. \\
 
-c. The running time of insertion sort is a constant times the number of inversions.  Let $I(i)$ denote the number of $j < i$ such that $A[j] > A[i]$.  Then $\sum_{i=1}^n I(i)$ equals the number of inversions in $A$.  Now consider the \textbf{while} loop on lines 5-7 of the insertion sort algorithm.  The loop will execute once for each element of $A$ which has index less than $j$ is larger than $A[j]$.  Thus, it will execute $I(j)$ times.  We reach this \textbf{while} loop once for each iteration of the \textbf{for} loop, so the number of constant time steps of insertion sort is $\sum_{j=1}^n I(j)$ which is exactly the inversion number of $A$.  \\
+\item The running time of insertion sort is a constant times the number of inversions.  Let $I(i)$ denote the number of $j < i$ such that $A[j] > A[i]$.  Then $\sum_{i=1}^n I(i)$ equals the number of inversions in $A$.  Now consider the \textbf{while} loop on lines 5-7 of the insertion sort algorithm.  The loop will execute once for each element of $A$ which has index less than $j$ is larger than $A[j]$.  Thus, it will execute $I(j)$ times.  We reach this \textbf{while} loop once for each iteration of the \textbf{for} loop, so the number of constant time steps of insertion sort is $\sum_{j=1}^n I(j)$ which is exactly the inversion number of $A$.  \\
 
-d. We'll call our algorithm M.Merge-Sort for Modified Merge Sort.  In addition to sorting $A$, it will also keep track of the number of inversions.  The algorithm works as follows.  When we call M.Merge-Sort(A,p,q) it sorts $A[p..q]$ and returns the number of inversions amongst the elements of $A[p..q]$, so $left$ and $right$ track the number of inversions of the form $(i,j)$ where $i$ and $j$ are both in the same half of $A$.  When M.Merge(A,p,q,r) is called, it returns the number of inversions of the form $(i,j)$ where $i$ is in the first half of the array and $j$ is in the second half.  Summing these up gives the total number of inversions in $A$.  The runtime is the same as that of Merge-Sort because we only add an additional constant-time operation to some of the iterations of some of the loops.  Since Merge is $\Theta(n \log n)$, so is this algorithm.
+\item We'll call our algorithm M.Merge-Sort for Modified Merge Sort.  In addition to sorting $A$, it will also keep track of the number of inversions.  The algorithm works as follows.  When we call M.Merge-Sort(A,p,q) it sorts $A[p..q]$ and returns the number of inversions amongst the elements of $A[p..q]$, so $left$ and $right$ track the number of inversions of the form $(i,j)$ where $i$ and $j$ are both in the same half of $A$.  When M.Merge(A,p,q,r) is called, it returns the number of inversions of the form $(i,j)$ where $i$ is in the first half of the array and $j$ is in the second half.  Summing these up gives the total number of inversions in $A$.  The runtime is the same as that of Merge-Sort because we only add an additional constant-time operation to some of the iterations of some of the loops.  Since Merge is $\Theta(n \log n)$, so is this algorithm.
 
 \begin{algorithm}
 \caption{M.Merge-Sort(A, p, r)}
@@ -405,5 +408,5 @@ d. We'll call our algorithm M.Merge-Sort for Modified Merge Sort.  In addition t
 \end{algorithmic}
 \end{algorithm}
 
-
+\end{enumerate}
 \end{document}

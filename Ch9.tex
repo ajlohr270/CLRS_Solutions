@@ -39,6 +39,7 @@ Break up the elements into disjoint pairs. Then, compare each pair, consider onl
 Initially, all $n$ numbers are potentially either the maximum or minimum.  Let MAX be the set of numbers which are potentially the maximum and MIN denote the set of numbers which are potentially the minimum.  Say we compare two elements $a$ and $b$.  If $a \leq b$, we can remove $a$ from MAX and remove $b$ from MIN, so we reduce the counts of both sets by 1.  If we compare two elements in MIN, we reduce the size of MIN by 1, and if we compare two elements in MAX, we can reduce the size of MAX by 1.  Thus, the first type of comparison is optimal.  There are $\lceil n/2 \rceil$ such comparisons which can be made until MIN and MAX are disjoint, and the sets will have sizes $\lceil n/2 \rceil$ and $\lfloor n/2 \rfloor$.  Within each of these, only the second and third types of comparisons can be made, each reducing the set size by 1, so we require a total of $\lceil n/2 \rceil - 1 + \lfloor n/2 \rfloor - 1 = n-2$ comparisons.  Adding this to initial $\lceil n/2 \rceil$ comparisons gives $\lceil 3n/2 \rceil - 2$. \\
 
 \noindent\textbf{ Exercise 9.2-1} \\
+
 Calling a zero length array would mean that the second and third arguments are equal. So, if the call is made on line 8, we would need that $p=q-1$. which means that $q-p+1=0$ .However, $i$ is assumed to be a nonnegative number, and to be executing line 8, we would need that $i < k = q-p+1=0$, a contradiction. The other possibility is that the bad recursive call occurs on line 9. This would mean that $q+1=r$. To be executing line 9, we need that $i>k = q-p+1 = r-p$. This would be a nonsensical original call to the array though because we are asking for the $i$th element from an array of strictly less size. \\
 
 \noindent\textbf{Exercise 9.2-2}\\
@@ -46,6 +47,7 @@ Calling a zero length array would mean that the second and third arguments are e
 The probability that $X_k$ is equal to 1 is unchanged when we know the max of $k-1$ and $n-k$.  In other words, $P(X_k = a | \max(k-1, n-k) = m) = P(X_k = a)$ for $a=0,1$ and $m=k-1, n-k$ so $X_k$ and $\max(k-1, n-k)$ are independent. By C.3-5, so are $X_k$ and $T(\max(k-1, n-k))$. \\
 
 \noindent\textbf{ Exercise 9.2-3} \\
+
 \begin{algorithm}
 \caption{ ITERATIVE-RANDOMIZED-SELECT}
 \begin{algorithmic}
@@ -72,6 +74,7 @@ The probability that $X_k$ is equal to 1 is unchanged when we know the max of $k
 When the partition selected is always the maximum element of the array we get worst-case performance.  In the example, the sequence would be 9, 8, 7, 6, 5, 4, 3, 2, 1, 0. \\
 
 \noindent\textbf{ Exercise 9.3-1} \\
+
 It will still work if they are divided into groups of 7, because we will still know that the median of medians is less than at least 4 elements from half of the $\lceil n/7 \rceil$ groups, so, it is greater than roughly $4n/14$ of the elements. Similarly, it is less than roughly $4n/14$ of the elements. So, we are never calling it recursively on more than $10n/14$ elements. So, $T(n) \le T(n/7) + T(10n/14)+O(n)$. So, we can show by substitution this is linear. Suppose $T(n) < cn$ for $n<k$, then, for $m\ge k$, $T(m) \le T(m/7) + T(10m/14) + O(m) \le cm(1/7+10/14) + O(m)$. So, as long as we have that the constant hidden in the big-Oh notation is less than $c/7$, we have the desired result.\\
 
 Suppose now that we use groups of size $3$ instead. So, For similar reasons, we have that the recurrence we are able to get is $T(n) = T(\lceil n/3 \rceil) + T(4n/6) + O(n) \ge T(n/3)+ T(2n/3) +O(n)$. So, we will show it is $\ge cn\lg(n)$.
@@ -85,6 +88,7 @@ We know that the number of elements greater than or equal to $x$ and the number 
 \[3n/10-6 = \frac{n}{4} + \frac{n}{20} - 6 \geq n/4 + 140/20 - 6 = n/4 + 1 \geq \lceil n/4\rceil.\]
 
 \noindent\textbf{ Exercise 9.3-3} \\
+
 We can modify quicksort to run in worst case $n\lg(n)$ time by choosing our pivot element to be the exact median by using quick select. Then, we are guaranteed that our pivot will be good, and the time taken to find the median is on the same order of the rest of the partitioning.\\
 
 \noindent\textbf{Exercise 9.3-4}\\
@@ -93,6 +97,7 @@ Create a graph with $n$ vertices and draw a directed edge from vertex $i$ to ver
 
 
 \noindent\textbf{ Exercise 9.3-5} \\
+
 To use it, just find the median, partition the array based on that median. If $i$ is less than half the length of the original array, recurse on the first half, if $i$ is half the length of the array, return the element coming from the median finding black box. Lastly, if $i$ is more than half the length of the array, subtract half the length of the array, and then recurse on the second half of the array.\\
 
 \noindent\textbf{Exercise 9.3-6}\\
@@ -110,9 +115,11 @@ T(n) &\leq cn+2T(n/2) \\
 
 
 \noindent\textbf{ Exercise 9.3-7} \\
+
 Find the $n/2-k/2$ largest element in linear time. Partition on that element. Then, find the $k$ largest element in the bigger subarray formed from the partition. Then, the elements in the smaller subarray from partitioning on this element are the desired $k$ numbers.\\
 
 \noindent\textbf{Exercise 9.3-8}\\
+
 Without loss of generality, assume $n$ is a power of 2. 
 
 \begin{algorithm}
@@ -131,6 +138,7 @@ Without loss of generality, assume $n$ is a power of 2.
 \end{algorithm}
 
 \noindent\textbf{ Exercise 9.3-9} \\
+
 If $n$ is odd, then, we pick the y coordinate of the main pipeline to be equal to the median of all the y coordinates of the wells. if $n$ is even, then, we can pick the y coordinate of the pipeline to be anything between the y coordinates of the wells with y-coordinates which have order statistics $\lfloor (n+1)/2\rfloor$ and the $\lceil (n+1)/2 \rceil$. These can all be found in linear time using the algorithm from this section.\\
 
 
@@ -149,20 +157,22 @@ Finding and partitioning around the $i$th largest takes time $n$. Then, sorting 
 
 \noindent\textbf{Problem 9-2} \\
 
-a. Let $m_k$ be the number of $x_i$ smaller than $x_k$.  When weights of $1/n$ are assigned to each $x_i$, we have $\sum_{x_i < x_k} w_i = m_k/n$ and $\sum_{x_i > x_k} w_i = (n-m_k-1)/2$.  The only value of $m_k$ which makes these sums $<1/2$ and $\leq 1/2$ respectively is when $\lceil n/2 \rceil - 1$, and this value of $x$ must be the median since it has equal numbers of $x_i's$ which are larger and smaller than it. \\
+\begin{enumerate}[a.]
+\item Let $m_k$ be the number of $x_i$ smaller than $x_k$.  When weights of $1/n$ are assigned to each $x_i$, we have $\sum_{x_i < x_k} w_i = m_k/n$ and $\sum_{x_i > x_k} w_i = (n-m_k-1)/2$.  The only value of $m_k$ which makes these sums $<1/2$ and $\leq 1/2$ respectively is when $\lceil n/2 \rceil - 1$, and this value of $x$ must be the median since it has equal numbers of $x_i's$ which are larger and smaller than it. \\
 
-b. First use mergeSort to sort the $x_i$'s by value in $O(n \log n)$ time.  Let $S_i$ be the sum of the weights of the first $i$ elements of this sorted array and note that it is $O(1)$ to update $S_i$.  Compute $S_1, S_2, \ldots$ until you reach $k$ such that $S_{k-1}<1/2$ and $S_k \geq 1/2$.  The weighted median is $x_k$. \\
+\item First use mergeSort to sort the $x_i$'s by value in $O(n \log n)$ time.  Let $S_i$ be the sum of the weights of the first $i$ elements of this sorted array and note that it is $O(1)$ to update $S_i$.  Compute $S_1, S_2, \ldots$ until you reach $k$ such that $S_{k-1}<1/2$ and $S_k \geq 1/2$.  The weighted median is $x_k$. \\
 
-c. We modify SELECT to do this in linear time.  Let $x$ be the median of medians.  Compute $\sum_{x_i < x}w_i$ and $\sum_{x_i > x}w_i$ and check if either of these is larger than 1/2.  If not, stop.  If so, recurse on the collection of smaller or larger elements known to contain the weighted median. This doesn't change the runtime, so it is $\Theta(n)$. \\
+\item We modify SELECT to do this in linear time.  Let $x$ be the median of medians.  Compute $\sum_{x_i < x}w_i$ and $\sum_{x_i > x}w_i$ and check if either of these is larger than 1/2.  If not, stop.  If so, recurse on the collection of smaller or larger elements known to contain the weighted median. This doesn't change the runtime, so it is $\Theta(n)$. \\
 
-d. Let $p$ be the minimizer, and suppose that $p$ is not the weighted median.  Let $\epsilon$ be small enough such that $\epsilon < \min_{i}(|p-p_i|)$, where we don't include $k$ if $p = p_k$.  If $p_m$ is the weighted median and $p < p_m$, choose $\epsilon > 0$.  Otherwise choose $\epsilon < 0$.  Then we have
+\item Let $p$ be the minimizer, and suppose that $p$ is not the weighted median.  Let $\epsilon$ be small enough such that $\epsilon < \min_{i}(|p-p_i|)$, where we don't include $k$ if $p = p_k$.  If $p_m$ is the weighted median and $p < p_m$, choose $\epsilon > 0$.  Otherwise choose $\epsilon < 0$.  Then we have
 \[ \sum_{i=1}^n w_i d(p+\epsilon, p_i) = \sum_{i=1}^n w_i d(p,p_i) + \epsilon \left( \sum_{p_i < p} w_i - \sum_{p_i > p} w_i \right) < \sum_{i=1}^n w_i d(p, p_i) \]
 since the difference in sums will take the opposite sign of epsilon. \\
 
-e. Observe that 
+\item Observe that 
 \[ \sum_{i=1}^n w_i d(p, p_i) = \sum_{i=1}^n w_i|p_x - (p_i)_x| + \sum_{i=1}^n w_i|p_y - (p_i)_y|.\]
 It will suffice to minimize each sum separately, which we can do since we choose $p_x$ and $p_y$ individually.  By part e, we simply take $p = (p_x, p_y)$ to be such that $p_x$ is the weighted median of the $x$-coordinates of the $p_i$'s and $p_y$ is the weighted medain of the $y$-coordiantes of the $p_i$'s.\\
 
+\end{enumerate}
 
 \noindent\textbf{ Problem 9-3} \\
 \begin{enumerate}[a.]
@@ -185,10 +195,10 @@ From part c, we just substitute in $n/k$ for $i$ to get $U_i(n) = n+ O(T(2i)\lg(
 \end{enumerate}
 
 \noindent\textbf{Problem 9-4}\\
+\begin{enumerate}[a.]
+\item  We only need to worry about what happens when we select a pivot element which is between $\min(z_i,z_j,z_k)$ and $\max(z_i,z_j,z_k)$, since at this point we will either select $z_i$ or $z_j$ and compare them, select an element between $z_i$ and $z_j$ and never compare them, or select an element between $z_k$ and the $[z_i,z_j]$ interval, so that we will will never again be selecting pivots from a range containing $z_i$ and $z_j$.  We split into three cases.  If $z_k \leq z_i < z_j$ then $E(X_{ijk})=  \frac{2}{j-k+1} $.  If $z_i \leq z_k < z_j$ then $E(X_{ijk})=  \frac{2}{j-i+1}$.  If $z_i < z_j \leq z_k$ then $E(X_{ijk})=  \frac{2}{k-i+1}$. 
 
-a.  We only need to worry about what happens when we select a pivot element which is between $\min(z_i,z_j,z_k)$ and $\max(z_i,z_j,z_k)$, since at this point we will either select $z_i$ or $z_j$ and compare them, select an element between $z_i$ and $z_j$ and never compare them, or select an element between $z_k$ and the $[z_i,z_j]$ interval, so that we will will never again be selecting pivots from a range containing $z_i$ and $z_j$.  We split into three cases.  If $z_k \leq z_i < z_j$ then $E(X_{ijk})=  \frac{2}{j-k+1} $.  If $z_i \leq z_k < z_j$ then $E(X_{ijk})=  \frac{2}{j-i+1}$.  If $z_i < z_j \leq z_k$ then $E(X_{ijk})=  \frac{2}{k-i+1}$. 
-
-b. 
+\item
 \begin{align*}
 E[X_k] &\leq \sum_{i=1}^n \sum_{j=1}^n E[X_{ijk}] \\
 &= \sum_{i=1}^k \sum_{j=k}^n \frac{2}{j-i+1} + \sum_{i=k+1}^n \sum_{j=i+1}^n \frac{2}{j-k+1} + \sum_{i=1}^{k-2}\sum_{j=i+1}^{k-1}\frac{2}{k-i+1}.
@@ -196,10 +206,11 @@ E[X_k] &\leq \sum_{i=1}^n \sum_{j=1}^n E[X_{ijk}] \\
 For the second term, fix some value $m$.  The term $\frac{2}{m-k+1}$ will appear once for every time $j$ doesn't exceed $m$, so $m- (k+1)$ times in the sum.  For the third term, each term in the sum doesn't depend on $j$ so we can rewrite it as $2\sum_{i=1}^{k-2} \frac{k-i-1}{k-i+1}$.  This gives
 \[ E[X_k] = 2\left(\sum_{i=1}^k \sum_{j=k}^n \frac{1}{j-i+1} + \sum_{j=k+1}^n \frac{j-k-1}{j-k+1} + \sum_{i=1}^{k-2} \frac{k-i-1}{k-i+1} \right).\]
 
-c.  We can bound the summands of the second and third terms from (b) by 1, so the total contribution of these terms is $n-(k+1)+1 + k-2 = n-2$.  For the first double sum, consider a term of the form $\frac{1}{c}$ for some $c$.  There are at most $c$ of these, because we must have $j-i = c-1$.  The largest term which appears is 1 and the smallest term which appears is $\frac{1}{n}$, so the double sum contributes a total of at most $n$.  Thus, $E[X_k] \leq 2(n + n - 2) \leq 4n$.
+\item  We can bound the summands of the second and third terms from (b) by 1, so the total contribution of these terms is $n-(k+1)+1 + k-2 = n-2$.  For the first double sum, consider a term of the form $\frac{1}{c}$ for some $c$.  There are at most $c$ of these, because we must have $j-i = c-1$.  The largest term which appears is 1 and the smallest term which appears is $\frac{1}{n}$, so the double sum contributes a total of at most $n$.  Thus, $E[X_k] \leq 2(n + n - 2) \leq 4n$.
 
 
-d. The running time of RANDOMIZED-SELECT is dominated by the time spent in RANDOMIZED-PARTITION, whose running time is dominated by comparisons.  By part (c) we know that the expected number of comparisons over the entire algorithm, including recursions, is $O(n)$.
+\item The running time of RANDOMIZED-SELECT is dominated by the time spent in RANDOMIZED-PARTITION, whose running time is dominated by comparisons.  By part (c) we know that the expected number of comparisons over the entire algorithm, including recursions, is $O(n)$.
 
+\end{enumerate}
 
 \end{document}

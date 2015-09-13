@@ -305,7 +305,7 @@ If we change the way that we handle the equality case, we willl still be generat
 If there was a negative-weight cycle, there would be a negative number occurring on the diagonal upon termination of the Floyd-Warshall algorithm.  \\
 
 \noindent\textbf{Exercise 25.2-7}\\
-
+%Not done
 
 \noindent\textbf{Exercise 25.2-8}\\
 
@@ -316,6 +316,8 @@ Create an $n$ by $n$ matrix $A$ filled with 0's.  We are done if we can determin
 First, compute the strongly connected components of the directed graph, and look at it's component graph. This component graph is going to be acyclic and have at most as many vertices and at most as many edges as the original graph. Since it is acyclic, we can run our transitive closure algorithm on it. Then, for every edge $(S_1,S_2)$ that shows up in the transitive closure of the component graph, we add an edge from each vertex in $S_1$ to a vertex in $S_2$. This takes time equal to $O(V+E^*)$. So, the total time required is $\le f(|V|,|E|) + O(V+E)$.\\
 
 \noindent\textbf{Exercise 25.3-1}\\
+
+%Not done
 
 \noindent\textbf{Exercise 25.3-2}\\
 
@@ -360,19 +362,22 @@ Suppose that we currently have two strongly connected components, each of size $
 
 Then, we add a single edge from one component to the other. This will mean that every vertex in the component the edge is coming from will have an edge going to every vertex in the component that the edge is going to. So, the total number of edges after this operation will be $|V|/2 +|V|/4$. So, the number of edges increased by $|V|/4$. Since each time we add an edge, we need to use at least constant time, since there is no cheap way to add many edges at once, the total amount of time needed is $\Omega(|V|^2)$.
 
-\item
+\item 
+%Not done
 
 
 \end{enumerate}
 
 \noindent\textbf{Problem 25-2}\\
 
-a. As in problem 6-2, the runtimes for a $d$-ary min heap are the same as for a $d$-ary max heap.  The runtimes of INSERT, EXTRACT-MIN, and DECREASE-KEY are $O(\log_d n)$, $O(d\log_d n)$, and $O(\log_d n)$ respectively.  If $d = \Theta(n^{\alpha})$ these become $O(1/\alpha)$, $O(n^\alpha / \alpha)$, and $O(1/\alpha)$ respectively.  The amortized costs for these operations in a FIbonacci heap are $O(1)$, $O(\lg n)$, and $O(1)$ respectively.\\
+\begin{enumerate}[a.]
+\item  As in problem 6-2, the runtimes for a $d$-ary min heap are the same as for a $d$-ary max heap.  The runtimes of INSERT, EXTRACT-MIN, and DECREASE-KEY are $O(\log_d n)$, $O(d\log_d n)$, and $O(\log_d n)$ respectively.  If $d = \Theta(n^{\alpha})$ these become $O(1/\alpha)$, $O(n^\alpha / \alpha)$, and $O(1/\alpha)$ respectively.  The amortized costs for these operations in a FIbonacci heap are $O(1)$, $O(\lg n)$, and $O(1)$ respectively.
 
-b. Choose $d = n^\varepsilon$.  Then implement Dijkstra's algorithm using a $d$-ary min-heap.  The analysis from part (a) tells us that the runtime will be $O(n/\varepsilon + 2n^{1 + \varepsilon}/\varepsilon) = O(n^{1 + \varepsilon}) = O(E)$.\\
+\item Choose $d = n^\varepsilon$.  Then implement Dijkstra's algorithm using a $d$-ary min-heap.  The analysis from part (a) tells us that the runtime will be $O(n/\varepsilon + 2n^{1 + \varepsilon}/\varepsilon) = O(n^{1 + \varepsilon}) = O(E)$.
 
-c. Run the algorithm from part (b) once for each vertex of the graph. \\
+\item Run the algorithm from part (b) once for each vertex of the graph. 
 
-d. Using the methods from section 25.3, create the graph $G'$ with all nonnegative edge weights using the weight function $\hat{w}$, proceed as in part (c), then convert back to the original weight function. \\
+\item Using the methods from section 25.3, create the graph $G'$ with all nonnegative edge weights using the weight function $\hat{w}$, proceed as in part (c), then convert back to the original weight function. 
+\end{enumerate}
 
 \end{document}

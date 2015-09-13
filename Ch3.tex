@@ -158,7 +158,7 @@ so that $\frac{n}{\ln n} = O(k)$.  By Theorem 3.1 this implies $\frac{n}{\ln n} 
 
 \noindent\textbf{Problem 3-1}\\
 
-\begin{enumerate}[a)]
+\begin{enumerate}[a.]
 \item
 If we pick any $c>0$, then, the end behavior of $cn^k -p(n)$ is going to infinity, in particular, there is an $n_0$ so that for every $n\ge n_0$, it is positive, so, we can add $p(n)$ to both sides to get $p(n)<cn^k$.
 
@@ -194,7 +194,7 @@ $\log(n!)$ & $\log(n^n)$ & yes & no & yes & no & yes \\ \hline
 \end{tabular} \\
 
 \noindent\textbf{Problem 3-3}\\
-\begin{enumerate}[a)]
+\begin{enumerate}[a.]
 \item
 $
 \begin{array}{|c c|}
@@ -236,26 +236,26 @@ f(n) = \left\{\begin{array}{c c}g_1(n)!& n\mod 2=0 \\0 &n\mod 2 =1\end{array}\ri
 \end{enumerate}
 
 \noindent\textbf{Problem 3-4}\\
+\begin{enumerate}[a.]
+\item False.  Counterexample: $n = O(n^2)$ but $n^2 \neq O(n)$. \\
 
-a. False.  Counterexample: $n = O(n^2)$ but $n^2 \neq O(n)$. \\
+\item False.  Counterexample: $n + n^2 \neq \Theta(n)$. \\
 
-b. False.  Counterexample: $n + n^2 \neq \Theta(n)$. \\
+\item True.  Since $f(n) = O(g(n))$ there exist $c$ and $n_0$ sucht hat $n \geq n_0$ implies $f(n) \leq cg(n)$ and $f(n) \geq 1$.  This means that $\log(f(n)) \leq \log(cg(n)) = \log(c) + \log(g(n))$.  Note that the inequality is preserved after taking logs because $f(n) \geq 1$.  Now we need to find $d$ such that $f(n) \leq d\log(g(n))$.  It will suffice to make $\log(c) + \log(g(n)) \leq d\log(g(n))$, which is achieved by taking $d = \log(c) + 1$, since $\log(g(n)) \geq 1$.\\
 
-c. True.  Since $f(n) = O(g(n))$ there exist $c$ and $n_0$ sucht hat $n \geq n_0$ implies $f(n) \leq cg(n)$ and $f(n) \geq 1$.  This means that $\log(f(n)) \leq \log(cg(n)) = \log(c) + \log(g(n))$.  Note that the inequality is preserved after taking logs because $f(n) \geq 1$.  Now we need to find $d$ such that $f(n) \leq d\log(g(n))$.  It will suffice to make $\log(c) + \log(g(n)) \leq d\log(g(n))$, which is achieved by taking $d = \log(c) + 1$, since $\log(g(n)) \geq 1$.\\
+\item False.  Counterexample: $2n = O(n)$ but $2^{2n} \neq 2^{n}$ as shown in exercise 3.1-4. \\
 
-d. False.  Counterexample: $2n = O(n)$ but $2^{2n} \neq 2^{n}$ as shown in exercise 3.1-4. \\
+\item False.  Counterexample: Let $f(n) = \frac{1}{n}$. Suppose that $c$ is such that $\frac{1}{n} \leq c \frac{1}{n^2}$ for $n \geq n_0$.  Choose $k$ such that $kc \geq n_0$ and $k > 1$.  Then this implies $\frac{1}{kc} \leq \frac{c}{k^2c^2} = \frac{1}{k^2 c}$, a contradiction.  \\
 
-e. False.  Counterexample: Let $f(n) = \frac{1}{n}$. Suppose that $c$ is such that $\frac{1}{n} \leq c \frac{1}{n^2}$ for $n \geq n_0$.  Choose $k$ such that $kc \geq n_0$ and $k > 1$.  Then this implies $\frac{1}{kc} \leq \frac{c}{k^2c^2} = \frac{1}{k^2 c}$, a contradiction.  \\
+\item True.  Since $f(n) = O(g(n))$ there exist $c$ and $n_0$ such that $n \geq n_0$ implies $f(n) \leq c g(n)$.  Thus $g(n) \geq \frac{1}{c} f(n)$, so $g(n) = \Omega(f(n))$. \\
 
-f. True.  Since $f(n) = O(g(n))$ there exist $c$ and $n_0$ such that $n \geq n_0$ implies $f(n) \leq c g(n)$.  Thus $g(n) \geq \frac{1}{c} f(n)$, so $g(n) = \Omega(f(n))$. \\
+\item False.  Counterexample: Let $f(n) = 2^{2n}$.  By exercise 3.1-4, $2^{2n} \neq O(2^n)$. \\
 
-g. False.  Counterexample: Let $f(n) = 2^{2n}$.  By exercise 3.1-4, $2^{2n} \neq O(2^n)$. \\
-
-h. True.  Let $g$ be any function such that $g(n) = o(f(n))$.  Since $g$ is asymptotically positive let $n_0$ be such that $n \geq n_0$ implies $g(n) \geq 0$.  Then $f(n) + g(n) \geq f(n)$ so $f(n) + o(f(n)) = \Omega(f(n))$.  Next, choose $n_1$ such that $n \geq n_1$ implies $g(n) \leq f(n)$.  Then $f(n) + g(n) \leq f(n) + f(n) = 2f(n)$ so $f(n) + o(f(n)) = O(f(n))$.  By Theorem 3.1, this implies $f(n) + o(f(n)) = \Theta(f(n))$. \\
-
+\item True.  Let $g$ be any function such that $g(n) = o(f(n))$.  Since $g$ is asymptotically positive let $n_0$ be such that $n \geq n_0$ implies $g(n) \geq 0$.  Then $f(n) + g(n) \geq f(n)$ so $f(n) + o(f(n)) = \Omega(f(n))$.  Next, choose $n_1$ such that $n \geq n_1$ implies $g(n) \leq f(n)$.  Then $f(n) + g(n) \leq f(n) + f(n) = 2f(n)$ so $f(n) + o(f(n)) = O(f(n))$.  By Theorem 3.1, this implies $f(n) + o(f(n)) = \Theta(f(n))$. 
+\end{enumerate}
 \noindent\textbf{Problem 3-5}\\
 
-\begin{enumerate}[a)]
+\begin{enumerate}[a.]
 \item
 Suppose that we do not have that $f=O(g(n))$. This means that $\forall c>0,n_0, \exists n\ge n_0, f(n) > c g(n)$. Since this holds for every $c$, we can let it be arbitrary, say 1. Initially, we set $n_0=1$, then, the resulting $n$ we will call $a_1$. Then, in general, let $n_0= a_i+1$ and let $a_{i+1}$ be the resulting value of $n$. Then, on the infinite set $\{a_1,a_2,\ldots\}$, we have $f(n)>g(n)$, and so, $f = \overset{\infty}{\Omega}(g(n))$
 
