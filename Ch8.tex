@@ -217,7 +217,7 @@ d. Use the algorithm given in part a. For each of the b-bit keys it takes $O(n)$
 
 e. Create the array $C$ as done in lines 1 through 5 of counting sort.  Create an array $B$ which is a copy of $C$, then run lines 7 through 9 on $B$.  In other words, $C[i]$ gives the number of elements in $A$ which are equal to $i$, and $B[i]$ gives the number of elements in $A$ which are less than or equal to $i$, so given an element, we can correctly identify where it belongs in the array.  While the element in position i doesn't belong there, swap it with the element in the place it belongs. Once an element which belongs in position $i$ appears, increment $i$. The preprocessing takes $O(n+k)$ time, the total number of swaps is at most $n$, and we iterate through the whole array once, so the overall runtim is $O(n+k)$. This algorithm has the advantage of sorting in place, however it is no longer stable like counting sort. \\
 
-\noindent\textbf{Problem 3}\\
+\noindent\textbf{Problem 8-3}\\
 \begin{enumerate}[a.]
 \item
 First, sort the integer by their lengths. This can be done efficiently using a bucket sort, where we make a bucket for each possible number of digits. We sort each these uniform length sets of integers using radix sort. Then, we just concatenate the sorted lists obtained from each bucket.
@@ -235,7 +235,7 @@ b. We can imagine first lining up the red jugs in some order.  Then a solution t
 
 c. We use an algorithm analogous to randomized quicksort. Select a blue jug at random. Partition the red jugs into those which are smaller than the blue jug, and those which are larger. At some point in the comparisons, you will find the red jug which is of equal size.  Once the red jugs have been divided by size, use the red jug of equal size to partition the blue jugs into those which are smaller and those which are larger.  If $k$ red jugs are smaller than the originally chosen jug, we need to solve the original problem on input of size $k-1$ and size $n-k$, which we will do in the same manner. A subproblem of size 1 is trivially solved because if there is only one red jug and one blue jug, they must be the same size. The analysis of expected number of comparisons is exactly the same as that of randomized-quicksort given on pages 181-184.  We are running the procedure twice so the expected number of comparisons is doubled, but this is absorbed by the big-O notation. In the worst case, we pick the largest jug each time, which results in $\sum_{i=2}^{n} i + i - 1 =n^2$ comparisons. \\
 
-\noindent\textbf{Problem 5}\\
+\noindent\textbf{Problem 8-5}\\
 \begin{enumerate}[a.]
 \item
 Since each of the averages will be of sets of a single element, so, wach element will be $\le$ than the next element. So, this is the usual definition of sorted
@@ -282,7 +282,7 @@ b. Any decision tree to merge two sorted lists must have at least ${2n \choose n
 
 c. If we don't compare them, then there is no way to distinguish between the original unmerged lists and the unmerged lists obtained by swapping those two items between lists.  In the case where the two elements are different we require a different action to be taken in order to correctly merge the lists, so the two must be compared.\\
 
-d. Let list $A = 1, 3, 5, ..., 2n-1$ and $B = 2, 4, 6, \ldots, 2n$. By part $c$, we must compare 1 with 2, 2 with 3, 3 with 4, and so on up until we compare $2n-1$ with $2n$. This amounts to a total of $2n-1$ comparisons. 
+d. Let list $A = 1, 3, 5, ..., 2n-1$ and $B = 2, 4, 6, \ldots, 2n$. By part $c$, we must compare 1 with 2, 2 with 3, 3 with 4, and so on up until we compare $2n-1$ with $2n$. This amounts to a total of $2n-1$ comparisons. \\
 
 \noindent\textbf{Problem 8-7}
 \begin{enumerate}[a.]

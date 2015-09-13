@@ -110,7 +110,8 @@ The binary-search-tree property guarantees that all nodes in the left subtree ar
 Our solution to exercise 10.4-5 solves this problem.\\
 
 \noindent\textbf{Exercise 12.1-4}\\
-We call each algorithm on $T.root$. 
+
+We call each algorithm on $T.root$. See algorithms PREORDER-TREE-WALK and POSTORDER-TREE-WALK.\\
 \begin{algorithm}
 \caption{PREORDER-TREE-WALK(x)}
 \begin{algorithmic}
@@ -137,6 +138,7 @@ We call each algorithm on $T.root$.
 
 
 \noindent\textbf{ Exercise 12.1-5} \\
+
 Suppose to a contradiction that we could build a bst in worst case time $o(n\lg(n))$. Then, to sort, we would just construct the BST and then read off the elements in an inorder traversal. This second step can be done in time $\Theta(n)$ by Theorem 12.1. Also, an inorder traversal must be in sorted order because the elements in the left subtree are all those that are smaller than the current element, and they all get printed out before the current element, and the elements of the right subtree are all those elements that are larger and they get printed out  after the current element. This would allow us to sort in time $o(n\lg(n))$ a contradiction\\
 
 
@@ -145,6 +147,8 @@ Suppose to a contradiction that we could build a bst in worst case time $o(n\lg(
 option $c$ could not be the sequence of nodes explored because we take the left child from the 911 node, and yet somehow manage to get to the 912 node which cannot belong the left subtree of 911 because it is greater. Option $e$ is also impossible because we take the right subtree on the 347 node and yet later come across the 299 node.\\
 
 \noindent\textbf{Exercise 12.2-2}\\
+
+See algorithms TREE-MINIMUM and TREE-MAXIMUM. \\
 
 \begin{algorithm}
 \caption{TREE-MINIMUM(x)}

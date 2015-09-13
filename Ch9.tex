@@ -28,6 +28,7 @@
 \maketitle
 
 \noindent\textbf{ Exercise 9.1-1} \\
+
 In this problem, we will be recursing by dividing the array into two equal size sets of elements, we will neglect taking floors and ceilings. The analysis will be the same but just a bit uglier if we don't assume that n is a power of 2.
 
 Break up the elements into disjoint pairs. Then, compare each pair, consider only the smallest elements from each. From among this set of elements, the result to the original problem will be either what had been paired with the smallest element, or what what is the second smallest element of the sub-problem. Doing this will get both the smallest and second smallest element. So, we get the recurrence $T(n)  = T(n/2) + n/2 + 1$ and $T(2)= 1$. So, solving this recurrence, we will use the substitution method with $T(n) \le n + \lceil \lg(n) \rceil -2$, it agrees with the base case, and, $T(n) = n/2 + T(n/2) +1 \le n/2 + n/2 + \lceil\lg(n/2)\rceil -2 +1 =  n + \lceil \lg(n) \rceil -2$ as desired.\\
