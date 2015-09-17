@@ -38,21 +38,25 @@
 \begin{document}
 \maketitle
 \noindent\textbf{Exercise 31.1-1}\\
+
 By the given equation, we can write $c = 1\cdot a + b$, with $0\ge b <a$. By the definition of remainders given just below the division theorem, this means that $b$ is the remainder when c is divided by a, that is $b=  c\mod a$.\\
 
 
 
 \noindent\textbf{Exercise 31.1-3}\\
+
 $a | b$ means there exists $k_1\in \Z$ so that $k_1 a = b$. $b|c$ means there exists $k_2\in \Z$ so that $k_2 b = c$. This means that $(k_1 k_2) a = c$. Since the integers are a ring, $k_1 k_2 \in \Z$, so, we have that $a | c$.\\
 
 
 
 \noindent\textbf{Exercise 31.1-5}\\
+
 By Theorem 31.2, since $gcd(a,n) =1$, there exist integers $p,q$ so that $pa +qn = 1$, so, $bpa+bqn=b$. Since $n | ab$, there exists an integer $k$ so that $kn = ab$. This means that $knp + pqn =(k +q)pn= b$. Since $n$ divides the left hand side, it must divide the right hand side as well.\\
 
 
 
 \noindent\textbf{Exercise 31.1-7}\\
+
 First, suppose that $x = yb + (x\mod b)$, $(x\mod b) = za + ((x\mod b)\mod a)$, and $ka =b$. Then, we have $x = yka +(x\mod b) = (yk+ z) a + ((x\mod b)\mod a)$. So, we have that $x\mod a =  ((x\mod b)\mod a)$.
 
 For the second part of the problem, suppose that $ x\mod b = y\mod b$. Then, by the first half of the problem, applied first to x and then to b, $x \mod a = (x\mod b) \mod a = (y\mod b)\mod a = y\mod a$. So, $x \equiv y \mod a$.\\
@@ -60,6 +64,7 @@ For the second part of the problem, suppose that $ x\mod b = y\mod b$. Then, by 
 
 
 \noindent\textbf{Exercise 31.1-9}\\
+
 For (31.6), we see that $a$ and $b$ in theorem 31.2 which provides a characterization of gcd appear symmetrically, so swapping the two won't change anything.
 
 For (31.7), theorem 31.2 tells us that gcd's are defined in terms of integer linear combinations. If we had some integer linear combination involving a and b, we can changed that into one involving (-a) and b by replacing the multiplier of a with its negation.
@@ -73,11 +78,13 @@ For (31.10), again consider possible integer linear combinations $na + mka$, we 
 
 
 \noindent\textbf{Exercise 31.1-11}\\
+
 Suppose to a contradiction that we had two different prime decomposition. First, we know that the set of primes they both consist of are equal, because if there were any prime $p$ in the symmetric difference, $p$ would divide one of them but not the other. Suppose they are given by $(e_1,e_2, \ldots,e_r)$ and $(f_1,f_2,\ldots,f_r)$ and suppose that $e_i < f_i$ for some position. Then, we either have that $p_i^{e_i+1}$ divides $a$ or not. If it does, then the decomposition corresponding to $\{e_i\}$ is wrong because it doesn't have enough factors of $p_i$, otherwise, the one corresponding to $\{f_i\}$ is wrong because it has too many.\\
 
 
 
 \noindent\textbf{Exercise 31.1-13}\\
+
 First, we bump up the length of the original number until it is a power of two, this will not affect the asymptotics, and we just imagine padding it with zeroes on the most significant side, so it does not change its value as a number. We split the input binary integer, and split it into two segments, a less significant half $\ell$ and an more significant half $m$, so that the input is equal to $m2^{\beta/2} + \ell$. Then, we recursively convert $m$ and $\ell$ to decimal. Also, since we'll need it later, we compute the decimal versions of all the values of $2^{2^i}$ up to $2^{\beta}$. There are only $\lg(\beta)$ of these numbers, so, the straigtforward approach only takes time $O(\lg^2(\beta))$ so will be overshadowed by the rest of the algorithm. Once we've done that, we evaluate $m2^{\beta/2} + \ell$, which involves computing the product of two numbers and adding two numbers, so, we have the recurrence
 
 \[
@@ -109,6 +116,7 @@ Now, we show that there is no larger common divisor. We will do this by showing 
 
 
 \noindent\textbf{Exercise 31.2-3}\\
+
 Let $c$ be such that $a = cn +(a\mod n)$. If $k=0$, it is trivial, so suppose $k<0$. Then, EUCLID(a+kn,n) goes to line 3, so returns $EUCLID(n, a\mod n)$. Similarly, $EUCLID(a,n) = EUCLID((a\mod n) + cn, n) = EUCLID(n,a\mod n)$. So, by correctness of the Euclidean algorithm,
 
 \begin{align*}
@@ -121,14 +129,19 @@ gcd(a+kn,n) &= EUCLID(a+kn,n)\\
 
 
 \noindent\textbf{Exercise 31.2-5}\\
+
 We know that for all k, if $b < F_{k+1} < \phi^{k+1}/\sqrt{5}$, then it takes fewer than $k$ steps. If we let $k = \log_\phi{b} + 1$, then, since $b < \phi^{\log_\phi{b} + 2}/\sqrt{5} = \frac{\phi^2}{\sqrt{5}} \cdot b$, we have that it only takes $1+\log_\phi(b)$ steps.
 
-We can improve this bound to $1 + \log_{\phi}(b/gcd(a,b)) = 1+ \log_{\phi}(b) - \log_{\phi}(gcd(a,b))$ by noticing that 
-%notdone
+We can improve this bound to $1 + \log_{\phi}(b/\gcd(a,b))$. This is because we know that the algorithm will terminate when it reaches $\gcd(a,b)$. We will emulate the proof of lemma 31.10 to show a slightly different claim that Euclid's algorithm takes $k$ recursive calls, then $a \ge \gcd(a,b) F_{k+2}$ and $b \ge \gcd(a,b) F_{k+!}$. We will similarly do induction on $k$. If it takes one recursive call, and we have $a>b$, we have $a \ge 2\gcd(a,b)$ and $b=\gcd(a,b)$.
+
+Now, suppose it holds for $k-1$, we want to show it holds for $k$. The first call that is made is of EUCLID$(b,a\mod b)$. Since this then only needs $k-1$ recursive calls, we can apply the inductive hypothesis to get that $b \ge \gcd(a,b) F_{k+1}$ and $a\mod b \ge \gcd(a,b) F_{k}$. Since we had that $a > b$, we have that $a \ge b + (a\mod b) \ge \gcd(a,b) ( F_{k+1} + F_{k}) = \gcd(a,b) F_{k+2}$ completing the induction.
+
+Since we have that we only need $k$ steps so long as $b <\gcd(a,b) F_{k+1} < gcd(a,b) \phi^{k+1}$. we have that $\log_\phi (b/\gcd(a,b)) < k+1$. This is satisfied if we set $k=1 + \log_\phi(b/\gcd(a,b))$\\
 
 
 
 \noindent\textbf{Exercise 31.2-7}\\
+
 %We will show that it is independent of the order of the arguments by induction. When there are just two arguments, it is equation (31.6) which was proven in exercise 31.1-9. Now suppose that we either place $a_j$ first or $a_i$ first. This means that we want to show $gcd(a_j,gcd(\{a_k\}_{k\neq j\})) = gcd(a_i,gcd(\{a_k\}_{k\neq i}))$.
 
 To show this we will show that when we define gcd in this way, it agrees with the intuitive idea of gcd, that is, it returns the largest number that is a common divisor of all of its arguments. Since the restriction that is placed on it by its arguments is independent of their ordering, we will have that the number the gcd returns is also independent.
@@ -139,7 +152,7 @@ We already know that this is what gcd does on two arguments, so, we proceed by i
 
 
 \noindent\textbf{Exercise 31.2-9}\\
-
+%notdone
 
 
 \noindent\textbf{Exercise 31.3-1}\\
@@ -166,7 +179,7 @@ We already know that this is what gcd does on two arguments, so, we proceed by i
 \end{array}
 \]
 
-Then, we can see that these are equivalent under the mapping $\alpha(0) =1$, $\alpha(1)= 3$, \alpha(2) = 4$, $\alpha(3) =2$.\\
+Then, we can see that these are equivalent under the mapping $\alpha(0) =1$, $\alpha(1)= 3$, $\alpha(2) = 4$, $\alpha(3) =2$.\\
 
 
 
@@ -177,24 +190,305 @@ Since $S$ was a finite group, every element had a finite order, so, if $a\in S'$
 
 
 \noindent\textbf{Exercise 31.3-5}\\
+
 To see this fact, we need to show that the given function is a bijection. Since the two sets have equal size, we only need to show that the function is onto. To see that it is onto, suppose we want an element that maps to $x$. Since $\Z_n^*$ is a finite abelian group by theorem 31.13, we can take inverses, in particular, there exists an element $a^{-1}$ so that $a a^{-1} = 1 \mod n$. This means that $f_a(a^{-1} x) =a a^{-1} x \mod n = (a a^{-1} \mod n) (x \mod n) = x \mod n$. Since we can find an element that maps to any element of the range and the sizes of domain and range are the same, the function is a bijection. Any bijection from a set to itself is a permutation by definition.\\
 
 
 
 \noindent\textbf{Exercise 31.4-1}\\
+
 First, we run extended Euclid on $35,50$ and get the result $(5,-7,10)$. Then, our initial solution is $-7*10/5 = -14 = 36$. Since $d=5$, we have four other solutions, corresponding to adding multiples of $50/5 =10$. So, we also have that our entire solution set is $x =\{6,16,26,36,46\}$.\\
 
 
 
 \noindent\textbf{Exercise 31.4-3}\\
+
 it will work. It just changes the initial value, and so changes the order in which solutions are output by the program. Since the program outputs all values of $x$ that are congruent to $x_0 \mod n/b$, if we shift the answer by a multiple of $n/b$ by this modification, we will not be changing the set of solutions that the procedure outputs.\\
 
+
+
+\noindent\textbf{Exercise 31.5-1}\\
+
+These equations can be viewed as a single equation in the ring $\Z_5^+ \times Z_11^+$, in particular $(x_1,x_2) = (4,5)$. This means that $x$ needs to be the element in $\Z_55^+$ that corresponds to the element $(4,5)$. To do this, we use the process described in the proof of Theorem 31.27. We have $m_1 = 11$, $m_2 = 5$, $c_1 = 11(11^{-1} \mod 5) = 11 $, $c_2 = 5(5^{-1} \mod 11) = 45$. This means that the corresponding solution is $x = 11\cdot4 + 45\cdot 5 \mod 55 = 44 + 225 \mod 55= 269 \mod 55 = 49\mod 55$. So, all numbers of the form $49 + 55k$ are a solution.\\ 
+
+
+\noindent\textbf{Exercise 31.5-3}\\
+
+Suppose that $x \equiv a^{-1} \mod n$. Also, $x_i \equiv  x\mod n_i$ and $a_i \equiv a \mod n_i$. What we then want to show is that $x_i \equiv a_i^{-1} \mod n_i$. That is, we want that $a_ix_i \equiv 1 \mod n_i$. To see this, we just use equation 31.30. To get that $ax\mod n$ corresponds to $(a_1x_1 \mod n_1, \ldots, a_kx_k \mod n_k)$. This means that 1 corresponds to $( 1\mod n_1, \ldots, 1\mod n_k)$. This is telling us exactly what we needed, in particular, that $a_i x_i \equiv 1 \mod n_i$.
+
+
+
+\noindent\textbf{Exercise 31.6-1}\\
+
+\[
+\begin{array}{|c|c|}
+\hline
+\hbox{element}&\hbox{order}\\
+\hline
+\hline
+1&1\\
+2& 10\\
+3& 5\\
+4& 5\\
+5& 5\\
+6& 10\\
+7& 10\\
+8& 10\\
+9& 5\\
+10& 2\\
+\hline
+\end{array}
+\]
+
+The smallest primitive root is $2$, and has the following values for $ind_{11,2}(x)$
+
+\[
+\begin{array}{|c|c|}
+\hline
+x&\hbox{ind}_{11,2}(x)\\
+\hline
+\hline
+1& 10\\
+2& 1\\
+3& 8\\
+4& 2\\
+5& 4\\
+6& 9\\
+7& 7\\
+8& 3\\
+9& 6\\
+10&5 \\
+\hline
+\end{array}
+\]
+
+
+
+\noindent\textbf{Exercise 31.6-3}\\
+
+Since we know $\phi(n)$, we know that $a^{\phi(n)} \equiv 1 \mod n$ by Euler's theorem. This tells us that $a^{-1} = a^{\phi(n) - 1}$ because $aa^{-1} =\equiv a a^{\phi(n) -1} \equiv a^{\phi(n)} \equiv 1 \mod n$. Since when we multiply this expression times $a$, we get the identity, it is the inverse of $a$. We can then compute $n^{\phi(n)}$ efficiently, since $\phi(n) < n$, so can be represented without using more bits than was used to represent $n$.\\
+
+
+
+\noindent\textbf{Exercise 31.7-1}\\
+
+For the secret key's value of $e$ we compute the inverse of $d=3$ mod $\phi(n) = 280$. To do this, we first compute $\phi(280) = \phi(2^3)\phi(7)\phi(5) = 4\cdot 6\cdot 4 = 96$. Since any number raised to this will be one mod 280, we will raise it to one less than this. So, we compute 
+
+\begin{align*}
+3^{95} &\equiv 3 (3^2)^{47} \\
+&\equiv 3(9(9^2)^{23})\\
+& \equiv 3(9(81(81^2)^{11}))\\
+& \equiv 3(9(81(121(121^2)^5)))\\
+& \equiv 3(9(81(121(81(81^2)^2\\
+& \equiv 3\cdot 9\cdot 81 \cdot 121 \cdot 81 \cdot81\\
+& \equiv 3\cdot 9 \cdot 121 \\
+& \equiv 187 \mod 280
+\end{align*}
+
+Now that we know our value of $e$, we compute the encryption of $M=100$ by computing $100^{187} \mod 319$, which comes out to an encrypted message of $122$\\
+
+
+
+\noindent\textbf{Exercise 31.7-3}\\
+
+\begin{align*}
+P_A(M_1)P_A(M_2) &\equiv M_1^e M_2^e\\
+&\equiv (M_1 M_2)^e \\
+&\equiv P_A(M_1M_2) \mod n
+\end{align*}
+
+So, if the attacker can correctly decode $\frac{1}{100}$ of the encrypted messages, he does the following. If the message is one that he can decrypt, he is happy, decrypts it and stops. If it is not one that he can decrypt, then, he picks a random element in $\Z_m$, say $x$ encrypts it with the public key, and multiplies that by the encrypted text, he then has a $\frac{1}{100}$ chance to be able to decrypt the new message. He keeps doing this until he can decrypt it. The number of steps needed follows a geometric distribution with a expected value of 100. Once he's stumbled upon one that he could decrypt, he multiplies by the inverses of all the elements that he multiplied by along the way. This recovers the final answer, and also can be done efficiently, since for every $x$, $x^{n-2}$ is $x^{-1}$ by Lagrange's theorem.\\ 
+
+
+
+\noindent\textbf{Exercise 31.8-1}\\
+Suppose that we can write $n = \prod_{i=1}^k p_i^{e_i}$, then, by the Chinese remainder theorem , we have that $\Z_n \cong \Z_{p_1^{e_1}} \times \cdots \times \Z_{p_1^{e_1}}$. Since we had that $n$ was not a prime power, we know that $k\ge 2$. This means that we can take the elements $x = (p_1^{e_1} -1, 1, \ldots ,1)$ and $y =(1,p_2^{e_2} -1,1,\ldots ,1)$. Since multiplication in the product ring is just coordinate wise, we have that the squares of both of these elements is the all ones element in the product ring, which corresponds to 1 in $\Z_n$. Also, since the correspondence from the Chinese remainder theorem was a bijection, since $x$ and $y$ are distinct in the product ring, they correspond to distinct elements in $\Z_n$. Thus, by taking the elements corresponding to $x$ and $y$ under the Chinese remainder theorem bijection, we have that we have found two squareroots of 1 that are not the identity in $\Z_n$. Since there is only one trivial non-identity squareroot in $\Z_n$, one of the two must be non-trivial. It turns out that both are non-trivial, but that's more than the problem is asking.\\
+
+
+
+\noindent\textbf{Exercise 31.8-3}\\
+
+First, we prove the following lemma. For any integers $a,b,n$, $\gcd(a,n) \cdot \gcd(b,n) \ge \gcd(ab,n)$. Let $\{p_i\}$ be an enumeration of the primes, then, by Theorem 31.8, there is exactly one set of powers of these primes so that $a = \prod_{i} p_i^{a_i}$, $b = \prod_{i} p_i^{b_i}$, and $n = \prod_{i} p_i^{n_i}$. 
+\begin{align*}
+\gcd(a,n) &= \prod_i p_i^{\min(a_i,n_i)}\\
+\gcd(b,n) &= \prod_i p_i^{\min(b_i,n_i)}\\
+\gcd(ab,n) &= \prod_i p_i^{\min(a_i+b_i,n_i)}
+\end{align*}
+
+We combine the first two equations to get:
+\begin{align*}
+\gcd(a,n)\cdot \gcd(b,n) &= \left(\prod_i p_i^{\min(a_i,n_i)}\right) \cdot\left( \prod_i p_i^{\min(b_i,n_i)}\right)\\
+ &= \prod_i p_i^{\min(a_i,n_i) + \min(b_i,n_i)}\\
+ &\ge \prod_i p_i^{\min(a_i+b_i,n_i)}\\
+ &= \gcd(ab,n)
+\end{align*}
+
+
+Since $x$ is a non-trivial squareroot, we have that $x^2 \equiv 1 \mod n$, but $x\neq 1$ and $x\neq n-1$. Now, we consider the value of $\gcd(x^2-1,n)$. By theorem 31.9, this is equal to $\gcd(n, x^2-1\mod n) = \gcd(n,1-1) = \gcd(n,0) = n$. So, we can then look at the factorization of $x^2-1 = (x+1)(x-1)$ to get that
+
+\[
+\gcd(x+1,n)\gcd(x-1,n) \ge n
+\]
+
+However, we know that since $x$ is a nontrivial squareroot, we know that $1 < x < n-1$ so, neither of the factors on the right can be equal to $n$. This means that both of the factors on the right must be nontrivial.\\
+
+
+
+\noindent\textbf{Exercise 31.9-1}\\
+
+The Pollard-Rho algorithm would first detect the factor of $73$ when it considers the element $84$, when we have $x_{12}$ because we then notice that $\gcd(814-84,1387) = 73$.\\
+
+
+
+\noindent\textbf{Exercise 31.9-3}\\
+
+Assuming that $p^e$ divides $n$, by the same analysis as sin the chapter, it will take time $\Theta(p^{e/2})$. To see this, we look at what is happening to the sequence mod $p^n$.
+
+\begin{align*}
+x_{i+1}' &= x_{i+1} \mod p^e\\
+& = f_n(x_i) \mod p^e\\
+&=((x^2-1)\mod n)\mod p^e\\
+&=(x^2-1)\mod p^e\\
+&= (x_i')^2-1 \mod p^e\\
+&=f_{p^e}(x_i')
+\end{align*}
+
+So, we again are having the birthday paradox going on, but, instead of hoping for a repeat from a set of size $p$, we are looking at all the equivalence classes mod $p^e$ which has size $p^e$, so, we have that the expected number of steps before getting a repeat in that size set is just the squareroot of its size, which is $\Theta(\sqrt{p^{e}}) =\Theta(p^{e/2})$. 
 
 
 \noindent\textbf{Problem 31-1}\\
 
 \begin{enumerate}[a.]
+\item If $a$ and $b$ are both even, then we can write them as $a = 2 (a/2)$ and $b=2(b/2)$ where both factors in each are integers. This means that, by Corollary 31.4, $\gcd(a,b) = 2 \gcd(a/2,b/2)$.
+\item If $a$ is odd, and $b$ is even, then we can write $b = 2 (b/2)$, where $b/2$ is an integer, so, since we know that 2 does not divide $a$, the factor of two that is in $b$ cannot be part of the gcd of the two numbers. This means that we have $\gcd(a,b) = \gcd(a,b/2)$. More formally, suppose that $d= \gcd(a,b)$. Since $d$ is a common divisor, it must divide $a$, and so, it must not have any even factors. This means that it also divides $a$ and $b/2$. This means that $\gcd(a,b) \le \gcd(a,b/2)$. To see the reverse, suppose that $d' = \gcd(a,b/2)$, then it is also a divisor of $a$ and $b$, since we can just double whatever we need to multiply it by to get $b/2$. Since we have inequalities both ways, we have equality.
 \item
+If $a$ and $b$ are both odd, then, first, in analoge to theorem 31.9, we show that $\gcd(a,b) = \gcd(a-b,b)$. Let $d$ and $d'$ be the gcd's on the left and right respectively. Then, we have that there exists $n_1,n_2$ so that $n_1 a + n_2 b = d$, but then, we can rewrite to get $n_1( a- b) + (n_1+n_2)b = d$. This gets us $d \ge d'$. To see the reverse, let $n_1',n_2'$ so that $n_1' (a-b) + n_2' b = d'$. We rewrite to get $n_1' a + (n_2' - n_1') b = d'$, so we have $d'\ge d$. This means that $\gcd(a,b) = \gcd(a-b,b) = \gcd(b,a-b)$. From there, we fall into the case of part b. This is because the first argument is odd, and the second is the difference of two odd numbers, hence is even. This means we can halve the second argument without changing the quantity. So, $\gcd(a,b) = \gcd(b, (a-b)/2) =\gcd((a-b)/2,b)$.
+\item
+See the algorithm BINARY-GCD(a,b)
+
+\begin{algorithm}
+\caption{BINARY-GCD(a,b)}
+\begin{algorithmic}
+\If{$a\mod 2 \equiv 1$}
+\If{$b\mod 2 \equiv 1$}
+\State \Return BINARY-GCD$((a-b)/2,b)$
+\Else
+\State \Return BINARY-GCD$(a,b/2)$
+\EndIf
+\Else
+\If{$b\mod 2 \equiv 1$}
+\State \Return BINARY-GCD$(a/2,b)$
+\Else
+\State \Return $2\cdot $BINARY-GCD$(a/2,b/2)$
+\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+\end{enumerate}
+
+
+
+
+\noindent\textbf{Problem 31-3}\\
+
+\begin{enumerate}[a.]
+\item
+Mirroring the proof in chapter $27$, we first notice that in order to solve $FIB(n)$, we need to compute $FIB(n-1)$ and $FIB(n-2)$. This means that the recurrence it satisfies is
+
+\[
+T(n) = T(n-1) + T(n-2) + \Theta(1)
+\]
+
+We find it's solution using the substitution method. Suppose that the $\Theta(1)$ is bounded above by $c_2$ and bounded below by $c_1$. Then, we'll inducively assume that $T(k) \le cF_k - c_2k$ for $k<n$. Then,
+\begin{align*}
+T(n) &= T(n-1) + T(n-2) \\
+&\le cF_{n-1} - c_2(n-1) + cF_{n-2} - c_2(n-2) + c_2\\
+&= cF_n -c_2 n + (4 -n) c_2\\
+&\le cF_n -c_2 n
+\end{align*}
+Where the last inequality only holds if we have that $n\ge 4$,but since small values can just be absorbed into the constants, we are allowed to assume this.
+
+To show that $T\in \Omega(F_n)$, we again use the substitution method. Suppose that $T(k) \ge c F_k + c_1 k$ for $k<n$. Then.
+\begin{align*}
+T(n) &= T(n-1) + T(n-2) \\
+&\ge cF_{n-1} + c_1(n-1) + cF_{n-2} + c_1(n-2) + c_1\\
+&= cF_n +c_1 n + (n-4) c_1\\
+&\ge cF_n -c_1 n
+\end{align*}
+
+Again, this last inequality only holds if we have $n\ge 4$, but small cases can be absorbed into the constants, we may assume that $n\ge 4$.
+
+\item
+This problem is the same as exercise 15.1-5.
+\item
+For this problem, we assume that all integer multiplications and additions can be done in unit time. We will show first that
+
+\[
+\left( \begin{array}{cc}0&1\\1&1\end{array}\right)^k = \left( \begin{array}{cc}F_{k-1}&F_{k}\\F_{k}&F_{k+1}\end{array}\right)
+\]
+
+Where we start We will proceed by induction. Then, 
+
+\begin{align*}
+\left( \begin{array}{cc}0&1\\1&1\end{array}\right)^{k+1} &= \left( \begin{array}{cc}0&1\\1&1\end{array}\right)\left( \begin{array}{cc}0&1\\1&1\end{array}\right)^{k}\\
+&= \left( \begin{array}{cc}0&1\\1&1\end{array}\right)\left( \begin{array}{cc}F_{k-1}&F_{k}\\F_{k}&F_{k+1}\end{array}\right)\\
+&=\left( \begin{array}{cc}F_k&F_{k-1} +F_k\\F_{k-1} + F_k&F_k + F_{k+1}\end{array}\right)\\
+&=\left( \begin{array}{cc}F_k&F_{k+1}\\F_{k+1}&F_{k+2}\end{array}\right)
+\end{align*}
+
+completing the induction. Then, we just show that we can compute the given matrix to the power $n-2$ in time $O(\lg(n))$, and look at it's bottom right entry. We will use a technique similar to section 31.6, that is, we will use the idea of iterated squaring in order to obtain high powers quickly. First, we should note that using 8 multiplications and 4 additions, we can multiply any two square matrices. This means that matrix multiplications can be done in constant time, so, we only need to bound the number of those in our algorithm. Run the algorithm MATRIX-POW(A,n-2) and extract the bottom left argument. We can see that this algorithm only takes time $O(\lg(n))$ because in each step, we are halving the value of $n$, and within each step, we are only performing a constant amount of work, so the solution to 
+\[
+T(n) = T(n/2) + \Theta(1)
+\]
+is $O(\lg(n))$ by the master theorem.
+
+\begin{algorithm}
+\caption{MATRIX-POW(A,n)}
+\begin{algorithmic}
+\If{$n\%2 = 1$}
+\State \Return $A\cdot $MATRIX-POW$(A^2, \frac{n-1}{2})$
+\Else
+\State \Return MATRIX-POW$(A^2,n/2)$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\item
+Here, we replace the assumption of unit time additions and multiplications with having it take time $\Theta(\beta)$ to add and $\Theta(\beta^2)$ to multiply two $\beta$ bit numbers. For the naive approach, We are adding a number which is growing exponentially each time, so, the recurrence becomes 
+
+\[
+T(n) = T(n-1) + T(n-2) + \Theta(n)
+\]
+Which has the same solution $2^n$. Which can be seen by a substitution argument. Suppose that $T(k) \le c 2^k$ for $k<n$. Then,
+
+\begin{align*}
+T(n) &= T(n-1) +T(n-2) + \Theta(\lg(n))\\
+&\le c(\frac{1}{2} + \frac{1}{4})2^n + \Theta(\lg(n))\\
+&= c2^n - c2^{n-2} + \Theta(\lg(n))\\
+&\le c2^k
+\end{align*}
+
+Since we had that it was $\Omega(2^n)$ in the case that the term we added was $\Theta(1)$, and we have upped this term to $\Theta(\lg(n))$, we still have that $T(n)\in \Omega(2^n)$. This means that $T(n) \in \Theta(2^n)$.
+
+
+Now, considering the memoized version. We have that our solution has to satisfy the recurrence
+
+\[
+M(n) = M(n-1) + \Theta(n)
+\]
+
+This clearly has a solution of $\sum_{i=2}^n n \in\Theta(n^2)$ by equation (A.11) where it is trivial to obtain $\int x\,\,dx$. 
+
+Finally, we reanalyze our solution to part (c). For this, we have that we are performing a constant number of both additions and multiplications. This means that, because we are multiplying numbers that have value on the order of $\phi^n$, hence have order $n$ bits,  our recurrence becomes
+
+\[
+P(n) = P(n/2) + \Theta(n^2)
+\]
+Which has a solution of $\Theta(n^2)$.
+
+
+Though it is not asked for, we can compute Fibonacci in time only $\Theta(n\lg(n))$ because multiplying integers with $\beta$ bits can be done in time $\beta\lg(\beta)$ using the fast Fourier transform methods of the previous chapter.
+
 \end{enumerate}
 
 \end{document}
