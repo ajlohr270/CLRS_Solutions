@@ -236,7 +236,7 @@ Quicksort(A,p,r)
 \begin{enumerate}[a.]
 \item  Since all elements are the same, the initial random choice of index and swap change nothing.  Thus, randomized quicksort's running time will be the same as that of quicksort.  Since all elements are equal, PARTITION$(A,P,r)$ will always return $r-1$.  This is worst-case partitinoing, so the runtime is $\Theta(n^2)$. \\
 
-\item
+\item  See the PARTITION' algorithm for modifications.
 \begin{algorithm}
 \caption{PARTITION'(A,p,r)}
 \begin{algorithmic}[1]
@@ -261,7 +261,8 @@ Quicksort(A,p,r)
 \end{algorithmic}
 \end{algorithm}
 
-\item
+
+\item See the RANDOMIZED-PARTITION' algorithm for modifications.  
 \begin{algorithm}
 \caption{RANDOMIZED-PARTITION'}
 \begin{algorithmic}[1]
