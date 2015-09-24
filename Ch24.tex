@@ -385,7 +385,12 @@ Bellman-Ford correctly solves the system of difference constraints so $Ax\leq b$
 \[ y_i \leq y_i - y_1 \leq \sum_{m=2}^k w(v_{i_m}, v_{i_{m-1}}) = \delta(v_0, v_i) = x_i.\]
 
 \noindent\textbf{Exercise 24.4-9}\\
-%not done
+
+We can see that the Bellman-Ford algorithm run on the graph whose construction is described in this section causes the quantity $\max\{x_i\} - \min\{x_i\}$ to be minimized. We know that the largest value assigned to any of the vertices in the constraint graph is a 0. It is clear that it won't be greater than zero, since just the single edge path to each of the vertices has cost zero. We also know that we cannot have every vertex having a shortest path with negative weight. To see this, notice that this would mean that the pointer for each vertex has it's p value going to some other vertex that is not the source. This means that if we follow the procedure for reconstructing the shortest path for any of the vertices, we have that it can never get back to the source, a contradiction to the fact that it is a shortest path from the source to that vertex.
+
+Next, we note that when we run Bellman-Ford, we are maximizing $\min\{x_i\}$. The shortest distance in the constraint graphs is the bare minimum of what is required in order to have all the constraints satisfied, if we were to increase any of the values we would be violating a constraint.
+
+This could be in handy when scheduling construction jobs because the quantity $\max\{x_i\} - \min\{x_i\}$ is equal to the difference in time between the last task and the first task. Therefore, it means that minimizing it would mean that the total time that all the jobs takes is also minimized. And, most people want the entire process of construction to take as short of a time as possible.\\
 
 \noindent\textbf{Exercise 24.4-10}\\
 
@@ -449,13 +454,13 @@ It does not improve the asymptotic runtime of Bellman ford, it just drops the ru
 \end{enumerate}
 
 \noindent\textbf{Problem 24-2}\\
+\begin{enumerate}
+\item Suppose that box $x = (x_1, \ldots, x_d)$ nests with box $y = (y_1, \ldots, y_d)$ and box $y$ nests with box $z = (z_1, \ldots, z_d)$.  Then there exist permutations $\pi$ and $\sigma$ such that $x_{\pi(1)} < y_1, \ldots, x_{\pi(d)} < y_d$ and $y_{\sigma(1)} < z_1, \ldots, y_{\sigma(d)} < z_d$.  This implies $x_{\pi(\sigma(1))} < z_1, \ldots, x_{\pi(\sigma(d))} < z_d$, so $x$ nests with $z$ and the nesting relation is transitive. \\
 
-a. Suppose that box $x = (x_1, \ldots, x_d)$ nests with box $y = (y_1, \ldots, y_d)$ and box $y$ nests with box $z = (z_1, \ldots, z_d)$.  Then there exist permutations $\pi$ and $\sigma$ such that $x_{\pi(1)} < y_1, \ldots, x_{\pi(d)} < y_d$ and $y_{\sigma(1)} < z_1, \ldots, y_{\sigma(d)} < z_d$.  This implies $x_{\pi(\sigma(1))} < z_1, \ldots, x_{\pi(\sigma(d))} < z_d$, so $x$ nests with $z$ and the nesting relation is transitive. \\
+\item Box $x$ nests inside box $y$ if and only if the increasing sequence of dimensions of $x$ is componentwise strictly less than the increasing sequence of dimensions of $y$.  Thus, it will suffice to sort both sequences of dimensions and compare them.  Sorting both length $d$ sequences is done in $O(d \lg d)$, and comparing their elements is done in $O(d)$, so the total time is $O(d \lg d)$. \\
 
-b. Box $x$ nests inside box $y$ if and only if the increasing sequence of dimensions of $x$ is componentwise strictly less than the increasing sequence of dimensions of $y$.  Thus, it will suffice to sort both sequences of dimensions and compare them.  Sorting both length $d$ sequences is done in $O(d \lg d)$, and comparing their elements is done in $O(d)$, so the total time is $O(d \lg d)$. \\
-
-c. We will create a nesting-graph $G$ with vertices $B_1, \ldots, B_n$ as follows.  For each pair of boxes $B_i, B_j$, we decide if one nests inside the other.  If $B_i$ nests in $B_j$, draw an arrow from $B_i$ to $B_j$.  If $B_j$ nests in $B_i$, draw an arrow from $B_j$ to $B_i$.  If neither nests, draw no arrow.  To determine the arrows efficiently, after sorting each list of dimensions in $O(nd\lg d)$ we can sort all boxes' sorted dimensions lexicographically in $O(dn\lg n)$ using radix sort.  By transitivity, it will suffice to test adjacent nesting relations.  Thus, the total time to build this graph is $O(nd \max{\lg d, \lg n})$.  Next, we need to find the longest chain in the graph.  \\
-
+\item We will create a nesting-graph $G$ with vertices $B_1, \ldots, B_n$ as follows.  For each pair of boxes $B_i, B_j$, we decide if one nests inside the other.  If $B_i$ nests in $B_j$, draw an arrow from $B_i$ to $B_j$.  If $B_j$ nests in $B_i$, draw an arrow from $B_j$ to $B_i$.  If neither nests, draw no arrow.  To determine the arrows efficiently, after sorting each list of dimensions in $O(nd\lg d)$ we can sort all boxes' sorted dimensions lexicographically in $O(dn\lg n)$ using radix sort.  By transitivity, it will suffice to test adjacent nesting relations.  Thus, the total time to build this graph is $O(nd \max{\lg d, \lg n})$.  Next, we need to find the longest chain in the graph.  \\
+\end{enumerate}
 
 \noindent\textbf{Problem 24-3}\\
 
@@ -472,12 +477,12 @@ To do this, we first perform the same modification of all the edge weights as do
 \end{enumerate}
 
 \noindent\textbf{Problem 24-4}\\
+\begin{enumerate}[a.]
+\item We can do this in $O(E)$ by the algorithm described in exercise 24.3-8 since our ``priority queue'' takes on only integer values and is bounded in size by $E$.\\
 
-a. We can do this in $O(E)$ by the algorithm described in exercise 24.3-8 since our ``priority queue'' takes on only integer values and is bounded in size by $E$.\\
+\item We can do this in $O(E)$ by the algorithm described in exercise 24.3-8 since $w$ takes values in $\{0,1\}$ and $V = O(E)$. \\
 
-b. We can do this in $O(E)$ by the algorithm described in exercise 24.3-8 since $w$ takes values in $\{0,1\}$ and $V = O(E)$. \\
-
-c. If the $i^{th}$ digit, read from left to right, of $w(u,v)$ is 0, then $w_i(u,v) = 2w_{i-1}(u,v)$.  If it is a 1, then $w_i(u,v) = 2w_{i-1}(u,v)+1$.  Now let $s = v_0, v_1, \ldots, v_n = v$ be a shortest path from $s$ to $v$ under $w_i$.  Note that any shortest path under $w_i$ is necessarily also a shortest path under $w_{i-1}$.  Then we have
+\item If the $i^{th}$ digit, read from left to right, of $w(u,v)$ is 0, then $w_i(u,v) = 2w_{i-1}(u,v)$.  If it is a 1, then $w_i(u,v) = 2w_{i-1}(u,v)+1$.  Now let $s = v_0, v_1, \ldots, v_n = v$ be a shortest path from $s$ to $v$ under $w_i$.  Note that any shortest path under $w_i$ is necessarily also a shortest path under $w_{i-1}$.  Then we have
 \begin{align*}
 \delta_i(s,v) &= \sum_{m=1}^n w_i(v_{m-1}, v_m) \\
 &\leq  \sum_{m=1}^n [2w_{i-1}(u,v) + 1] \\
@@ -491,18 +496,18 @@ On the other hand, we also have
 &\geq 2\delta_{i-1}(s,v)
 \end{align*}
 
-d. Note that every quantity in the definition of $\hat{w_i}$ is an integer, so $\hat{w_i}$ is clearly an integer.  Since $w_i(u,v) \geq 2w_{i-1}(u,v)$, it will suffice to show that $w_{i-1}(u,v) + \delta_{i-1}(s,u) \geq \delta_{i-1}(s,v)$ to prove nonnegativity.  This follows immediately from the triangle inequality. \\
+\item Note that every quantity in the definition of $\hat{w_i}$ is an integer, so $\hat{w_i}$ is clearly an integer.  Since $w_i(u,v) \geq 2w_{i-1}(u,v)$, it will suffice to show that $w_{i-1}(u,v) + \delta_{i-1}(s,u) \geq \delta_{i-1}(s,v)$ to prove nonnegativity.  This follows immediately from the triangle inequality. \\
 
-e. First note that $s=v_0, v_1, \ldots, v_n = v$ is a shortest path from $s$ to $v$ with respect to $\hat{w}$ if and only if it is a shortest path with respect to $w$.  Then we have
+\item First note that $s=v_0, v_1, \ldots, v_n = v$ is a shortest path from $s$ to $v$ with respect to $\hat{w}$ if and only if it is a shortest path with respect to $w$.  Then we have
 \begin{align*}
 \hat{\delta}_i(s,v) &= \sum_{m=1}^n w_i(v_{m-1}, v_m) + 2\delta_{i-1}(s,v_{m-1}) - 2\delta_{i-1}(s, v_m) \\
 &=  \sum_{m=1}^n w_i(v_{m-1}, v_m) - 2\delta_{i-1}(s,v_n) \\
 &= \delta_i(s,v) - 2\delta_{i-1}(s,v)
 \end{align*}
-\\
 
-f. By part a we can compute $\hat{\delta_i}(s,v)$ for all $v \in V$ in $O(E)$ time.  If we have already computed $\delta_{i-1}$ then we can compute $\delta_i$ in $O(E)$ time.  Since we can compute $\delta_1$ in $O(E)$ by part b, we can compute $\delta_i$ from scratch in $O(iE)$ time.  Thus, we can compute $\delta = \delta_k$ in $O(Ek) = O(E\lg W)$ time. \\
 
+\item By part a we can compute $\hat{\delta_i}(s,v)$ for all $v \in V$ in $O(E)$ time.  If we have already computed $\delta_{i-1}$ then we can compute $\delta_i$ in $O(E)$ time.  Since we can compute $\delta_1$ in $O(E)$ by part b, we can compute $\delta_i$ from scratch in $O(iE)$ time.  Thus, we can compute $\delta = \delta_k$ in $O(Ek) = O(E\lg W)$ time. \\
+\end{enumerate}
 
 \noindent\textbf{Problem 24-5}\\
 

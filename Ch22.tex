@@ -567,48 +567,50 @@ First compute the component graph as in 22.5-5. Then, in order to have that ever
 
 \begin{enumerate}[a)]
 \item
-\begin{comment}
 \begin{enumerate}[1.]
 \item
-
+If we found a back edge, this means that there are two vertices, one a descendant of the other, but there is already a path from the ancestor to the child that doesn't involve moving up the tree. This is a contradiction since the only children in the bfs tree are those that are a single edge away, which means there cannot be any other paths to that child because that would make it more than a single edge away. To see that there are no forward edges, We do a similar procedure. A forward edge would mean that from a given vertex we notice it has a child that has already been processed, but this cannot happen because all children are only one edge away, and for it to of already been processed, it would need to have gone through some other vertex first.
 \item
-
+An edge is placed on the list to be processed if it goes to a vertex that has not yet been considered. This means that the path from that vertex to the root must be at least the distance from the current vertex plus 1. It is also at most that since we can just take the path that consists of going to the current vertex and taking its path to the root.
 \item
-
+We know that a cross edge cannot be going to a depth more than one less, otherwise it would be used as a tree edge when we were processing that earlier element. It also cannot be going to a vertex of depth more than one more, because we wouldn't of already processed a vertex that was that much further away from the root. Since the depths of the vertices in the cross edge cannot be more than one apart, the conclusion follows by possibly interchanging the roles of $u$ and $v$, which we can do because the edges are unordered.
 \end{enumerate}
-\end{comment}
-
 \item
 \begin{enumerate}[1.]
 \item
+To have a forward edge, we would need to have already processed a vertex using more than one edge, even though there is a path to it using a single edge. Since breadth first search always considers shorter paths first, this is not possible.
 \item
+Suppose that $(u,v)$ is a tree edge. Then, this means that there is a path from the root to $v$ of length $u.d+1$ by just appending $(u,v)$ on to the path from the root to $u$. To see that there is no shorter path, we just note that we would of processed $v$ sooner, and so wouldn't currently have a tree edge if there were.
 \item
+To see this, all we need to do is note that there is some path from the root to $v$ of length $u.d+1$ obtained by appending $(u,v)$ to $v.d$. Since there is a path of that length, it serves as an upper bound on the minimum length of all such paths from the root to $v$.
 \item
+It is trivial that $0\le v.d$, since it is impossible to have a path from the root to $v$ of negative length. The more interesting inequality is $v.d\le u.d$. We know that there is some path from $v$ to $u$, consisting of tree edges, this is the defining property of $(u,v)$ being a back edge. This means that is $v,v_1,v_2,\ldots, v_k,u$ is this path (it is unique because the tree edges form a tree). Then, we have that $u.d = v_k.d +1 = v_{k-1}.d + 2 = \cdots = v_1.d + k = v.d + k+1$. So, we have that $u.d > v.d$.
+
+In fact, we just showed that we have the stronger conclusion, that $0\le v.d < u.d$.
 \end{enumerate}
-%not done
 \end{enumerate}
 
 \noindent\textbf{Problem 22-2}\\
-
-a. First suppose the root $r$ of $G_\pi$ is an articulation point. Then the removal of $r$ from $G$ would cause the graph to disconnect, so $r$ has at least 2 children in $G$.  If $r$ has only one child $v$ in $G_\pi$ then it must be the case that there is a path from $v$ to each of $r$'s other children. Since removing $r$ disconnects the graph, there must exist vertices $u$ and $w$ such that the only paths from $u$ to $w$ contain $r$. To reach $r$ from $u$, the path must first reach one of $r$'s children. This child is connect to $v$ via a path which doesn't contain $r$. To reach $w$, the path must also leave $r$ through one of its children, which is also reachable by $v$. This implies that there is a path from $u$ to $w$ which doesn't contain $r$, a contradiction.
+\begin{enumerate}[a.]
+\item First suppose the root $r$ of $G_\pi$ is an articulation point. Then the removal of $r$ from $G$ would cause the graph to disconnect, so $r$ has at least 2 children in $G$.  If $r$ has only one child $v$ in $G_\pi$ then it must be the case that there is a path from $v$ to each of $r$'s other children. Since removing $r$ disconnects the graph, there must exist vertices $u$ and $w$ such that the only paths from $u$ to $w$ contain $r$. To reach $r$ from $u$, the path must first reach one of $r$'s children. This child is connect to $v$ via a path which doesn't contain $r$. To reach $w$, the path must also leave $r$ through one of its children, which is also reachable by $v$. This implies that there is a path from $u$ to $w$ which doesn't contain $r$, a contradiction.
 
 Now suppose $r$ has at least two children $u$ and $v$ in $G_\pi$.  Then there is no path from $u$ to $v$ in $G$ which doesn't go through $r$, since otherwise $u$ would be an ancestor of $v$.  Thus, removing $r$ disconnects the component containing $u$ and the component containing $v$, so $r$ is an articulation point. \\
 
-b. Suppose that $v$ is a nonroot vertex of $G_\pi$ and that $v$ has a child $s$ such that neither $s$ nor any of $s$'s descendents have back edges to a proper ancestor of $v$. Let $r$ be an ancestor of $v$, and remove $v$ from $G$.   Since we are in the undirected case, the only edges in the graph are tree edges or back edges, which means that every edge incident with $s$ takes us to a descendent of $s$, and no descendents have back edges, so at no point can we move up the tree by taking edges.  Therefore $r$ is unreachable from $s$, so the graph is disconnected and $v$ is an articulation point.  
+\item Suppose that $v$ is a nonroot vertex of $G_\pi$ and that $v$ has a child $s$ such that neither $s$ nor any of $s$'s descendents have back edges to a proper ancestor of $v$. Let $r$ be an ancestor of $v$, and remove $v$ from $G$.   Since we are in the undirected case, the only edges in the graph are tree edges or back edges, which means that every edge incident with $s$ takes us to a descendent of $s$, and no descendents have back edges, so at no point can we move up the tree by taking edges.  Therefore $r$ is unreachable from $s$, so the graph is disconnected and $v$ is an articulation point.  
 
 Now suppose that for every child of $v$ there exists a descendent of that child which has a back edge to a proper ancestor of $v$.  Remove $v$ from $G$. Every subtree of $v$ is a connected component.  Within a given subtree, find the vertex which has a back edge to a proper ancestor of $v$.  Since the set $T$ of vertices which aren't descendents of $v$ form a connected component, we have that every subtree of $v$ is connected to $T$.  Thus, the graph remains connected after the deletion of $v$ so $v$ is not an articulation point. \\
 
-c. Since $v$ is discovered before all of its descendants, the only back edges which could affect $v.low$ are ones which go from a descendant of $v$ to a proper ancestor of $v$. If we know $u.low$ for every child $u$ of $v$, then we can compute $v.low$ easily since all the information is coded in its descendents.  Thus, we can write the algorithm recursively:  If $v$ is a leaf in $G_\pi$ then $v.low$ is the minimum of $v.d$ and $w.d$ where $(v,w)$ is a back edge.  If $v$ is not a leaf, $v$ is the minimum of $v.d$, $w.d$ where $w$ is a back edge, and $u.low$, where $u$ is a child of $v$.  Computing $v.low$ for a vertex is linear in its degree.  The sum of the vertices' degrees gives twice the number of edges, so the total runtime is $O(E)$.\\
+\item Since $v$ is discovered before all of its descendants, the only back edges which could affect $v.low$ are ones which go from a descendant of $v$ to a proper ancestor of $v$. If we know $u.low$ for every child $u$ of $v$, then we can compute $v.low$ easily since all the information is coded in its descendents.  Thus, we can write the algorithm recursively:  If $v$ is a leaf in $G_\pi$ then $v.low$ is the minimum of $v.d$ and $w.d$ where $(v,w)$ is a back edge.  If $v$ is not a leaf, $v$ is the minimum of $v.d$, $w.d$ where $w$ is a back edge, and $u.low$, where $u$ is a child of $v$.  Computing $v.low$ for a vertex is linear in its degree.  The sum of the vertices' degrees gives twice the number of edges, so the total runtime is $O(E)$.\\
 
-d. First apply the algorithm of part (c) in $O(E)$ to compute $v.low$ for all $v \in V$.  If $v.low = v.d$ if and only if no descendent of $v$ has a back edge to a proper ancestor of $v$, if and only if $v$ is not an articulation point.  Thus, we need only check $v.low$ versus $v.d$ to decide in constant time whether or not $v$ is an articulation point, so the runtime is $O(E)$.\\
+\item First apply the algorithm of part (c) in $O(E)$ to compute $v.low$ for all $v \in V$.  If $v.low = v.d$ if and only if no descendent of $v$ has a back edge to a proper ancestor of $v$, if and only if $v$ is not an articulation point.  Thus, we need only check $v.low$ versus $v.d$ to decide in constant time whether or not $v$ is an articulation point, so the runtime is $O(E)$.\\
 
-e. An edge $(u,v)$ lies on a simple cycle if and only if there exists at least one path from $u$ to $v$ which doesn't contain the edge $(u,v)$, if and only if removing $(u,v)$ doesn't disconnect the graph, if and only if $(u,v)$ is not a bridge. \\
+\item An edge $(u,v)$ lies on a simple cycle if and only if there exists at least one path from $u$ to $v$ which doesn't contain the edge $(u,v)$, if and only if removing $(u,v)$ doesn't disconnect the graph, if and only if $(u,v)$ is not a bridge. \\
 
-f. A edge $(u,v)$ lies on a simple cycle in an undirected graph if and only if either both of its endpoints are articulation points, or one of its endpoints is an articulation point and the other is a vertex of degree 1.  Since we can compute all articulation points in $O(E)$ and we can decide whether or not a vertex has degree 1 in constant time, we can run the algorithm in part $d$ and then decide whether each edge is a bridge in constant time, so we can find all bridges in$O(E)$ time. \\
+\item A edge $(u,v)$ lies on a simple cycle in an undirected graph if and only if either both of its endpoints are articulation points, or one of its endpoints is an articulation point and the other is a vertex of degree 1.  Since we can compute all articulation points in $O(E)$ and we can decide whether or not a vertex has degree 1 in constant time, we can run the algorithm in part $d$ and then decide whether each edge is a bridge in constant time, so we can find all bridges in$O(E)$ time. \\
 
-g. It is clear that every nonbridge edge is in some biconnected component, so we need to show that if $C_1$ and $C_2$ are distinct biconnected components, then they contain no common edges.  Suppose to the contrary that $(u,v)$ is in both $C_1$ and $C_2$.  Let $(a,b)$ be any edge in $C_1$ and $(c,d)$ be any edge in $C_2$.  Then $(a,b)$ lies on a simple cycle with $(u,v)$, consisting of the path $a, b, p_1, \ldots, p_k, u, v, p_{k+1}, \ldots, p_n, a$.  Similarly, $(c,d)$ lies on a simple cycle with $(u,v)$ consisting of the path $c,d,q_1, \ldots, q_m, u,v, q_{m+1}, \ldots, q_l, c$.  This means $a,b,p_1, \ldots, p_k, u, q_m, \ldots, q_1, d, c, q_l, \ldots, q_{m+1}, v, p_{k+1}, \ldots, p_n, a$ is a simple cycle containing $(a,b)$ and $(c,d)$, a contradiction.  Thus, the biconnected components form a partition. \\
+\item It is clear that every nonbridge edge is in some biconnected component, so we need to show that if $C_1$ and $C_2$ are distinct biconnected components, then they contain no common edges.  Suppose to the contrary that $(u,v)$ is in both $C_1$ and $C_2$.  Let $(a,b)$ be any edge in $C_1$ and $(c,d)$ be any edge in $C_2$.  Then $(a,b)$ lies on a simple cycle with $(u,v)$, consisting of the path $a, b, p_1, \ldots, p_k, u, v, p_{k+1}, \ldots, p_n, a$.  Similarly, $(c,d)$ lies on a simple cycle with $(u,v)$ consisting of the path $c,d,q_1, \ldots, q_m, u,v, q_{m+1}, \ldots, q_l, c$.  This means $a,b,p_1, \ldots, p_k, u, q_m, \ldots, q_1, d, c, q_l, \ldots, q_{m+1}, v, p_{k+1}, \ldots, p_n, a$ is a simple cycle containing $(a,b)$ and $(c,d)$, a contradiction.  Thus, the biconnected components form a partition. \\
 
-h. Locate all bridge edges in $O(E)$ time using the algorithm described in part f.  Remove each bridge from $E$.  The biconnected components are now simply the edges in the connected components.  Assuming this has been done, run the following algorithm, which clearly runs in $O(E)$ where $E$ is the number of edges \emph{originally} in $G$.\\
+\item Locate all bridge edges in $O(E)$ time using the algorithm described in part f.  Remove each bridge from $E$.  The biconnected components are now simply the edges in the connected components.  Assuming this has been done, run the following algorithm, which clearly runs in $O(E)$ where $E$ is the number of edges \emph{originally} in $G$.\\
 
 \begin{algorithm}
 \caption{BCC(G)}
@@ -639,10 +641,11 @@ h. Locate all bridge edges in $O(E)$ time using the algorithm described in part 
 \EndFor 
 \end{algorithmic}
 \end{algorithm}
+\end{enumerate}
 
 \noindent\textbf{Problem 22-3}\\
 
-\begin{enumerate}[a)]
+\begin{enumerate}[a.]
 \item
 First, we'll show that it is necessary to have in degree equal out degree for each vertex. Suppose that there was some vertex $v$ for which the two were not equal, suppose wlog that in-degree - out-degree = a > 0. Note that we may assume that in degree is greater because otherwise we would just look at the transpose graph in which we traverse the cycle backwards. If $v$ is the start of the cycle as it is listed, just shift the starting and ending vertex to any other one on the cycle. Then, in whatever cycle we take going though $v$, we must pass through $v$ some number of times, in particular, after we pass through it $a$ times, the number of unused edges coming out of $v$ is zero, however, there are still unused edges goin in that we need to use. This means that there is no hope of using those while still being a tour, becase we would never be able to escape $v$ and get back to the vertex where the tour started.
 
