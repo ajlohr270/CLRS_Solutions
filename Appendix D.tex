@@ -1,0 +1,94 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{graphicx}
+\newcommand{\rank}{\mbox{rank}}
+	
+\pagestyle{fancy}
+\title{Appendix D}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Exercise D.1-2}\\
+
+From the definitions of transpose and matrix multiplication we have
+
+\begin{align*}
+(AB)^T_{ij} &= (AB)_{ji} \\
+&= \sum_{k=1}^n a_{jk}b_{ki}\\
+&= \sum_{k=1}^n b_{ki}a_{jk}\\
+&= (B^TA^T)_{ij}.
+\end{align*}
+
+Therefore $(AB)^T = B^TA^T$.  This implies $(A^TA)^T = A^T(A^T)^T = A^TA$, so $A^TA$ is symmetric. \\
+
+\noindent\textbf{Exercise D.1-4}\\
+
+Suppose row $i$ of $P$ has a 1 in column $j$.  Then row $i$ of $PA$ is row $j$ of $A$, so $PA$ permutes the rows.  On the other hand, column $j$ of $AP$ is column $i$ of $A$, so $AP$ permutes the columns.  We can view the product of two permutation matrices as one permutation matrix permuting the rows of another.  This preserves the property that there is only a single 1 in each row and column, so the product is also a permutation matrix. \\
+
+\noindent\textbf{Exercise D.2-2}\\
+
+Let $L$ be a lower triangular matrix.  We'll prove by induction on the size of the matrix that the determinant is the product of its diagonal entries. For $n=1$, the determinant is just equal to the matrix entry, which is the product of the only diagonal element.  Now suppose the claim holds for $n$, and let $L$ be $(n+1) \times (n+1)$.  Let $L'$ be the $n \times n$ submatrix obtained from $L$ by deleting the first row and column.  Then we have $\det(L) = L_{11} \det(L')$, since $L_{1j} = 0$ for all $j \neq 1$.  By the indution hypothesis, $\det(L')$ is the product of the diagonal entries of $L'$, which are all the diagonal entries of $L$ except $L_{11}$.  The claim follows since we multiply this by $L_{11}$.  
+
+We will prove that the inverse of a lower triangular matrix is lower triangular by induction on the size of the matrix.  For $n=1$ every matrix is lower triangular, so the claim holds.  Let $L$ be $(n+1) \times (n+1)$ and let $L'$ be the submatrix obtained from $L$ by deleting the first row and column.  By our induction hypothesis, $L'$ has an inverse which is lower triangular, call it $L'^{-1}$.  We will construct a lower triangular inverse for $L$:
+
+\[ L^{-1} = \left[ \begin{array}{c|ccc} 1/l_{11}& 0&\cdots&0 \\ \hline a_1 &&&\\ \vdots&&L'^{-1}& \\ a_n & && \end{array}\right] \]
+
+where we define $a_i$ recursively by 
+\[ a_1 = -L_{21}/(L_{11}L'_{11})  \mbox{ and } a_i = -\left(L_{(i+1),1}/L_{11} + \sum_{k=1}^{i-1} L'_{ik}a_k \right)/L'_{ii}.\]
+
+It is straightforward to verify that this in fact gives an inverse, and it is well-defined because $L$ is nonsingular, so $L_{ii} \neq 0$.  \\
+
+\noindent\textbf{Exercise D.2-4}\\
+
+Assume first that $j\neq i$.  Let $C_{ij}$ be the matrix with a 1 in position $(i,j)$, and zeros elsewhere, and $C = I + C_{ij}$.  Then $A' = CA$, so $A'^{-1} = A^{-1}C^{-1}$.  It is easy to check that $C^{-1} = I-C_{ij}$.  Moreover, right multiplication by $C^{-1}$ amounts to subtracting column $i$ from column $j$, so the claim follows.  The claim fails to hold when $i=j$.  To see this, consider the case where $A = B = I$.  Then $A'$ is invertible, but if we subtract column $i$ from column $j$ of $B$ we get a matrix with a column of zeros, which is singular, so it cannot possibly be the inverse of a matrix.  \\
+
+\noindent\textbf{Exercise D.2-6}\\
+
+We have $(A^{-1})^T = (A^T)^{-1} = A^{-1}$ so $A^{-1}$ is symmetric, and $(BAB^T)^T = (B^T)^TA^TB^T = BAB^T$.   \\
+
+
+\noindent\textbf{Exercise D.2-8}\\
+
+Let $A$ be $m \times p$ and $B$ be $p \times n$.  Recall that $\rank(AB)$ is equal to the minimum $r$ such that there exist $F$ and $G$ of dimensions $m \times r$ and $r \times n$ such that $FG = AB$. Let $A'$ and $A''$ be matrices of minimum $r'$ such that $A'A'' = A$ and the dimensions are $m \times r'$ and $r' \times p$.  Let $B'$ and $B''$ be the corresponding matrices for $B$, which minimize $r''$.  If $r' \leq r''$ we have $A' (A''B'B'') = AB$, so $r \leq r'$ since $r$ was minimal.  If $r'' \leq r'$ we have $(A'A''B')B'' = AB$, so $r \leq r''$, since $r$ was minimal.  Either way, $\rank(AB) \leq \min(\rank(A), \rank(B))$.  
+
+The product of a nonsingular matrix and another matrix preserves the rank of the other matrix.  Since the rank of a nonsingular $n \times n$ matrix is $n$ and the rank of an $m \times n$ or $n \times m$ matrix is bounded above by $\min(m,n)$, the rank of $AB$ is bounded above by the minimum of $n$ and the rank of the other matrix, which is the minimum of the rank of each of the matrices.  \\
+
+\noindent\textbf{Problem D-2}\\
+
+\begin{enumerate}[a.]
+\item Without loss of generality we may assume that the first $r$ columns of $A$ are linearly independent.  Then for $x_1$ and $x_2 \in S_n$ such that $x_1$ and $x_2$ are not identical in the first $r$ entries and have 0's in the remaining entries we have that $Ax_1 \neq Ax_2$.  This is because the first $r$ entries of each are a linear combination of the first $r$ rows of $A$, and since they are independent there can't be two different linear combinations of them which are equal.  Since there are at least $2^r$ non-equivalent vectors $x \in S_n$, we must have $|R(A)| \geq 2^r$.  On the other hand, $x$ is a vector which doesn't have 0's in the coordinates greater than $r$.  Then $Ax = \sum_{x_i}a_i$ where $a_i$ is the $i^{th}$ column of $A$.  Since each of the last $n - r$ columns of $A$ is in fact a linear combination of the first $r$ columns of $A$, this can be rewritten as a linear combination of the first $r$ columns of $A$.  Since we have already counted all of these, $|R(A)| = 2^r$.  If $A$ doesn't have full rank then the range can't include all $2^n$ elements of $S_n$, so $A$ can't possibly define a permutation.
+
+\item Let $y \in R(A)$ and $x_r, x_{r+1}, \ldots, x_{n-1}$ be arbitrary.  Set $z = \sum_{i=r}^{n-1} a_ix_i$.  Since the first $i$ columns of $A$ span the range of $A$ and $z$ is in the range of $A$, $y-z$ is in the range of $A$ and there exist $x_0, x_1, \ldots, x_{r-1}$ such that $\sum_{i=0}^{r-1}a_ix_i = y-z$.  Then we have $Ax = y-z+z=y$.  Since the last $n-r$ entries of $x$ were arbitrary, $|P(A,y)| \geq 2^{n-r}$. On the other hand, there are $2^r$ elements in $R(A)$, each with at least $2^{n-r}$ preimages, which means there are at least $2^r \cdot 2^{n-r} = 2^n$ preimages in total.  Since $|S_n| = 2^n$, there must be exactly $2^{n-r}$ preimages for each element of the range. 
+
+\item %Not done
+
+\item The number of linear permutations is bounded above by the number of pairs $(A,c)$ where $A$ is an $n \times n$ matrix with entries in $GF(2)$ and $c$ is an $n$-bit vector.  There are $2^{n^2+n}$ of these.  On the other hand, there are $(2^n)!$ permutations of $S_n$.  For $n \geq 3$, $2^{n^2+n} \leq (2^n)!$.  
+
+\item Let $n=3$ and consider the permutation $\pi(0) = 0$, $\pi(1)=1$, $\pi(2)=2$, $\pi(3)=3$, $\pi(4) = 5$, $\pi(5)=4$, $\pi(6)=6$ and $\pi(7) = 7$.  Since $A\cdot0 + c=0$ we must have $c$ be the zero vector.  In order for $\pi(1)$ to equal 1, the first column of $A$ must be $[1\,\, 0\,\,0]^T$.  To have $\pi(2)=2$, the second column of $A$ must be $[0 \,\, 1\,\,0]^T$.  To have $\pi(3)=3$, the third column of $A$ must be $[0\,\, 0\,\, 1]^T$.  This completely determines $A$ as the identity matrix, making it impossible for $\pi(4)=5$, so the permutation is not achievable by any linear permutation. 
+
+\end{enumerate}
+
+
+
+\end{document}
