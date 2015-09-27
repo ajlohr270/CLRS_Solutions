@@ -29,6 +29,22 @@
 \begin{document}
 \maketitle
 
+\noindent\textbf{Exercise D.1-1}\\
+
+Let $C = A+B$ and $D = A-B$. Then, since $A$ and $B$ are symmetric, we know that $a_{ij} = a_{ji}$ and $b_{ij} =b_{ji}$. We consider these two matrices $C$ and $D$ now.
+\begin{align*}
+c_{ij} &= a_{ij} + b_{ij}\\
+&=a_{ji} + b_{ji}\\
+&= c_{ji}
+\end{align*}
+
+\begin{align*}
+d_{ij} &= a_{ij} - b_{ij}\\
+&=a_{ji} - b_{ji}\\
+&= d_{ji}
+\end{align*}
+
+
 \noindent\textbf{Exercise D.1-2}\\
 
 From the definitions of transpose and matrix multiplication we have
@@ -42,9 +58,32 @@ From the definitions of transpose and matrix multiplication we have
 
 Therefore $(AB)^T = B^TA^T$.  This implies $(A^TA)^T = A^T(A^T)^T = A^TA$, so $A^TA$ is symmetric. \\
 
+\noindent\textbf{Exercise D.1-3}\\
+
+Suppose that $A$ and $B$ are lower triangular, and let $C= AB$. Being lower triangular, we know that for $i<j$, $a_{ij} = b_{ij} = 0$. To see that $C$ is lower triangular,
+
+\begin{align*}
+c_{ij} &= \sum_{k=1}^n a_{ik} b_{kj}\\
+&= \sum_{k=1}^{j-1} a_{ik}b_{kj} + \sum_{k=j}^n a_{ik}b_{kj}\\
+&= \sum_{k=1}^{j-1} a_{ik}0 + \sum_{k=j}^n 0b_{kj}\\
+&= \sum_{k=1}^{j-1} 0 + \sum_{k=j}^n 0\\
+&= 0+ 0=0
+\end{align*}
+
 \noindent\textbf{Exercise D.1-4}\\
 
 Suppose row $i$ of $P$ has a 1 in column $j$.  Then row $i$ of $PA$ is row $j$ of $A$, so $PA$ permutes the rows.  On the other hand, column $j$ of $AP$ is column $i$ of $A$, so $AP$ permutes the columns.  We can view the product of two permutation matrices as one permutation matrix permuting the rows of another.  This preserves the property that there is only a single 1 in each row and column, so the product is also a permutation matrix. \\
+
+\noindent\textbf{Exercise D.2-1}\\
+
+\begin{align*}
+I&=I\\
+AC&=AB\\
+B(AC)&=B(AB)\\
+(BA)C&=(BA)B\\
+IC&=IB\\
+C&=B
+\end{align*}
 
 \noindent\textbf{Exercise D.2-2}\\
 
@@ -59,13 +98,33 @@ where we define $a_i$ recursively by
 
 It is straightforward to verify that this in fact gives an inverse, and it is well-defined because $L$ is nonsingular, so $L_{ii} \neq 0$.  \\
 
+\noindent\textbf{Exercise D.2-3}\\
+We will show that it is invertible by showing that $P^T$ is its inverse. Suppose that the only nonzero entry of row $i$ is a one in column $\sigma(i)$. This means that the only nonzero entry in column $i$ of $P^T$ is in row $\sigma(i)$. If we let $C = PP^T$, then, for every $i$ and $j$, we have that $c_{ij} = \sum_{k=1}^n p_{ik}p_{jk} =  p_{i\sigma(i)}p_{j\sigma(i)}$. Since $\sigma$ is a bijection, we have that if $i\neq j$, then $\sigma(i)\neq \sigma(j)$. This means that $c_{ij}=0$. However, if $i=j$, then $c_{ij} =1$. That is, their product is the identity matrix. This means that $P^T$ is the inverse of $P$. 
+
+Since a permutation matrix is defined as having exactly one one in each row and column, we know that this is true of $P$. However, the set of rows of $P^T$ is the set of columns of $P$, and the set of columns of $P^T$ are the set of rows of $P$. Since all of those have exactly one one, we have that $P^T$ is a permutation matrix.\\
+
 \noindent\textbf{Exercise D.2-4}\\
 
 Assume first that $j\neq i$.  Let $C_{ij}$ be the matrix with a 1 in position $(i,j)$, and zeros elsewhere, and $C = I + C_{ij}$.  Then $A' = CA$, so $A'^{-1} = A^{-1}C^{-1}$.  It is easy to check that $C^{-1} = I-C_{ij}$.  Moreover, right multiplication by $C^{-1}$ amounts to subtracting column $i$ from column $j$, so the claim follows.  The claim fails to hold when $i=j$.  To see this, consider the case where $A = B = I$.  Then $A'$ is invertible, but if we subtract column $i$ from column $j$ of $B$ we get a matrix with a column of zeros, which is singular, so it cannot possibly be the inverse of a matrix.  \\
 
+\noindent\textbf{Exercise D.2-5}\\
+
+To see that the inverse of a marix that has only real entries must be real. Imagine instead that that matrix was a matrix over $\mathbb{R}$. Then, it will have a inverse in this ring of matrices so long as it is non-singular. This inverse will also be an inverse of the matrix when viewed as a matrix of $\mathbb{C}$. Since inverses are distinct, this must be its inverse, and is all real entries because it was originally computed as a matrix that was in the set of real entry matrices.
+
+To see the converse implication, just swap the roles, computing the inverse of the inverse. This will be the original matrix.\\
+
+
 \noindent\textbf{Exercise D.2-6}\\
 
 We have $(A^{-1})^T = (A^T)^{-1} = A^{-1}$ so $A^{-1}$ is symmetric, and $(BAB^T)^T = (B^T)^TA^TB^T = BAB^T$.   \\
+
+\noindent\textbf{Exercise D.2-5}\\
+
+We will consider the contrapositive. That is, we will show that a matrix has rank less than $n$ if and only if there exists a null vector.
+
+Suppose that $v$ is a null vector, and let $a_1,a_2,\ldots a_n$ be the columns of $A$. Since multiplying a matrix by a vector produces a linear combination of its columns whoose coefficients are determined by the vector $v$ that we are multiplying by. Since $v$ evaluates to zero, we have just found a linear combination of the set of columns of $A$ that sums to zero. That is, the columns of $A$ are linearly dependent, so the column rank is less than $n$, since the set of all vectors is not linearly independent, the largest independent set must be a proper subset.
+
+Now, suppose that the column rank is less than $n$. This means that there is some set of column vectors which are linearly dependent. Let $v_i$ be the coefficient given to the $i$th column of $A$ in this linear combination that sums to zero. Then, the $v_i$ values combine into a null vector.\\
 
 
 \noindent\textbf{Exercise D.2-8}\\
@@ -73,6 +132,11 @@ We have $(A^{-1})^T = (A^T)^{-1} = A^{-1}$ so $A^{-1}$ is symmetric, and $(BAB^T
 Let $A$ be $m \times p$ and $B$ be $p \times n$.  Recall that $\rank(AB)$ is equal to the minimum $r$ such that there exist $F$ and $G$ of dimensions $m \times r$ and $r \times n$ such that $FG = AB$. Let $A'$ and $A''$ be matrices of minimum $r'$ such that $A'A'' = A$ and the dimensions are $m \times r'$ and $r' \times p$.  Let $B'$ and $B''$ be the corresponding matrices for $B$, which minimize $r''$.  If $r' \leq r''$ we have $A' (A''B'B'') = AB$, so $r \leq r'$ since $r$ was minimal.  If $r'' \leq r'$ we have $(A'A''B')B'' = AB$, so $r \leq r''$, since $r$ was minimal.  Either way, $\rank(AB) \leq \min(\rank(A), \rank(B))$.  
 
 The product of a nonsingular matrix and another matrix preserves the rank of the other matrix.  Since the rank of a nonsingular $n \times n$ matrix is $n$ and the rank of an $m \times n$ or $n \times m$ matrix is bounded above by $\min(m,n)$, the rank of $AB$ is bounded above by the minimum of $n$ and the rank of the other matrix, which is the minimum of the rank of each of the matrices.  \\
+
+\noindent\textbf{Problem D-1}\\
+We'll proceed by induction on $n$. If $n=1$, then, the matrix is just the $1\times 1$ matrix with it's only entry 1. This clearly has a determinant of 1. Also, since there is no way to pick distinct $i$ and $j$ in the product on the right hand side, the product is just one as well.
+
+Now, suppose it is true for $n\times n$ Vandermonde matrices, we will show it for $(n+1)\times(n+1)$ Vandermonde matrices. Now, suppose that we, as the hint suggests, starting at the second from rightmost column and working left, add $(-x_0)$ times that column to the one to its right. Since the determinant is unaffected by this sort of operation,we won't be changing the determinant. For every entry in the top row except the leftmost one, we have made it zero, since it becomes $x_0^{j-1} - x_0^{j-2} \cdot x_0 =0$. This means that we can do a expansion by minors along the top row to compute the determinant. The only nonzero term in this is the top left column. This means that the determinant is the same as the determinant of that one minor. Everything in the $i$th row of that minor has a factor of $(x_i -x_0)$. This means that if we take all those factors out, we have $\prod_{i=1}^{n-1} (x_i - x_0)$, which are all the factors in the formula that include $x_0$. Once we take that factors out, we are left with a $n\times n$ Vandermonde matrix on the variables $x_1, \ldots, x_{n-1}$. So, we know that it will contain all the other factors we need to get the right hand side, completing the induction.\\
 
 \noindent\textbf{Problem D-2}\\
 
