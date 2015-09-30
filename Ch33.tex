@@ -1,0 +1,126 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{tikz}
+	
+\pagestyle{fancy}
+\title{Chapter 33}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+\newcommand{\Z}{\mathbb{Z}}
+
+
+
+\algblock{ParFor}{EndParFor}
+% customising the new block
+\algnewcommand\algorithmicparfor{\textbf{parallel for}}
+\algnewcommand\algorithmicpardo{\textbf{do}}
+\algnewcommand\algorithmicendparfor{\textbf{end}}
+\algrenewtext{ParFor}[1]{\algorithmicparfor\ #1\ \algorithmicpardo}
+\algrenewtext{EndParFor}{\algorithmicendparfor}
+
+\begin{document}
+\maketitle
+\noindent\textbf{Exercise 33.1-1}\\
+Suppose first that the cross product is positive. We shall consider the angles that both of the vectors make with the positive x axis. This is given by $tan^{-1}(y/x)$ for both. Since the cross product is positive, we have that $0 < x_1 y_2 - x_2y_1$, which means that $\frac{y_1}{x_1} < \frac{y_2}{x_2}$. however, since arctan is a monotone function, this means that the angle that $p_2$ makes with the positive $x$ axis is greater than the angle that $p_1$ does, which means that you need to move in a clockwise direction to get from $p_2$ to $p_1$.
+
+If the cross product is negative, this means that we have $\frac{y_1}{x_1} > \frac{y_2}{x_2}$ which means that the angle that $p_1$ makes is greater, which means that we need to go counter clockwise from $p_2$ to get to $p_1$.
+
+
+\noindent\textbf{Exercise 33.1-3}\\
+
+The beauty of the fact that our sorting algorithms from earlier in the book were only comparison based is that if we can implement a comparison operation between any two elements that operates in constant time, then, we can use the earlier comparison based sorting algorithms as a black box to work on our data.
+
+So, what we need to do is, given two indices $i$ and $j$, decide whether the polar angle of $p_i$ with respect to $p_0$ is larger or smaller than the polar angle of $p_j$ with respect to $p_0$. This can be done with a single cross product. That is, we look at the cross product, $(p_1- p_0)\times(p_2-p_0)$. This is positive if we need to turn left from $p_1$ to get to $p_2$. That is, if it is positive, then the polar angle is greater for $p_2$ than from $p_1$. We similarly know that we are in the reverse situation if we have that this cross product is negative. The only tricky thing is that we could have two distinct elements $p_i$ and $p_j$ so that the cross product is still zero. The problem statement is unclear how to resolve these sorts of ties, because they have the same polar angle. We could just pick some arbitrary property of the points to resolve ties, such as we pick the point that is farther away from $p_0$ to be larger. Since we have a total ordering on the points that can be queried in constant time, we can use it in our $O(n\lg(n))$ algorithms from earlier on in the book.\\
+
+
+
+\noindent\textbf{Exercise 33.1-5}\\
+
+Because, as stated in this definition of convex polynomials, we cannot have a vertex of a convex polygon be a convex combination of any two points of the boundary of the polynomial. This means that as we enter a particular vertex, we cannot have that it is colinear with the next vertex. Professor Amundsen's algorithm just rejects if both left and right turns are made. However, it should also reject if there is ever any vertex where no turn is made, because that vertex would then be a convex combination of the next and previous vertices.\\
+
+
+
+\noindent\textbf{Exercise 33.1-7}\\
+
+Starting from the point $p_0$, pick an arbitrary direction, and consider the ray coming out in that direction. Instead of just counting the intersections with the sides of the polygon, we'll also count all the vertices that the ray intersects. for each side that it intersects, if it intersects the vertices at both sides, then we don't count that edge, because that means that the ray passes along that side. Lastly, if the ray passes through any vertex where both sides touching that vertex aren't of the previous type, we flip the parity of the count. Lastly, we say it is inside if the final count is odd. See the algorithm DETERMINE-INSIDE(P,p).\\
+
+\begin{algorithm}
+\caption{DETERMINE-INSIDE(P,p), P is a polygon, and p is a point}
+\begin{algorithmic}
+\State{Let $S$ be the set of sides that the right horizontal ray intersects}
+\State{Let $T$ be the set of vertices that the right horizontal ray intersects}
+\State{Let $U$ be an empty set of sides}
+\State{count = 0}
+\For{$s\in S$}
+\State{let $p_1$ and $p_2$ be the vertices at either side of s}
+\If{$p_1\in T$ and $p_2\in T$}
+\State put $s$ in $U$
+\EndIf
+\State count$++$
+\EndFor
+\For{$x\in T$}
+\State{ let $y$ and $z$ be the sides that $x$ is touching}
+\If{$y\in U$ or $z\in U$}
+\State count++
+\EndIf
+\EndFor
+\If{count is odd}
+\State \Return inside
+\Else
+\State \Return outside
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\noindent\textbf{Exercise 33.2-1}\\
+
+Suppose you split your set of lines into two equal sets, each of size $n/2$. Then, we will make half of them horizontal and close together, each above the next. That is, we'll put a horizontal line at $y = \frac{1}{k}$ for $k=1,\ldots, n/2$ extending from $-1$ to $1$. For the other half, we'll put lines along $x= \frac{1}{k}$ for $k=1,\ldots,n/2$, extending from -1 to 1. Then, we'll have every line from the first set intersect every line from the second set. Therefore the total number of intersections is $\frac{n^2}{4}$, which is $\Theta(n^2)$.\\
+
+
+
+\noindent\textbf{Exercise 33.2-3}\\
+
+It looks like the moral of this book is that the only time that a professor can be right is when he's disagreeing with another professor.%notdone
+
+
+
+
+\noindent\textbf{Exercise 33.2-5}\\
+
+
+\noindent\textbf{Exercise 33.2-7}\\
+
+
+\noindent\textbf{Exercise 33.2-9}\\
+
+
+\noindent\textbf{Exercise 33.3-1}\\
+
+
+
+
+\noindent\textbf{Problem 33-1}\\
+\begin{enumerate}[a.]
+\item
+\end{enumerate}
+
+\end{document}

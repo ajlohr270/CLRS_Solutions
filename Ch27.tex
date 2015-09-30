@@ -62,16 +62,12 @@ Where the second inequality comes by noting that the middle expression, as a fun
 
 The information from $T_{10}$ applied to equation (27.5) give us that
 \begin{align*}
-%80 &\le \frac{T_1-T_\infty}{4} + T_\infty
 42 &\le {T_1 - T_\infty}{10} + T_\infty
-%10 &\le (T_1 - T_\infty}{64} + T_\infty
 \end{align*}
 
 which tell us that 
 \begin{align*}
-%320 &\le T_1 +3 T_\infty
 420 &\le T_1 +9 T_\infty
-%640 &\le T_1 +64 T_\infty
 \end{align*}
 
 
@@ -422,8 +418,8 @@ So, to solve this, we set $g = \sqrt{n}$. This minimizes the quantity and makes 
 \end{enumerate}
 
 \noindent\textbf{Problem 27-2}\\
-
-a. Our algorithm P-MATRIX-MULTIPLY-RECURSIVE-SPACE(C,A,B) multiplies $A$ and $B$, and adds their product to the matrix $C$. It is assumed that $C$ contains all zeros when the function is first called.\\
+\begin{enumerate}[a.]
+\item Our algorithm P-MATRIX-MULTIPLY-RECURSIVE-SPACE(C,A,B) multiplies $A$ and $B$, and adds their product to the matrix $C$. It is assumed that $C$ contains all zeros when the function is first called.\\
 
 \begin{algorithm}
 \caption{P-MATRIX-MULTIPLY-RECURSIVE-SPACE(C,A,B)}
@@ -447,22 +443,20 @@ a. Our algorithm P-MATRIX-MULTIPLY-RECURSIVE-SPACE(C,A,B) multiplies $A$ and $B$
 \end{algorithmic}
 \end{algorithm}
 
-b. The work is the same as the serialization, which is $\Theta(n^3)$.  It can also be found by solving the recurrence $T_1(n) = \Theta(n^2) + 8T(n/2) $ where $T_1(1) = 1$.  By the mater theorem, $T_1(n) = \Theta(n^3)$.  The span is $T_\infty(n) = \Theta(1) + T_\infty(n/2) + T_\infty(n/2)$ with $T_\infty(1) = \Theta(1)$.  By the master theorem, $T_\infty(n) = \Theta(n)$. \\
+\item The work is the same as the serialization, which is $\Theta(n^3)$.  It can also be found by solving the recurrence $T_1(n) = \Theta(n^2) + 8T(n/2) $ where $T_1(1) = 1$.  By the mater theorem, $T_1(n) = \Theta(n^3)$.  The span is $T_\infty(n) = \Theta(1) + T_\infty(n/2) + T_\infty(n/2)$ with $T_\infty(1) = \Theta(1)$.  By the master theorem, $T_\infty(n) = \Theta(n)$. \\
 
-c. The parallelism is $\Theta(n^2)$.  Ignoring the constants in the $\Theta$-notation, the parallelism of the algorithm on $1000 \times 1000$ matrices is 1,000,000.  Using P-MATRIX-MULTIPLY-RECURSIVE, the parallelism is 10,000,000, which is only about 10 times larger. \\
-
+\item The parallelism is $\Theta(n^2)$.  Ignoring the constants in the $\Theta$-notation, the parallelism of the algorithm on $1000 \times 1000$ matrices is 1,000,000.  Using P-MATRIX-MULTIPLY-RECURSIVE, the parallelism is 10,000,000, which is only about 10 times larger. \\
+\end{enumerate}
 
 
 \noindent\textbf{Problem 27-3}\\
-
-%pending reading chapter 28
 \begin{enumerate}[a.]
 \item
 \end{enumerate}
 
 \noindent\textbf{Problem 27-4}\\
-
-a. The algorithm below has $\Theta(n)$ work because its serialization satisfies the recurrence $T_1(n) = 2T(n/2) + \Theta(1)$ and $T(1) = \Theta(1)$.  It has span $T_\infty(n) = \Theta(\lg n)$ because it satisfies the recurrence $T_\infty(n) = T_\infty(n/2) + \Theta(1)$ and $T_\infty(1) = \Theta(1)$. \\
+\begin{enumerate}[a.]
+\item The algorithm below has $\Theta(n)$ work because its serialization satisfies the recurrence $T_1(n) = 2T(n/2) + \Theta(1)$ and $T(1) = \Theta(1)$.  It has span $T_\infty(n) = \Theta(\lg n)$ because it satisfies the recurrence $T_\infty(n) = T_\infty(n/2) + \Theta(1)$ and $T_\infty(1) = \Theta(1)$. \\
 
 \begin{algorithm}
 \caption{P-REDUCE(x,i,j)}
@@ -479,15 +473,15 @@ a. The algorithm below has $\Theta(n)$ work because its serialization satisfies 
 \end{algorithmic}
 \end{algorithm}
 
-b. The work of P-SCAN-1 is $T_1(n) = \Theta(n^2)$.  The span is $T_\infty(n) = \Theta(n)$.  The parallelism is $\Theta(n)$. \\
+\item The work of P-SCAN-1 is $T_1(n) = \Theta(n^2)$.  The span is $T_\infty(n) = \Theta(n)$.  The parallelism is $\Theta(n)$. \\
 
-c. We'll prove correctness by induction on the number of recursive calls made to P-SCAN-2-AUX.  If a single call is made then $n=1$, and the algorithm sets $y[1] = x[1]$ which is correct.  Now suppose we have an array which requires $n+1$ recursive calls.  The elements in the first half of the array are accurately computed since they require one fewer recursive calls. For the second half of the array, 
+\item We'll prove correctness by induction on the number of recursive calls made to P-SCAN-2-AUX.  If a single call is made then $n=1$, and the algorithm sets $y[1] = x[1]$ which is correct.  Now suppose we have an array which requires $n+1$ recursive calls.  The elements in the first half of the array are accurately computed since they require one fewer recursive calls. For the second half of the array, 
 \[y[i] = x[1] \otimes x[2] \otimes \ldots \otimes x[i] = (x[1] \otimes \ldots \otimes x[k]) \otimes (x[k+1] \otimes \ldots \otimes x[i]) = y[k] \otimes (x[k+1] \otimes \ldots \otimes x[i]).\]
 Since we have correctly computed the parenthesized term with P-SCAN-2-AUX, line 8 ensures that we have correctly computed $y[i]$. 
 
 The work is $T_1(n) = \Theta(n \lg n)$ by the master theorem.  The span is $T_\infty(n) = \Theta(\lg^2n)$ by exercise 4.6-2. The parallelism is $\Theta(n/\lg n)$.\\
 
-d. Line 8 of P-SCAN-UP should be filled in by $right \otimes t[k]$.  Lines 5 and 6 of P-SCAN-DOWN should be filled in by $v$ and $v \otimes t[k]$ respectively.  Now we prove correctness.  First I claim that if line 5 is accessed after $l$ recursive calls, then 
+\item Line 8 of P-SCAN-UP should be filled in by $right \otimes t[k]$.  Lines 5 and 6 of P-SCAN-DOWN should be filled in by $v$ and $v \otimes t[k]$ respectively.  Now we prove correctness.  First I claim that if line 5 is accessed after $l$ recursive calls, then 
 \[t[k] = x[k] \otimes x[k-1] \otimes \ldots \otimes x[k-\lfloor n/2^l\rfloor + 1]\]
  and 
 \[right = x[k+1] \otimes x[k+2] \otimes \ldots x[k+ \lfloor n/2^l \rfloor ].\]
@@ -495,7 +489,8 @@ If $n=2$ we make a single call, but no recursive calls, so we start our base cas
 
 With this in hand, we can verify that the value $v$ passed to P-SCAN-DOWN$(v,x,t,y,i,j)$ satisfies $v = x[1] \otimes x[2] \otimes \ldots \otimes x[i-1]$.  For the base case, if a single recursive call is made then $i = j = 2$, and we have $v = x[1]$.  In general, for the call on line 5 there is nothing to prove because $i$ doesn't change.  For the call on line 6, we replace $v$ by $v \otimes t[k]$.  By our induction hypothesis, $v = x[1] \otimes \ldots \otimes x[i-1]$.  By the previous paragraph, if we are on the $l^{th}$ recursive call, $t[k] = x[i] \otimes \ldots \otimes x[k - \lfloor n/2^{l} \rfloor + 1] = x[i]$ since on the $l^{th}$ recursive call, $k$ and $i$ must differ by $\lfloor n/2^{l} \rfloor$. Thus, the claim holds.  Since we set $y[i] = v\otimes x[i]$, the algorithm yields the correct result. \\
 
-e. The work of P-SCAN-UP satisfies $T_1(n) = 2T(n/2) + \Theta(1) = \Theta(n)$.  The work of P-SCAN-DOWN is the same.  Thus, the work of P-SCAN-3 satisfies $T_1(n) = \Theta(n)$. The span of P-SCAN-UP is $T_\infty(n) = T_\infty(n/2) + O(1) = \Theta(\lg n)$, and similarly for P-SCAN-DOWN.  Thus, the span of P-SCAN-3 is $T_\infty(n) = \Theta(\lg n)$.  The parallelism is $\Theta(n/\lg n)$. \\
+\item The work of P-SCAN-UP satisfies $T_1(n) = 2T(n/2) + \Theta(1) = \Theta(n)$.  The work of P-SCAN-DOWN is the same.  Thus, the work of P-SCAN-3 satisfies $T_1(n) = \Theta(n)$. The span of P-SCAN-UP is $T_\infty(n) = T_\infty(n/2) + O(1) = \Theta(\lg n)$, and similarly for P-SCAN-DOWN.  Thus, the span of P-SCAN-3 is $T_\infty(n) = \Theta(\lg n)$.  The parallelism is $\Theta(n/\lg n)$. \\
+\end{enumerate}
 
 \noindent\textbf{Problem 27-5}\\
 
@@ -655,7 +650,6 @@ By linearity of expectation this implies that
 Since each even term appears twice we can write this as
 \[ E[T_\infty(n)] \leq \frac{2}{n}\sum_{k=\lfloor n/2 \rfloor}^{n-1} E[T_\infty(k)] + \Theta(\lg n).\]
 
-\end{enumerate}
 
 We'll show that $E[T_\infty(n)] = O(n^{1-\varepsilon})$ for $\varepsilon$ such that $\frac{2-2^{\varepsilon - 1}}{2 - \varepsilon} < 1$ by the substitution method.  Suppose that $E[T_\infty(n)] \leq c_1n^{1-\varepsilon}$.  Then we have
 
@@ -666,5 +660,7 @@ E[T_\infty(n)] &\leq  \frac{2c_1}{n}\sum_{k=\lfloor n/2 \rfloor}^{n-1} k^{1-\var
 &= c_1n^{1 - \varepsilon} \left( \frac{2-2^{\varepsilon - 1}}{2 - \varepsilon} \right) + \Theta(\lg n).
 \end{align*}
 Since the dominating term is strictly less than $c_1n^{1-\varepsilon}$, we can overcome the $\Theta(\lg n)$ term. Thus, $E[T_\infty(n)] = O(n^{1-\varepsilon})$, so we achieve sublinear expected time. The expected parallelization $\Omega(n \lg n / n^{1-\varepsilon}) = \Omega(n^{\varepsilon} \lg n)$. 
+
+\end{enumerate}
 
 \end{document}

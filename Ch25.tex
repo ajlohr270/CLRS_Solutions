@@ -363,11 +363,12 @@ Suppose that we currently have two strongly connected components, each of size $
 Then, we add a single edge from one component to the other. This will mean that every vertex in the component the edge is coming from will have an edge going to every vertex in the component that the edge is going to. So, the total number of edges after this operation will be $|V|/2 +|V|/4$. So, the number of edges increased by $|V|/4$. Since each time we add an edge, we need to use at least constant time, since there is no cheap way to add many edges at once, the total amount of time needed is $\Omega(|V|^2)$.
 
 \item 
+\begin{comment}
 In your structure, make it so that each vertex has the set of vertices that are in the same connected component as it is. Then, when we add a edge to the graph, when we need to update the transitive closure, we only need to do between each pair of vertices that are in the two connected components that are on either side of the edge that is added. Since this procedure only ever considers the pairs of vertices that didn't have an edge in the transitive closure before, but should be in the transitive closure now, the total runtime of the procedure is bounded by the total number of edges in the transitive closure after all is said an done. That is, it only takes time $O(\binom{n}{2}) = O(n^2)$. Therefore, this is also $O(n^3)$, it just happens to be strictly better.
-%booyeah
+%awww, only works for directed graphs
 
 To see that this procedure never considers an edge that doesn't need to be added to the transitive closure, just note that everything in the two components weren't adjacent before because they were in different components, but are adjacent now, since there is an edge between them. We can represent these sets of connected vertices as linked lists, since all we need to be able to do is iterate though them and concatenate them together when we add edges that causes the components to combine.
-
+\end{comment}
 \end{enumerate}
 
 \noindent\textbf{Problem 25-2}\\

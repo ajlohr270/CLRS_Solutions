@@ -241,9 +241,14 @@ A simpler way to achieve a similar result is to expand the alphabet by one, maki
 
 To show that the running time of KMP-MATCHER is $O(n)$, we'll show that the total number of executions of the while loop of line 6 is $O(n)$.  Observe that for each iteration for the for loop of line 5, $q$ increases by at most 1, in line 9.  This is because $\pi(q) < q$.  On the other hand, the while loop decreases $q$.  Since $q$ can never be negative, we must decrease $q$ fewer than $n$ times in total, so the while loop executes at most $n-1$ times.  Thus, the total runtime is $O(n)$. \\
 
+
 \noindent\textbf{Exercise 32.4-5}\\
 
-%Not done
+Basically, each time that we have to execute line 7, we have that we are decreasing $q$ by at least 1. Since the only place that we ever increase the value of $q$ is on line 9, and then we are only increasing it by 1, each of these runs of line 5 are paid for by the times we ran 9.
+
+Using this as our motivation, we let the potential function be proportional to the value of $q$. This means that when we execute line 9, we pay a constant amount to raise up the potential function. And when we run line 7, we decrease the potential function which reduces the ammortized cost of an iteration of the while loop on line 6 to a zero ammortized cost. The only other time that we change the value of q is on line 12, which only gets run once per execution of the outer for loop anyways and the ammortization is in our favor there.
+
+Since the ammortized cost under this potential function of each iteration of the outermost for loop is constant, and that loop runs $n$ times, the total cost of the algorithm is $\Theta(n)$.\\
 
 \noindent\textbf{Exercise 32.4-6}\\
 
@@ -255,7 +260,7 @@ If the lengths to $T$ and $T'$ are different, they are obviously not cyclic rota
 
 To see that being cyclic rotations means that $T'$ occurs in $TT$, suppose that $T'$ is obtained from $T$ by cyclically shifting the right character to the left $s$ times. This means that the $|T|-s$ prefix of $T$ is a suffix of $T'$, and the $s$ suffix of $T$ is a prefix of $T'$. This means that $T'$ occurs in $TT$ with a shift of $|T|-s$.
 
-Now, suppose that $T'$ occurs in $TT$ with a shift of $s$. This means that the $s$ suffix of $T$ is a prefix of $T'$, it also means that the $|T|-s$ characters left over in $T'$ are a prefix of $T$. So, they are cyclic rotations of eachother.\\
+Now, suppose that $T'$ occurs in $TT$ with a shift of $s$. This means that the $s$ suffix of $T$ is a prefix of $T'$, it also means that the $|T|-s$ characters left over in $T'$ are a prefix of $T$. So, they are cyclic rotations of each other.\\
 
 \noindent\textbf{Exercise 32.4-8}\\
 
@@ -282,7 +287,7 @@ We have $\delta(q,a) = \sigma(P_qa)$, which is the length of the longest prefix 
 \end{algorithm}
 
 
-\noindent\textbf{Problem 31-1}\\
+\noindent\textbf{Problem 32-1}\\
 \begin{enumerate}[a.]
 \item
 First, compute the prefix array for the given pattern in linear time using the method of section 32.4. Then, Suppose that $\pi[i] = i-k$. If $k | i$, we know that $k$ is the length of the primitive root, so, the word has a repetition factor of $\frac{i}{k}$. We also know that there is no smaller repetition factor in this case because otherwise we could include one more power of that root.
