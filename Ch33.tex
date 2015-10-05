@@ -41,7 +41,7 @@
 
 Suppose first that the cross product is positive. We shall consider the angles that both of the vectors make with the positive x axis. This is given by $tan^{-1}(y/x)$ for both. Since the cross product is positive, we have that $0 < x_1 y_2 - x_2y_1$, which means that $\frac{y_1}{x_1} < \frac{y_2}{x_2}$. however, since arctan is a monotone function, this means that the angle that $p_2$ makes with the positive $x$ axis is greater than the angle that $p_1$ does, which means that you need to move in a clockwise direction to get from $p_2$ to $p_1$.
 
-If the cross product is negative, this means that we have $\frac{y_1}{x_1} > \frac{y_2}{x_2}$ which means that the angle that $p_1$ makes is greater, which means that we need to go counter clockwise from $p_2$ to get to $p_1$.
+If the cross product is negative, this means that we have $\frac{y_1}{x_1} > \frac{y_2}{x_2}$ which means that the angle that $p_1$ makes is greater, which means that we need to go counter clockwise from $p_2$ to get to $p_1$.\\
 
 \noindent\textbf{Exercise 33.1-2}\\
 
@@ -106,32 +106,155 @@ Without loss of generality, assume that the interior of the polygon is to the ri
 
 Suppose you split your set of lines into two equal sets, each of size $n/2$. Then, we will make half of them horizontal and close together, each above the next. That is, we'll put a horizontal line at $y = \frac{1}{k}$ for $k=1,\ldots, n/2$ extending from $-1$ to $1$. For the other half, we'll put lines along $x= \frac{1}{k}$ for $k=1,\ldots,n/2$, extending from -1 to 1. Then, we'll have every line from the first set intersect every line from the second set. Therefore the total number of intersections is $\frac{n^2}{4}$, which is $\Theta(n^2)$.\\
 
+\noindent\textbf{Exercise 33.2-2}\\
+
+First suppose that $a$ and $b$ do not intersect.  Let $a_s, a_f, b_s, b_f$ denote the left and right endpoints of $a$ and $b$ respectively.  Without loss of generality, let $b$ have the leftmost left endpoint.  If $\overline{b_s a_s}$ is to the right of $\overline{b_s b_f}$, then $a$ is below $b$. Otherwise $a$ is above $b$.  Now suppose that $a$ and $b$ intersect.  To decide which segment is on top, we need to determine whether the intersection occurs to the left or right of $x$.  Assume that each point has $x$ and $y$ attributes.  For example, $a_s = (a_s.x, a_s.y)$.  The equation of the line through segment $a$ is $y = m_1(x-a_s.x) + a_s.y$ where $m_1 = \frac{a_f.y-a_s.y}{a_f.x-a_s.x}$.  The equation of the line through segment $b$ is $y = m_2(x-b_s.x) + b_s.y$ where $m_2 = \frac{b_f.y-b_s.y}{b_f.x-b_s.x}$.  Setting these equal to each other gives 
+
+\[ x = \frac{b_s.y-m_2b_s.x - a_s.y + m_1 a_s.x}{m_1-m_2}.\]
+Let $x = x_0$ be the equation of the sweep line at which we want to test the relationship between $a$ and $b$.  We need to determine whether or not $x < x_0$, but without using division.  To do this, we'll need to clear denominators.  $x < x_0$ is equivalent to 
+\[b_s.y-m_2b_s.x - a_s.y + m_1 a_s.x < (m_1 - m_2)x_0\]
+which is equivalent to this gross mess, which fortunately requires only addition, subtraction, multiplication, and comparison, so it is numerically stable:
+\begin{align*}
+&(a_f.x - a_s.x)(b_f.x-b_s.x)(b_s.y-a_s.y) - (a_f.x - a_s.x)(b_f.y-b_s.y)b_s.x + (b_fx-b_s.x)(a_f.y-a_s.y)a_s.x \\
+&< (b_f.x-b_s.x)(a_f.y-a_s.y)x_0 - (a_f.x-a_s.x)(b_f.y-b_s.y)x_0.
+\end{align*}
 
 
 \noindent\textbf{Exercise 33.2-3}\\
 
-It looks like the moral of this book is that the only time that a professor can be right is when he's disagreeing with another professor.%notdone
+It looks like the moral of this book is that the only time that a professor can be right is when he's disagreeing with another professor.\\%notdone
 
+\noindent\textbf{Exercise 33.2-4}\\
 
+An $n$ vertex polygon $\langle p_0,p_1,\ldots,n_{n-1}\rangle$ is simple if and only if the only intersections of the segments $\overline{p_0 p_1}, \overline{p_1 p_2}, \ldots, \overline{p_{n-1}p_0}$ of the boundary are between consecutive segments $\overline{p_{i}p_{i+1}}$ and $\overline{p_{i+1}p_{i+2}}$ at the point $p_{i+1}$.   We run the usual ANY-SEGMENTS-INTERSECT algorithm on the segments which make up the boundary of the polygon, with the modification that if an intersection is found, we first check if it is an acceptable one. If so, we ignore it and proceed.  Since we can check this in $O(1)$, the runtime is the same as ANY-SEGMENTS-INTERSECT.
+\\
 
 
 \noindent\textbf{Exercise 33.2-5}\\
 
 
+
+\noindent\textbf{Exercise 33.2-6}\\
+
+We can use a modified version of the intersecting-segments algorithm to solve this problem.  We'll first associate left and right endpoints to each disk.  If disk $D$ has radius $r$ and center $(x,y)$, define its left endpoint to be $(x-r,y)$ and its right endpoint to be $(x+r,y)$.  Begin by ordering the endpoints of the disks first by left-right position.  If two endpoints have the same $x$-coordinate, then covertical left endpoints come before right endpoints.  Within these, order by $y$-coordinates from low to high. We'll use the same event point schedule as for the intersecting segments problem.  Maintain a sweep-line status that gives the relative order of the segments of the disks, where the segment associated to each disk is the segment formed by its left and right endpoints.  When we encounter a left endpoint, we add the associated disk to the sweep-line status.  When we encounter a right endpoint, we delete the disk from the sweep-line status.  Consider the first time two disks become consecutive in the ordering.  Let their centers be $(x_1,y_1)$ and $(x_2,y_2)$, and their radii be $r_1$ and $r_2$.  Check if $(x_2-x_1)^2 + (y_2-y_1)^2 \leq (r_1+r_2)^2$.  If yes, then the two circles intersect.  Otherwise they don't.  Since we can check this in $O(1)$, and there are only $2n$ points which are added, we make at most $4n$ checks in total.  Sorting the points takes $O(n\lg n)$, so the total runtime is $O(n\lg n) + O(n) = O(n\lg n)$. \\
+
 \noindent\textbf{Exercise 33.2-7}\\
+
+
+
+\noindent\textbf{Exercise 33.2-8}\\
+
+Suppose that at least 3 segments intersect at the same point.  It is clear that if ANY-SEGMENTS-INTERSECT returns true, then it must be correct.  Now we will show that it must return true if there is an intersection, even if it occurs as an intersection of 3 or more segments.  Suppose that there is at least one intersection, and that $p$ is the leftmost itnersection point, breaking ties by choosing the point with the lowest $y$-coordinate.  Let $a_1, a_2, \ldots, a_k$ be the segments that intersect at $p$.  Since no intersections occur to the left of $p$, the order given by $T$ is correct at all points to the left of $p$.  Let $z$ be the first sweep line at which some pair $a_i, a_j$ is consecutive in $T$. Then $z$ must occur at or to the left of $p$.  Let $i$ be the smallest number such that there exists a $j$ such that $a_i$ and $a_j$ are consecutive in $T$, and assume that we choose the smallest $j$ possible, and let $q$ be the event point at which $a_i$ and $a_j$ become consecutive in the total preorder.  If $p$ is on $z$, then we must have $q=p$, and at this point the intersection is detected. As in the proof of correctness given in the section, the ordering of our endpoints allows us to detect this even if $p$ is the left endpoint of $a_i$ and the right endpoint of $a_j$.  If $p$ is not on $z$ then $q$ is to the left of $p$, and when we process $q$ no other intersections have occurred, so the ordering in $T$ is correct, and the algorithm correctly identifies the intersection between $a_i$ and $a_j$. \\
 
 
 \noindent\textbf{Exercise 33.2-9}\\
 
 
+
 \noindent\textbf{Exercise 33.3-1}\\
 
+\noindent\textbf{Exercise 33.3-2}\\
+
+Let our $n$ numbers be $a_1, a_2, \ldots, a_n$ and $f$ be a strictly convex function, such as $e^x$.  Let $p_i = (a_i, f(a_i))$.  Compute the convex hull of $p_1, p_2, \ldots, p_n$.  Then every point is in the convex hull.  We can recover the numbers themselves by looking at the $x$-coordinates of the points in the order returned by the convex-hull algorithm, which will necessarily be a cyclic shift of the numbers in increasing order, so we can recover the proper order in linear time.  In an algorithm such as GRAHAM-SCAN which starts with the point with minimum $y$-coordinate, the order returned actually gives the numbers in increasing order.  \\
+
+\noindent\textbf{Exercise 33.3-3}\\
 
 
+\noindent\textbf{Exercise 33.3-4}\\
+
+We simply run GRAHAM-SCAN but without sorting the points, so the runtime becomes $O(n)$.  To prove this, we'll prove the following loop invariant: At the start of each iteration of the for loop of lines 7-10, stack $S$ consists of, from bottom to top, exactly the vertices of CH$(Q_{i-1})$.  The proof is quite similar to the proof of correctness.  The invariant holds the first time we execute line 7 for the same reasons outline in the section.  At the start of the $i^{th}$ iteration, $S$ contains CH$(Q_{i-1})$.  Let $p_j$ be the top point on $S$ after executing the while loop of lines 8-9, but before $p_i$ is pushed, and let $p_k$ be the point just below $p_j$ on $S$.  At this point, $S$ contains CH$(Q_j)$ in counterclockwise order from bottom to top. Thus, when we push $p_i$, $S$ contains exactly the vertices of CH$(Q_j \cup \{p_i\})$.  
+
+We now show that this is the same set of points as CH$(Q_i)$.  Let $p_t$ be any point that was popped from $S$ during iteration $i$ and $p_r$ be the point just below $p_t$ on stack $S$ at the time $p_t$ was popped.  Let $p$ be a point in the kernel of $P$. Since the angle $\angle p_rp_tp_i$ makes a nonelft turn and $P$ is star shaped, $p_t$ must be in the interior or on the boundary of the triangle formed by $p_r$, $p_i$, and $p$.  Thus, $p_t$ is not in the convex hull of $Q_i$, so we have CH$(Q_i - \{p_t\}) = $ CH$(Q_i)$.  Applying this equality repeatedly for each point removed from $S$ in the while loop of lines 8-9, we have CH$(Q_j \cup \{p_i\}) = $ CH$(Q_i)$.
+
+When the loop terminates, the loop invariant implies that $S$ consists of exactly the vertices of $CH(Q_m)$ in counterclockwise order, proving correctness. \\
+
+\noindent\textbf{Exercise 33.3-5}\\
+
+
+
+\noindent\textbf{Exercise 33.3-6}\\
+
+First sort the points from left to right by $x$ coordinate in $O(n\lg n)$, breaking ties by sorting from lowest to highest.  At the $i^{th}$ step of the algorithm we'll compute $C_i =$ CH$(\{p_1, \ldots, p_{i}\})$ using $C_{i-1}$, the convex hull computed in the previous step. In particular, we know that the rightmost of the first $i$ points will be in $C_i$.  The point which comes before $p_i$ in a clockwise ordering will be the first point $q$ of $C_{i-1}$ such that $\overline{qp_i}$ does not intersect the interior of $C_{i-1}$.  The point which comes after $p_i$ will be the last point $q'$ in a clockwise ordering of the vertices of $C_{i-1}$ such that $\overline{p_i q'}$ does not intersect the interior of $C_{i-1}$.  We can find each of these points in $O(\lg n)$ using a binary search.  Here, assume that $q$ and $q'$ are given as the positions of the points in the clockwise ordering).  This follows because we're searching a set of points which already forms a convex hull, so the segments $\overline{p_j p_i}$ will intersect the interior of $C_{i-1}$ for the first $k_1$ points, not intersect for the next $k_2$ points, and intersect for the last $k_3$ points, where any of $k_1$, $k_2$, or $k_3$ could be 0. Once found, we can delete every point between $q$ and $q'$.  Since a point is deleted at most once and we store things in a red-black tree, the total runtime of all deletions is $O(n\lg n)$.  Since we insert a total of $n$ points, each taking $O(\lg n)$, the total runtime is thus $O(n\lg n)$.  See the algorithm below:
+
+\begin{algorithm}
+\caption{INCREMENTAL-METHOD$(p_1, p_2, \ldots, p_n)$}
+\begin{algorithmic}
+\If{$n \leq 3$}
+	\State \Return $(p_1, \ldots, p_n)$
+\EndIf
+\State Use Merge Sort to sort the points by increasing $x$-coordinate, breaking ties by requiring increasing $y$-coordinate
+\State Initialize an red-black tree $C$ of size 3 with entries $p_1, p_2$, and $p_3$
+\For{$i=4$ to $n$}
+	\State Let $q$ be the result of binary searching for the first point of $C_{i-1}$ such that $\overline{qp_i}$ doesn't intersect the interior of $C_{i-1}$
+	\State Let $q'$ be the result of binary searching for the last point of $C_{i-1}$ such that $\overline{q'p_i}$ doesn't intersect the interior of $C_{i-1}$
+	\State Delete $q+1, q+2, \ldots, q'-1$ from $C$
+	\State Insert $p_i$ into $C$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+
+\noindent\textbf{Exercise 33.4-1}\\
+
+
+
+\noindent\textbf{Exercise 33.4-2}\\
+
+Since we only care about the shortest distance, the distance $\delta'$ must be strictly less than $\delta$.  The picture in Figure 33.11(b) only illustrates the case of a nonstrict inequality.  If we exclude the possibility of points whose $x$ coordinate differs by exactly $\delta$ from $l$, then it is only possible to place at most 6 points in the $\delta \times 2\delta$ rectangle, so it suffices to check on the points in the 5 array positions following each point in the array $Y'$. \\
+
+\noindent\textbf{Exercise 33.4-3}\\
+
+
+\noindent\textbf{Exercise 33.4-4}\\
+
+We can simply run the divide and conquer algorithm described in the section, modifying the brute force search for $|P| \leq 3$ and the check against the next 7 points in $Y'$ to use the $L_\infty$ distance.  Since the $L_\infty$ distance between two points is always less than the euclidean distance, there can be at most 8 points in the $\delta \times 2\delta$ rectangle which we need to examine in order to determine whether the closest pair is in that box.  Thus, the modified algorithm is still correct and has the same runtime. \\
+
+\noindent\textbf{Exercise 33.4-5}\\
+
+
+
+\noindent\textbf{Exercise 33.4-6}\\
+
+In addition to returning the distance of the closest pair, the modify the algorithm to also return the points passed to it, sorted by $y$-coordinate, as $Y$.  To do this, merge $Y_L$ and $Y_R$ returned by each of its recursive calls.  If we are at the base case, when $n \leq 3$, simply use insertion sort to sort the elements by $y$-coordinate directly. Since each merge takes linear time, this doesn't affect the recursive equation for the runtime. \\
 
 \noindent\textbf{Problem 33-1}\\
 \begin{enumerate}[a.]
 \item
+\end{enumerate}
+
+
+\noindent\textbf{Problem 33-2}\\
+\begin{enumerate}[a.]
+\item Suppose that $y_i \leq y_{i+1}$ for some $i$.  Let $p_i$ be the point associated to $y_i$.  In layer $i$, $p_i$ is the leftmost point, so the $x$-coordinate of every other point in layer $i$ is greater than the $x$-coordinate of $p_i$.  Moreover, no other point in layer $i$ can have $y$ coordinate greater than $p_i$, since that would imply it dominates $p_i$.  Let $q_{i+1}$ be the point of layer $i+1$ with $y$-coordinate $y_{i+1}$.  If $q_{i+1}$ is to the left of $p_i$, then $q_{i+1}$ cannot be dominated by any point in $L_i$ since every point in $L_i$ is to the right of and below $p_i$.  Moreover, if $q_{i+1}$ is to the right of $p_i$ then $q_{i+1}$ dominates $p_i$, which can't happen. Thus, $q_{i+1}$ cannot be weakly to the left or right of $p_i$, a contradiction. Thus $y_i > y_{i+1}$. 
+
+\item First suppose $j \leq k$.  Then for $1 \leq i \leq j-1$ we have that $(x,y)$ is dominated by the point in layer $i$ with $y$-coordinate $y_i$, so $(x,y)$ is not in any of these layers.  Since $(x,y)$ is the leftmost point and $y_j < y$, and all other points in layer $j$ have lower $y$ coordinate, no point in layer $j$ dominates $(x,y)$.  Moreover, since it is leftmost, no other point can be dominated by $(x,y)$. Thus, $(x,y)$ is in $L_j$, as well as all other points previously in $L_j$.  The other layers are unaffected since we no longer consider $(x,y)$ when computing them.  Thus the layers of $Q'$ are identical to the maximal layers of $Q$, except that $L_j = L_j \cup (x,y)$. 
+
+Now suppose $j=k+1$.  Then $(x,y)$ is dominated by each point in layer $i$ with $y$-coordinate $y_i$, so it can't be in any of the first $k$ layers.  This implies that it is in a layer of its own, $L_{k+1}=\{(x,y)\}$. 
+
+\item First sort the points by $x$ coordinate, with the highest corrdinate first.  Process the points one at a time.  For each point, find the layer in which it belongs as described in part b, creating a new layer if necessary.  We can maintain lists of the layers in sorted order by $y$ coordinate of the leftmost element of each list.  In doing so, we can decide which list each new point belongs to in $O(\lg n)$ time.  Since there are $n$ points to process, the runtime after sorting is $O(n\lg n)$.  The initial sorting takes $O(n \lg n)$, so the total runtime is $O(n \lg n)$. 
+
+\item We'll have to modify our approach to deal with points having the same $x$- or $y$-coordinate. In particular, if two points have the same $x$-coordinate then when we go to place the second one, the old algorithm would have us put it in the same layer as the first one.  We'll compensate for this as follows.  Suppose we wish to add the point $(x,y)$.  Let $j$ be the minimum index such that $y_j < y$.  If the $x$-coordinate of the leftmost point of $L_j$ is equal to $x$, then we need to create a new list $L'$ which lives between $L_{j-1}$ and $L_j$.  Using red-black trees we can update the information in $O(\lg n)$ time. Otherwise, we add $(x,y)$ to $L_j$ as usual.  If $j=k+1$, then create a new layer $L_{k+1}$.  Two points having the same $y$-coordinate doesn't actually cause any difficulty because of the strict inequality required for the check described in part b. 
+\end{enumerate}
+
+
+\noindent\textbf{Problem 33-3}\\
+\begin{enumerate}[a.]
+\item
+\end{enumerate}
+
+
+\noindent\textbf{Problem 33-4}\\
+
+\begin{enumerate}[a.]
+\item Let $a$ be given by endpoints $(a_x, a_y, a_z)$ and $(a'_x, a'_y, a'_z)$ and $b$ be given by endpoints $(b_x,b_y,b_z)$ and $(b'_x,b'_y,b'_z)$.   Compute, using cross products, whether or not segments $\overline{(a_x,a_y)(a'_xa'_y)}$ and $\overline{(b_x,b_y)(b'_x,b'_y)}$ intersect in constant time, as described earlier in the chapter.  If they do, then either $a$ or $b$ is above the other one.  If not, then they are unrelated.  If they are related, we need to determine which of $a$ and $b$ are on top.  In this case, there exist $\lambda_1$ and $\lambda_2$ such that 
+
+\[ a_x + \lambda_1(a'_x - a_x) = b_x + \lambda_2(b'_x - b_x)\]
+and
+\[ a_y + \lambda_1(a'_y-a_y) = b_y + \lambda_2(b'_y-b_y).\]
+
+In other words, we get intersection when we project to the $xy$-plane.  We can solve for $\lambda_1$ and $\lambda_2$.  This requires division at first blush, but we shall see in a moment that this isn't necessary.  In particular, $a$ is above $b$ if and only if $a_z + \lambda_1(a'_z - a_z) \geq b_z + \lambda_1(b'_z-b_z)$.  By multiplying both sides by $(a_x'-a_x)(b'_y-b_y - (a'_y-a_y)(b'_x-b_x))$ we clear all denominators, so we need only perform addition, subtraction, multiplication, and comparison to determine whether $a$ is on top.  Moreover, we can do this in constant time. 
+
+\item Make a graph whose vertices are each of the $n$ points.  Find each pair of overlapping sticks.  If $a$ is above $b$, then draw a directed edge from $a$ to $b$.   Then perform a topological sort to determine an ordering of picking up the sticks.  If such an ordering exists, then we use it.  Otherwise there is no legal way to pick up the sticks.  Since there could be as many as $O(n^2)$ instances of a point $a$ being above a point $b$, there could be $\Theta(n^2)$ edges in the graph, so the runtime is $O(n^2)$. 
 \end{enumerate}
 
 \end{document}
