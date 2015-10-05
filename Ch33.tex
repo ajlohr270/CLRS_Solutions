@@ -38,10 +38,14 @@
 \begin{document}
 \maketitle
 \noindent\textbf{Exercise 33.1-1}\\
+
 Suppose first that the cross product is positive. We shall consider the angles that both of the vectors make with the positive x axis. This is given by $tan^{-1}(y/x)$ for both. Since the cross product is positive, we have that $0 < x_1 y_2 - x_2y_1$, which means that $\frac{y_1}{x_1} < \frac{y_2}{x_2}$. however, since arctan is a monotone function, this means that the angle that $p_2$ makes with the positive $x$ axis is greater than the angle that $p_1$ does, which means that you need to move in a clockwise direction to get from $p_2$ to $p_1$.
 
 If the cross product is negative, this means that we have $\frac{y_1}{x_1} > \frac{y_2}{x_2}$ which means that the angle that $p_1$ makes is greater, which means that we need to go counter clockwise from $p_2$ to get to $p_1$.
 
+\noindent\textbf{Exercise 33.1-2}\\
+
+If the segment $\overline{p_i p_j}$ is vertical, then $p_k$ could be colinear with $p_i$ and $p_j$, but lie directly below them.  Then $x_i = x_j = x_k$, so if we don't also check the $y$ values we won't catch that $p_k$ is not on the segment. \\
 
 \noindent\textbf{Exercise 33.1-3}\\
 
@@ -49,13 +53,17 @@ The beauty of the fact that our sorting algorithms from earlier in the book were
 
 So, what we need to do is, given two indices $i$ and $j$, decide whether the polar angle of $p_i$ with respect to $p_0$ is larger or smaller than the polar angle of $p_j$ with respect to $p_0$. This can be done with a single cross product. That is, we look at the cross product, $(p_1- p_0)\times(p_2-p_0)$. This is positive if we need to turn left from $p_1$ to get to $p_2$. That is, if it is positive, then the polar angle is greater for $p_2$ than from $p_1$. We similarly know that we are in the reverse situation if we have that this cross product is negative. The only tricky thing is that we could have two distinct elements $p_i$ and $p_j$ so that the cross product is still zero. The problem statement is unclear how to resolve these sorts of ties, because they have the same polar angle. We could just pick some arbitrary property of the points to resolve ties, such as we pick the point that is farther away from $p_0$ to be larger. Since we have a total ordering on the points that can be queried in constant time, we can use it in our $O(n\lg(n))$ algorithms from earlier on in the book.\\
 
+\noindent\textbf{Exercise 33.1-4}\\
 
+By Exercise 33.1-3 we can sort $n$ points according to their polar angles with respect to a given point in $O(n\lg n)$ time.  If points $p_i$, $p_j$, and $p_k$ are colinear, then at two one of the following is true: (1) $p_j$ and $p_k$ have the same polar angle with respect to $p_i$, (2) $p_i$ and $p_k$ have the same polar angle with respect to $p_j$, or (3) $p_i$ and $p_j$ have the same polar angle with respect to $p_k$.  Thus, it will suffice to do as follows: For each point $p$, compute the polar angle of all other points with respect to $p$.  If there are any duplicates, those points are colinear.  Since we must do this for each point, the algorithm has runtime $O(n^2\lg n)$. \\
 
 \noindent\textbf{Exercise 33.1-5}\\
 
 Because, as stated in this definition of convex polynomials, we cannot have a vertex of a convex polygon be a convex combination of any two points of the boundary of the polynomial. This means that as we enter a particular vertex, we cannot have that it is colinear with the next vertex. Professor Amundsen's algorithm just rejects if both left and right turns are made. However, it should also reject if there is ever any vertex where no turn is made, because that vertex would then be a convex combination of the next and previous vertices.\\
 
+\noindent\textbf{Exercise 33.1-6}\\
 
+It will suffice to check whether or not the line segments $\overline{p_0 p_3}$ and $\overline{p_1 p_2}$ intersect, where $p_3 = (\max(x_1,x_2), y_0)$.  We can do this in $O(1)$. \\
 
 \noindent\textbf{Exercise 33.1-7}\\
 
@@ -89,6 +97,9 @@ Starting from the point $p_0$, pick an arbitrary direction, and consider the ray
 \end{algorithmic}
 \end{algorithm}
 
+\noindent\textbf{Exercise 33.1-8}\\
+
+Without loss of generality, assume that the interior of the polygon is to the right of the first segment $\overline{p_0p_1}$.  We will examine segments of the polygon one at a time.  At any point, if we are at segment $\overline{p_i p_{i+1}}$ and if the next segment $\overline{p_{i+1} p_{i+2}}$ of the polygon turns right then, then we can compute the are of $\triangle p_i p_{i+1} p_{i+2}$, and reduce the problem to that of finding the area of the polygon without $p_{i+1}$, adding the area just computed.  On the other hand, if we turn left then we need to compute the area of the polygon without $p_{i+1}$, but we need to subtract the area of $\triangle p_i p_{i+1} p_{i+2}$.  Since we can compute the area of a triangle given its vertices in constant time, the runtime satisfies $T(n) = T(n-1) + O(1)$, so $T(n) = O(n)$. \\
 
 
 \noindent\textbf{Exercise 33.2-1}\\
