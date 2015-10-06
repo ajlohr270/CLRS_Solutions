@@ -40,7 +40,8 @@
 \noindent\textbf{Exercise 33.1-1}\\
 Suppose first that the cross product is positive. We shall consider the angles that both of the vectors make with the positive x axis. This is given by $tan^{-1}(y/x)$ for both. Since the cross product is positive, we have that $0 < x_1 y_2 - x_2y_1$, which means that $\frac{y_1}{x_1} < \frac{y_2}{x_2}$. however, since arctan is a monotone function, this means that the angle that $p_2$ makes with the positive $x$ axis is greater than the angle that $p_1$ does, which means that you need to move in a clockwise direction to get from $p_2$ to $p_1$.
 
-If the cross product is negative, this means that we have $\frac{y_1}{x_1} > \frac{y_2}{x_2}$ which means that the angle that $p_1$ makes is greater, which means that we need to go counter clockwise from $p_2$ to get to $p_1$.
+If the cross product is negative, this means that we have $\frac{y_1}{x_1} > \frac{y_2}{x_2}$ which means that the angle that $p_1$ makes is greater, which means that we need to go counter clockwise from $p_2$ to get to $p_1$.\\
+
 
 
 \noindent\textbf{Exercise 33.1-3}\\
@@ -99,28 +100,136 @@ Suppose you split your set of lines into two equal sets, each of size $n/2$. The
 
 \noindent\textbf{Exercise 33.2-3}\\
 
-It looks like the moral of this book is that the only time that a professor can be right is when he's disagreeing with another professor.%notdone
+It looks like the moral of this book is that the only time that a professor can be right is when he's disagreeing with another professor. Professor Dixon is correct.
 
+It will not necessarily print the leftmost intersection first. The intersection that it prints first will be the pair of lines such that both lines have their enpoints show up first in the lexicographical ordering on line 2. An example is, suppose we have the lines $\{\{(0,1000),(2,2000)\},\{(0,1001),(2,1001)\},\{(0,0),(1,2)\},\{(0,2),(1,0)\}\}$. Then, the first two lines have the leftmost intersection, but the intersection between the last two lines will be printed out first.
+
+The procedure will not necessarily display all intersections, in particular, suppose that we have the line segments $\{\{(0,0),(4,0)\},\{(0,1),(4,-2)\},\{(0,2),(4,-2)\},\{(0,3),(4,-1)\}\}$. There are intersections of the first line segment with each of the other line segments at 1,2, and 3. However, we cannot detect the intersection at 2 because the line segment from $(0,2)$ to $(4,-2)$ is not adjacent to the horizontal line segment in the red-black tree either when we process left endpoints or right endpoints.\\
 
 
 
 \noindent\textbf{Exercise 33.2-5}\\
+Construct the set of line segments which correspond to all the sides of both polygons, then just use the algorithm from this section to see if any pair of them intersect. If we are in the fringe case that some segment is vertical, just rotate the whole picture by some epsilon. This won't change whether or not there is an intersection.\\
+
 
 
 \noindent\textbf{Exercise 33.2-7}\\
 
+We preform a slight modification to what Professor Mason suggested in exercise 33.2-3. Once we have found an intersection, we then keep considering elements further and further away in the red black tree until we no longer have an intersection. Since all the tree operations only take time $O(\lg(n))$, and we are only doing an additional one on top of the original algorithm for each of the intersections that we found, we have that the additional runtime is $O(k\lg(n))$ so, the total runtime is $O((n+k)\lg(n))$.\\
+
+
 
 \noindent\textbf{Exercise 33.2-9}\\
+
+In the original statement of the problem, we are putting points with lower y-coordinates first. This means that when we are processing our vertical segment, we want its  lower bound to of already been processed by the time we process any of the left endpoints of other lines that may intersect the given line.  Also, we don't want to remove the segment until we have already processed all the right endpoints of the lines that may of intersected it, which means we want it's upper bound to be dealt with in the second pass (the right endpoint pass). Again, since we process lower y-values first, this means that we have it added to our tree before we process anything it could intersect and have it removed after processing everything it could intersect.\\
+%waiting on 33.2-2 to see how it changes.
+
 
 
 \noindent\textbf{Exercise 33.3-1}\\
 
+To see this, note that $p_1$ and $p_m$ are the points with the lowest and highest polar angle with respect to $p_0$. By symmetry, we may just show it for $p_1$ and we would also have it for $p_m$ just by reflecting the set of points across a vertical line. To a contradiction, suppose we have the convex hull doesn't contain $p_1$. Then, let $p$ be the point in the convex hull that has the lowest polar angle with respect to $p_0$. If $p$ is on the line from $p_0$ to $p_1$, we could replace it with $p_1$ and have a convex hull, meaning we didn't start with a convex hull. If we have that it is not on that line, then there is no way that the convex hull given contains $p_1$, also contradicting the fact that we had selected a convex hull.\\
+
+
+
+\noindent\textbf{Exercise 33.3-3}\\
+
+Suppose that $p$ and $q$ are the two furthest apart points. Also, to a contradiction, suppose, without loss of generality that $p$ is on the interior of the convex hull. Then, construct the circle whose center is $q$ and which has $p$ on the circle. Then, if we have that there are any vertices of the convex hull that are outside this circle, we could pick that vertex and $q$, they would have a higher distance than between $p$ and $q$. So, we know that all of the vertices of the convex hull lie inside the circle. This means that the sides of the convex hull consist of line segments that are contained within the circle. So, the only way that they could contain $p$, a point on the circle is if it was a vertex, but we suppsed that $p$ wasn't a vertex of the convex hull, giving us our contradiction.\\
+
+
+
+\noindent\textbf{Exercise 33.3-5}\\
+
+Suppose that we have a convex hull computed from the previous stage $\{q_0,q_1,\ldots, q_m\}$, and we want to add a new vertex, $p$  in and keep track of how we should change the convex hull. First, process the vertices in a clockwise manner, and look for the first time that we would have to make a non-left to get to $p$. This tells us where to start cutting vertices out of the convex hull. To find out the upper bound on the vertices that we need to cut out, turn around, start processing vertices in a clockwise manner and see the first time that we would need to make a non-right. Then, we just remove the vertices that are in this set of vertices and replace the with $p$. There is one last case to consider, which is when we end up passing ourselves when we do our clockwise sweep. Then we just remove no vertices and add $p$ in in between the two vertices that we had found in the two sweeps. Since for each vertex we add we are only considering each point in the previous step's convex hull twice, the runtime is $O(nh) = O(n^2)$ where $h$ is the number of points in the convex hull.\\
+
+\begin{algorithm}
+\caption{ONLINE-CONVEX-HULL}
+\begin{algorithmic}
+\State let $P =\{p_0,p_1,\ldots p_m\}$ be the convex hull so far listed in counterclockwise order.
+\State let $p$ be the point we are adding
+\State i=1
+\While{going from $p_{i-1}$ to $p_i$ to p is a left turn and $i\neq 0$}
+\State i++
+\EndWhile
+\If{i==0}
+\State \Return P
+\EndIf
+\State j=i
+\While{going from $p_{i+1}$ to $p_i$ to $p$ is a right turn and $j \ge i$}
+\State j--
+\EndWhile
+\If{$j<i$}
+\State insert p between $p_j$ and $p_i$
+\Else
+\State replace $p_i, \ldots p_j$ with $p$.
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\noindent\textbf{Exercise 33.4-1}\\
+
+The flaw in his plan is pretty obvious, in particular, when we select line $l$, we may be unable perform an even split of the vertices. So, we don't neccesarily have that both the left set of points and right set of points have fallen to roughly half. For example, suppose that the points are all arranged on a vertical line, then, when we recurse on the the left set of points, we haven't reduced the problem size AT ALL, let alone by a factor of two. There is also the issue in this setup that you may end up asking about a set of size less than two when looking at the right set of points.\\
+
+
+
+\noindent\textbf{Exercise 33.4-3}\\
+
+In the analysis of the algorithm, most of it goes through just based on the triangle inequality. The only main point of difference is in looking at the number of points that can be fit into a $\delta \times 2\delta$ rectangle. In particular, we can cram in two more points than the eight shown into the rectangle by placing points at the centers of the two squares that the rectangle breaks into. This means that we need to consider points up to 9 away in $Y'$ instead of 7 away. This has no impact on the asymptotics of the algorithm and it is the only correction to the algorithm that is needed if we switch from $L_2$ to $L_1$.\\
+
+
+
+\noindent\textbf{Exercise 33.4-5}\\
+
+We select the line $l$ so that it is roughly equal, and then, we won't run into any issue if we just pick an aribitrary subset of the vertices that are on the line to go to one side or the other. Since the analysis of the algorithm allowed for both elements from $P_L$ and $P_R$ to be on the line, we still have correctness if we do this. To determine what values of Y belong to which of the set can be made easier if we select our set going to $P_L$ to be the lowest however many points are needed, and the $P_R$ to be the higher points. Then, just knowing the index of $Y$ that we are looking at, we know whether that point belonged to $P_L$ or to $P_R$.\\
 
 
 
 \noindent\textbf{Problem 33-1}\\
 \begin{enumerate}[a.]
 \item
+We need just iteratively apply Jarvis march. The first march takes time $O(n|CH(Q_1)|)$, the next time $O(nCH(Q_2))$, and so on. So, since each point in Q appears in exactly one convex hull, as we take off successive layers, we have
+
+\[
+\sum_{i} O(n|CH(Q_i)|) = O(n \sum_{i} |CH(Q_i)|) = O(n^2)
+\]
+\item
+
+Suppose that the elements $r_1,r_2, r_3, \ldots r_\ell$ are the points that we are asked to sort. We will construct an instance of the convex layers problem, whose solution will tell us what the sorted order of $\{r_i\}$ is. Since we can't comparison sort quickly, and this would provide a solution of sorting based on a convex layers algorithm, it would mean that we cannot find a convex layers algorithm that takes time less than $\Omega(n\lg(n))$.
+
+Suppose that all the $\{r_i\}$ are positive. If they aren't, we can in linear time find the one with the smallest value and subtract that value minus one from each of them. We will select our $4\ell$ points to be 
+\[
+P= \{(r_i,0)\}\cup\{(0,\pm i)|i=1,2,\ldots \ell\}\cup\{(- i,0)|i=1,2,\ldots \ell\}
+\]
+
+Note that all of the points in this set are on the coordinate axes. So, every layer will contain one point that lies on each of the four half axes coming out of the origin. Looking at the points that lie on the positive $x$ axis, they will correspond to the original points that we wanted to sort. Also, by looking at the outermost layer and going inwards, we are reading off the points $\{r_i\}$ in order of decreasing value. Since we have only increased the size of the problem by a constant factor, we haven't changed the asymptotics. In particular, if we had some magic algorithm for convex layers that was $o(n\lg(n))$, we would then have an algorithm that was $o(n\lg(n))$.
+
+See also the solution to 33.3-2
 \end{enumerate}
+
+\noindent\textbf{Problem 33-3}\\
+\begin{enumerate}[a.]
+\item
+Take a convex hull of the set of all the ghostbusters and the ghosts. If the convex hull doesn't consist of either all ghosts or all busters, we can just pick an edge of the convex hull that joins a buster and a ghost, Since all of the other points lie on the same side of that line, the number of ghosts and busters will be n-1 and so will be equal.
+
+So, assume that the convex hull does not contain one of both types. Since there is symmetry between ghosts and ghostbusters, suppose the convex hull is entirely made of ghostbusters. Pick an arbitrary ghostbuster on the convex hull, and that he's facing somewhere inside the convex hull. Have him/her initially pointing his proton pack just to the left the person furthest to his right and have him slowly start turning left. We know that initially there are more ghostbusters than ghosts to his right. We also know that by the time he is just to the right of the person furthest to his left there are more ghosts to his right than ghostbusters. This means at some point he must of gone from having more ghostbusters to his right to having more ghosts to his right. In order to have this happen he had to of just passed a ghost. So, he is then paired up with that ghost. 
+\item
+We just keep iterating the first part of this procedure, applying it separately to all the ghosts and ghostbusters to each of the sides of the line. We have that no beam will cross because the beams for each stays entirely on that side of the line. This gives us, for some $n\le k>0$, the recurrence
+\[
+T(n) = T(n-k) +T(k-1) + n\lg(n)
+\]
+This has the worst case when either $k$ is really tiny or really close to $n$. Therefore, the worst case solution to this recurrence is $O(n^2\lg(n))$.
+\end{enumerate}
+
+
+\noindent\textbf{Problem 33-5}\\
+\begin{enumerate}[a.]
+\item
+Pick one point on one of the convex hulls, and look at the point on the other that has the lowest polar angle. Then, start marching counter clockwise around the first hull until it would require a non-right turn to go to the point selected before. Do the same thing, picking a point and looking at the point on the second polygon with highest polar angle, and keep marching in a clockwise direction until getting to the particular point would require a non-right. Cut out all the vertices between these two places we stopped inclusive. In their place put the vertices of the other convex polygon that are between to two selected vertices of it, inclusive.
+\item
+Let $P_1$ be the first $\lceil n/2\rceil$ points, and let $P_2$ be the second $\lfloor n/2\rfloor$ points. Since the original set of points were selected independently from the sparse distribution, both the sets $P_1$ and $P_2$ were selected from a sparse distribution. This means that we have that $|CH(P_1)| \in O(n^{1-\epsilon})$ and also, $|CH(P_2)| \in O(n^{1-\epsilon})$. Then, by applying the procedure from part a, we have the recurrence $T(n) \le 2 T(n/2) + |CH(P_1)| + |CH(P_2)| = 2T(n/2) + O(n^{1-\epsilon})$. By applying the master theorem, we see that this recurrence has solution $T(n) \in O(n)$.
+\end{enumerate}
+
 
 \end{document}

@@ -360,6 +360,9 @@ So, the total span of this algorithm will still just be $O(\lg(n))$.\\
 
 Let MEDIAN$(A)$ denote a brute force method which returns the median element of the array $A$.  We will only use this to find the median of small arrays, in particular, those of size at most 5, so it will always run in constant time.  We also let $A[i..j]$ denote the array whose elements are $A[i], A[i+1], \ldots, A[j]$.  The function P-PARTITION$(A,x)$ is a multithreaded funciton which partitions $A$ around the input element $x$ and returns the number of elements in $A$ which are less than or equal to $x$. Using a parallel for-loop, its span is logarithmic in the number of elements in $A$.  The work is the same as the serialization, which is $\Theta(n)$ according to section 9.3.  The span satisfies the recurrence $T_\infty(n) = \Theta(\lg n/5) + T_\infty(n/5) + \Theta(\lg n) + T_\infty(7n/10 + 6) \leq \Theta(\lg n) + T_\infty(n/5) + T_\infty(7n/10 + 6)$.  Using the substitution method we can show that $T_\infty(n) = O(n^\varepsilon)$ for some $\varepsilon < 1$.  In particular, $\varepsilon = .9$ works.  This gives a parallelization of $\Omega(n^{.1})$.\\
 
+
+%booo! that doesn't look like a tight solution to the recurrence for the span
+
 \begin{algorithm}
 \caption{P-SELECT(A,i)}
 \begin{algorithmic}[1]
@@ -389,6 +392,7 @@ Let MEDIAN$(A)$ denote a brute force method which returns the median element of 
 
 \begin{enumerate}[a.]
 \item
+See the algorithm Sum-Arrays(A,B,C).
 \begin{algorithm}
 \caption{Sum-Arrays(A,B,C)}
 \begin{algorithmic}
@@ -451,7 +455,25 @@ So, to solve this, we set $g = \sqrt{n}$. This minimizes the quantity and makes 
 
 \noindent\textbf{Problem 27-3}\\
 \begin{enumerate}[a.]
+\item For the algorithm LU-DECOMPOSITION(A) on page 821, the inner for loops can be parallelized, since they never update values that are read on later runs of those loops. However, the outermost for loop cannot be parallelized because across iterations of it the changes to the matrices from previous runs are used to affect the next. This means that the span will be $\Theta(n\lg(n))$, work will still be $\Theta(n^3)$ and, so, the parallelization will be $\Theta(\frac{n^3}{n\lg(n)}) = \Theta(\frac{n^2}{\lg(n)})$.
 \item
+The for loop on lines 7-10 is taking the max of a set of things, while recording the index that that max occurs. This for loop can therefor be replaced with a $\lg(n)$ span parallelized procedure in which we arrange the n elements into the leaves of an almost balanced binary tree, and we let each internal node be the max of its two children. Then, the span will just be the depth of this tree. This procedure can gracefully scale with the number of processors to make the span be linear, though even if it is $\Theta(n\lg(n))$ it will be less than the $\Theta(n^2)$ work later. The for loop on line 14-15 and the implicit for loop on line 15 have no concurrent editing, and so, can be made parallel to have a span of $\lg(n)$. While the for loop on lines 18-19 can be made parallel, the one containing it cannot without creating data races. Therefore, the total span of the naive parallized algorithm will be $\Theta(n^2\lg(n))$, with a work of $\Theta(n^3)$. So, the parallelization will be $\Theta(\frac{n}{\lg(n)})$. Not as parallized as part (a), but still a significant improvement. 
+\item
+We can parallelize the computing of the sums on lines 4 and 6, but cannot also parallize the for loops containing them without creating an issue of concurrently modifying data that we are reading. This means that the span will be $\Theta(n\lg(n))$, work will still be $\Theta(n^2)$, and so the parallelization will be $\Theta(\frac{n}{\lg(n)})$.
+\item
+The recurrence governing the amount of work of implemeting this procedure is given by
+\begin{align*}
+I(n) \le 2 I(n/2) + 4 M(n/2) + O(n^2)
+\end{align*}
+
+However, the two inversions that we need to do are independent, and the span of parallelized matrix multiply is just $O(\lg(n))$. Also, the $n^2$ work of having to take a transpose and subtract and add matrices has a span of only $O(\lg(n))$. Therefore, the span satisfies the recurrence
+
+\begin{align*}
+I_\infty(n) &\le I_\infty(n/2) + O(\lg(n))
+\end{align*}
+
+This recurrence has the solution $I_\infty(n)\in \Theta(\lg^2(n))$ by exercise 4.6-2. Therefore, the span of the inversion algorithm obtained by looking at the procedure detailed on page 830. This makes the parallelization of it equal to $\Theta(M(n)/\lg^2(n))$ where $M(n)$ is the time to compute matrix products.
+
 \end{enumerate}
 
 \noindent\textbf{Problem 27-4}\\

@@ -33,7 +33,7 @@ To see that the networks have the same maximum flow, we will show that every flo
 
 Similarly, suppose that we had some flow $f'$ on the graph with split edges, then, for any triple of vertices $u,x,v$ that correspond to a split edge, we must have that $f'(u,x) = f'(x,v)$ because the only edge into $x$ is $(u,x)$ and the only edge out of $x$ is $(x,v)$, and the net flow into and out of each vertex must be zero. We can then just set the flow on the unsplit edge equal to the common value that the flows on $(u,x)$ and $(x,v)$ have. Again, since we handle this on an edge by edge basis, and each substitution of edges maintains the fact that it is a flow of the same total, we have that the end result is also a valid flow of the same total value as the original.
 
-Since we have shown that any flow in one digraph can be translated into a flow of the same value in the other, we can translate the maximum value flow for wone of them to get that it's max value flow is $\le$ to that of the other, and do it in the reverse direction as well to acheive equality.\\
+Since we have shown that any flow in one digraph can be translated into a flow of the same value in the other, we can translate the maximum value flow for one of them to get that it's max value flow is $\le$ to that of the other, and do it in the reverse direction as well to achieve equality.\\
 
 \noindent\textbf{Exercise 26.1-2}\\
 
@@ -130,7 +130,7 @@ Suppose that your given flow network contains $|E|$ edges, then, we were to modi
 
 
 \noindent\textbf{Exercise 26.3-1}\\
-%pictures
+%pictures :O
 
 \noindent\textbf{Exercise 26.3-2}\\
 
@@ -161,11 +161,16 @@ Continuing in this fashion, we keep building up the neighborhood $v_i'$, expandi
 
 \noindent\textbf{Exercise 26.3-5}\\
 
+We convert the bipartite graph into a flow problem by making a new vertex for the source which has an edge of unit capacity going to each of the vertices in $L$, and a new vertex for the sink that has an edge from each of the vertices in $R$, each with unit capacity. We want to show that the number of edge between the two parts of the cut is at least $L$, this would get us by the max-flow-min-cut theorem that there is a flow of value at least $|L|$. The, we can apply the integrality theorem that all of the flow values are integers, meaning that we are selecting $|L|$ disjoint edges between $L$ and $R$.
 
+To see that every cut must have capacity at lest $|L|$, let $S_1$ be the side of the cut containing the source and let $S_2$ be the side of the cut containing the sink. Then, look at $L\cap S_1$. The source has an edge going to each of $L\cap (S_1)^c$, and there is an edge from $R\cap S_1$ to the sink that will be cut. This means that we need that there are at least $|L\cap S_1| - |R\cap S_1|$ many edges going from $L\cap S_1|$ to $R\cap S_2$. If we look at the set of all neighbors of $L\cap S_1$, we get that there must be at least the same number of neighbors in $R$, because otherwise we could sum up the degrees going from $L\cap S_1$ to $R$ on both sides, and get that some of the vertices in $R$ would need to have a degree higher than $d$. This means that the number of neighbors of $L\cap S_1$ is at least $L\cap S_1$, but we have that they are in $S_1$, but there are only $|R\cap S_1|$ of those, so, we have that the size of the set of neigbors of $L\cap S_1$ that are in $S_2$ is at least $ |L\cap S_1| - |R\cap S_1|$. Since each of these neigbors has an edge crossing the cut, we have that the total number of edges that the cut breaks is at least $(|L| - |L\cap S_1|)  + (|L\cap S_1| - |R\cap S_1|) + |R\cap S_1| = |L|$. Since each of these edges is unit valued, the value of the cut is at least $|L|$.\\
 
 
 
 \noindent\textbf{Exercise 26.4-1}\\
+
+When we run INITIALIZE-PREFLOW(G,s), $s.e$ is zero prior to the for loop on line 7. Then, for each of the vertices that $s$ has an edge to, we decrease the value of $s.e$ by the capacity of that edge. This means that at the end, $s.e$ is equal to the negative of the sum of all the capacities coming out of $s$. This is then equal to the negative of the cut value of the cut that puts $s$ on one side, and all the other vertices on the other. The negative of the value of the min cut is larger or equal to the negative of the value of this cut. Since the value of the max flow is the value of the min cut, we have that the negative of the value of the max flow is larger or equal to $s.e$.\\
+
 
 \noindent\textbf{Exercise 26.4-2}\\
 
@@ -173,11 +178,15 @@ We must select an appropriate data structure to store all the information which 
 
 \noindent\textbf{Exercise 26.4-3}\\
 
+To run RELABEL(u), we need to take the min a number of things equal to the out degree of $u$. This means that since each vertex will only be relabeled at most $O(|V|)$ many times, the total amount of work is on the order of $|V|\sum_{v\in V} outdeg(v)$. But the sum of all the out degrees is equal to the number of edges, so, we have the previous expression is on the order of $|V||E|$.\\
+
 \noindent\textbf{Exercise 26.4-4}\\
 
 In the proof of $2 \implies 3$ in Theorem 26.6 we obtain a minimum cut by letting $S = \{v \in V | \text{ there exists a path from $s$ to $v$ in $G_f$} \}$ and $T = V - S$.  Given a flow, we can form the residual graph in $O(E)$.  Then we just need to perform a depth first search to find the vertices reachable from $s$.  This can be done in $O(V+E)$, and since $|E| \geq |V| - 1$ the whole procedure can be carried out in $O(E)$. \\
 
 \noindent\textbf{Exercise 26.4-5}\\
+
+First, construct the flow network for the bipartite graph as in the previous section. Then, we relabel everything in $L$. Then, we push from every vertex in $L$ to a vertex in $R$, so long as it is possible. keeping track of those that vertices of $L$ that are still overflowing can be done by a simple bit vector. Then, we relabel everything in $R$ and push to the last vertex. Once these operations have been done, The only possible valid operations are to relabel the vertices of $L$ that weren't able to find an edge that they could push their flow along, so could possibly have to get a push back from $R$ to $L$. This continues until there are no more operations to do. This takes time of $O(V(E+V))$.\\
 
 \noindent\textbf{Exercise 26.4-6}\\
 
@@ -185,11 +194,18 @@ The number of relabel operations and saturating pushes is the same as before.  A
 
 \noindent\textbf{Exercise 26.4-7}\\
 
+This won't affect the asymptotic performance, in fact it will improve the bound obtained in lemma 16.20 to be that no vertex will ever have a height more than $2|V|-3$. Since this lemma was the source of all the bounds later, they carry through, and are actually a little bit (not asymptotically) better (lower).
+
+To see that it won't affect correctness of the algorithm. We notice that the reason that we needed the height to be as high as it was was so that we could consider all the simple paths from $s$ to $t$. However, when we are done initializing, we have that the only overflowing vertices are the ones for which there is an edge to them from $s$. Then, we only need to consider all the simple paths from them to $t$, the longest such one involves $|V|-1$ vertices, and, so, only $|V|-2$ different edges, and so it only requires that there are $|V|-2$ differences in heights, since the set $\{0,1,\ldots,|V|-3\}$ has $|V|-2$ different values, this is possible. \\
+
+
 \noindent\textbf{Exercise 26.4-8}\\
 
 We'll prove the claim by induction on the number of push and relabel operations.  Initially, we have $u.h = |V|$ if $u=s$ and 0 otherwise.  We have $s.h - |V| = 0 \leq \delta_f(s,s) = 0$ and $u.h = 0 \leq \delta_f(u,t)$ for all $u \neq s$, so the claim holds prior to the first iteration of the while loop on line 2 of the GENERIC-PUSH-RELABEL algorithm.  Suppose that the properties have been maintained thus far.  If the next iteration is a nonsaturating push then the properties are maintained because the heights and existence of edges in the residual network are preserved.  If it is a saturating push then edge $(u,v)$ is removed from the residual network, which increases both $\delta_f(u,t)$ and $\delta_f(u,s)$, so the properties are maintained regardless of the height of $u$.  Now suppose that the next iteration causes a relabel of vertex $u$.  For all $v$ such that $(u,v) \in E_f$ we must have $u.h \leq v.h$.  Let $v' = \min\{v.h | (u,v) \in E_f\}$.  There are two cases to consider.  First, suppose that $v'.h < |V|$.  Then after the relabeling we have $u.h = 1 + v'.h \leq 1 + \min_{(u,v) \in E_f} \delta_f(v,t) = \delta_f(u,t)$.  Second, suppose that $v'.h \geq |V|$.  Then after relabeling we have $u.h = 1+v'.h \leq 1 + |V| + \min_{(u,v) \in E_f} \delta_f(v,s) = \delta_f(u,s) + |V|$ which implies that $u.h - |V| \leq \delta)f(u,s)$.  Therefore the GENERIC-PUSH-RELABEL procedure maintains the desired properties. \\
 
 \noindent\textbf{Exercise 26.4-9}\\
+
+What we should do is to, for successive backwards neighborhoods of $t$, relabel everything in that neighborhood. This will only take at most $O(VE)$ time (see 26.4-3). This also has the upshot of making it so that once we are done with it, every vertex's height is equal to the quantity $\delta_f(u,t)$. Then, since we begin with equality, after doing this, the inductive step we had in the solution to the previous exercise shows that this equality is preserved.\\
 
 \noindent\textbf{Exercise 26.4-10}\\
 

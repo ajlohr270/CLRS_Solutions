@@ -58,7 +58,25 @@ An identical proof with the roles of intersection and union swapped gives the se
 
 
 \noindent\textbf{Exercise B.1-3}\\
-%woah I'll come back to it
+
+ If we are taking the union over only two sets, then we are exactly in the case of equation (B.3).
+
+Now, proceed by induction. Suppose $n>2$, we can write $B = (A_1 \cup A_2 \cup \cdots \cup A_{n-1})$. Then, we have
+
+\begin{align*}
+|A_1\cup A_2 \cup \cdots \cup A_n| &= |B\cup A_n|\\
+&= |B| + |A_n| - |B \cap A_n|\\
+&= |B| + |A_n| - |B \cap A_n|\\
+&= |B| + |A_n| - |\left( A_1\cup A_2 \cup \cdots A_{n-1}\right)\cap A_n|\\
+&= |A_1 \cap A_2 \cap \cdots A_{n-1}| + |A_n| - |(A_1\cap A_n)\cup (A_2\cap A_n) \cup \cdots (A_{n-1}\cap A_n)|\\
+&= \left(\sum_{\emptyset\neq S\subseteq\{1,2,\ldots, n-1\}}(-1)^{|S|-1}  \left|\cap_{i\in S} A_i\right|\right) + |A_n| \\
+&\hspace{2in}- \left(\sum_{\emptyset\neq S\subseteq \{1,\ldots, n-1\}} (-1)^{|S|-1} |A_n \cap (\cap_{i\in S} A_i)| \right)\\
+&= \left(\sum_{\emptyset\neq S\subseteq\{1,2,\ldots, n-1\}}(-1)^{|S|-1}  \left|\cap_{i\in S} A_i\right| + (-1)^{|S|}|A_n \cap (\cap_{i\in S} A_i)| \right) + |A_n|\\
+&= \left(\sum_{\emptyset S\subseteq\{1,2,\ldots, n\}, S\neq\emptyset, S\neq \{n\}}(-1)^{|S|-1}  \left|\cap_{i\in S} A_i\right|  \right)+|A|\\
+&= \left(\sum_{\emptyset S\subseteq\{1,2,\ldots, n\}, S\neq\emptyset}(-1)^{|S|-1}  \left|\cap_{i\in S} A_i\right|  \right)
+\end{align*}
+
+Where to go from line 7 to line 8, we used the fact that every subset of $\{1,\ldots,n\}$ can be counted as a subset of $\{1,\ldots, n-1\}$, and then either containing or not containing the $n$th element. Since the empty subset of $\{1,\ldots,n-1\}$ then corresponds both to the empty set and the singleton set $\{n\}$ under this correspondence, explaining why that value of S is dropped from the sum on line 8.\\
 
 \noindent\textbf{Exercise B.1-4}\\
 
