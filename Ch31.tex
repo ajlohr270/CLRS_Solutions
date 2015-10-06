@@ -41,19 +41,30 @@
 
 By the given equation, we can write $c = 1\cdot a + b$, with $0\ge b <a$. By the definition of remainders given just below the division theorem, this means that $b$ is the remainder when c is divided by a, that is $b=  c\mod a$.\\
 
+\noindent\textbf{Exercise 31.1-2}\\
+
+Suppose that there are only finitely many primes $p_1, p_2, \ldots, p_k$.  Then $p = p_1p_2 \cdots p_k + 1$ isn't prime, so there must be some $p_i$ which divides it.  However, $p_i\cdot(p_1\cdots p_{i-1}p_{i+1} \cdots p_k) < p$ and $p \cdot (p_1\cdots p_{i-1}p_{i+1} \cdots p_k + 1) > p$, so $p_i$ can't divide $p$.  Since this holds for any choice of $i$, we obtain a contradiction.  Thus, there are infinitely many primes. \\
 
 
 \noindent\textbf{Exercise 31.1-3}\\
 
 $a | b$ means there exists $k_1\in \Z$ so that $k_1 a = b$. $b|c$ means there exists $k_2\in \Z$ so that $k_2 b = c$. This means that $(k_1 k_2) a = c$. Since the integers are a ring, $k_1 k_2 \in \Z$, so, we have that $a | c$.\\
 
+\noindent\textbf{Exercise 31.1-4}\\
 
+Let $g = \gcd(k,p)$. Then $g|k$ and $g|p$.  Since $p$ is prime, $g=p$ or $g=1$.  Since $0 < k < p$, $g < p$. Thus, $g = 1$. \\
 
 \noindent\textbf{Exercise 31.1-5}\\
 
 By Theorem 31.2, since $gcd(a,n) =1$, there exist integers $p,q$ so that $pa +qn = 1$, so, $bpa+bqn=b$. Since $n | ab$, there exists an integer $k$ so that $kn = ab$. This means that $knp + pqn =(k +q)pn= b$. Since $n$ divides the left hand side, it must divide the right hand side as well.\\
 
+\noindent\textbf{Exercise 31.1-6}\\
 
+Observe that ${p \choose k} = \frac{p!}{k!(p-k)!} = \frac{p(p-1)\cdots(p-k+1)}{k!}$.  Let $q = (p-1)(p-2)\cdots(p-k+1)$.  Since $p$ is prime, $k! \not| p$.  However, we know that ${p \choose k}$ is an integer because it is also a counting formula. Thus, $k!$ divides $pq$.  By Corollary 31.5, $k! | q$.  Write $q = ck!$. Then we have ${p \choose k} = p c$, which is divisible by $p$.  
+
+By the binomial theorem and the fact that $p | {p \choose k}$ for $0 < k < p$, 
+
+\[ (a+b)^p = \sum_{k=0}^p {p \choose k} a^k b^{p-k} \equiv a^p + b^p (\!\!\!\!\!\!\mod p).\]
 
 \noindent\textbf{Exercise 31.1-7}\\
 
@@ -61,7 +72,9 @@ First, suppose that $x = yb + (x\mod b)$, $(x\mod b) = za + ((x\mod b)\mod a)$, 
 
 For the second part of the problem, suppose that $ x\mod b = y\mod b$. Then, by the first half of the problem, applied first to x and then to b, $x \mod a = (x\mod b) \mod a = (y\mod b)\mod a = y\mod a$. So, $x \equiv y \mod a$.\\
 
+\noindent\textbf{Exercise 31.1-8}\\
 
+%You can't factor n in time polynomial in beta. Need to be more careful here. %Taking a brute force approach, we can determine in time polynomial in $\beta$ the prime factorization $n = p_1^{e_1}\cdots p_r^{e_r}$. Given this, $n$ is a nontrivial $k^{th}$ power if and only if we can write $p_1^{e_1} \cdots p_r^{e_r} = (p_1^{e_1/k}\cdots p_r^{e_r/k})^k$ for some $k > 1$, where each $e_i/k$ is an integer.  This can only happen if some number divides each $e_i$.  We can check this by brute force, computing the divisors of each $e_i$ in time polynomial is $\beta$, since the lenght of each $e_i$ is bounded above by $\beta/2$. \\
 
 \noindent\textbf{Exercise 31.1-9}\\
 
@@ -75,13 +88,17 @@ For(31.9), consider all integer linear combinations of $a$ and $0$, the thing we
 
 For (31.10), again consider possible integer linear combinations $na + mka$, we can rewrite this as $(n+km)a$, so it has absolute value $|n+km||a|$. Since the first factor is an integer, we can't have it with a value less than 1 and still have a positive final answer, this means that the smallest element is when the first factor is 1, which is achievable by setting $n=1,m=0$.\\
 
+\noindent\textbf{Exercise 31.1-10}\\
 
+Consider the prime factorization of each of $a$, $b$, and $c$, written as $a = p_1p_2\ldots p_k$ where we allow repeats of primes.  The gcd of $b$ and $c$ is just the product of all $p_i$ such that $p_i$ appears in both factorizations.  If it appears multiple times, we include it as many times as it appears on the side with the fewest occurrances of $p_i$. (Explicitly, see equation 31.13 on page 934).  To get the gcd of $\gcd(b,c)$ and $a$, we do this again.  Thus, the left hand side is just equal to the intersection (with appropriate multiplicities) of the products of prime factors of $a$, $b$, and $c$.  For the right hand side, we consider intersecting first the prime factors of $a$ and $b$, and then the prime factors of $c$, but since intersections are associative, so is the gcd operator. \\
 
 \noindent\textbf{Exercise 31.1-11}\\
 
 Suppose to a contradiction that we had two different prime decomposition. First, we know that the set of primes they both consist of are equal, because if there were any prime $p$ in the symmetric difference, $p$ would divide one of them but not the other. Suppose they are given by $(e_1,e_2, \ldots,e_r)$ and $(f_1,f_2,\ldots,f_r)$ and suppose that $e_i < f_i$ for some position. Then, we either have that $p_i^{e_i+1}$ divides $a$ or not. If it does, then the decomposition corresponding to $\{e_i\}$ is wrong because it doesn't have enough factors of $p_i$, otherwise, the one corresponding to $\{f_i\}$ is wrong because it has too many.\\
 
+\noindent\textbf{Exercise 31.1-12}\\
 
+Standard long division runs in $O(\beta^2)$, and one can easily read off the remainder term at the end. \\
 
 \noindent\textbf{Exercise 31.1-13}\\
 
@@ -113,7 +130,21 @@ Since none of the exponents showing up are negative, everything in sight is an i
 
 Now, we show that there is no larger common divisor. We will do this by showing that for each prime, the power can be no higher. Suppose we had some common divisor $d$ of $a$ and $b$. First note that $d$ cannot have a prime factor that doesn't appear in both $a$ or $b$, otherwise any integer times $d$ would also have that factor, but being a common divisor means that we can write both $a$ and $b$ as an integer times $d$. So, there is some sequence $\{g_i\}$ so that $d = \prod_{i=1}^r p_i^{g_i}$. Now, we claim that for every $i$, $g_i \le \min(e_i,f_i)$. Suppose to a contradiction that there was some $i$ so that $g_i>\min(e_i,f_i)$. This means that $d$ either has more factors of $p_i$ than $a$ or than $b$. However, multiplying integers can't cause the number of factors of each prime to decrease, so this is a contradiction, since we are claiming that $d$ is a common divisor. Since the power of each prime in $d$ is less than or equal to the power of each prime in $c$, we must have that $d\le c$. So, $c$ is a GCD.
 
+\noindent\textbf{Exercise 31.2-2}\\
 
+We'll create a table similar to that of figure 31.1:
+
+\begin{tabular}{cccccc} 
+$a$ & $b$ & $\lfloor a/b \rfloor$ & $d$ & $x$ & $y$ \\ \hline
+899 & 493 & 1 & 29 & -6 & 11 \\
+493 & 406 & 1 & 29 & 5 & -6 \\
+406 & 87 & 4 & 29 & -1 & 5 \\
+87 & 58 & 1 & 29 & 1 & -1 \\
+58 & 29 & 2 & 29 & 0 & 1\\
+29 & 0 & - & 29 & 1 & 0
+\end{tabular}
+
+Thus, $(d,x,y) = (29,-6,11)$. \\
 
 \noindent\textbf{Exercise 31.2-3}\\
 
@@ -126,7 +157,17 @@ gcd(a+kn,n) &= EUCLID(a+kn,n)\\
 & = gcd(a,n)
 \end{align*}
 
+\noindent\textbf{Exercise 31.2-4}\\
 
+\begin{algorithm}
+\caption{ITERATIVE-EUCLID(a,b)}
+\begin{algorithmic}[1]
+\While{$b > 0$}
+	\State $(a,b) = (b, a \mod b)$
+\EndWhile
+\State \Return $a$
+\end{algorithmic}
+\end{algorithm}
 
 \noindent\textbf{Exercise 31.2-5}\\
 
@@ -138,7 +179,15 @@ Now, suppose it holds for $k-1$, we want to show it holds for $k$. The first cal
 
 Since we have that we only need $k$ steps so long as $b <\gcd(a,b) F_{k+1} < gcd(a,b) \phi^{k+1}$. we have that $\log_\phi (b/\gcd(a,b)) < k+1$. This is satisfied if we set $k=1 + \log_\phi(b/\gcd(a,b))$\\
 
+\noindent\textbf{Exercise 31.2-6}\\
 
+Since $F_{k+1} \mod F_{k} = F_{k-1}$ we have $\gcd(F_{k+1},F_k) = \gcd(F_k,F_{k-1})$.  Since $\gcd(2,1) = 1$ we have that $\gcd(F_{k+1},F_k) = 1$ for all $k$.  Moreover, since $F_k$ is increasing, we have $\lfloor F_{k+1} / F_k \rfloor = 1$ for all $k$. When we reach the base case of the recursive calls to EXTENDED-EUCLID, we return $(1,1,0)$. The following returns are given by $(d,x,y) = (d',y',x'-y')$.  We will show that in general, EXTENDED-EUCLID$(F_{k+1},F_k)$ returns $(1, (-1)^{k+1}F_{k-2}, (-1)^kF_{k-1})$. We have already shown $d$ is correct, and handled the base case.  Now suppose the claim holds for $k-1$.  Then EXTENDED-EUCLID$(F_{k+1}, F_{k})$ returns $(d',y',x'-y')$ where $d' = 1$, $y' = (-1)^{k-1}F_{k-2}$, $x' = (-1)^{k}F_{k-3}$, so the algorithm returns 
+\begin{align*}
+(1,  (-1)^{k-1}F_{k-2}, (-1)^{k}F_{k-3} -  (-1)^{k-1}F_{k-2}) &= (1, (-1)^{k+1} F_{k-2}, (-1)^k(F_{k-3} + F_{k-2}) \\
+&=  (1, (-1)^{k+1} F_{k-2}, (-1)^kF_{k-1})
+\end{align*}
+
+as desired. \\
 
 \noindent\textbf{Exercise 31.2-7}\\
 
@@ -153,8 +202,25 @@ To show it is independent of the order of its arguments, we prove the following 
 
 To find the integers $\{x_i\}$ as described in the problem, we use a similar approach as for EXTENDED-EUCLID. 
 
+\noindent\textbf{Exercise 31.2-8}\\
+
+From the gcd interpretation given in equation (31.13), it is clear that lcm$(a_1, a_2) = \frac{a_1 \cdot a_2}{\gcd(a_1,a_2)}$.  More generally, lcm$(a_1,\ldots,a_n) = \frac{a_1\cdots a_n}{\gcd( \cdots (\gcd(\gcd(a_1,a_2), a_3), \ldots),a_n)}$. We can compute the denominator recursively using the two-argument gcd operation.  The algorithm is given below, and runs in $O(n)$ time. \\
+
+\begin{algorithm}
+\caption{LCM$(a_1,\ldots, a_n)$}
+\begin{algorithmic}
+\State $x = a_1$
+\State $g = a_1$
+\For{$i=2$ to $n$}
+	\State $x = x \cdot a_i)$
+	\State $g = \gcd(g,a_i)$
+\EndFor
+\State \Return $x/g$
+\end{algorithmic}
+\end{algorithm}
 
 \noindent\textbf{Exercise 31.2-9}\\
+
 For two numbers to be relatively prime, we need that the set of primes that occur in both of them are disjoint. Multiplying two numbers results in a number whoose set of primes is the union of the two numbers multiplied. So, if we let $p(n)$ denote the set of primes that divide $n$. By testing that $ \gcd(n_1n_2,n_3n_4) = \gcd(n_1n_3, n_2n_4) = 1$. We get that $(p(n_1)\cup p(n_2))\cap(p(n_3)\cup(n_4)) = (p(n_1)\cup p(n_3))\cap(p(n_2)\cup(n_4)) = \emptyset$. Looking at the first equation, it gets us that $p(n_1) \cap p(n_3) = p(n_1) \cap p(n_4)  = p(n_2) \cap p(n_3) = p(n_2) \cap p(n_4) = \emptyset$. The second tells, among other things, that $p(n_1) \cap p(n_2) = p(n_3) \cap p(n_4) = \emptyset$. This tells us that the sets of primes of any two elements are disjoint, so all elements are relatively prime.
 
  A way to fiew this that generalizes more nicely is to consider the complete graph on $n$ vertices. Then, we select a partition of the vertices into two parts. Then, each of these parts corresponds to the product of all the numbers corresponding to the vertices it contains. We then know that the numbers that any pair of vertices that are in different parts of the partition correspond to will be relatively prime, because we can distribute the intersection across the union of all the prime sets in each partition. Since partitioning into two parts is equivalent to selecting a cut, the problem reduces to selecting $\lg(k)$ cuts of $K_n$ so that every edge is cut by one of the cuts. To do this, first cut the vertex set in as close to half as possible. Then, for each part, we recursively try to cut in in close to half, since the parts are disjoint, we can arbitrarily combine cuts on each of them into a single cut of the original graph. Since the number of time you need to divide $n$ by two to get 1 is $\lfloor\lg(n)\rfloor$, we have that that is the number of times we need to take gcd.\\
@@ -186,13 +252,18 @@ For two numbers to be relatively prime, we need that the set of primes that occu
 
 Then, we can see that these are equivalent under the mapping $\alpha(0) =1$, $\alpha(1)= 3$, $\alpha(2) = 4$, $\alpha(3) =2$.\\
 
+\noindent\textbf{Exercise 31.3-2}\\
 
+The subgroups of $\mathbb{Z}_9$ and $\{0\}$, $\{0,3,6\}$, and $\mathbb{Z}_9$ itself.  The subgroups of $\mathbb{Z}_{13}^*$ are $\{ 1\}$, $\{1,3,9\}$, $\{1,3,4,9,10,12\}$, $\{1,5,8,12\}$, $\{1,12\}$ and $\mathbb{Z}_{13}^*$ itself. \\
 
 \noindent\textbf{Exercise 31.3-3}\\
 
 Since $S$ was a finite group, every element had a finite order, so, if $a\in S'$, there is some number of times that you can add it to itself so that you get the identity, since adding any two things in $S'$ gets us something in $S'$, we have that $S'$ has the identity element. Assiciativity is for free because is is a propert of the binary operation, no the space that the operation draws it's arguments from. Lastly, we can see that it contains the inverse of every element, because we can just add the element to itself a number of times equal to one less than its order. Then, adding the element to that gets us the identity.\\
 
+\noindent\textbf{Exercise 31.3-4}\\
 
+The only prime divisor of $p^e$ is $p$.  From the definition of the Euler phi function, we have
+\[ \phi(p^e) = p^e\left(1-\frac{1}{p}\right) = p^{e-1}(p-1).\]
 
 \noindent\textbf{Exercise 31.3-5}\\
 
@@ -204,24 +275,53 @@ To see this fact, we need to show that the given function is a bijection. Since 
 
 First, we run extended Euclid on $35,50$ and get the result $(5,-7,10)$. Then, our initial solution is $-7*10/5 = -14 = 36$. Since $d=5$, we have four other solutions, corresponding to adding multiples of $50/5 =10$. So, we also have that our entire solution set is $x =\{6,16,26,36,46\}$.\\
 
+\noindent\textbf{Exercise 31.4-2}\\
 
+If $ax \equiv ay \mod n$ then $a(x-y) \equiv 0 \mod n$.  Since $\gcd(a,n) = 1$, $n$ doesn't divide $a$ unless $n = 1$, in which case the claim is trivial.  By Corollary 31.5, since $n$ divides $a(x-y)$, $n$ divides $x-y$.  Thus, $x \equiv y \mod n$.  To see that the condition $\gcd(a,n)$ is necessary, let $a=3$, $n=6$, $x=6$, and $y=2$.  Note that $\gcd(a,n) = \gcd(3,6) = 3$.  Then $3\cdot 6 \equiv 3\cdot 2 \mod 6$, but $6 \neq 2 \mod 6$. \\
 
 \noindent\textbf{Exercise 31.4-3}\\
 
 it will work. It just changes the initial value, and so changes the order in which solutions are output by the program. Since the program outputs all values of $x$ that are congruent to $x_0 \mod n/b$, if we shift the answer by a multiple of $n/b$ by this modification, we will not be changing the set of solutions that the procedure outputs.\\
 
+\noindent\textbf{Exercise 31.4-4}\\
 
+The claim is clear if $a \equiv 0$ since we can just factor out an $x$.  For $a \neq 0$, let $g(x) = g_0 + g_1x + \ldots + g_{t-1}x^{t-1}$.  In order for $f(x)$ to equal $(x-a)g(x)$ we must have $g_0 = f_0(-a)^{-1}$, $g_i = (f_i - g_{i-1})(-a)^{-1}$ for $1 \leq i \leq t-1$ and $g_{t-1}=f_t$.  Since $p$ is prime, $\mathbb{Z}_p^* = \{1,2,\ldots,p-1\}$ so every element, including $-a$, has a multiplicative inverse.  It is easy to satisfy each of these equations as we go, until we reach the last two, at which point we need to satisfy both $g_{t-1} = (f_{t-1}-g_{t-2})(-a)^{-1}$ and $g_{t-1} = f_t$.  More compactly, we need $f_t = (f_{t-1}-g_{t-2})(-a)^{-1}$. We will show that this happens when $a$ is a zero of $f$. \\
+
+First, we'll proceed inductively to show that for $0 \leq k \leq t-1$ we have $a^{k+1}g_k = -\sum_{i=0}^k f_ia^i$.  For the base case we have $ag_0 = -f_0$, which holds.  Assume the claim holds for $k-1$. Then we have
+
+\begin{align*}
+a^{k+1}g_k &= a^{k+1} (f_k - g_{k-1})(-a)^{-1} \\
+&= -a^kf_k + a^kg_{k-1} \\
+&= -a^kf_k - \sum_{i=0}^{k-1}f_ia^i \\
+&= \sum_{i=0}^k f_ia^i
+\end{align*}
+
+which completes the induction step.  Now we show that we can satisfy the equation given above. It will suffice to show that $-a^tf_t = a^{t-1}(f_{t-1}-g_{t-2})$.
+
+\begin{align*} a^{t-1}(f_{t-1}-g_{t-2}) &= a^{t-1}f_{t-1} - a^{t-1}g_{t-2}\\
+& = a^{t-1}f_{t-1} + \sum_{i=0}^{t-2}f_ia^i \\
+&= \sum_{i=0}^{t-1}f_ia^i \\
+&= -a^tf_t
+\end{align*}
+where the second equality is justified by our earlier claim and the last equality is justified because $a$ is a zero of $f$.  Thus, we can find such a $g$. \\
+
+It is clear that a polynomial of degree 1 can have at most 1 distinct zero modulo $p$ since the equation $x=-a$ has at most 1 solution by Corollary 31.25. Now suppose the claim holds for $t > 1$.  Let $f$ be a degree $t+1$ polynomial. If $f$ has no zeros then we're done.  Otherwise, let $a$ be a zero of $f$.  Write $f(x) = (x-a)g(x)$. Then by the induction hypothesis, since $g$ is of degree $t$, $g$ has at most $t$ distinct zeros modulo $p$. The zeros of $f$ are $a$ and the zeros of $g$, so $f$ has at most $t+1$ distinct zeros modulo $p$. \\
 
 \noindent\textbf{Exercise 31.5-1}\\
 
 These equations can be viewed as a single equation in the ring $\Z_5^+ \times Z_11^+$, in particular $(x_1,x_2) = (4,5)$. This means that $x$ needs to be the element in $\Z_55^+$ that corresponds to the element $(4,5)$. To do this, we use the process described in the proof of Theorem 31.27. We have $m_1 = 11$, $m_2 = 5$, $c_1 = 11(11^{-1} \mod 5) = 11 $, $c_2 = 5(5^{-1} \mod 11) = 45$. This means that the corresponding solution is $x = 11\cdot4 + 45\cdot 5 \mod 55 = 44 + 225 \mod 55= 269 \mod 55 = 49\mod 55$. So, all numbers of the form $49 + 55k$ are a solution.\\ 
 
+\noindent\textbf{Exercise 31.5-2}\\
+
+Since $9\cdot8\cdot7 = 504$, we'll be working mod 504. We also have $m_1 = 56$, $m_2 = 63$, and $m_3 = 72$.  We compute $c_1 = 56(5) = 280$, $c_2 = 63(7) = 441$, and $c_3 = 72(4) = 288$. Thus, $a = 280 + 2(441) + 3(288) \mod 504 = 10 \mod 504$. Thus, the desired integers $x$ are of the form $x = 10 + 504k$ for $k \in \mathbb{Z}$. \\
 
 \noindent\textbf{Exercise 31.5-3}\\
 
 Suppose that $x \equiv a^{-1} \mod n$. Also, $x_i \equiv  x\mod n_i$ and $a_i \equiv a \mod n_i$. What we then want to show is that $x_i \equiv a_i^{-1} \mod n_i$. That is, we want that $a_ix_i \equiv 1 \mod n_i$. To see this, we just use equation 31.30. To get that $ax\mod n$ corresponds to $(a_1x_1 \mod n_1, \ldots, a_kx_k \mod n_k)$. This means that 1 corresponds to $( 1\mod n_1, \ldots, 1\mod n_k)$. This is telling us exactly what we needed, in particular, that $a_i x_i \equiv 1 \mod n_i$.
 
+\noindent\textbf{Exercise 31.5-4}\\
 
+Let $f(x) = f_0 + f_1x + \ldots + f_dx^d$.  Using the correspondence of Theorem 31.27, $f(x) \equiv 0 \mod n$ if and only if $\sum_{i=0}^df_{i_j}x_j^i \equiv 0 \mod n_j$ for $j=1$ to $k$. The product formula arises by constructing a zero of $f$ via choosing $x_1, x_2, \ldots, x_k$ such that $f(x_j) \equiv 0 \mod n_j$ for each $j$, then letting $x$ be the number associated to $(x_1, \ldots, x_k)$. \\
 
 \noindent\textbf{Exercise 31.6-1}\\
 
@@ -267,7 +367,27 @@ x&\hbox{ind}_{11,2}(x)\\
 \end{array}
 \]
 
+\noindent\textbf{Exercise 31.6-2}\\
 
+To perform modular exponentiation by examining bits from right to left, we'll keep track of the value of $a^{2^i}$ as we go.  See below for an implementation:\\
+
+\begin{algorithm}
+\caption{MODULAR-EXPONENTIATION-R-to-L$(a,b,n)$}
+\begin{algorithmic}
+\State $c=0$
+\State $d=1$
+\State $s = a$
+\State let $\langle b_k, b_{k-1}, \ldots, b_0 \rangle$ be the binary representation of $b$
+\For{$i=0$ to $k$}
+	\If{$b_i == 1$}
+		\State $d = s\cdot d \mod n$
+		\State $c = 2^{i} + c$
+	\EndIf
+	\State $s = s \cdot s \mod n$
+\EndFor
+\State \Return $d$
+\end{algorithmic}
+\end{algorithm}
 
 \noindent\textbf{Exercise 31.6-3}\\
 
@@ -292,7 +412,9 @@ For the secret key's value of $e$ we compute the inverse of $d=3$ mod $\phi(n) =
 
 Now that we know our value of $e$, we compute the encryption of $M=100$ by computing $100^{187} \mod 319$, which comes out to an encrypted message of $122$\\
 
+\noindent\textbf{Exercise 31.7-2}\\
 
+We know $ed = 1 \mod \phi(n)$.  Since $d < \phi(n)$ and $e = 3$, we have $3d-1 = k(p-1)(q-1)$ for $k=1$ or $2$. We have $k=1$ if $3d-1 < n$ and $k=2$ if $3d-1 > n$.  Once we've determined $k$, $p+q = n - (3d-1)/k + 1$, so we can now solve for $p+q$ in time polynomial in $\beta$.  Replacing $q-1$ by $(p+q) -p-1$ in our earlier equation lets us solve for $p$ in time polynomial in $\beta$ since we need only perform addition, multiplication, and division on numbers bounded by $n$. \\
 
 \noindent\textbf{Exercise 31.7-3}\\
 
@@ -309,7 +431,11 @@ So, if the attacker can correctly decode $\frac{1}{100}$ of the encrypted messag
 \noindent\textbf{Exercise 31.8-1}\\
 Suppose that we can write $n = \prod_{i=1}^k p_i^{e_i}$, then, by the Chinese remainder theorem , we have that $\Z_n \cong \Z_{p_1^{e_1}} \times \cdots \times \Z_{p_1^{e_1}}$. Since we had that $n$ was not a prime power, we know that $k\ge 2$. This means that we can take the elements $x = (p_1^{e_1} -1, 1, \ldots ,1)$ and $y =(1,p_2^{e_2} -1,1,\ldots ,1)$. Since multiplication in the product ring is just coordinate wise, we have that the squares of both of these elements is the all ones element in the product ring, which corresponds to 1 in $\Z_n$. Also, since the correspondence from the Chinese remainder theorem was a bijection, since $x$ and $y$ are distinct in the product ring, they correspond to distinct elements in $\Z_n$. Thus, by taking the elements corresponding to $x$ and $y$ under the Chinese remainder theorem bijection, we have that we have found two squareroots of 1 that are not the identity in $\Z_n$. Since there is only one trivial non-identity squareroot in $\Z_n$, one of the two must be non-trivial. It turns out that both are non-trivial, but that's more than the problem is asking.\\
 
+\noindent\textbf{Exercise 31.8-2}\\
 
+Let $c = \gcd( \cdots (\gcd(\gcd(\phi(p_1^{e_1}),\phi(p_2^{e_2})), \phi(p_3^{e_3})), \ldots),\phi(p_r^{e_r}))$.  Then we have $\lambda(n) = \phi(e_1^{e_1}) \cdots \phi(p_r^{e_r}) / c = \phi(n)/c$.  Since the lcm is an integer, $\lambda(n) | \phi(n)$.  Suppose $p$ is prime and $p^2 | n$. \\
+
+%Not done
 
 \noindent\textbf{Exercise 31.8-3}\\
 
@@ -343,7 +469,9 @@ However, we know that since $x$ is a nontrivial squareroot, we know that $1 < x 
 
 The Pollard-Rho algorithm would first detect the factor of $73$ when it considers the element $84$, when we have $x_{12}$ because we then notice that $\gcd(814-84,1387) = 73$.\\
 
+\noindent\textbf{Exercise 31.9-2}\\ 
 
+Create an array $A$ of length $n$.  For each $x_i$, if $x_i = j$, store $i$ in $A[j]$.  If $j$ is the first position of $A$ which must have its entry rewritten, set $t$ to be the entry originally stored in that spot.  Then count how many additional $x_i$'s must be computed until $x_i = j$ again. This is the value of $u$.  The running time is $\Theta(t+u)$. \\
 
 \noindent\textbf{Exercise 31.9-3}\\
 
@@ -360,6 +488,9 @@ x_{i+1}' &= x_{i+1} \mod p^e\\
 
 So, we again are having the birthday paradox going on, but, instead of hoping for a repeat from a set of size $p$, we are looking at all the equivalence classes mod $p^e$ which has size $p^e$, so, we have that the expected number of steps before getting a repeat in that size set is just the squareroot of its size, which is $\Theta(\sqrt{p^{e}}) =\Theta(p^{e/2})$. 
 
+\noindent\textbf{Exercise 31.9-4}\\
+
+ %Not done
 
 \noindent\textbf{Problem 31-1}\\
 
@@ -391,7 +522,15 @@ See the algorithm BINARY-GCD(a,b)
 \end{algorithm}
 \end{enumerate}
 
+\noindent\textbf{Problem 31-2}\\
 
+\begin{enumerate}[a.]
+\item We can imagine first writing $a$ and $b$ in their binary representations, and then performing long division as usual on these numbers.  Each time we compute a term of the quotient we need to perform a multiplication of $a$ and that term, which takes $\lg b$ bit operations, followed by a subtraction from the first $b$ terms of $a$ which takes $\lg b$ bit operations.  We repeat this once for each digit of the quotient which we compute, until the remainder is smaller than $b$.  There are $\lg q$ bits in the quotient, plus the final check of the remainder.  Since each requires $\lg b$ bit operations to perform the multiplication and subtraction, the method requires $O((1 + \lg q)\lg b)$ bit operations. \\
+
+\item The reduction requires us to compute $a \mod b$.  By carrying out ordinary ``paper and penil'' long division we can compute the remainder.  The time to do this, by part a, is bounded by $k(1 + \lg q)(\lg b)$ for some constant $k$.  In the worst case, $q$ has $\lg a - \lg b$ bits.  Thus, we get the bound $k(1 + \lg a - \lg b)(\lg b)$.  Next, we compute $\mu(a,b) - \mu(b,a \mod b) = (1+\lg a)(1+\lg b) - (1 + \lg b)(1+\lg(a \mod b)$.  This is smallest when $a \mod b$ is small, so we have a lower bound of $(1+\lg a)(1+\lg b) - (1+\lg b)$.  Assuming $\lg b \geq 1$, we can take $c = k$ to obtain the desired inequality. 
+
+\item As shown in part (b), EUCLID takes at most $c(\mu(a,b) - \mu(b,a mod b))$ operations on the first recursive call, at most $c(\mu(b,a\mod b) - \mu(a \mod b, b \mod (a \mod b))$ operations on the second recursive call, and so on. Summing over all recursive calls gives a telescoping series, resulting in $c\mu(a,b) + O(1) = O(\mu(a,b))$. When applies to two $\beta$-bit inputs the runtime is $O(\mu(a,b)) = O((1+\beta)(1+\beta)) = O(\beta^2)$. 
+\end{enumerate}
 
 
 \noindent\textbf{Problem 31-3}\\
@@ -495,5 +634,20 @@ Which has a solution of $\Theta(n^2)$.
 Though it is not asked for, we can compute Fibonacci in time only $\Theta(n\lg(n))$ because multiplying integers with $\beta$ bits can be done in time $\beta\lg(\beta)$ using the fast Fourier transform methods of the previous chapter.
 
 \end{enumerate}
+
+\noindent\textbf{Problem 31-4}\\
+
+\begin{enumerate}[a.]
+\item Since $p$ is prime, Theorem 31.32 implies that $\mathbb{Z}_p^*$ is cyclic, so it has a generator $g$. Thus, $g^2, g^4, \ldots, g^{p-1}$ are all distinct.  Moreover, each one is clearly a quadratic residue so there are at least $(p-1)/2$ residues.  Now suppose that $a$ is a quadratic residue and $a = g^{2k+i}$ for some $i$.  Then we must also have $a = x^2$ for some $x$, and $x = g^m$ for some $m$, since $g$ is a generator.  Thus, $g^{2m} = g^{2k+i}$.  By the discrete logarithm theorem we must have $2m = 2k+1 \mod \phi(p)$.  However, this is impossible since $\phi(p) = p-1$ which is even, but $2m$ and $2k+1$ differ by an odd amount. Thus, precisely the elements of the form $g^{2i}$ for $ i=1,2,\ldots, (p-1)/2$ are quadratic residues. 
+
+\item If $a$ is a quadratic residue modulo $p$ then there exists $x$ such that $a^{(p-1)/2} = (x^2)^{(p-1)/2} = x^{p-1} = 1 = \left(\frac{a}{p}\right)$. On the other hand, suppose $a$ is not a quadratic residue.  Then $a = g^{2i+1}$ for some $i$ and $a^{(p-1)/2} = \left(g^{2i+1}\right)^{(p-1)/2} = \left(g^{(p-1)/2}\right)^{2i+1} = (-1)^{2i+1} = -1 \mod p$.  To see why $g^{(p-1)/2} = -1$, recall that Theorem 31.34 tells us that $g = \pm 1$.  Since $g$ is a generator, powers of $g$ are distinct.  Since $g^{p-1} = 1$, we must have $g^{(p-1)/2} = -1$. 
+
+To determine whether a given number $a$ is a quadratic residue modulo $p$, we simply compute $a^{(p-1)/2} \mod p$ and check if it is 1 or -1.  We can do this using the MODULAR-EXPONENTIATION function, and the number of bit operations is $O((\lg p)^3)$.  
+
+\item If $p = 4k+3$ and $a$ is a quadratic residue then $a^{2k+1} = 1 \mod p$. Then we have $(a^{k+1})^2 = a^{2k+2} = aa^{2k+1} = a$, so $a^{k+1}$ is a square root of $a$.  To find the square root, we use the MODULAR-EXPONENTIATION algorithm which has $O((\lg p)^3)$ bit operations.
+
+\item Run the algorithm of part b repeatedly until a non-quadratic residue is found.  Since only half the elements of $\mathbb{Z}_p^*$ are residues, after $k$ runs this approach will find a nonresidue with probability $1-2^{-k}$.  The expected number of runs is $\sum_{k=1}^\infty k\cdot 2^{-k} = 2$, so the expected number of bit operations is $O((\lg p)^3)$.
+\end{enumerate}
+
 
 \end{document}
