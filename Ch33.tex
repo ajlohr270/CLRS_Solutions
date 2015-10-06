@@ -158,8 +158,9 @@ Suppose that at least 3 segments intersect at the same point.  It is clear that 
 
 \noindent\textbf{Exercise 33.2-9}\\
 
-In the original statement of the problem, we are putting points with lower y-coordinates first. This means that when we are processing our vertical segment, we want its  lower bound to of already been processed by the time we process any of the left endpoints of other lines that may intersect the given line.  Also, we don't want to remove the segment until we have already processed all the right endpoints of the lines that may of intersected it, which means we want it's upper bound to be dealt with in the second pass (the right endpoint pass). Again, since we process lower y-values first, this means that we have it added to our tree before we process anything it could intersect and have it removed after processing everything it could intersect.\\
-%waiting on 33.2-2 to see how it changes.
+In the original statement of the problem, we are putting points with lower y-coordinates first. This means that when we are processing our vertical segment, we want its  lower bound to of already been processed by the time we process any of the left endpoints of other lines that may intersect the given line.  Also, we don't want to remove the segment until we have already processed all the right endpoints of the lines that may of intersected it, which means we want it's upper bound to be dealt with in the second pass (the right endpoint pass). Again, since we process lower y-values first, this means that we have it added to our tree before we process anything it could intersect and have it removed after processing everything it could intersect.
+
+If one or both of the segments are vertical at x in exercise 33.2-2, then testing whether they intersect is just a matter of looking to see if the other line is less than the upper bound and more than the lower bound at the given $x$ value. otherwise we just see if it's more than the upper bound or less than the lower bound to see which direction the inequality should go.\\
 
 
 

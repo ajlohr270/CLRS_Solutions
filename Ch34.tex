@@ -1,0 +1,105 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{tikz}
+	
+\pagestyle{fancy}
+\title{Chapter 34}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+\newcommand{\Z}{\mathbb{Z}}
+
+
+
+\algblock{ParFor}{EndParFor}
+% customising the new block
+\algnewcommand\algorithmicparfor{\textbf{parallel for}}
+\algnewcommand\algorithmicpardo{\textbf{do}}
+\algnewcommand\algorithmicendparfor{\textbf{end}}
+\algrenewtext{ParFor}[1]{\algorithmicparfor\ #1\ \algorithmicpardo}
+\algrenewtext{EndParFor}{\algorithmicendparfor}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Exercise 34.1-1}\\
+
+Showing that LONGEST-PATH-LENGTH being polynomial implies that LONGEST-PATH is polynomial is trivial, because we can just compute the length of the longest path and reject the instance of LONGEST-PATH if and only if k is larger than the number we computed as the length of the longest path.
+
+Since we know that the number of edges in the longest path length is between $0$ and $|E|$, we can perform a binary search for it's length. That is, we construct an instance of LONGEST-PATH with the given parameters along with $k = \frac{|E|}{2}$. If we hear yes, we know that the length of the longest path is somewhere above the halfway point. If we hear no, we know it is somewhere below. Since each time we are halving the possible range, we have that the procedure can require $O(\lg(|E|))$ many steps. However, running a polynomial time subroutine $\lg(n)$ many times still gets us a polynomial time procedure, since we know that with this procedure we will never be feeding output of one call of LONGEST-PATH into the next.\\
+
+
+
+\noindent\textbf{Exercise 34.1-3}\\
+
+A formal encoding of the adjacency matrix representation is to first encode an integer $n$ in the usual binary encoding representing the number of vertices. Then, there will be $n^2$ bits following. The value of bit $m$ will be 1 if there is an edge from vertex $\lfloor m/n \rfloor$ to vertex $(m\%n)$, and zero if there is not such an edge.
+
+An encoding of the adjacency list representation is a bit more finessed. We'll be using a different encoding of integers, call it $g(n)$. In particular, we will place a 0 immediately after every bit in the usual representation. Since this only doubles the length of the encoding, it is still polynomially related. Also, the reason we will be using this encoding is because any sequence of integers encoded in this way cannot contain the string $11$ and must contain at least one zero. Suppose that we have a vertex with edges going to the vertices indexed by $i_1,i_2,i_3,\ldots, i_k$. Then, the encoding corresponding to that vertex is $g(i_1)11g(i_2)11 \cdots 11g(i_k)1111$. Then, the encoding of the entire graph will be the concatenation of all the encodings of the vertices. As we are reading through, since we used this encoding of the indices of the vertices, we won't ever be confused about where each of the vertex indices end, or when we are moving on to the next vertex's list.
+
+To go from the list to matrix representation, we can read off all the adjacent vertices, store them, sort them, and then output a row of the adjacency matrix. Since there is some small constant amount of space for the adjacency list representation for each vertex in the graph, the size of the encoding blows up by at most a factor of $O(n)$, which means that the size of the encoding overall is at most squared.
+
+To go in the other direction, it is just a matter of keeping track of the positions in a given row that have ones, encoding those numerical values in the way described, and doing this for each row. Since we are only increasing the size of the encoding by a factor of at most $O(\lg(n))$(which happens in the dense graph case), we have that both of them are polynomially related.\\
+
+
+
+\noindent\textbf{Exercise 34.1-5}\\
+
+We show the first half of this exercise by induction on the number of times that we call the polynomial time subroutine. If we only call it zero times, all we are doing is the polynomial amount of extra work, and therefore we have that the whole procedure only takes polynomial time.
+
+Now, suppose we want to show that if we only make $n+1$ calls to the polynomial time subroutine. Consider the execution of the program up until just before the last call. At this point, by the inductive hypothesis, we have only taken a polynomial amount of time. This means that all of the data that we have constructed so far fits in a polynomial amount of space. This means that whatever argument we pass into the last polynomial time subroutine will have size bounded by some polynomial. The time that the last call takes is then the composition of two polynomials, and is therefore a polynomial itself. So, since the time before the last call was polynomial and the time of the last call was polynomial, the total time taken is polynomial in the input. This proves the claim of the first half of the input.
+
+To see that it could take exponential time if we were to allow polynomially many calls to the subroutine, it suffices to provide a single example. In particular, let our polynomial time subroutine be the function that squares its input. Then our algorithm will take an integer $x$ as input and then square it $\lg(x)$ many times. Since the size of the input is $\lg(x)$, this is only linearly many calls to the subroutine. However, the value of the end result will be $x^{2^{\lg(x)}} = x^x = 2^{x\lg(x)} =2^{\lg(x)2^{\lg(x)}} \in \omega(2^{2^{\lg(x)}})$. So, the output of the function will require exponentially many bits to represent, and so the whole program could not of taken polynomial time.\\
+
+
+
+\noindent\textbf{Exercise 34.2-1}\\
+
+To verify the language, we should let the certificate be the mapping $f$ from the vertices of $G_1$ to the vertices of $G_2$ that is an isomorphism between the graphs. Then all the verifier needs to do is verify that for all pairs of vertices $u$ and $v$, they are adjacent in $G_1$ if and only if $f(u)$ is adjacent to $f(v)$ in $G_2$. Clearly it is possible to produce an isomorphism if and only if the graphs are isomorphic, as this is how we defined what it means for graphs to be isomorphic.\\
+
+
+
+\noindent\textbf{Exercise 34.2-3}\\
+
+
+
+
+
+\noindent\textbf{Exercise 34.2-5}\\
+
+Suppose that we know that the length of the certificates to the verifier are bounded by $n^{k-1}$, we know it has to be bounded by some polynomial because the vertifier can only look at polynomially many bits because it runs in polynomial time. Then, we try to run the verifier on every possible assignment to each bit of the certificates of length up to that much. Then, the runtime of this will be a polynomial times $2^{n^{k-1}}$ which is little oh of $2^{n^k}$.\\
+
+
+
+\noindent\textbf{Exercise 34.2-7}\\
+
+For a directed acyclic graph, we can compute the topolgical sort of the graph by the method of section 22.4. Then, looking at this sorting of the vertices, we say that there is a hamiltonian path if as we read off the vertices, each is adjacent to the next, and they are not if there is any pair of vertices so that one is not adjacent to the next.
+
+If we are in the case that each is adjacent to the next, then the topolocal sort itself gives us the hamiltonian path. However, if there is any pair of vertices so that one is not adjacent to the next, this means that that pair of vertices do not have any paths going from one to the other.
+
+
+
+\noindent\textbf{Exercise 34.2-9}\\
+
+
+\noindent\textbf{Exercise 34.2-11}\\
+
+
+
+
+\end{document}
