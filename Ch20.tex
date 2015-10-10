@@ -317,32 +317,30 @@ As in the previous problem, we just wait until just before either of the two thi
 Since the initiallizations performed only take constant time, those modifications don't ruin the the desired runtime bound for the original algorithms already had. So, our responses to parts c and d are $O(\lg(\lg(n)))$.
 
 \item
-As mentioned in the errata, this part should instead be changed to $O(n\lg(n))$ space.
-
-%notdone
+As mentioned in the errata, this part should instead be changed to $O(n\lg(n))$ space. When we are adding an element, we may have to add an entry to a dynamic hash table, which means that a constant amount of extra space would be needed. If we are adding an element to that table, we also have to add an element to the RS-vEB tree in the summary, but the entry that we add in the cluster will be a constant size RS-vEB tree. We can charge the cost of that addition to the summary table to the making the minimum element entry that we added in the cluster table. Since we are always making at least one element be added as a new min entry somewhere, this ammortization will mean that it is only a constant amount of time in order to store the new entry.
 
 \item
 It only takes a constant amount of time to create an empty RS-vEB tree. This is immediate since the only dependence on u in CREATE-NEW-RS-vEB-TREE(u) is on line 2 when V.u is initialized, but this only takes a constant amount of time. Since nothing else in the procedure depends on u, it must take a constant amount of time.
 \end{enumerate}
 
 \noindent\textbf{Problem 20-2}\\
+\begin{enumerate}[a)]
+\item By 11.5, the perfect hash table uses $O(m)$ space to store $m$ elements.  In a universe of size $u$, each element contributes $\lg u$ entries to the hash table, so the requirement is $O(n\lg u)$.  Since the linked list requires $O(n)$, the total space requirement is $O(n\lg u)$. 
 
-a. By 11.5, the perfect hash table uses $O(m)$ space to store $m$ elements.  In a universe of size $u$, each element contributes $\lg u$ entries to the hash table, so the requirement is $O(n\lg u)$.  Since the linked list requires $O(n)$, the total space requirement is $O(n\lg u)$. \\
-
-b. MINIMUM and MAXIMUM are easy.  We just examine the first and last elements of the associated doubly linked list. MEMBER can actually be performed in $O(1)$, since we are simply checking membership in a perfect hash table.  It seems PREDECESSOR and SUCCESSOR take $O(\lg u)$ since we need to find the first bit where the given element differs from one stored in the table, and this could happen in any one of $\lg u$ spots.  INSERT and DELETE must take $O(\lg u)$ since we need to insert one entry into the hash table for each of their bits.  Also, we'd need to assume that we had constant time access to the linked list elements in order to search for the item to insert or delete in $O(\lg u)$.  \\
+\item MINIMUM and MAXIMUM are easy.  We just examine the first and last elements of the associated doubly linked list. MEMBER can actually be performed in $O(1)$, since we are simply checking membership in a perfect hash table.  It seems PREDECESSOR and SUCCESSOR take $O(\lg u)$ since we need to find the first bit where the given element differs from one stored in the table, and this could happen in any one of $\lg u$ spots.  INSERT and DELETE must take $O(\lg u)$ since we need to insert one entry into the hash table for each of their bits.  Also, we'd need to assume that we had constant time access to the linked list elements in order to search for the item to insert or delete in $O(\lg u)$.  
 %% ??? Still not sure about predecessor and successor
 
-c. The hash table has $\lg u$ entries for each of the $n/\lg u$ groups, so it stores a total of $n$ entries, making it size $O(n)$.  There are $n/\lg u$ binary trees of size $\lg u$, so they take $O(n)$ space.  Finally, the linked list takes $O(n/\lg u)$ space.  Thus, the total space requirement is $O(n)$. \\
+\item The hash table has $\lg u$ entries for each of the $n/\lg u$ groups, so it stores a total of $n$ entries, making it size $O(n)$.  There are $n/\lg u$ binary trees of size $\lg u$, so they take $O(n)$ space.  Finally, the linked list takes $O(n/\lg u)$ space.  Thus, the total space requirement is $O(n)$. 
 
-d. For MINIMUM:  Starting with the linked list, locate the minimum representative.  Then use the hash table to find its corresponding binary tree in $O(1)$.  Since this binary tree contains $lg(u)$ elements and is balanced, its height is $\lg \lg u$, so we can find its minimum in $O(\lg \lg u)$.  The procedure is similar for MAXIMUM. \\
+\item For MINIMUM:  Starting with the linked list, locate the minimum representative.  Then use the hash table to find its corresponding binary tree in $O(1)$.  Since this binary tree contains $lg(u)$ elements and is balanced, its height is $\lg \lg u$, so we can find its minimum in $O(\lg \lg u)$.  The procedure is similar for MAXIMUM. 
 
-e. We start by finding the smallest representative greater than or equal to $x$. %Time??
- Then $x$ must be in this group, so we search the binary search tree for $x$. Since its height is $\lg \lg u$, the total runtime is $O(\lg \lg u)$. \\
+\item We start by finding the smallest representative greater than or equal to $x$. %Time??
+ Then $x$ must be in this group, so we search the binary search tree for $x$. Since its height is $\lg \lg u$, the total runtime is $O(\lg \lg u)$. 
 
-f. Again, if we can find the largest representative greater than or equal to $x$, we can determine which binary tree contains the predecessor or successor of $x$.  Since the tree has height $\lg u$, we can find the predecessor or successor in $(O\lg \lg u)$. \\
+\item Again, if we can find the largest representative greater than or equal to $x$, we can determine which binary tree contains the predecessor or successor of $x$.  Since the tree has height $\lg u$, we can find the predecessor or successor in $(O\lg \lg u)$. 
 
-g. Insertion and deletion from the appropriate binary trees each take $O(\lg \lg u)$, provided we're not updating representatives. \\
+\item Insertion and deletion from the appropriate binary trees each take $O(\lg \lg u)$, provided we're not updating representatives. 
 
-h. %Not sure. Do the elements stored in the tree contain pointers to the linked list?  If not, updating this could be prohibitively slow.
-
+\item %Not sure. Do the elements stored in the tree contain pointers to the linked list?  If not, updating this could be prohibitively slow.
+\end{enumerate}
 \end{document}

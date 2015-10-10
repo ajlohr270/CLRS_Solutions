@@ -76,7 +76,7 @@ To verify the language, we should let the certificate be the mapping $f$ from th
 
 \noindent\textbf{Exercise 34.2-3}\\
 
-
+Suppose that $G$ is hamiltonian. This means that there is a hamiltonian cycle. Pick any one vertex $v$ in the graph, and consider all the possibilities of deleting all but two of the edges passing through that vertex. For some pair of edges to save, the resulting graph must still be hamiltonian because the hamiltonian cycle that existed originally only used two edges. Since the degree of a vertex is bounded by the number of vertices minus one, we are only less than squaring that number by looking at all pairs ($\binom{n-1}{2} \in O(n^2)$). This means that we are only running the polynomial tester polynomially many independent times, so the runtime is polynomial. Once we have some pair of vertices where deleting all the others coming off of $v$ still results in a hamiltonian graph, we will remember those as special, and ones that we will never again try to delete. We repeat the process with both of the vertices that are now adjacent to $v$, testing hamiltonicity of each way of picking a new vertex to save. We continue in this process until we are left with only $|V|$ edge, and so, we have just constructed a hamiltonian cycle.\\ 
 
 
 
@@ -88,18 +88,60 @@ Suppose that we know that the length of the certificates to the verifier are bou
 
 \noindent\textbf{Exercise 34.2-7}\\
 
-For a directed acyclic graph, we can compute the topolgical sort of the graph by the method of section 22.4. Then, looking at this sorting of the vertices, we say that there is a hamiltonian path if as we read off the vertices, each is adjacent to the next, and they are not if there is any pair of vertices so that one is not adjacent to the next.
+For a directed acyclic graph, we can compute the topological sort of the graph by the method of section 22.4. Then, looking at this sorting of the vertices, we say that there is a Hamiltonian path if as we read off the vertices, each is adjacent to the next, and they are not if there is any pair of vertices so that one is not adjacent to the next.
 
-If we are in the case that each is adjacent to the next, then the topolocal sort itself gives us the hamiltonian path. However, if there is any pair of vertices so that one is not adjacent to the next, this means that that pair of vertices do not have any paths going from one to the other.
+If we are in the case that each is adjacent to the next, then the topological sort itself gives us the Hamiltonian path. However, if there is any pair of vertices so that one is not adjacent to the next, this means that that pair of vertices do not have any paths going from one to the other. This would clearly imply that there was no Hamiltonian path, because the Hamiltonian path would be going from one of them to the other.
+
+To see the claim that a pair of vertices $u$ and $v$ that are adjacent in a topological sort but are not adjacent have no paths going from one to the other, suppose to a contradiction there were such a path from $u$ to $v$. If there were any vertices along this path they would have to be after $u$ since they are descendants of $u$ and they would have to be before $v$ because they are ancestors of $v$. This would contradict the fact that we said $u$ and $v$ were adjacent in a topological sort. Then the path would have to be a single edge from $u$ to $v$, but we said that they weren't adjacent, and so, we have that there is no such path.\\
 
 
 
 \noindent\textbf{Exercise 34.2-9}\\
 
+A language is in $coNP$ if there is a procedure that can verify that an input is not in the language in polynomial time given some certificate. Suppose that for that language we a procedure that could compute whether an input was in the language in polynomial time receiving no certificate. This is exactly what the case is if we have that the language is in P. Then, we can pick our procedure to verify that an element is not in the set to be running the polynomial time procedure and just looking at the result of that, disregarding the certificate that is given. This then shows that any language that is in $P$ is in $coNP$, giving us the inclusion that we wanted.\\
+
+
 
 \noindent\textbf{Exercise 34.2-11}\\
 
+As the hint suggests, we will perform a proof by induction. For the base case, we will have $3$ vertices, and then, by enumeration, we can see that the only hamiltonian graph on three vertices is $K_3$. For any connected graph on three vertices, the longest the path connecting them can be is $2$ edges, and so we will have $G^3 = K_3$, meaning that the graph $G$ was hamiltonian.
 
+Now, suppose that we want to show that the graph $G$ on $n+1$ vertices has the property that $G^3$ is hamiltonian. Since the graph $G$ is connected we know that there is some spanning tree by Chapter 23. Then, let $v$ be any internal vertex of that tree. Suppose that  if we were to remove the vertex $v$, we would be splitting up the original graph in the connected components $V_1, V_2,\ldots, V_k$, sorted in increasing order of size. Suppose that the first $\ell_1$ of these components have a single vertex. Suppose that the first $\ell_2$ of these components have fewer than $3$ vertices. Then, let $v_i$ be the vertex of $V_i$ that is adjacent to $v$ in the tree. For $i>\ell_1$, let $x_i$ be any vertex of $V_i$ that is distance two from the vertex $v$. By induction, we have hamiltonian cycles for each of the components $V_{\ell_2+1}, \ldots, V_k$. In particular, there is a hamiltonian path from $v_i$ to $x_i$. Then, for each $i$ and $j$ there is an edge from $x_j$ to $v_i$, because there is a path of length three between them passing through $v$. This means that we can string together the hamiltonian paths from each of the components with $i>\ell_1$. Lastly, since $V_1, \ldots, V_{\ell}$ all consist of single vertices that are only distance one from $v$, they are all adjacent in $G^3$. So, after stringing together the hamiltonian paths for $i>\ell_1$, we just visit all of the single vertices in $v_1,v_2,\ldots, v_{\ell_1}$ in order, then, go to $v$ and then to the vertex that we started this path at, since it was selected to be adjacent to $v$, this is possible. Since we have constructed a hamiltonian cycle, we have completed the proof.\\
+
+
+
+\noindent\textbf{Exercise 34.3-1}\\
+
+The formula in figure 34.8b is 
+
+\[((x_1\vee x_2)\wedge(\neg(\neg x_3)))\wedge(\neg(\neg x_3) \vee ((x_1)\wedge(\neg x_3)\wedge(x_2)))\wedge((x_1)\wedge(\neg x_3)\wedge(x_2))\]
+
+We can cancel out the double negation to get that this is the same expression as
+
+\[((x_1\vee x_2)\wedge(x_3))\wedge(( x_3) \vee ((x_1)\wedge(\neg x_3)\wedge(x_2)))\wedge((x_1)\wedge(\neg x_3)\wedge(x_2))\]
+
+Then, the first clause can only be true if $x_3$ is true. But the last clause can only be true if $\neg x_3$ is true. This would be a contradiction, so we cannot have both the first and last clauses be true, and so the boolean circuit is not satisfiable since we would be taking the and of these two quantities which cannot both be true.\\
+
+
+\noindent\textbf{Exercise 34.3-3}\\
+
+Suppose first that we had some polynomial time reduction from $L$ to $\bar{L}$. Suppose that $f$ is our polynomial time reduction that says $x\in L$ if and only if $f(x)\in \bar{L}$. Then, if we are given an instance of $c$ and want to check if $c\in \bar{L}$, and we want to find a $g$ so that $c\in \bar{L}$ if and only if $g(c)\in L$, we can define $g$ to be 
+
+
+\noindent\textbf{Exercise 34.3-5}\\
+
+
+
+\noindent\textbf{Exercise 34.3-7}\\
+
+By exercise 33.3-3, we know that for every $L$, we have that there is a polynomial time reduction from $L$ to $\bar{L}$ if and only if there is a polynomial time reduction from $\bar{L}$ to $L$. 
+
+
+L being complete for $NP$ means that $L\in NP$ and for every $S$ in $NP$, we have that $S\le_P L$. Since $L$ is in $NP$, we have that $\bar{L}\in coNP$ because we could just run our verification algorithm to verify that a given x is not in the complement of $L$, this is the same as verifying that $x$ is in $L$. Suppose that we have some polynomial time reduction $f$ from $S\in NP$ to $L$. Then, we can just take the same function, mapping a string $x\not\in \bar{S}$ into $\bar{L}$. 
+
+
+
+\noindent\textbf{Exercise 34.4-1}\\
 
 
 \end{document}
