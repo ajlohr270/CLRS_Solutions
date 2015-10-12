@@ -123,25 +123,91 @@ We can cancel out the double negation to get that this is the same expression as
 Then, the first clause can only be true if $x_3$ is true. But the last clause can only be true if $\neg x_3$ is true. This would be a contradiction, so we cannot have both the first and last clauses be true, and so the boolean circuit is not satisfiable since we would be taking the and of these two quantities which cannot both be true.\\
 
 
+
 \noindent\textbf{Exercise 34.3-3}\\
 
-Suppose first that we had some polynomial time reduction from $L$ to $\bar{L}$. Suppose that $f$ is our polynomial time reduction that says $x\in L$ if and only if $f(x)\in \bar{L}$. Then, if we are given an instance of $c$ and want to check if $c\in \bar{L}$, and we want to find a $g$ so that $c\in \bar{L}$ if and only if $g(c)\in L$, we can define $g$ to be 
+Suppose first that we had some polynomial time reduction from $L$ to $\bar{L}$. This means that for every $x$ there is some $f(x)$ so that $x\in L$ iff $f(x)\in \bar{L}$. This means that $x\in \bar{L}$ iff $x\not\in L$ iff $f(x)\not\in\bar{L}$ iff $f(x)\in L$. So, our polytime computable function for the reduction is the same one that we had from $L\le_P \bar{L}$. We can do an identical thing for the other direction.\\
+
 
 
 \noindent\textbf{Exercise 34.3-5}\\
-
+We do not have any loss of generality by this assumption. This is because since we bounded the amount of time that the program has to run to be polynomial, there is no way that the program can access more than an polynomial amount of space. That is, there is no way of moving the head of the turning machine further than polynomially far in only polynomial time because it can move only a single cell at a time.\\
 
 
 \noindent\textbf{Exercise 34.3-7}\\
 
-By exercise 33.3-3, we know that for every $L$, we have that there is a polynomial time reduction from $L$ to $\bar{L}$ if and only if there is a polynomial time reduction from $\bar{L}$ to $L$. 
-
-
-L being complete for $NP$ means that $L\in NP$ and for every $S$ in $NP$, we have that $S\le_P L$. Since $L$ is in $NP$, we have that $\bar{L}\in coNP$ because we could just run our verification algorithm to verify that a given x is not in the complement of $L$, this is the same as verifying that $x$ is in $L$. Suppose that we have some polynomial time reduction $f$ from $S\in NP$ to $L$. Then, we can just take the same function, mapping a string $x\not\in \bar{S}$ into $\bar{L}$. 
+Since $L$ is in $NP$, we have that $\bar{L}\in coNP$ because we could just run our verification algorithm to verify that a given x is not in the complement of $L$, this is the same as verifying that $x$ is in $L$. Since every coNP language has its complement in NP, suppose that we let $S$ be any language in $coNP$ and let $\bar{S}$ be its compliment. Suppose that we have some polynomial time reduction $f$ from $\bar{S}\in NP$ to $L$. Then, consider using the same reduction function. We will have that $x\in S$ iff $x\not\in \bar{S}$ iff $f(x)\not\in L$ iff $f(x)\in \bar{L}$. This shows that this choice of reduction function does work. So, we have shown that the compliment of any NP complete problem is also NP complete. To see the other direction, we just negate everything, and the proof goes through identically.\\
 
 
 
 \noindent\textbf{Exercise 34.4-1}\\
+
+Suppose that it is a circuit on two inputs, and then, we have n rounds of two and gates each, both of which take both of the two wires from the two gates from the previous round. Since the formulas for each round will consist of two copies of the formulas from the previous round, it will have an exponential size formula.\\
+
+
+
+\noindent\textbf{Exercise 34.4-3}\\
+
+The formula could have $\Omega(n)$ free variables, then, the truth table corresponding to this formula would a number of rows that is $\Omega(2^n)$ since it needs to consider every possible assignment to all the variables. This then means that the reduction as described is going to incrase the size of the problem exponentially.\\
+
+
+
+\noindent\textbf{Exercise 34.4-5}\\
+
+Since the problem is in disjunctive normal form, we can write it as $\vee_i \phi_i$ where each $\phi_i$ looks like the and of a bunch of variables and their negations. Then, we know that the formula is satisfiable if and only if any one if the $\phi_i$ are satisfiable. If a $\phi_i$ contains both a variable and its negation, then it is clearly not satisfiable, as one of the two must be false. However, if each variable showing up doesn't have its negation showing up, then we can just pick the appropriate value to assign to each variable. This is a property that can be checked in linear time, by just keeping two bit vectors of length equal to the number of variables, one representing if the variable has shown up negated and one for if the variable has shown up without having been negated.\\
+
+
+
+\noindent\textbf{Exercise 34.4-7}\\
+Suppose that the original formula was $\wedge_i (x_i \vee y_i)$, and the set of variables were $\{a_i\}$. Then, consider the directed graph which has a vertex corresponding both to each variable, and each negation of a variable. Then, for each of the clauses $x \vee y$, we will place an edge going from $\neg x$ to $y$, and an edge from $\neg y$ to $x$. Then, anytime that there is an edge in the directed graph, that means if the vertex the edge is coming from is true, the vertex the edge is going to has to be true. Then, what we would need to see in order to say that the formula is satisfiable is a path from a vertex to the negation of that vertex, or vice versa. The naive way of doing this would be to run all pairs shortest path, and see if there is a path from a vertex to its negation. This however takes time $O(n^2\lg(n))$, and we were charged with making the algorithm as efficient as possible. First, run the procedure for detecting strongly connected components, which takes linear time. For every pair of variable and negation, make sure that they are not in the same strongly connected component.
+
+
+
+\noindent\textbf{Exercise 34.5-1}\\
+
+To do this, first, notice that it is in NP, where the certificate is just the injection from $G_1$ into $G_2$ so that $G_1$ is isomorphic to its image.
+
+Now, to see that it is NP complete, we will do a reduction to clique. That is, to detect if a graph has a clique of size $k$, just let $G_1$ be a complete graph on $k$ vertices and let $G_2$ be the original graph. If we could solve the subgraph isomorphism problem quickly, this would allow us to solve the clique problem quickly.\\
+
+
+
+\noindent\textbf{Exercise 34.5-3}\\
+
+
+
+
+
+
+\noindent\textbf{Exercise 34.5-5}\\
+
+
+
+\noindent\textbf{Exercise 34.5-7}\\
+
+
+
+\noindent\textbf{Problem 34-1}\\
+\begin{enumerate}[a)]
+\item The related decision problem should be to, given a graph and a number $k$ decide whether or not there is some independent set of size at least $k$. If we take the compliment of the given graph, then it will have a clique of size at least $k$ if and only if the original graph has an independent set of size at least $k$. This is because if we take any set of vertices in the original graph, then it will be an independent set if and only if there are no edges between those vertices. However, in the compliment graph, this means that between every one of those vertices, there is an edge, which means they form a clique. So, to decide independent set, just decide clique in the compliment.
+\item
+We know that since all independent sets are subsets of the set of vertices, then the size of the largest independent set will be an integer in the range $1..|V|$. Then, we will perform a binary search on this space of valid sizes of the largest independent set. That is, we pick the middle element, ask if there is an independent set of that size, if there is, we know we are in the upper half of this range of values for the size of the largest independent set, if not, then we are in the lower half. The total runtime of this procedure to find the size of the largest independent set will only be a factor of $\lg(|V||)$ higher than the solution to the decision problem. Call the size of the largest independent set $k$.
+
+Now, for every pair of vertices, try adding an edge, and check if the procedure from before determines that the size of the largest independent set has decreased. If it hasn't that means that that pair of vertices doesn't prevent us from attaining an independent set of the given size. That is, we aren't in the case that there is only one maximal set of the given size and that pair of vertices belongs to it. So, add that edge to the graph, and continue in this fashion for every pair of vertices. Once we are done, the size of the largest independent set will be the same, and we will have that every edge is filled in except for those going between an independent set of the given size. So, we just list off all the vertices whose degree is less than $|V|-1$ as being members of our independent set.
+\item
+Since every vertex has degree 2, and so self edges are allowed, the graph must look like a number of disjoint cycles. We can then consider the independent set problem separately for each of the cycles. If we have an even cycle, the largest independent set possible is half the vertices, by selecting them to be alternating. If it is an odd cycle, then we can do half rounded down, since when we get back to the start, we are in the awkward place where there are two unselected vertices between two selected vertices. It's easy to see that these are tight, because there is so little freedom in selecting an independent set in a cycle. So, to calculate the size of the smallest independent set, look at the sizes of each cycle $c_i$, then, the largest independent set will have size $\lfloor \frac{c_i}{2}\rfloor$.
+\item
+First we add some edges in the following way
+\end{enumerate}
+
+\noindent\textbf{Problem 34-3}\\
+\begin{enumerate}[a)]
+\item
+\item
+\item
+\item
+\item
+\item
+\end{enumerate}
 
 
 \end{document}
