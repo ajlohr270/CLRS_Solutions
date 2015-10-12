@@ -159,7 +159,7 @@ Since the problem is in disjunctive normal form, we can write it as $\vee_i \phi
 
 
 \noindent\textbf{Exercise 34.4-7}\\
-Suppose that the original formula was $\wedge_i (x_i \vee y_i)$, and the set of variables were $\{a_i\}$. Then, consider the directed graph which has a vertex corresponding both to each variable, and each negation of a variable. Then, for each of the clauses $x \vee y$, we will place an edge going from $\neg x$ to $y$, and an edge from $\neg y$ to $x$. Then, anytime that there is an edge in the directed graph, that means if the vertex the edge is coming from is true, the vertex the edge is going to has to be true. Then, what we would need to see in order to say that the formula is satisfiable is a path from a vertex to the negation of that vertex, or vice versa. The naive way of doing this would be to run all pairs shortest path, and see if there is a path from a vertex to its negation. This however takes time $O(n^2\lg(n))$, and we were charged with making the algorithm as efficient as possible. First, run the procedure for detecting strongly connected components, which takes linear time. For every pair of variable and negation, make sure that they are not in the same strongly connected component.
+Suppose that the original formula was $\wedge_i (x_i \vee y_i)$, and the set of variables were $\{a_i\}$. Then, consider the directed graph which has a vertex corresponding both to each variable, and each negation of a variable. Then, for each of the clauses $x \vee y$, we will place an edge going from $\neg x$ to $y$, and an edge from $\neg y$ to $x$. Then, anytime that there is an edge in the directed graph, that means if the vertex the edge is coming from is true, the vertex the edge is going to has to be true. Then, what we would need to see in order to say that the formula is satisfiable is a path from a vertex to the negation of that vertex, or vice versa. The naive way of doing this would be to run all pairs shortest path, and see if there is a path from a vertex to its negation. This however takes time $O(n^2\lg(n))$, and we were charged with making the algorithm as efficient as possible. First, run the procedure for detecting strongly connected components, which takes linear time. For every pair of variable and negation, make sure that they are not in the same strongly connected component.%notdone
 
 
 
@@ -173,16 +173,24 @@ Now, to see that it is NP complete, we will do a reduction to clique. That is, t
 
 \noindent\textbf{Exercise 34.5-3}\\
 
-
+We will try to show a reduction to the 0-1 integer programming problem. To see this, we will take our $A$ from the 0-1 integer programming problem, and tack on a copy of the $n\times n$ identity matrix to its bottom, and tack on $n$ ones to the end of $b$ from teh 0-1 integer programming problem. This has the effect of adding the restrictions that every entry of $x$ must be at most $1$. However, since, for every $i$, we needed $x_i$ to be an integer anyways, this only leaves the option that $x_i=0$ or $x_i=1$. This means that by adding these restrictions, we have that any solution to this system will be a solution to the 0-1 integer programming problem given by $A$ and $b$.\\
 
 
 
 
 \noindent\textbf{Exercise 34.5-5}\\
 
+We will be performing a reduction from the subset sum problem. Suppose that $S$ and $t$ are our set and target from our subset sum problem. Let $x$ be equal to $ \sum_{s\in S} s$. Then, we will add the elements $x+t, 2x-t$. Once we have added the elements, note that the sum of all of the elements in the new set $S'$ will be $4x$. We also know that we cannot have both of the new elements that we added be on same side of the partition, because they add up to $3x$ which is three times all the other elements combined. Now, this set of elements will be what we pass into our set partition solver. Note that since the total is $4x$, each side will add up to $2x$. This means that if we look at the elements that on the same side as, but not equal to $2x-t$, they must add up to $t$. Since they were also members of the original set $S$, this means that they are a subset with the desired sum, solving the original instance of subset sum. Since it was proved in the section that subset sum is NP-complete, this proves that the set-partition problem is NP hard. 
+
+To see that it is in NP, just let the certificate be the set of elements of $S$ that forms one side of the partition. It is linear time to add them up and make sure that they are exactly half the sum of all the elements in $S$.\\
+
 
 
 \noindent\textbf{Exercise 34.5-7}\\
+
+The related decision problem is to, given a graph $G$ and integer $k$ decide if there is a simple cycle of length at least $k$ in the graph $G$. To see that this problem is in $NP$, just let the certificate be the cycle itself. It is really easy just to walk along this cycle, keeping track of what vertices you've already seen, and making sure they don't get repeated.
+
+To see that it is NP-hard, we will be doing a reduction to Hamilton cycle. Suppose we have a graph $G$ and want to know if it is Hamilton. We then create an instance of the decision problem asking if the graph has a simply cycle of length at least $|V|$ vertices. If it does then there is a hamilton cycle. If there is not, then there cannot be any hamilton cycle.\\
 
 
 
@@ -201,12 +209,46 @@ First we add some edges in the following way
 
 \noindent\textbf{Problem 34-3}\\
 \begin{enumerate}[a)]
+\item To two color a graph, we will do it a connected component at a time, so, suppose that the graph is a single component. Pick a vertex and color arbitrarily, and color that vertex that color. Then, we repeatedly find a vertex that has a colored neighbor and color it the other color. If we are ever in the case that a vertex has neighbors of both colors, then the graph is not 2-colorable. This procedure is able to 2-color if the graph is 2-colorable, since the only point where our hand isn't forced is at the beginning when we pick a vertex and a color, but this choice is only a false one because of the symmetry of the two colors. If it finds it is 2-colorable, it also outputs a valid 2-coloring.
 \item
+The equivalent decision problem is to, given a graph $G$ and an integer $k$ say if there is a coloring that uses at most $k$ colors. The easy direction is showing that if the original problem is solvable in poly thime, then the decision problem is solvable in poly time. To do this, just compute the minimum number of colors needed and output true if this is $\le k$. 
+
+The other direction is a bit harder. Suppose that we can solve the decision problem in polynomial time, then, we will try to show how we can actually compute the minimum number of colors needed. A trivial bound on the number of colors needed is the number of vertices, because if each vertex has it's own color, then the coloring has to be valid. So, we perform a binary search on the number of colors, starting with the range $1.. |V|$, halving it each time until we are down to a single possible number of colors needed in order to color the graph. This will only add a log factor to the runtime of the decision problem, and so will run in polynomial time.
 \item
+For this problem, we need to show that if we can solve the decision problem quickly, then we can decide the language 3-COLOR quickly. This is just a matter of running the decision procedure with the same graph and with $k=3$. This gets us the reduction we need to show that 3-COLOR being NP-complete implies the decision problem is NP-hard. The decision problem is in $NP$ because we can just have the certificate explicitly be the coloring of the vertices of the graph.
 \item
+When we restrict the graph to the vertices $x_i, \neg x_i, RED$, then we will obtain a $K_3$ because of the literal edges. This means that all three colors must show up in it. Since there is already $c(RED)$, then the other two must be $c(TRUE)$ and $c(FALSE)$. No matter whether we choose $x_i$ or $\neg x_i$ to be $c(TRUE)$, we can just select the other one to be $c(FALSE)$, this gets us that, if we only care about the literal edges, we always have a 3 coloring regardless of whether we want each $x_i$ to be true or false.
 \item
+For convenience, we will call the vertices $a,b,c,d,e$ from the figure, where we are reading from top to bottom and left to right for vertices that are horizontal from one another. Since we are trying to check that it is 3 colorable if and only if at least one of $x,y,z$ are $c(TRUE)$, we can negate the only if direction. That is, we suppose they are all colored $c(FALSE)$ and show that the graph is not 3 colorable.
+
+Suppose $c(x) = c(y) = c(z) = c(FALSE)$. Then, we have that the only possibility for vertex $e$ is to be $c(RED)$. This means the only possibility for $c$ is to be $c(FALSE)$. However, this means that $c(a)\neq c(x) = c(FALSE)$, $c(d)\neq c(y) = c(FALSE)$, and $c(b)\neq c(c) = c(FALSE)$. So, we have a contradiction because any $K_3$ must have one of each color, and none of the vertices in this $K_3$ can be $c(FALSE)$. This shows that the graph is not 3-colorable.
+
+For the other direction, we do not negate. So, we assume there is a vertex colored $c(TRUE)$ and we show that the graph is 3-colorable. We will split into the following cases. Note that because $x$ and $y$ play a symmetric role, we can reduce the number of cases from $7$ to $5$
+
+\[
+\begin{array}{|c|c|c|c|c|c|c|c|}
+\hline
+x&y&z&a&b&c&d&e\\
+\hline
+\hline
+c(TRUE)&c(TRUE)&c(TRUE)&c(FALSE)&c(TRUE)&c(FALSE)&c(RED)&c(RED)\\
+\hline
+c(FALSE)&c(TRUE)&c(TRUE)&c(RED)&c(TRUE)&c(FALSE)&c(FALSE)&c(RED)\\
+\hline
+c(FALSE)&c(FALSE)&c(TRUE)&c(RED)&c(FALSE)&c(RED)&c(TRUE)&c(FALSE)\\
+\hline
+c(TRUE)&c(TRUE)&c(FALSE)&c(FALSE)&c(TRUE)&c(FALSE)&c(RED)&c(RED)\\
+\hline
+c(FALSE)&c(TRUE)&c(FALSE)&c(TRUE)&c(RED)&c(FALSE)&c(FALSE)&c(RED)\\
+\hline
+\end{array}
+\]
+
+Then, in every case where at least one of the inputs is true, there is an assignment of colors to the other vertices that produces a valid 3-coloring.
 \item
-\item
+Suppose we are given any instance of 3-CNF-SAT, we will be using exactly the same construction as described in the problem for the reduction. First, we note that each of the vertices corresponding to a variable and its negation must only have the colors $c(TRUE)$ and $c(FALSE)$, and exactly one can be $c(TRUE)$ because of the literal edges. This means that each of the clause vertices will only be colorable if we assign a color of true to one of the variable vertices that are in the clause. This means that if we set each variable that has $c(x_i)=c(TRUE)$ true and each variable that has $c(\neg x_i) = c(TRUE)$ to be false, we will of obtained an assignment that makes at least one of the entries in each clause true, and so, is a satisfying assignment of the formula. Since 3-CNF-SAT is NP-complete, this means that 3-COLOR is NP-hard.
+
+To see that it is in NP, just let the certificate be the coloring. Checking the coloring can be done in linear time.
 \end{enumerate}
 
 
