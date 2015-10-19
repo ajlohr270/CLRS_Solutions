@@ -1,0 +1,217 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{tikz}
+	
+\pagestyle{fancy}
+\title{Chapter 35}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+\newcommand{\Z}{\mathbb{Z}}
+
+
+
+\algblock{ParFor}{EndParFor}
+% customising the new block
+\algnewcommand\algorithmicparfor{\textbf{parallel for}}
+\algnewcommand\algorithmicpardo{\textbf{do}}
+\algnewcommand\algorithmicendparfor{\textbf{end}}
+\algrenewtext{ParFor}[1]{\algorithmicparfor\ #1\ \algorithmicpardo}
+\algrenewtext{EndParFor}{\algorithmicendparfor}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Exercise 35.1-1}\\
+
+We could select the graph that consists of only two vertices and a single edge between them. Then, the approximation algorithm will always select both of the vertices, whereas the minimum vertex cover is only one vertex. more generally, we could pick our graph to be k edges on a graph with $2k$ vertices so that each connected component only has a single edge. In these examples, we will have that the approximate solution is off by a factor of two from the exact one.\\
+
+
+
+\noindent\textbf{Exercise 35.1-3}\\
+
+We will construct a bipartite graph with $V = R \cup L$. We will try to construct it so that $R$ is uniform, not that $R$ is a vertex cover. However, we will make it so that the heuristic that the professor (professor who?) suggests will cause us to select all the vertices in $L$, and show that $|L| > 2|R|$.
+
+Initially start off with $|R|=n$ fixed, and $L$ empty. Then, for each $i$ from 2 up to $n$, we do the following. Let $k = \lfloor \frac{n}{i}\rfloor$. Select $S$ a subset of the vertices of $R$ of size $ki$, and so that all the vertices in $R-S$ have a greater or equal degree. Then, we will add $k$ vertices to $L$, each of degree $i$, so that the union of their neighborhoods is $S$. Note that throughout this process, the furthest apart the degrees of the vertices in $R$ can be is $1$, because each time we are picking the smallest degree vertices and increasing their degrees by 1. So, once this has been done for $i=n$, we can pick a subset of $R$ whose degree is one less than the rest of $R$ (or all of $R$ if the degrees are all equal), and for each vertex in that set we picked, add a single vertex to $L$ whose only neighbor is the one in $R$ that we picked. This clearly makes $R$ uniform.
+
+Also, lets see what happens as we apply the heuristic. Note that each vertex in $R$ only has at most a single vertex of each degree in $L$. This means that as we remove vertices from $L$ along with their incident edges, we will always have that the highest degree vertex remaining in $L$ is greater or equal to the highest degree vertex in $R$. This means that we can always, by this heuristic, continue to select vertices from $L$ instead of $R$. So, when we are done, we have selected, by this heuristic, that our vertex cover is all of $L$. 
+
+Lastly, we need to show that $L$ is big enough relative to $R$. The size of $L$ is greater or equal to $\sum_{i=2}^n \lfloor\frac{n}{i}\rfloor $ where we ignore any of the degree 1 vertices we may of added to $L$ in our last step. This sum can be bounded below by the integral $\int_{i=2}^{n+1} \frac{n}{x}dx$ by formula (A.12). Elementary calculus tells us that this integral evaluates to $n(\lg(n+1) - 1)$, so, we can clearly select $n>8$ to make it so that 
+\begin{align*}
+2|R| &= 2n\\
+ &< n(\lg(8+1) -1)\\
+  &\le n(\lg(n+1) - 1)\\
+  &=\int_{i=2}^{n+1} \frac{n}{x}dx\\
+  &\le \sum_{i=2}^n \lfloor\frac{n}{i}\rfloor\\
+  &\le |L|
+  \end{align*}
+  Since we selected $L$ as our vertex cover, and $L$ is more than twice the size of the vertex cover $R$, we do not have a 2- approximation using this heuristic. In fact, we have just shown that this heuristic is not a $\rho$ approximation for any constant $\rho$.\\
+  
+  
+
+
+\noindent\textbf{Exercise 35.1-5}\\
+
+It does not imply the existence of an approximation algorithm for the maximum size clique. Suppose that we had in a graph of size $n$, the size of the smallest vertex cover was $k$, and we found one that was size $2k$. This means that in the compliment, we found a clique of size $n-2k$, when the true size of the largest clique was $n-k$. So, to have it be a constant factor approximation, we need that there is some $\lambda$ so that we always have $n-2k \ge \lambda (n-k)$. This can be rewritten as $ n \le \frac{-k}{\lambda -1}$
+
+
+
+\noindent\textbf{Exercise 35.2-1}\\
+
+Suppose that $c(u,v) < 0$ and $w$ is any other vertex in the graph. Then, to have the trianle inequality satisfied, we need $c(w,u) \le c(w,v) + c(u,v)$. Now though, subtract $c(u,v)$ from both sides, we get $c(w,v) \ge c(w,u) - c(u,v) > c(w,u) +c(u,v)$ so, it is impossible to have $c(w,v) \le c(w,u)+c(u,v)$ as the triangle inequality would require.\\
+
+
+
+\noindent\textbf{Exercise 35.2-3}\\
+
+\noindent\textbf{Exercise 35.2-5}\\
+
+To show that the optimal tour never crosses itself, we will suppose that it did cross itself, and then show that we could produce a new tour that had lower cost, obtaining our contradiction because we had said that the tour we had started with was optimal, and so, was of minimal cost. If the tour crosses itself, there must be two pairs of vertices that are both adjacent in the tour, so that the edge between the two pairs are crossing each other. Suppose that our tour is $S_1x_1 x_2 S_2 y_1 y_2 S_3$ where $S_1,S_2,S_3$ are arbitrary sequences of vertices, and $\{x_1,x_2\}$ and $\{y_1,y_2\}$ are the two crossing pairs. Then, We claim that the tour given by $S_1 x_1 y_2 \hbox{Reverse}(S_2) y_1 x_2 S_3$ has lower cost. Since $\{x_1,x_2,y_1,y_2\}$ form a quadrilateral, and the original cost was the sum of the two diagonal lengths, and the new cost is the sums of the lengths of two opposite sides, this problem comes down to a simple geometry problem.
+
+Now that we have it down to a geometry problem, we just exercise our grade school geometry muscles. Let $P$ be the point that diagonals of the quadrilateral intersect. Then, we have that the vertices $\{x_1,P,y_2\}$ and $\{x_2,P,y_1\}$ form triangles. Then, we recall that the longest that one side of a triangle can be is the sum of the other two sides, and the inequality is strict if the triangles are non-degenerate, as  they are in our case. This means that $||x_1y_2|| + ||x_2y_1|| < ||x_1P|| +||Py_2|| + ||x_2P|| + ||Py_1|| = ||x_1x_2|| + ||y_1y_2||$. The right hand side was the original contribution to the cost from the old two edges, while the left is the new contribution. This means that this part of the cost has decreased, while the rest of the costs in the path have remained the same. This gets us that the new path that we constructed has strictly better cross, so we must not of had an optimal tour that had a crossing in it.\\
+
+
+
+\noindent\textbf{Exercise 35.3-1}\\
+
+Since all of the words have no repeated letters, the first word selected will be the one that appears earliest on among those with the most letters, this is ``thread''. Now, we look among the words that are left, seeing how many letters that aren't already covered that they contain. Since ``lost'' has four letters that have not been mentioned yet,and it is first among those that do, that is the next one we select. The next one we pick is ``drain'' because it is has two unmentioned letters. This only leave ``shun'' having any unmentioned letters, so we pick that, completing our set. So, the final set of words in our cover is $\{thread,lost,drain,shun\}$.\\
+
+
+
+\noindent\textbf{Exercise 35.3-3}\\
+
+See the algorithm LINEAR-GREEDY-SET-COVER. Note that everything in the inner most for loop takes constant time and will only run once for each pair of letter and a set containing that letter. However, if we sum up the number of such pairs, we get $\sum_{S\in\mathcal{F}} |S|$ which is what we wanted to be linear in.
+
+\begin{algorithm}
+\caption{LINEAR-GREEDY-SET-COVER($\mathcal{F}$)}
+\begin{algorithmic}
+\State compute the sizes of every $S\in \mathcal{F}$, storing them in $S.size$.
+\State let $A$ be an array of length $\max_S |S|$, consisting of empty lists
+\For{$S\in \mathcal{F}$}
+\State add $S$ to $A[S.size]$.
+\EndFor
+\State let $A.max$ be the index of the largest nonempty list in $A$.
+\State let $L$ be an array of length $|\cup_{S\in\mathcal{F}} S|$ consisting of empty lists
+\For{$S\in \mathcal{F}$}
+\For{$\ell \in S$}
+\State add $S$ to $L[\ell]$
+\EndFor
+\EndFor
+\State let $C$ be the set cover that we will be selecting, initially empty.
+\State let $T$ be the set of letters that have been covered, initially empty.
+\While{$A.max >0$}
+\State Let $S_0$ be any element of $A[A.max]$.
+\State add $S_0$ to $C$
+\State remove $S_0$ from $A[A.max]$
+\For{$\ell\in S_0\setminus T$}
+\For{$S \in L[\ell]$}
+\State Remove $S$ from $A[A.size]$
+\State S.size = S.size -1
+\State Add $S$ to $A[S.size]$
+\If{A[A.max] is empty}
+\State A.max = A.max-1
+\EndIf
+\EndFor
+\State add $\ell$ to $T$
+\EndFor
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\noindent\textbf{Exercise 35.3-5}\\
+
+Suppose we pick the number of elements in our base set to be a multiple of four. We will describe a set of sets on a base set of size $4$, and then take $n$ disjoint copies of it. For each of the four element base sets, we will have two choices for how to select the set cover of those 4 elements. For a base set consisting of $\{1,2,3,4\}$, we pick our set of sets to be $\{ \{1,2\},\{1,3\},\{3,4\},\{2,4\}\}$, then we could select either $\{\{1,2\},\{3,4\}\}$ or $\{\{1,3\},\{2,4\}\}$. This means that we then have a set cover problem with $4n$ sets, each of size two where the set cover we select is done by $n$ independent choices, and so there are $2^n$ possible final set covers based on how ties are resolved.\\
+
+
+
+\noindent\textbf{Exercise 35.4-1}\\
+
+Any clause that contains both a variable and its negation is automatically satisfied, since we always have $x \vee \neg x$ is true regardless of the truth value of $x$. This means that if we separate out the clauses that contain no variable and its negation, we have an 8/7ths approximation on those, and we have all of the other clauses satisfied regardless of the truth assignments to variables. So, the quality of the approximation just improves when we include the clauses containing variables and their negation.\\
+
+
+
+\noindent\textbf{Exercise 35.4-3}\\
+
+Lets consider the expected value of the weight of the cut. For each edge, the probability that that edge crosses the cut is the probability that our coin flips came up differently for the two vertices that are in the edge. This happens with probability $\frac{1}{2}$. Therefore, by linearity of expectation, we know that the expected weight of this cut is $\frac{|E|}{2}$. We know that for the best cut we can make, the weight will be bounded by the total number of edges in the graph, so we have that the weight of the best cut is at most twice the expected weight of this random cut.\\
+
+
+
+\noindent\textbf{Exercise 35.5-1}\\
+
+Every subset of $\{1,2,\ldots, i\}$ can either contain $i$ or not contain $i$. If it does contain $i$, the sum corresponding to that subset will be in $P_{i-1} +x_i$, since the sum corresponding to the restriction of the subset to $\{1,2,3,\ldots\}$ will be in $P_{i-1}$. If we are in the other case, then when we restrict to $\{1,2,\ldots, i-1\}$ we aren't changing the subset at all. Similarly, if an element is in $\P_{i-1}$, that same subset is in $P_i$. If an element is in $P_{i-1}+x_i$, then it is in $P_i$ where we just make sure our subset contains $i$. This proves (35.23).
+
+It is clear that $L$ is a sorted list of elements less than $T$ that corresponds to subsets of the empty set before executing the for loop, because it is empty. Then, since we made $L_i$ from elements in $L_{i-1}$ and $x_i + L{i-1}$, we know that it will be a subset of those sums obtained from the first $i$ elements. Also, since both $L_{i-1}$ and $x_i + L_{i-1}$ were sorted, when we merged them, we get a sorted list. Lastly, we know that it all sums except those that are more than $t$ since we have all the subset sums that are not more than $t$ in $L_{i-1}$, and we cut out anything that gets to be more than $t$.\\
+
+
+
+\noindent\textbf{Exercise 35.5-3}\\
+
+As we have many times in the past, we'll but on our freshman calculus hats. 
+\begin{align*}
+\frac{d}{dn} \left( 1+ \frac{\epsilon}{2n}\right)^n&=\\
+\frac{d}{dn} e^{n\lg\left( 1+ \frac{\epsilon}{2n}\right)}&=\\
+e^{n\lg\left( 1+ \frac{\epsilon}{2n}\right)}\left(\left( 1+ \frac{\epsilon}{2n}\right) + \frac{n\frac{-\epsilon}{2n^2}}{1 + \frac{\epsilon}{2n}}\right)&=\\
+e^{n\lg\left( 1+ \frac{\epsilon}{2n}\right)}\left(\frac{\left( 1+ \frac{\epsilon}{2n}\right)^2  - \frac{\epsilon}{2n}}{1 + \frac{\epsilon}{2n}}\right)&=\\
+e^{n\lg\left( 1+ \frac{\epsilon}{2n}\right)}\left(\frac{ 1+ \frac{\epsilon}{2n}+ \left(\frac{\epsilon}{2n}\right)^2  }{1 + \frac{\epsilon}{2n}}\right)&=\end{align*}
+
+Since all three factors are always positive, the original expression is always positive.\\
+
+
+
+\noindent\textbf{Exercise 35.5-5}\\
+
+We can modify the procedure APPROX-SUBSET-SUM to actually report the subset corresponding to each sum by giving each entry in our $L_i$ lists a piece of satellite data which is a list the elements that add up to the given number sitting in $L_i$. Even if we do a stupid representation of the sets of elements, we will still have that the runtime of this modified procedure only takes additional time by a factor of the size of the original set, and so will still be polynomial. Since the actual selection of the sum that is our approximate best is unchanged by doing this, all of the work spent in the chapter to prove correctness of the approximation scheme still holds. Each time that we put an element into $L_i$, it could of been copied directly from $L_{i-1}$, in which case we copy the satellite data as well. The only other possibility is that it is $x_i$ plus an entry in $L_{i-1}$, in which case, we add $x_i$ to a copy of the satellite data from $L_{i-1}$ to make our new set of elements to associate with the element in $L_i$.\\
+
+
+
+\noindent\textbf{Problem 35-1}\\
+\begin{enumerate}[a.]
+\item Suppose that our instance of the subset sum problem consists of the numbers $\{x_1,x_2,\ldots, x_n\}$ and the exact value that we want to add up to $t$. Then, we will let $x_i' = x_i /t$ be the numbers going into our bin backing problem. If we can pack the elements into 
+\item
+If we could pack the elements in to fewer than $\lceil S \rceil$ bins, that means that the total capacity from our bins is $< \lfloor S \rfloor \le S$, however, we know that to total space needed to store the elements is $S$, so there is no way we could fit them in less than that amount of space. 
+\item
+Suppose that there was already one bin that is at most half full, then when we go to insert an element that has size at most half, it will not go into an unused bin because it would be placed in this bin that is at most half full. This means that we will never create a second bin that is at most half full, and so, since we start off with fewer that two bins that are at most half full, there will never be two bins that are at most half full (and so never two that are less than half full).
+\item
+Since there is at most one bin that is less than half full, we know that the total amount of size that we have packed into our $P$ bins is $> \frac{1}{2}(P-1)$. That is, we know that $S > \frac{1}{2} (P-1)$, which tells us that $2S+1 > P$. So, if we were to have $P>\lceil 2S \rceil$, then, we have that $P \ge \lceil 2S\rceil +1 = \lceil 2S +1 \rceil \ge 2S+1 > P$, which is a contradiction.
+\item
+We know from part $b$ that there is a minimum of $\lceil S\rceil$ bins required. Also, by part $d$, we know that the first fit heuristic causes us to sue at most $\lceil 2S\rceil$ bins. This means that the number of bins we report is at most off by a factor of $\frac{\lceil 2S\rceil}{\lceil S \rceil} \le 2$.
+\item
+We can implement the first fit heuristic by just keeping an array of bins, and each time just doing a linear scan to find the first bin that can accept it. So, if we let P$ be the number of bins, this procedure will have a runtime of $O(P^2) = O(n^2)$. However, since all we needed was that there was at most one bin that was less than half full, we could do a faster procedure. We keep the array of bins as before, but we will keep track of the first empty bin and a pointer to a bin that is less than half full. Upon insertion, if the thing we inserted is more than half, put it in the first empty bin and increment it. If it is less than half, it will fit in the bin that is less than half full, if that bin then becomes more than half full, get rid of the less than half full bin pointer. If there wasn't a nonempty bin that was less than half full, we just put the element in the first empty bin. This will run in time $O(n)$ and still satisfy everything we needed to assure we had a 2-approximation.
+\end{enumerate}
+
+
+
+\noindent\textbf{Problem 35-3}\\
+
+An obvious way to generalize the greedy set cover heuristic is to not just pick the set that covers the most uncovered elements, but instead to repeatedly select the set that maximizes the value of the number of uncovered points it covers divided by its weight. This agrees with the original algorithm in the case that the weights are all 1.
+
+\noindent\textbf{Problem 35-5}\\
+\begin{enumerate}[a.]
+\item
+\end{enumerate}
+
+
+\noindent\textbf{Problem 35-7}\\
+\begin{enumerate}[a.]
+\item
+\end{enumerate}
+
+\end{document}
