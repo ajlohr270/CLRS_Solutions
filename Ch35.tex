@@ -69,7 +69,7 @@ Lastly, we need to show that $L$ is big enough relative to $R$. The size of $L$ 
 \noindent\textbf{Exercise 35.1-5}\\
 
 It does not imply the existence of an approximation algorithm for the maximum size clique. Suppose that we had in a graph of size $n$, the size of the smallest vertex cover was $k$, and we found one that was size $2k$. This means that in the compliment, we found a clique of size $n-2k$, when the true size of the largest clique was $n-k$. So, to have it be a constant factor approximation, we need that there is some $\lambda$ so that we always have $n-2k \ge \lambda (n-k)$. This can be rewritten as $ n \le \frac{-k}{\lambda -1}$
-
+%notdone
 
 
 \noindent\textbf{Exercise 35.2-1}\\
@@ -79,6 +79,8 @@ Suppose that $c(u,v) < 0$ and $w$ is any other vertex in the graph. Then, to hav
 
 
 \noindent\textbf{Exercise 35.2-3}\\
+%notdone
+
 
 \noindent\textbf{Exercise 35.2-5}\\
 
@@ -185,6 +187,7 @@ We can modify the procedure APPROX-SUBSET-SUM to actually report the subset corr
 \noindent\textbf{Problem 35-1}\\
 \begin{enumerate}[a.]
 \item Suppose that our instance of the subset sum problem consists of the numbers $\{x_1,x_2,\ldots, x_n\}$ and the exact value that we want to add up to $t$. Then, we will let $x_i' = x_i /t$ be the numbers going into our bin backing problem. If we can pack the elements into 
+%notdone
 \item
 If we could pack the elements in to fewer than $\lceil S \rceil$ bins, that means that the total capacity from our bins is $< \lfloor S \rfloor \le S$, however, we know that to total space needed to store the elements is $S$, so there is no way we could fit them in less than that amount of space. 
 \item
@@ -194,24 +197,61 @@ Since there is at most one bin that is less than half full, we know that the tot
 \item
 We know from part $b$ that there is a minimum of $\lceil S\rceil$ bins required. Also, by part $d$, we know that the first fit heuristic causes us to sue at most $\lceil 2S\rceil$ bins. This means that the number of bins we report is at most off by a factor of $\frac{\lceil 2S\rceil}{\lceil S \rceil} \le 2$.
 \item
-We can implement the first fit heuristic by just keeping an array of bins, and each time just doing a linear scan to find the first bin that can accept it. So, if we let P$ be the number of bins, this procedure will have a runtime of $O(P^2) = O(n^2)$. However, since all we needed was that there was at most one bin that was less than half full, we could do a faster procedure. We keep the array of bins as before, but we will keep track of the first empty bin and a pointer to a bin that is less than half full. Upon insertion, if the thing we inserted is more than half, put it in the first empty bin and increment it. If it is less than half, it will fit in the bin that is less than half full, if that bin then becomes more than half full, get rid of the less than half full bin pointer. If there wasn't a nonempty bin that was less than half full, we just put the element in the first empty bin. This will run in time $O(n)$ and still satisfy everything we needed to assure we had a 2-approximation.
+We can implement the first fit heuristic by just keeping an array of bins, and each time just doing a linear scan to find the first bin that can accept it. So, if we let $P$ be the number of bins, this procedure will have a runtime of $O(P^2) = O(n^2)$. However, since all we needed was that there was at most one bin that was less than half full, we could do a faster procedure. We keep the array of bins as before, but we will keep track of the first empty bin and a pointer to a bin that is less than half full. Upon insertion, if the thing we inserted is more than half, put it in the first empty bin and increment it. If it is less than half, it will fit in the bin that is less than half full, if that bin then becomes more than half full, get rid of the less than half full bin pointer. If there wasn't a nonempty bin that was less than half full, we just put the element in the first empty bin. This will run in time $O(n)$ and still satisfy everything we needed to assure we had a 2-approximation.
 \end{enumerate}
 
 
 
 \noindent\textbf{Problem 35-3}\\
 
-An obvious way to generalize the greedy set cover heuristic is to not just pick the set that covers the most uncovered elements, but instead to repeatedly select the set that maximizes the value of the number of uncovered points it covers divided by its weight. This agrees with the original algorithm in the case that the weights are all 1.
+An obvious way to generalize the greedy set cover heuristic is to not just pick the set that covers the most uncovered elements, but instead to repeatedly select the set that maximizes the value of the number of uncovered points it covers divided by its weight. This agrees with the original algorithm in the case that the weights are all 1. The main difference is that instead of each step of the algorithm assigning one unit of cost, it will be assigning $w_i$ units of cost to add the set $S_i$. So, suppose that $\mathcal{C}$ is the cover we selected by this heuristic, and $\mathcal{C}^*$ is an optimal cover. So, we will have $|\sum_{S_i\in \mathcal{C}} w_i| = \sum_{x\in X} w_ic_x \le \sum_{S_i \in \mathcal{C}^*} \sum_{x\in S_i} w_i c_x$. Then, $\sum_{x\in S_i} w_ic_x = w_i \sum_{x\in S_i} c_x \le w_i H(|S|) $. So, $|\mathcal{C}| \le \sum_{S_i\in \mathcal{C}^*}  w_i H(|S_i|) \le |\sum_{S_i\in \mathcal{C}^*} w_i| H(\max(|S_i|) $. This means that the weight of the selected cover is a $H(d)$ approximation for the weight of the optimal cover.
+
+
 
 \noindent\textbf{Problem 35-5}\\
 \begin{enumerate}[a.]
 \item
+Suppose that the greatest processing time is $p_i$. Then, any schedule must assign the job $J_i$ to some processor. If it assigns $J_i$ to start as soon as possible, it still won't finish until $p_i$ units have passed. This means that since the makespan is the time that all jobs have finished, it will at or after $p_i$ because it needs job $J_i$ to of finished. This problem can be viewed as a restatement of (27.3), where we have an infinite number of processors and assign each job to its own processor.
+\item
+The total amount of processing per step of time is one per processor. Since we need to accomplish $\sum_{i} p_i$ much work, we have to of spent at lest $\frac{1}{m}$ times that amount of time. This problem is a restatement of equation (27.2).
+\item
+See the algorithm GREEDY-SCHEDULE
+
+\begin{algorithm}
+\caption{GREEDY-SCHEDULE}
+\begin{algorithmic}
+\State for every $i=1,\ldots,m$, let $f_i =0$. We will be updating this to be the latest time that we have any task running on processor $i$.
+\State put all of the $f_i$ into a min heap, H
+\While{There is an unassigned job $J_i$}
+\State extract the min element of $H$, let it be $f_j$
+\State assign job $J_i$ to processor $M_j$, to run from $f_j$ to $f_j + p_i$.
+\State $f_j = f_j +p_i$
+\State add $f_j$ to $H$
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+Since we can perform all of the heap operations in time $O(\lg(m))$, and we need to perform one for each of our jobs, the runtime is in $O(n\lg(m))$.
+
+\item
+This is Theorem 27.1 and Corollary 27.2.
 \end{enumerate}
 
 
 \noindent\textbf{Problem 35-7}\\
 \begin{enumerate}[a.]
+\item Though not stated, this conclusion requires the assumption that at least one of the values is non-negative. Since any individual item will fit, selecting that one item would be a solution that is better then the solution of taking no items. We know then that the optimal solution contains at least one item. Suppose the item of largest index that it contains is item $i$, then, that solution would be in $P_i$, since the only restriction we placed when we changed the instance to $I_i$ was that it contained item $i$.
 \item
+We clearly need to include all of item $j$, as that is a condition of instance $I_j$. Then, since we know that we will be using up all of the remaining space somehow, we want to use it up in such a way that the average value of that space is maximized. This is clearly achieved by maximizing the value density of all the items going in, since the final value density will be an average of the value densities that went into it weighted by the amount of space that was used up by items with that value density. 
+\item
+Since we are greedily selecting items based off of the amount of value per space, we only stop once we can no longer fit any more, and each time before putting some faction of the item with the next least value per space, we complete putting in the item we currently are. This means that there is at most one item fractionally.
+\item
+First, it is trivial that $v(Q_j)/2 \ge v(P_j)/2$ since we are trying to maximize a quantity, and there are strictly fewer restrictions on what we can do in the case of the fractional packing than in the 1-0 packing. To see that $v(R_j) \ge v(Q_j)/2$, note that among the items $\{1,2,\ldots, j\}$, we have the highest value item is $v_j$ because of our ordering of the items. We know that the fractional solution must have all of item $j$, and there is some item that it may not have all of that is indexed by less than $j$. This part of an item is all that is thrown out when going from $Q_j$ to $R_j$. Even if we threw all of that item out, it still wouldn't be as valuable as item $j$ which we are keeping, so, we have retained more than half of the value. So, we have proved the slightly stronger statement that $v(R_j) > v(Q_j)/2 \ge v(P_j)/2$.
+\item
+Since we knew that the optimal solution was the max of all the $P_j$ (part a), and we know that each $P_j$ is at most $2R_j$(part d), by selecting the max of all the the $R_j$, we are obtaining a solution that is at most a factor of two less than the optimal solution.
+\[
+\max_j R_j \le \max_j P_j \le \max_j 2R_j
+\]
 \end{enumerate}
 
 \end{document}

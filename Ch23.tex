@@ -196,19 +196,21 @@ Write down all of the edge weights of vertices. Use the algorithm from section 9
 
 First, we could have that there is a bottleneck spanning tree with weight at most this median. Then just throw the edges with weight more than the median, and repeat the procedure on this new graph with half the edges.
 
-Second, we could have that there is no bottleneck spanning tree with at most that weight. Then, we should run the procedure from problem 23-2 to contract all of the edges that have weight at most this median weight. This takes time $O(E\lg(\lg(V)))$ and then we are left solving the problem on a graph that now has half the vertices.\\
+Second, we could have that there is no bottleneck spanning tree with at most that weight. Then, we should run the procedure from problem 23-2 to contract all of the edges that have weight at most this median weight. This takes time $O(E\lg(\lg(V)))$ and then we are left solving the problem on a graph that now has half the vertices.
+\end{enumerate}
+
 
 \noindent\textbf{Problem 23-4}\\
-
-a. This does return an MST.  To see this, we'll show that we never remove an edge which must be part of a minimum spanning tree.  If we remove $e$, then $e$ cannot be a bridge, which means that $e$ lies on a simple cycle of the graph.  Since we remove edges in nonincreasing order, the weight of every edge on the cycle must be less than or equal to that of $e$. By exercise 23.1-5, there is a minimum spanning tree on $G$ with edge $e$ removed.  \\
+\begin{enumerate}[a.]
+\item This does return an MST.  To see this, we'll show that we never remove an edge which must be part of a minimum spanning tree.  If we remove $e$, then $e$ cannot be a bridge, which means that $e$ lies on a simple cycle of the graph.  Since we remove edges in nonincreasing order, the weight of every edge on the cycle must be less than or equal to that of $e$. By exercise 23.1-5, there is a minimum spanning tree on $G$ with edge $e$ removed.  \\
 
 To implement this, we begin by sorting the edges in $O(E\lg E)$ time.  For each edge we need to check whether or not $T-\{e\}$ is connected, so we'll need to run a DFS.  Each one takes $O(V+E)$, so doing this for all edges takes $O(E(V+E)$.  This dominates the running time, so the total time is $O(E^2)$.\\
 
-b. This doesn't return an MST.  To see this, let $G$ be the graph on 3 vertices $a$, $b$, and $c$.  Let the eges be $(a,b)$, $(b,c)$, and $(c,a)$ with weights 3, 2, and 1 respectively.  If the algorithm examines the edges in their order listed, it will take the two heaviest edges instead of the two lightest. \\
+\item This doesn't return an MST.  To see this, let $G$ be the graph on 3 vertices $a$, $b$, and $c$.  Let the eges be $(a,b)$, $(b,c)$, and $(c,a)$ with weights 3, 2, and 1 respectively.  If the algorithm examines the edges in their order listed, it will take the two heaviest edges instead of the two lightest. \\
 
 An efficient implementation will use disjoint sets to keep track of connected components, as in MST-REDUCE in problem 23-2.  Trying to union within the same component will create a cycle.  Since we make $|V|$ calls to MAKE-SET and at most $3|E|$ calls to FIND-SET and UNION, the runtime is $O(E\alpha(V))$.\\
 
-c. This does return an MST.  To see this, we simply quote the result from exercise 23.1-5.  The only edges we remove are the edges of maximum weight on some cycle, and there always exists a minimum spanning tree which doesn't include these edges.  Moreover, if we remove an edge from every cycle then the resulting graph cannot have any cycles, so it must be a tree.\\
+\item This does return an MST.  To see this, we simply quote the result from exercise 23.1-5.  The only edges we remove are the edges of maximum weight on some cycle, and there always exists a minimum spanning tree which doesn't include these edges.  Moreover, if we remove an edge from every cycle then the resulting graph cannot have any cycles, so it must be a tree.\\
 
 To implement this, we use the approach taken in part (b), except now we also need to find the maximum weight edge on a cycle. For each edge which introduces a cycle we can perform a DFS to find the cycle and max weight edge.  Since the tree at that time has at most one cycle, it has at most $|V|$ edges, so we can run DFS in $O(V)$.  The runtime is thus $O(EV)$.\\
 

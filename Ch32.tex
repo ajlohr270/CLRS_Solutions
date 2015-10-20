@@ -315,7 +315,7 @@ Then, applying the union bound over all values of $i$, we have the probability t
 
 This shrinks quickly enough in $r$, that the expected value is finite, and since there is no $m$ in the expression, we have the expected value is bounded by a constant.
 \item
-This algorithm correctly finds the occurrences of the pattern $P$ for reasons similar to the Knuth Morris Pratt algorithm.
+This algorithm correctly finds the occurrences of the pattern $P$ for reasons similar to the Knuth Morris Pratt algorithm. That is, we know that we will only increase $q$ $\rho^*(P)$ many times before we have to bite the bullet and increase $s$, and $s$ can only be increased at most $n-m$ many times. It will definitely find every possible occurrence of the pattern because it searches for every time that the primitive root of $P$ occurs, and it must occur for $P$ to occur.
 \end{enumerate}
 
 \end{document}
