@@ -68,8 +68,9 @@ Lastly, we need to show that $L$ is big enough relative to $R$. The size of $L$ 
 
 \noindent\textbf{Exercise 35.1-5}\\
 
-It does not imply the existence of an approximation algorithm for the maximum size clique. Suppose that we had in a graph of size $n$, the size of the smallest vertex cover was $k$, and we found one that was size $2k$. This means that in the compliment, we found a clique of size $n-2k$, when the true size of the largest clique was $n-k$. So, to have it be a constant factor approximation, we need that there is some $\lambda$ so that we always have $n-2k \ge \lambda (n-k)$. This can be rewritten as $ n \le \frac{-k}{\lambda -1}$
-%notdone
+It does not imply the existence of an approximation algorithm for the maximum size clique. Suppose that we had in a graph of size $n$, the size of the smallest vertex cover was $k$, and we found one that was size $2k$. This means that in the compliment, we found a clique of size $n-2k$, when the true size of the largest clique was $n-k$. So, to have it be a constant factor approximation, we need that there is some $\lambda$ so that we always have $n-2k \ge \lambda (n-k)$. However, if we had that $k$ was close to $\frac{n}{2}$ for our graphs, say $\frac{n}{2}-\epsilon$, then we would have to require $2\epsilon \ge \lambda \frac{n}{2} + \epsilon$. Since we can make $\epsilon$ stay tiny, even as $n$ grows large, this inequality cannot possibly hold.\\
+
+
 
 
 \noindent\textbf{Exercise 35.2-1}\\
@@ -79,7 +80,10 @@ Suppose that $c(u,v) < 0$ and $w$ is any other vertex in the graph. Then, to hav
 
 
 \noindent\textbf{Exercise 35.2-3}\\
+
 %notdone
+
+
 
 
 \noindent\textbf{Exercise 35.2-5}\\
@@ -186,8 +190,9 @@ We can modify the procedure APPROX-SUBSET-SUM to actually report the subset corr
 
 \noindent\textbf{Problem 35-1}\\
 \begin{enumerate}[a.]
-\item Suppose that our instance of the subset sum problem consists of the numbers $\{x_1,x_2,\ldots, x_n\}$ and the exact value that we want to add up to $t$. Then, we will let $x_i' = x_i /t$ be the numbers going into our bin backing problem. If we can pack the elements into 
-%notdone
+\item Let $\{x_1,x_2,\ldots,x_n\}$ and $t$ be an instance of the exact subset sum problem. First, sort the items from largest to smallest. We will use a polynomial time solution to the bin packing problem to, in polynomial time, decide whether or not the largest item is in a solution to the subset sum problem. Then, based on that we get an instance of the subset sum problem which has one fewer items. Continuing in this, way, we either construct a subset that sums to the given value, or show that none of the items can be in a solution, meaning that no solution can exist.
+
+Let $\epsilon$ be a number less than $\frac{1}{tn}$. Let $x_i' = x_i /t$ and $x_1'' = x_1' + \epsilon$. Then, we consider the instances of the bin packing problem in which we have $1/x_1'$ instances of the elements $x_i'$. We also consider the instance of the bin packing problem in which we have $1/x_1'$ instances of $\{x_1'', x_2',\ldots,x_n'\}$. If these two values for the bin packing differ, then we must have that $x_1'$ was in a bin that added up to exactly $1$ in the first instance, which means that there was a solution to the original subset sum problem containing the first element. If they are the same then that means that whatever bin that $x_1'$ ended up in the first instance, it was summing up to some value less than one, so was not part of a solution to the subset sum problem.
 \item
 If we could pack the elements in to fewer than $\lceil S \rceil$ bins, that means that the total capacity from our bins is $< \lfloor S \rfloor \le S$, however, we know that to total space needed to store the elements is $S$, so there is no way we could fit them in less than that amount of space. 
 \item

@@ -259,9 +259,7 @@ Note that we need to modify the DISCHARGE algorithm to push vertices $v$ onto th
 \item
 This problem is identical to exercise 26.1-7.
 \item
-Given an instance of the escape problem, we can convert it to a flow network with vertex capacities. That is, we will place an edge from $s$ to each of the distinguished vertices. Then, we place an infinite capacity edge from each of border vertices to $t$. We give each vertex a capacity of 1 in the grid. Then, we have that there is an escape if the maximum value of the flow is equal to $m$.
-%needs proof
-
+Construct a vertex constrained flow network from the instance of the escape problem by letting our flow network have a vertex (each with unit capacity) for each intersection of grid lines, and have a bidirectional edge with unit capacity for each pair of vertices that are adjacent in the grid. Then, we will put a unit capacity edge going from $s$ to each of the distinguished vertices, and a unit capacity edge going from each vertex on the sides of the grid to $t$. Then, we know that a solution to this problem will correspond to a solution to the escape problem because all of the augmenting paths will be a unit flow, because every edge has unit capacity. This means that the flows through the grid will be the paths taken. This gets us the escaping paths if the total flow is equal to $m$ (we know it cannot be greater than $m$ by looking at the cut which has $s$ by itself). And, if the max flow is less than $m$, we know that the escape problem is not solvable, because otherwise we could construct a flow with value $m$ from the list of disjoint paths that the people escaped along.
 \end{enumerate}
 
 \noindent\textbf{Problem 26-2}\\
@@ -276,6 +274,10 @@ Given an instance of the escape problem, we can convert it to a flow network wit
 
 \begin{enumerate}[a.]
 \item
+After moonlighting with his jazz group, the Al Gore Rhythms, Professor Gore could
+
+
+(Of course if he just wanted to get the book done he could of used Michelle and I and not had to pay anything)
 \item
 \item
 \end{enumerate}
@@ -283,7 +285,7 @@ Given an instance of the escape problem, we can convert it to a flow network wit
 \noindent\textbf{Problem 26-4}\\
 
 \begin{enumerate}[a.]
-\item If there exists a minimum cut on which $(u,v)$ doesn't lie then the maximum flow can't be increased, so there will exist no augmenting path in the residual network.  Otherwise it does cross a minimum cut, and we can possibly increase the flow by 1.   Perform one interation of Ford-Fulkerson.  If there exists an augmenting path, it will be found and increased on this iteration.  Since the edge capacities are integers, the flow values are all integral.  Since flow strictly increases, and by an integral amount each time, a single iteration of the while loop of line 3 of Ford-Fulkerson will increase the flow by 1, which we know to be maximal.  To find an augmenting path we use a BFS, which runs in $O(V+E') = O(V+E)$. 
+\item If there exists a minimum cut on which $(u,v)$ doesn't lie then the maximum flow can't be increased, so there will exist no augmenting path in the residual network.  Otherwise it does cross a minimum cut, and we can possibly increase the flow by 1.   Perform one iteration of Ford-Fulkerson.  If there exists an augmenting path, it will be found and increased on this iteration.  Since the edge capacities are integers, the flow values are all integral.  Since flow strictly increases, and by an integral amount each time, a single iteration of the while loop of line 3 of Ford-Fulkerson will increase the flow by 1, which we know to be maximal.  To find an augmenting path we use a BFS, which runs in $O(V+E') = O(V+E)$. 
 
 \item If the edge's flow was already at least 1 below capacity then nothing changes.  Otherwise, find a path from $s$ to $t$ which contains $(u,v)$ using BFS in $O(V+E)$.  Decrease the flow of every edge on that path by 1.  This decreases total flow by 1.  Then run one iteration of the while loop of Ford-Fulkerson in $O(V+E)$.  By the argument given in part a, everything is integer valued and flow strictly increases, so we will either find no augmenting path, or will increase the flow by 1 and then terminate. 
 \end{enumerate} 
@@ -299,11 +301,11 @@ Since $K$ starts out as a power of 2, and through each iteration of the while lo
 \item
 Each time line 4 is executed we know that there is no augmenting path of capacity at least $2K$. To see this fact on the initial time that line 4 is executed we just note that $2 K = 2\cdot 2^{\lfloor \lg(C)\rfloor} > 2\cdot2^{\lg(C) -1} = 2^{\lg(C)} = C$. Then, since an augmenting path is limited by the capacity of the smallest edge it contains, and all the edges have a capacity at most $C$, no augmenting path will have a capacity greater than that. On subsequent times executing line 4, the loop of line 5 during the previous execution of the outer loop will of already used up and capacious augmenting paths, and would only end once there are no more. 
 
-Since any augmenting path must have a capacity of less than $2K$, we can look at each augmenting path $p$, and assign to it an edge $e_p$ which is any edge whose capacity is tied for smallest among all the edges along the path. Then, we do a procedure to remove $e_p$ for a found augmenting path, and then look at augmenting paths on the resulting graph. %notdone
+Since any augmenting path must have a capacity of less than $2K$, we can look at each augmenting path $p$, and assign to it an edge $e_p$ which is any edge whose capacity is tied for smallest among all the edges along the path. Then, removing all of the edges $e_p$ would disconnect the residual network since every possible augmenting path goes through one of those edge. We know that there are at most $|E|$ of them since they are a subset of the edges. We also know that each of them has capacity at most $2K$ since that was the value of the augmenting path they were selected to be tied for cheapest in. So, the total cost of this cut is $2K|E|$.
 \item
-
+Each time that the inner while loop runs, we know that it adds an amount of flow that is at least $K$, since that's the value of the augmenting path. We also know that before we start that while loop, there is a cut of cost $\le 2K|E|$. This means that the most flow we could possibly add is $2K|E|$. Combining these two facts, we get that the most cuts possible is $\frac{2K|E|}{K} = 2|E| \in O(|E|)$.
 \item
-
+We only execute the outermost for loop $\lg(C)$ many times since $\lg(2^{\lfloor\lg(C)\rfloor}) \le \lg(C)$. The inner while loop only runs $O(|E|)$ many times by the previous part. Finally, every time the inner for loop runs, the operation it does can be done in time $O(|E|)$ by part b. Putting it all together, the runtime is $O(|E|^2 \lg(C))$.
 \end{enumerate}
 
 \noindent\textbf{Problem 26-6}\\
