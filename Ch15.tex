@@ -349,7 +349,7 @@ Each of the $\Theta(n^2)$ values of $w[i,j]$ would require computing those two s
 
 \noindent\textbf{Exercise 15.5-4}\\
 
-%%%Need to finish
+Change the for loop of line 10 in OPTIMAL-BST to ``for $r = r[i,j-1]$ to $r[i+1,j]$''.  Knuth's result implies that it is sufficient to only check these values because optimal root found in this range is in fact the optimal root of some binary search tree.  The time spent within the for loop of line 6 is now $\Theta(n)$.  This is because the bounds on $r$ in the new for loop of line 10 are nonoverlapping.  To see this, suppose we have fixed $l$ and $i$.  On one iteration of the for loop of line 6, the upper bound on $r$ is $r[i+1,j] = r[i+1,i+l-1]$.  When we increment $i$ by 1 we increase $j$ by 1.  However, the lower bound on $r$ for the next iteration subtracts this, so the lower bound on the next iteration is $r[i+1,j+1-1] = r[i+1,j]$.  Thus, the total time spent in the for loop of line 6 is $\Theta(n)$.  Since we iterate the outer for loop of line 5 $n$ times, the total runtime is $\Theta(n^2)$.\\
 
 \noindent\textbf{Problem 15-1}\\
 
