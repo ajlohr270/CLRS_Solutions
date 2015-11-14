@@ -305,7 +305,9 @@ If we change the way that we handle the equality case, we willl still be generat
 If there was a negative-weight cycle, there would be a negative number occurring on the diagonal upon termination of the Floyd-Warshall algorithm.  \\
 
 \noindent\textbf{Exercise 25.2-7}\\
-%Not done
+We can recursively compute the values of $\phi_{ij}^{(k)}$ by, letting it be $\phi_{ij}^{(k-1)}$ if $d_{ik}^{(k)} + d_{kj}^{(k)} \ge d_{ij}^{(k-1)}$, and otherwise, let it be $k$. This works correctly because it perfectly captures whether we decided to use vertex $k$ when we were repeatedly allowing ourselves use of each vertex one at a time. To modify Floyd Warshall to compute this, we would just need to stick within the innermost for loop, something that computes $\phi_{ij}^{(k)}$ by this recursive rule, this would only be a constant amount of work in this innermost for loop, and so would not cause the asymptotic runtime to increase. It is similar to the s table in matrix-chain multiplication because it is computed by a similar recurrence.
+
+If we already have the $n^3$ values in $\phi_{ij}^{(k)}$ provided, then we can reconstruct the shortest path from $i$ to $j$ because we know that the largest vertex in the path from $i$ to $j$ is $\phi_{ij}^{(n)}$, call it $a_1$. Then, we know that the largest vertex in the path before $a_1$ will be $\phi_{ia_1}^{(a_1-1)}$ and the largest after $a_1$ will be $\phi_{a_1j}^{(a_1-1}$. By continuing to recurse until we get that the largest element showing up at some point is NIL, we will be able to continue subdividing the path until it is entirely constructed. \\
 
 \noindent\textbf{Exercise 25.2-8}\\
 
@@ -317,7 +319,72 @@ First, compute the strongly connected components of the directed graph, and look
 
 \noindent\textbf{Exercise 25.3-1}\\
 
-%Not done
+\[
+\begin{array}{|c|c|}
+\hline
+v&h(v)\\
+\hline
+1&-5\\
+2&-3\\
+3&0\\
+4&-1\\
+5&-6\\
+6&-8\\
+\hline
+\end{array}
+\]
+
+\[
+\begin{array}{|c|c|c|}
+\hline
+u&v&\hat{w}(u,v)\\
+\hline
+1&2&NIL\\
+1&3&NIL\\
+1&4&NIL\\
+1&5&0\\
+1&6&NIL\\
+2&1&3\\
+2&3&NIL\\
+2&4&0\\
+2&5&NIL\\
+2&6&NIL\\
+3&1&NIL\\
+3&2&5\\
+3&4&NIL\\
+3&5&NIL\\
+3&6&0\\
+4&1&0\\
+4&2&NIL\\
+4&3&NIL\\
+4&5&8\\
+4&6&NIL\\
+5&1&NIL\\
+5&2&4\\
+5&3&NIL\\
+5&4&NIL\\
+5&6&NIL\\
+6&1&NIL\\
+6&2&0\\
+6&3&18\\
+6&4&NIL\\
+6&5&NIL\\
+\hline
+\end{array}
+\]
+So, the $d_{i,j}$ values that we get are
+\[
+\left(\begin{array}{cccccc}
+0&6&\infty&8&-1&\infty\\
+-2&0&\infty&2&-3&\infty\\
+-5&-3&0&-1&-6&-8\\
+-4&2&\infty&0&-5&\infty\\
+5&7&\infty&9&0&\infty\\
+3&5&10&7&2&0\\
+\end{array}
+\right)
+\]
+
 
 \noindent\textbf{Exercise 25.3-2}\\
 
@@ -363,12 +430,8 @@ Suppose that we currently have two strongly connected components, each of size $
 Then, we add a single edge from one component to the other. This will mean that every vertex in the component the edge is coming from will have an edge going to every vertex in the component that the edge is going to. So, the total number of edges after this operation will be $|V|/2 +|V|/4$. So, the number of edges increased by $|V|/4$. Since each time we add an edge, we need to use at least constant time, since there is no cheap way to add many edges at once, the total amount of time needed is $\Omega(|V|^2)$.
 
 \item 
-\begin{comment}
-In your structure, make it so that each vertex has the set of vertices that are in the same connected component as it is. Then, when we add a edge to the graph, when we need to update the transitive closure, we only need to do between each pair of vertices that are in the two connected components that are on either side of the edge that is added. Since this procedure only ever considers the pairs of vertices that didn't have an edge in the transitive closure before, but should be in the transitive closure now, the total runtime of the procedure is bounded by the total number of edges in the transitive closure after all is said an done. That is, it only takes time $O(\binom{n}{2}) = O(n^2)$. Therefore, this is also $O(n^3)$, it just happens to be strictly better.
-%awww, only works for directed graphs
-
-To see that this procedure never considers an edge that doesn't need to be added to the transitive closure, just note that everything in the two components weren't adjacent before because they were in different components, but are adjacent now, since there is an edge between them. We can represent these sets of connected vertices as linked lists, since all we need to be able to do is iterate though them and concatenate them together when we add edges that causes the components to combine.
-\end{comment}
+We will have each vertex maintain a tree of vertices that have a path to it and a tree of vertices that it has a path to. The second of which is the transitive closure at each step. Then, upon inserting an edge, (u,v), we will look at successive ancestors of $u$, and add $v$ to their successor tree, just past $u$. If we ever don't insert an edge when doing this, we can stop exploring that branch of the ancestor tree. Similarly, we keep doing this for all of the ancestors of $v$. Since we are able to short circuit if we ever notice that we have already added an edge, we know that we will only ever reconsider the same edge at most $n$ times, and, since the number of edges is $O(n^2)$, the total runtime is $O(n^3)$.
+%hopefully this procedure is clear enough
 \end{enumerate}
 
 \noindent\textbf{Problem 25-2}\\

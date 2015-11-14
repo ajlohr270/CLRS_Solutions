@@ -109,10 +109,7 @@ T( \beta) = 2T(\beta/2) + M(\beta/2)
 \]
 Since we have trouble separating $M$ from linear by a $n^{\epsilon}$ for some epsilon, the analysis gets easier if we just forget about the fact that the difficulty of the multiplication is going down in the subcases, this concession gets us the runtime that $T(\beta) \in O(M(\beta) \lg(\beta))$ by master theorem.
 
-Note that there is also a procedure to convert from binary to decimal that only takes time $\Theta(\beta)$, instead of the given algorithm which is $\Theta(M(\beta)\lg(\beta)) \in O(\beta \lg^2(\beta))$ that is rooted in automata theory. We can construct a deterministic finite transducer between the two languages, then, since we only need to take as many steps as there are bits in the input, the runtime will be linear. 
-%not done.
-
-
+Note that there is also a procedure to convert from binary to decimal that only takes time $\Theta(\beta)$, instead of the given algorithm which is $\Theta(M(\beta)\lg(\beta)) \in \Omega(\beta \lg(\beta))$ that is rooted in automata theory. We can construct a deterministic finite transducer between the two languages, then, since we only need to take as many steps as there are bits in the input, the runtime will be linear. We would have states to keep track of the carryover from each digit to the next.\\
 
 \noindent\textbf{Exercise 31.2-1}\\
 
@@ -486,7 +483,7 @@ x_{i+1}' &= x_{i+1} \mod p^e\\
 &=f_{p^e}(x_i')
 \end{align*}
 
-So, we again are having the birthday paradox going on, but, instead of hoping for a repeat from a set of size $p$, we are looking at all the equivalence classes mod $p^e$ which has size $p^e$, so, we have that the expected number of steps before getting a repeat in that size set is just the squareroot of its size, which is $\Theta(\sqrt{p^{e}}) =\Theta(p^{e/2})$. 
+So, we again are having the birthday paradox going on, but, instead of hoping for a repeat from a set of size $p$, we are looking at all the equivalence classes mod $p^e$ which has size $p^e$, so, we have that the expected number of steps before getting a repeat in that size set is just the squareroot of its size, which is $\Theta(\sqrt{p^{e}}) =\Theta(p^{e/2})$. \\
 
 \noindent\textbf{Exercise 31.9-4}\\
 

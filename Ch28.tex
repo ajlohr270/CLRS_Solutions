@@ -254,6 +254,7 @@ Let $A$ be an $n \times n$ matrix.  Without loss of generality we'll assume $A$ 
 From problem 28.2-2, we can find a LU-decomposition algorithm that only takes time $O(M(n))$. So, we run that algorithm and multiply together all of the entries along the diagonal of $U$, this will be the determinant of the original matrix.
 
 Now, suppose that we have a determinant algorithm that takes time $D(n)$, we will show that we can find a matrix multiplication algorithm that takes time $O(D(n))$.  By the previous problem, it is enough to show that we can find matrix inverses using at most 3 determinants and an additional $\Theta(n^2)$ work. 
+%notdone
 
 Authors note on the second half of this problem: Typically we strive to complete all the exercises independently as a way of gaining a greater understanding ourselves. For the second half of this problem, this was unfortunately not something that we achieved. After been stuck for several weeks, I asked a number of other graduate students, and even two professors, none were able to help with how the proof went. One did however refer me to the book \underline{Algebraic Complexity Theory} by Burgisser, Claussen, and Shokrollahi. The proof given here for the second half of the exercise was lifted from their section 16.4. This was one of the hardest exercises in the book.
 
@@ -321,7 +322,7 @@ By definition, $\det(A) = c\det(A'')$.  By our induction hypothesis, $\det(A'') 
 
 \noindent\textbf{Exercise 28.3-5}\\
 
-We will try to proceed by induction on the value of $k$. To show it for $k=0$, we need to get that the upper left corner is the largest of all the elements in the leftmost column. Suppose that there were some entry in the the left column that was larger than the element in the top row.\\
+We will try to proceed by induction on the value of $k$. To show it for $k=0$, we need to get that the upper left corner is the largest of all the elements in the leftmost column. Suppose that there were some entry (say in row $i$) in the the left column that was larger than the element in the top row. Since we have that the matrix is positive definite, we could pick $x = e_1 -  e_i$, then we would have that $x^T A x$ would be negative. \\
 %not done
 
 \noindent\textbf{Exercise 28.3-6}\\
@@ -504,10 +505,8 @@ Since for a Tridiagonal matrix, it will only ever have finitely many nonzero ent
 Since the asymptotics of performing the LU decomposition on a positive definite tridiagonal matrix is $O(n)$, and this decomposition can be used to solve the equation in time $O(n)$, the total time for solving it with this method is $O(n)$. However, to simply record the inverse of the tridiagonal matrix would take time $O(n^2)$ since there are that many entries, so, any method based on computing the inverse of the matrix would take time $\Omega(n^2)$ which is clearly slower than the previous method.
 
 \item
-This was done at the beginning of the previous part.
-%I think
 
-%Boo, I think part d is asking about why you can get away with an LU decomp as opposed to LUP, since you have the additional assumption of positive definiteness.  Without it, symmetric + tridiagonal doesn't imply nonzero diagonal entries, so the LU algorithm could fail.  In part e, the weaker assumptions mean that an LU decomp might not be enough, but there is always an LUP decomp of a square matrix.
+The runtime of our $LUP$ decomposition algorithm drops to being $O(n)$ because we know there are only ever a constant number of nonzero entries in each row and column, as before. Once we have an $LUP decomposition, we also know that that decomposition have both $L$ and $U$ having only a constant number of non-zero entries in each row and column. This means that when we perform the forward and backward substitution, we only spend a constant amount of time per entry in $x$, and so, only takes $O(n)$ time.
 \end{enumerate}
 
 \noindent\textbf{Problem 28-2}\\
