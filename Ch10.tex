@@ -538,9 +538,76 @@ MAXIMUM(L,x)&n&n&n&1\\
 \end{array}
 $
 
-\noindent\textbf{ Problem 10-2} \\
+\noindent\textbf{Problem 10-2}\\
 
-%Not done
+In all three cases, MAKE-HEAP simply creates a new list $L$, sets $L.head = NIL$, and returns $L$ in constant time.  Assume lists are doubly linked.  To realize a linked list as a heap, we imagine the usual array implementation of a binary heap, where the children of the $i^{th}$ element are $2i$ and $2i+1$.  
+
+\begin{enumerate}[a.]
+\item 
+To insert, we perform a linear scan to see where to insert an element such that the list remains sorted. This takes linear time. The first element in the list is the minimum element, and we can find it in constant time. Extract-min returns the first elment of the list, then deletes it.  Union performs a merge operation between the two sorted lists, interleaving their entries such that the resulting list is sorted.  This takes time linear in the sum of the lengths of the two lists. 
+
+\item 
+To insert an element $x$ into the heap, begin linearly scanning the list until the first instance of an element $y$ which is strictly larger than $x$.  If no such larger element exists, simply instert $x$ at the end of the list.  If $y$ does exist, replace $y$t by $x$.  This maintains the min-heap property beause $x \leq y$ and $y$ was smaller than each of its children, so $x$ must be as well.  Moreover, $x$ is larger than its parent because $y$ was the first element in the list to exceed $x$.  Now insert $y$, starting the scan at the node following $x$.   Since we check each node at most once, the time is linear in the size of the list.  To get the minimum element, return the key of the head of the list in constant time.  
+
+To extract the minimum elemet, we first call MINIMUM.  Next, we'll replace the key of the head of the list by the key of the second smallest element $y$ in the list.  We'll take the key stored at the end of the list and use it to replace the key of $y$.  Finally, we'll delete the last element of the list, and call MIN-HEAPIFY on the list.  To implement this with linked lists, we need to step through the list to get from element $i$ to element $2i$.  We omit this detial from the code, but we'll consider it for runtime analysis.  Since the value of $i$ on which MIN-HEAPIFY is called is always increasing and we never need to step through elements multiple times, the runtime is linear in the length of the list.
+
+\begin{algorithm}
+\caption{EXTRACT-MIN(L)}
+\begin{algorithmic}
+\State $min = MINIMUM(L)$
+\State Linearly scan for the second smallest element, located in position $i$.
+\State $L.head.key = L[i]$
+\State $L[i].key = L[L.length].key$
+\State DELETE(L, L[L.length])
+\State MIN-HEAPIFY$(L[i],i)$
+\State \Return $min$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{MIN-HEAPIFY(L[i],i)}
+\begin{algorithmic}[1]
+\State $l = L[2i].key$
+\State $r = L[2i+1].key$
+\State $p = L[i].key$
+\State $smallest = i$
+\If{$L[2i] \neq NIL$ and $l < p$}
+	\State $smallest = 2i$
+\EndIf
+\If{$L[2i+1] \neq NIL$ and $r < L[smallest]$}
+	\State $smallest = 2i+1$
+\EndIf
+\If{$smallest \neq i$}
+	\State exchange $L[i]$ with $L[smallest]$
+	\State MIN-HEAPIFY(L[smallest],smallest)
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+Union is implemented below, where we assume $A$ and $B$ are the two list representations of heaps to be merged.  The runtime is again linear in the lengths of the lists to be merged. 
+\begin{algorithm}
+\caption{UNION(A,B)}
+\begin{algorithmic}[1]
+\If{$A.head = NIL$}
+	\State \Return $B$
+\EndIf
+\State $i = 1$
+\State $x = A.head$
+\While{$B.head \neq NIL$}
+	\If{$B.head.key \leq x.key$}
+		\State Insert a node at the end of list $B$ with key $x.key$
+		\State $x.key = B.head.key$
+		\State $Delete(B,B.head)$
+	\EndIf
+	$x = x.next$
+\EndWhile
+\State \Return $A$
+\end{algorithmic}
+\end{algorithm}
+
+\item Since the algorithms in part b didn't depend on the elements being distinct, we can use the same ones.
+
+\end{enumerate}
 
 \noindent\textbf{ Problem 10-3} \\
 
