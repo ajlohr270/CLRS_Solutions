@@ -356,7 +356,17 @@ x_5 & = -30000 + 20x_1 + 5x_2 + 10x_3 \\
 x_1,x_2,x_3,x_4,x_5 &\ge 0
 \end{align*}
 
-Also, since the objective is to minimize a given function, we'll change it over to maximizing the negative of that function. In particular maximize $-x_1 -x_2 -x_3$. Now, we note that the initial basic solution is not feasible, because it would leave $x_4$ and $x_5$ being negative. Since we haven't yet been introduced to what the actual way to find the initial feasible solution is (it's not until 29.5). . . \\
+Also, since the objective is to minimize a given function, we'll change it over to maximizing the negative of that function. In particular maximize $-x_1 -x_2 -x_3$. Now, we note that the initial basic solution is not feasible, because it would leave $x_4$ and $x_5$ being negative. This means that finding an initial solution requires using the method of section 29.5. The auxiliary linear program is
+
+\begin{align*}
+\hbox{maximize } &-x_4-x_5\\ 
+x_4 & \ge -10000 + 2x_1 + 7.5x_2 + 3x_3\\
+x_5 & \ge -30000 + 20x_1 + 5x_2 + 10x_3 \\
+x_1,x_2,x_3,x_4,x_5 &\ge 0
+\end{align*}
+
+If we can get a solution to the auxiliary that achieves the objective being zero, then, we will have our initial solution for the simplex method. One such solution is $x_1 = 5000$, $x_2=x_3=x_4=x_5=0$.
+
 %notdone
 
 \noindent\textbf{Exercise 29.3-8}\\
@@ -378,7 +388,6 @@ y_1 + y_2 &\ge 18\\
 y_1 + y_3 &\ge 12.5\\
 y_1,y_2,y_3 &\ge 0
 \end{align*}
-%notdone
 
 \noindent\textbf{Exercise 29.4-2}\\
 
