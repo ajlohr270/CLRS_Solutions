@@ -176,7 +176,7 @@ b. We argue by induction on the number of vertices in $G$.  We'll assume that $|
 
 c. Rather than using the disjoint set structures of chapter 21, we can simply use an array to keep track of which component a vertex is in.  Let $A$ be an array of length $|V|$ such that $A[u] = v$ if $v = FIND-SET(u)$. Then FIND-SET$(u)$ can now be replaced with $A[u]$ and UNION$(u,v)$ can be replaced by $A[v] = A[u]$.  Since these operations run in constant time, the runtime is $O(E)$. \\
 
-d. The number of edges in the output is monotonically decreasing, so each call is $O(E)$. Thus, $k$ calls take $O(E)$ time. \\
+d. The number of edges in the output is monotonically decreasing, so each call is $O(E)$. Thus, $k$ calls take $O(kE)$ time. \\
 
 e. The runtime of Prim's algorithm is $O(E + V\lg V)$.  Each time we run MST-REDUCE, we cut the number of vertices at least in half.  Thus, after $k$ calls, the number of vertices is at most $|V|/2^k$.  We need to minimize $E + V/2^k\lg(V/2^k) + kE$ with respect to $k$.  If we choose $k = \lg \lg V$ then we achieve the overall running time of $O(E\lg \lg V)$ as desired.  \\
 
