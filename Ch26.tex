@@ -130,7 +130,8 @@ Suppose that your given flow network contains $|E|$ edges, then, we were to modi
 
 
 \noindent\textbf{Exercise 26.3-1}\\
-%pictures :O
+First, we pick an augmenting path that passes through vertices $1 $ and $6$. Then, we pick the path going through $2$ and $8$. Then, we pick the path going through $3$ and $7$. Then, the resulting residual graph has no path from $s$ to $t$. So, we know that we are done, and that we are pairing up vertices $(1,6),(2,8),$ and $(3,7)$. This number of unit augmenting paths agrees with the value of the cut where you cut the edges $(s,3),(6,t),$ and $(7,t)$.\\
+
 
 \noindent\textbf{Exercise 26.3-2}\\
 
@@ -163,7 +164,7 @@ Continuing in this fashion, we keep building up the neighborhood $v_i'$, expandi
 
 We convert the bipartite graph into a flow problem by making a new vertex for the source which has an edge of unit capacity going to each of the vertices in $L$, and a new vertex for the sink that has an edge from each of the vertices in $R$, each with unit capacity. We want to show that the number of edge between the two parts of the cut is at least $L$, this would get us by the max-flow-min-cut theorem that there is a flow of value at least $|L|$. The, we can apply the integrality theorem that all of the flow values are integers, meaning that we are selecting $|L|$ disjoint edges between $L$ and $R$.
 
-To see that every cut must have capacity at lest $|L|$, let $S_1$ be the side of the cut containing the source and let $S_2$ be the side of the cut containing the sink. Then, look at $L\cap S_1$. The source has an edge going to each of $L\cap (S_1)^c$, and there is an edge from $R\cap S_1$ to the sink that will be cut. This means that we need that there are at least $|L\cap S_1| - |R\cap S_1|$ many edges going from $L\cap S_1|$ to $R\cap S_2$. If we look at the set of all neighbors of $L\cap S_1$, we get that there must be at least the same number of neighbors in $R$, because otherwise we could sum up the degrees going from $L\cap S_1$ to $R$ on both sides, and get that some of the vertices in $R$ would need to have a degree higher than $d$. This means that the number of neighbors of $L\cap S_1$ is at least $L\cap S_1$, but we have that they are in $S_1$, but there are only $|R\cap S_1|$ of those, so, we have that the size of the set of neigbors of $L\cap S_1$ that are in $S_2$ is at least $ |L\cap S_1| - |R\cap S_1|$. Since each of these neigbors has an edge crossing the cut, we have that the total number of edges that the cut breaks is at least $(|L| - |L\cap S_1|)  + (|L\cap S_1| - |R\cap S_1|) + |R\cap S_1| = |L|$. Since each of these edges is unit valued, the value of the cut is at least $|L|$.\\
+To see that every cut must have capacity at lest $|L|$, let $S_1$ be the side of the cut containing the source and let $S_2$ be the side of the cut containing the sink. Then, look at $L\cap S_1$. The source has an edge going to each of $L\cap (S_1)^c$, and there is an edge from $R\cap S_1$ to the sink that will be cut. This means that we need that there are at least $|L\cap S_1| - |R\cap S_1|$ many edges going from $L\cap S_1|$ to $R\cap S_2$. If we look at the set of all neighbors of $L\cap S_1$, we get that there must be at least the same number of neighbors in $R$, because otherwise we could sum up the degrees going from $L\cap S_1$ to $R$ on both sides, and get that some of the vertices in $R$ would need to have a degree higher than $d$. This means that the number of neighbors of $L\cap S_1$ is at least $L\cap S_1$, but we have that they are in $S_1$, but there are only $|R\cap S_1|$ of those, so, we have that the size of the set of neighbors of $L\cap S_1$ that are in $S_2$ is at least $ |L\cap S_1| - |R\cap S_1|$. Since each of these neighbors has an edge crossing the cut, we have that the total number of edges that the cut breaks is at least $(|L| - |L\cap S_1|)  + (|L\cap S_1| - |R\cap S_1|) + |R\cap S_1| = |L|$. Since each of these edges is unit valued, the value of the cut is at least $|L|$.\\
 
 
 
@@ -178,7 +179,7 @@ We must select an appropriate data structure to store all the information which 
 
 \noindent\textbf{Exercise 26.4-3}\\
 
-To run RELABEL(u), we need to take the min a number of things equal to the out degree of $u$. This means that since each vertex will only be relabeled at most $O(|V|)$ many times, the total amount of work is on the order of $|V|\sum_{v\in V} outdeg(v)$. But the sum of all the out degrees is equal to the number of edges, so, we have the previous expression is on the order of $|V||E|$.\\
+To run RELABEL(u), we need to take the min a number of things equal to the out degree of $u$ (and so taking this min will take time proportional to the out degree). This means that since each vertex will only be relabeled at most $O(|V|)$ many times, the total amount of work is on the order of $|V|\sum_{v\in V} outdeg(v)$. But the sum of all the out degrees is equal to the number of edges, so, we have the previous expression is on the order of $|V||E|$.\\
 
 \noindent\textbf{Exercise 26.4-4}\\
 
@@ -216,6 +217,8 @@ Using the fact that $|E| \geq |V| - 1$ and $|V| \geq 4$ we can bound the number 
 
 \noindent\textbf{Exercise 26.5-1}\\
 
+When we initialize the preflow, we have 26 units of flow leaving $s$. Then, we consider $v_1$ since it is the first element in the $L$ list. When we discharge it, we increase it's height to 1 so that it can dump all of it's excess along its edge to vertex $v_3$. it was already at the front, so, we consider $v_2$. We increase its height to 1.  Then, we send all of its excess along its edge to $v_4$. We move it to the front, which means we next consider $v_1$, and do nothing because it is not overflowing. Up next is vertex $v_3$. after increasing its height to 1, it can send all of its excess to $t$. This puts $v_3$ at the front, and we consider the non-overflowing vertices $v_2$ and $v_1$. Then, we consider $v_4$, it increases its height to 1, then sends 4 units to $t$. Since it still has an excess of 10 units, it increases its height once again. Then it becomes valid for it to send flow back to $v_2$ or to $v_3$. It considers $v_2$ first because of the ordering of its neighbor list. This means that 10 units of flow are pushed back to $v_2$. Since $v_4.h$ increased, it moves to the front of the list Then, we consider $v_2$ since it is the only still overflowing vertex. We increase its height to 2. Then, it could send flow to only $v_1$, so it sends 4 units to $v_1$. It is still overflowing by $6$ so it increases its height to $3$ to send $6$ units to $v_4$. It's height increased so it goes to the front of the list. Then, we consider $v_4$, which is overflowing. it increases its height to $3$, then it sends $6$ units to $v_3$. Again, it goes to the front of the list. Up next is $v_2$ which is not overflowing, $v_3$ which is, so it increases it's height by 1 to send $4$ units of flow to $t$. Then sends $2$ units to $v_4$ after increasing in height. The excess flow keeps bobbing around the four vertices, each time requiring them to increase their height a bit to discharge to a neighbor only to have that neighbor increase to discharge it back until $v_2$ has increased in height enough to send all of it's excess back to $s$, this completes and gives us a maximum flow of $24$.\\
+
 \noindent\textbf{Exercise 26.5-2}\\
 
 Initially, the vertices adjacent to $s$ are the only ones which are overflowing.  The implementation is as follows:
@@ -244,6 +247,8 @@ Note that we need to modify the DISCHARGE algorithm to push vertices $v$ onto th
 
 \noindent\textbf{Exercise 26.5-3}\\
 
+If we change relabel to just increment the value of $u$, we will not be ruining the correctness of the Algorithm. This is because since it only applies when $u.h\le v.h$, we won't be every creating a graph where $h$ ceases to be a height function, since $u.h$ will only ever be increasing by exactly one whenever relabel is called, ensuring that $u.h +1 \le v.h$. This means that Lemmatae 26.15 and 26.16 will still hold. Even Corollary 26.21 holds since all it counts on is that relabel causes some vertex's $h$ value to increase by at least one, it will still work when we have all of the operations causing it to increase by exactly one. However, Lemma 26.28 will no longer hold. That is, it may require more than a single relabel operation to cause an admissible edge to appear, if for example, $u.h$ was strictly less than the $h$ values of all its neighbors. However, this lemma is not used in the proof of Exercise 26.4-3, which bounds the number of relabel operations. Since the number of relabel operations still have the same bound, and we know that we can simulate the old relabel operation by doing (possibly many) of these new relabel operations, we have the same bound as in the original algorithm with this different relabel operation.\\
+
 \noindent\textbf{Exercise 26.5-4}\\
 
 %Probably similar analysis to that of thm 26.30.  Would be done if you could prove that you can't discharge the same vertex twice in between relabels. (ie phase consists of at most |V| calls to DISCHARGE)
@@ -251,6 +256,9 @@ Note that we need to modify the DISCHARGE algorithm to push vertices $v$ onto th
 
 \noindent\textbf{Exercise 26.5-5}\\
 
+Suppose to try and obtain a contradiction that there were some minimum cut for which a vertex that had $v.h > k$ were on the sink side of that cut. For that minimum cut, there is a residual flow network for which that cut is saturated. Then, if there were any vertices that were also on the sink side of the cut which had an edge going to $v$ in this residual flow network, since it's $h$ value cannot be equal to $k$, we know that it must be greater than $k$ since it could be only at most one less than $v$. We can continue in this way to let $S$ be the set of vertices on the sink side of the graph which have an $h$ value greater than $k$. Suppose that there were some simple path from a vertex in $S$ to $s$. Then, at each of these steps, the height could only decrease by at most $1$, since it cannot get from above $k$ to 0 withour going through $k$, we know that there is no path in the residual flow network going from a vertex in $S$ to $s$. Since a minimal cut corresponds to disconnected parts of the residual graph for a maximum flow, and we know there is no path from $S$ to $s$, there is a minimum cut for which $S$ lies entirely on the source side of the cut. This was a contradiction to how we selected $v$,and so have shown the first claim.
+
+Now we show that after updating the h values as suggested, we are still left with a height function. Suppose we had an edge $(u,v)$ in the residual graph. We knew from before that $u,h \le v.h+1$. However, this means that if $u.h>k$, so must be $v.h$. So, if both were above $k$, we would be making them equal, causing the inequality to still hold. Also, if just $v.k$ were above $k$, then we have not decreased it's $h$ value, meaning that the inequality also still must hold. Since we have not changed the value of $s.h$, and $t.h$, we have all the required properties to have a height function after modifying the $h$ values as described.\\
 
 
 \noindent\textbf{Problem 26-1}\\
@@ -274,12 +282,12 @@ Construct a vertex constrained flow network from the instance of the escape prob
 
 \begin{enumerate}[a.]
 \item
-After moonlighting with his jazz group, the Al Gore Rhythms, Professor Gore could
-
+Suppose to a contradiction that there were some $J_i\in T$, and some $A_k\in R_i$ so that $A_k \not \in T$. However, by the definition of the flow network, there is an edge of infinite capacity going from $A_k$ to $J_i$ because $A_k \in R_i$. This means that there is an edge of inifinite capacity that is going across the given cut. This means that the capacity of the cut is infinite, a contradiction to the given fact that the cut was finite capacity.
+\item
+Let $T = \sum_i c_i$. This is the total possible gross revenue if we accept all jobs and hire all experts. In the cut that corresponds to this, we we need to pat %not done
+\item%not done
 
 (Of course if he just wanted to get the book done he could of used Michelle and I and not had to pay anything)
-\item
-\item
 \end{enumerate}
 
 \noindent\textbf{Problem 26-4}\\
