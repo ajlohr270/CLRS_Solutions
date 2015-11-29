@@ -321,9 +321,9 @@ Theorem D.4 also tells us that  the determinant is unchanged if we add a multipl
 By definition, $\det(A) = c\det(A'')$.  By our induction hypothesis, $\det(A'') > 0$.  Since $c > 0$ as well, we conclude that $\det(A) > 0$, which completes the proof. \\
 
 \noindent\textbf{Exercise 28.3-5}\\
+When we do an LU decomposition of a positive definite symmetric matrix, we never need to permute the rows. This means that the pivot value being used from the first operation is the entry in the upper left corner. This gets us that for the case $k=1$, it holds because we were told to define $det(A_0) =1$, getting us, $a_{11} = det(A_1)/det(A_0)$. When Diagonalizing a matrix, the product of the pivot values used gives the determinant of the matrix. So, we have that the determinant of $A_k$ is a product of the $k$th pivot value with all the previous values. By induction, the product of all the previous values is $det(A_{k-1})$. So, we have that if $x$ is the kth pivot value, $det(A_k) = x det(A_{k-1})$, giving us the desired result that the $k$ th pivot value is $det(A_{k})/det(A_{k-1})$.\\
 
-We will try to proceed by induction on the value of $k$. To show it for $k=0$, we need to get that the upper left corner is the largest of all the elements in the leftmost column. Suppose that there were some entry (say in row $i$) in the the left column that was larger than the element in the top row. Since we have that the matrix is positive definite, we could pick $x = e_1 -  e_i$, then we would have that $x^T A x$ would be negative. \\
-%not done
+
 
 \noindent\textbf{Exercise 28.3-6}\\
 
