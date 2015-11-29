@@ -402,9 +402,7 @@ To do this, just take the floor of (largest integer that is less than or equal t
 
 \noindent\textbf{Exercise 24.4-12}\\
 
-%%% Not Done
-
-%To solve the problem of $Ax \leq b$ where the elements of $b$ are real-valued is simple.  We carry out the same procedure as before, but allow our edge weights to be real-valued. To impose the integer condition, we modify the RELAX procedure.   Suppose we are going to relax $v_i$.  If it is required to be an integer, then we relax it to ...
+To solve the problem of $Ax \leq b$ where the elements of $b$ are real-valued we carry out the same procedure as before, running Bellman-Ford, but allowing our edge weights to be real-valued. To impose the integer condition on the $x_i$'s, we modify the RELAX procedure.   Suppose we call RELAX$(v_i,v_j,w)$ where $v_j$ is required to be integral valued.  If $v_j.d > \lfloor v_i.d + w(v_i,v_j)\rfloor$, set $v_j.d = \lfloor v_i.d + w(v_i,v_j) \rfloor$.  This guarantees that the condition that $v_j.d - v_i.d \leq w(v_i,v_j)$ as desired.  It also ensures that $v_j$ is integer valued. Since the triangle inequality still holds, $x = (v_1.d, v_2.d, \ldots, v_n.d)$ is a feasible solution for the system, provided that $G$ contains no negative weight cycles.
 
 \noindent\textbf{Exercise 24.5-1}\\
 
