@@ -554,7 +554,7 @@ The subproblems will be indexed by contiguous subarrays of the arrays of cuts ne
 \end{algorithm}
 
 \noindent\textbf{Problem 15-10}\\
-\begin{enumerate}
+\begin{enumerate}[a.]
 \item Without loss of generality, suppose that there exists an optimal solution $S$ which involves investing $d_1$ dollars into investment $k$ and $d_2$ dollars into investement $m$ in year 1.  Further, suppose in this optimal solution, you don't move your money for the first $j$ years.   If $r_{k1} + r_{k2} + \ldots + r_{kj} > r_{m1} + r_{m2} + \ldots + r_{mj}$ then we can perform the usual cut-and-paste maneauver and instead invest $d_1 + d_2$ dollars into investment $k$ for $j$ years.  Keeping all other investments the same, this results in a strategy which is at least as profitable as $S$, but has reduced the number of different investments in a given span of years by 1.  Continuing in this way, we can reduce the optimal strategy to consist of only a single investment each year.  \\
 
 \item If a particular investment strategy is the year-one-plan for a optimal investement strategy, then we must solve two kinds of optimal suproblem: either we maintain the strategy for an additional year, not incurring the money-moving fee, or we move the money, which amounts to solving the problem where we ignore all information from year 1. Thus, the problem exhibits optimal substructure. \\
@@ -571,7 +571,7 @@ The subproblems will be indexed by contiguous subarrays of the arrays of cuts ne
 			\State $q = i$
 		\EndIf
 	\EndFor
-	\If{$R[k+1] + dr_{I[k+1]k} - f_1 < R[k+1] + dr_{qk} - f_2$} //If it's better to not move money
+	\If{$R[k+1] + dr_{I[k+1]k} - f_1 > R[k+1] + dr_{qk} - f_2$} //If revenue is greater when money is not moved
 		\State $R[k] = R[k+1] + dr_{I[k+1]k} - f_1$
 		\State $I[k] = I[k+1]$
 	\Else
@@ -584,7 +584,8 @@ The subproblems will be indexed by contiguous subarrays of the arrays of cuts ne
 \end{algorithm}
 
 
-\item %Not sure
+\item The previous investment strategy was independent of the amount of money you started with.  When there is a cap on the amount you can invest, the amount you have to invest in the next year becomes relevant.  If we know the year-one-strategy of an optimal investment, and we know that we need to move money after the first year, we're left with the problem of investing a different initial amount of money, so we'd have to solve a subproblem for every possible initial amount of money.  Since there is no bound on the returns, there's also no bound on the number of subproblems we need to solve.
+
 
 \end{enumerate}
 
