@@ -365,10 +365,14 @@ x_5 & \ge -30000 + 20x_1 + 5x_2 + 10x_3 \\
 x_1,x_2,x_3,x_4,x_5 &\ge 0
 \end{align*}
 
-If we can get a solution to the auxiliary that achieves the objective being zero, then, we will have our initial solution for the simplex method. One such solution is $x_1 = 5000$, $x_2=x_3=x_4=x_5=0$.
+If we can get a solution to the auxiliary that achieves the objective being zero, then, we will have our initial solution for the simplex method. One such solution is $x_1 = 5000$, $x_2=x_3=x_4=x_5=0$. Let's use this as our initial solution to the original LP. That is, it becomes
 
-%notdone
-
+\begin{align*}
+\hbox{minimize } &5000 + x_1 + x_2 + x_3\\ 
+x_4 & =  2x_1 + 7.5x_2 + 3x_3\\
+x_5 & = 70000 + 20x_1 + 5x_2 + 10x_3 \\
+x_1,x_2,x_3,x_4,x_5 &\ge 0
+\end{align*}
 \noindent\textbf{Exercise 29.3-8}\\
 
 Consider the simple program
