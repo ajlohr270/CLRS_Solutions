@@ -42,9 +42,9 @@ This modification is not going to affect the asymptotic values of the span work 
 
 \noindent\textbf{Exercise 27.1-2}\\
 
-%Should draw eventually
-The computation dag consists of the procedure P-FIB(5) containing 3 strands, corresponding to the spawn of P-FIB(4), the call to P-FIB(3), and the part of the procedure after the sync which sums $x$ and $y$.  The arrows connect the black circles of P-FIB(5) to the black circle of P-FIB(4), the black circle of P-FIB(5) to the shaded circle of P-FIB(5), the grey circle of P-FIB(5) to the black circle of P-FIB(3), and the white circles of P-FIB(4) and P-FIB(3) to the white circle of P-FIB(5).  The work is 29, span is 10, and parallelism is 2.9.  \\
-%The scheduling on 3 processors will require a picture. 
+The computation dag is given in the image below.  The blue numbers by each strand indicate the time step in which it is executed. The work is 29, span is 10, and parallelism is 2.9.  \\
+
+\includegraphics[scale=.1]{FibCompDag.jpg}\\
 
 \noindent\textbf{Exercise 27.1-3}\\
 
@@ -56,7 +56,9 @@ Where the second inequality comes by noting that the middle expression, as a fun
 
 \noindent\textbf{Exercise 27.1-4}\\
 
-%Another picture
+The computation is given in the image below.  Let vertex $u$ have degree $k$, and assume that there are $m$ vertices in each vertical chain.  Assume that this is executed on $k$ processors.  In one execution, each strand from among the $k$ on the left is executed concurrently, and then the $m$ strands on the right are executed one at a time.  If each strand takes unit time to execute, then the total computation takes $2m$ time.  On the other hand, suppose that on each time step of the computation, $k-1$ strands from the left (descendents of $u$) are executed, and one from the right (a descendent of $v$), is executed.  If each strand take unit time to executed, the total computation takes $m + m/k$.  Thus, the ratio of times is $2m/(m + m/k) = 2/(1+1/k)$.  As $k$ gets large, this approaches 2 as desired.  \\
+
+\includegraphics[scale=.1]{2CompDag.jpg}\\
 
 \noindent\textbf{Exercise 27.1-5}\\
 
@@ -140,7 +142,9 @@ So we get that there should be approximately 146 processors for them to have the
 
 \noindent\textbf{Exercise 27.2-2}\\
 
-%Gonna have to draw a computation dag...
+See the computation dag in the image below.  Assuming each strand takes unit time, the work is 26, the span is 16, and the parallelism is 1.625.\\
+
+\includegraphics[scale=.1]{MatMulRecDag}\\
 
 \noindent\textbf{Exercise 27.2-3}\\
 
