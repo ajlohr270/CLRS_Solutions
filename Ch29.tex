@@ -395,12 +395,9 @@ y_1,y_2,y_3 &\ge 0
 
 \noindent\textbf{Exercise 29.4-2}\\
 
-By working through each aspect of putting a general linear program into standard form, as outlined on page 852, we can show how to deal with transforming each into the dual individually.  \\
-%Need to come back to and figure out how to handle the absence of nonnegativity constraints.
+By working through each aspect of putting a general linear program into standard form, as outlined on page 852, we can show how to deal with transforming each into the dual individually.  If the problem is a minimization instead of a maximization, replace $c_j$ by $-c_j$ in (29.84).  If there is a lack of nonnegativity constraint on $x_j$ we duplicate the $j^{th}$ column of $A$, which corresponds to duplicating the $j^{th}$ row of $A^T$.  If there is an equality constraint for $b_i$, we convert it to two inequalities by duplicating then negating the $i^{th}$ column of $A^T$, duplicating then negating the $i^{th}$ entry of $b$, and adding an extra $y_i$ variable.  We handle the greater-than-or-equal-to sign $\sum_{i=1}^n a_{ij}x_j \geq b_i$ by negating $i^{th}$ column of $A^T$ and negating $b_i$.  Then we solve the dual problem of minimizing $b^Ty$ subject to $A^Ty \geq c$ and $y \geq 0$.  \\
 
 \noindent\textbf{Exercise 29.4-3}\\
-
-%Boo! You never mention how to interpret this formulation as a minimum cut problem!
 
 First, we'll convert the linear program for maximum flow described in equation (29.47)-(29.50) into standard form. The objective function says that $c$ is a vector indexed by a pair of vertices, and it is positive one if $s$ is the first index and negative one if $s$ is the second index (zero if it is both). Next, we'll modify the constraints by switching the equalities over into inequalities to get
 
@@ -464,9 +461,7 @@ We now formulate the dual problem.  Let the vertices be denoted $v_1, v_2, \ldot
 \mbox{subject to \,} & y_j + y_{k+e_j.right} - y_{k+j.left} - y_{k+n+e_j.right} + y_{k + n + e_j.left} \\
 & - \chi_s(e_j)y_{k+2n+1} + \chi_s(e_j) y_{k+2n+2} \geq -a(e_j)
 \end{align*}
-where $j$ runs between 1 and $k$.  There is one constraint equation for each edge $e_j$. 
-
-%Need to figure out the y_i's!!
+where $j$ runs between 1 and $k$.  There is one constraint equation for each edge $e_j$. \\
 
 \noindent\textbf{Exercise 29.4-5}\\
 
@@ -663,9 +658,16 @@ The middle equality is given by Theorem 29.10.
 
 \noindent\textbf{Problem 29-4} \\
 
-Suppose that both systems are solvable, let $x$ denote a solution to the first system, and $y$ denote a solution to the second. Taking transposes we have $x^TA^T \leq 0^T$.  Right multiplying by $y$ gives $x^Tc = x^TA^Ty \leq 0^T$, which is a contradiction to the fact that $c^Tx > 0$.  Thus, both systems cannot be simultaneously solved.\\
+Suppose that both systems are solvable, let $x$ denote a solution to the first system, and $y$ denote a solution to the second. Taking transposes we have $x^TA^T \leq 0^T$.  Right multiplying by $y$ gives $x^Tc = x^TA^Ty \leq 0^T$, which is a contradiction to the fact that $c^Tx > 0$.  Thus, both systems cannot be simultaneously solved.  Now suppose that the second system fails.  Consider the following linear program:
 
-%Now we need to show that at least one can be solved. We can view the second system as a linear program where the objective function is 0, so the program is not unbounded. If there are no solutions to the system, then in particular there are no feasible solutions, so by the Fundamental Theorem of linear programming, the program is infeasible.  Does this imply that the dual is feasible? 
+\[ \mbox{maximize } 0x \mbox{ subject to } A^Ty = c \mbox{ and } y \geq 0 \]
+
+and its corresponding dual program
+
+\[ \mbox{minimize } -c^Tx \mbox{ subject to } Ax \leq 0.\]
+
+Since the second system fails, the primal is infeasible.  However, the dual is always feasible by taking $x=0$.  If there were a finite solution to the dual, then duality says there would also be a finite solution to the primal.  Thus, the dual must be unbounded. Thus, there must exist a vector $x$ which makes $-c^Tx$ arbitrarily small, implying that there exist vectors $x$ for which $c^Tx$ is strictly greater than 0.  Thus, there is always at least one solution. \\
+
 
 \noindent\textbf{Problem 29-5}\\
 
