@@ -245,9 +245,19 @@ Then we can just take the upper right quarter of $C^2$ and subtract $A$ from it 
 
 \noindent\textbf{Exercise 28.2-2}\\
 
-Let $A$ be an $n \times n$ matrix.  Without loss of generality we'll assume $A$ is a power of 2, and impose the regularity condition that $L(n/2) \leq c L(n)$ where $c < 1/2$ and $L(n)$ is the time it takes to find an LUP decomposition of an $n \times n$ matrix.  \\
+In this problem and the next, we'll follow the approach taken in \emph{Algebraic Complexity Theory} by Burgisser, Claussen, and Shokrollahi.  Let $A$ be an $n \times n$ matrix.  Without loss of generality we'll assume $n = 2^k$, and impose the regularity condition that $L(n/2) \leq c L(n)$ where $c < 1/2$ and $L(n)$ is the time it takes to find an LUP decomposition of an $n \times n$ matrix.  First, decompose $A$ as 
 
-%Not done.  For the LU case, the thought was to write A = {{A_1, A_2},{A_3, A_4}}, do a decomp of A_1 and A_4 in good time by a regularity assumption, and write A = {{L_1, 0}, {A_3U_1^{-1}, L_4}} * {{U_1, L_1^{-1}A_2}, {0, U_4 - L_4^{-1}(A_3U_1^{-1}L_1^{-1}A_2)}}.  This gives an LU decomp recursively which is nice, but it doesn't deal with the pivoting, which can't only be considered on a part of the matrix.  We need to pivot everywhere!
+\[ A = \left[ \begin{array}{c} A_1 \\ A_2 \end{array}\right]\]
+where $A_1$ is $n/2$ by $n$.  Let $A_1 = L_1 U_1 P_1$ be an LUP decomposition of $A_1$, where $L_1$ is $n/2$ by $n/2$, $U_1$ is $n/2$ by $n$, and $P_1$ is $n$ by $n$.  Perform a block decomposition of $U_1$ and $A_2P_1^{-1}$ as $U_1 = [\overline{U}_1 | B]$ and $A_2P_1^{-1} = [C|D]$ where $\overline{U}_1$ and $C$ are $n/2$ by $n/2$ matrices. Since we assume that $A$ is nonsingular, $\overline{U}_1$ must also be nonsingular.  Set $F = D-C\overline{U}_1^{-1}B$.  Then we have
+
+\[ A = \left[ \begin{array}{cc} L_1 & 0 \\ C\overline{U}_1^{-1} & I_{n/2} \end{array}\right] \left[\begin{array}{cc} \overline{U}_1 & B \\ 0 & F \end{array} \right] P_1.\]
+
+Now let $F = L_2U_2P_2$ be an LUP decomposition of $F$, and let $\overline{P} = \left[\begin{array}{cc}I_{n/2} & 0 \\ 0 & P_2 \end{array}\right]$.   Then we may write
+
+\[ A = \left[\begin{array}{cc}L_1 & 0 \\ C\overline{U}_1^{-1} & L_2 \end{array}\right] \left[ \begin{array}{cc} \overline{U}_1 & BP_2^{-1} \\ 0 & U_2 \end{array}\right] \overline{P}P_1. \]
+
+This is an LUP decomposition of $A$.  To achieve it, we computed two LUP decompositions of half size, a constant number of matrix multiplications, and a constant number of matrix inversions.  Since matrix inversion and multiplication are computationally equivalent, we conclude that the runtime is $O(M(n))$. \\ 
+
 
 \noindent\textbf{Exercise 28.2-3}\\
 
@@ -274,7 +284,7 @@ It does not work necessarily over the field of two elements. The problem comes i
 
 \noindent\textbf{Exercise 28.2-6}\\
 
-We may again assume that our matrix is a power of 2, this time with complex entries. For the moment we assume our matrix $A$ is Hermitian and positive-definite. The proof goes through exactly as before, with matrix transposes replaced by conjugate transposes, and using the fact that Hermitian positive-definite matrices are invertible.  Finally, we need to justify that we can obtain the same asymptotic running time for amtrix multiplication as for matrix inversion when $A$ is invertible, but not Hermitian positive-definite. For any nonsingular matrix $A$, the matrix $A^*A$ is Hermitian and positive definite, since for any $x$ we have $x^*A^*Ax = \langle Ax, Ax \rangle > 0$ by the definition of inner product. To invert $A$, we first compute $(A^*A)^{-1} = A^{-1} (A^*)^{-1}$.  Then we need only multiply this result on the right by $A^*$. Each of these steps takes $O(M(n))$ time, so we can invert any nonsingluar matrix with complex entries in $O(M(n))$ time. \\
+We may again assume that our matrix is a power of 2, this time with complex entries. For the moment we assume our matrix $A$ is Hermitian and positive-definite. The proof goes through exactly as before, with matrix transposes replaced by conjugate transposes, and using the fact that Hermitian positive-definite matrices are invertible.  Finally, we need to justify that we can obtain the same asymptotic running time for matrix multiplication as for matrix inversion when $A$ is invertible, but not Hermitian positive-definite. For any nonsingular matrix $A$, the matrix $A^*A$ is Hermitian and positive definite, since for any $x$ we have $x^*A^*Ax = \langle Ax, Ax \rangle > 0$ by the definition of inner product. To invert $A$, we first compute $(A^*A)^{-1} = A^{-1} (A^*)^{-1}$.  Then we need only multiply this result on the right by $A^*$. Each of these steps takes $O(M(n))$ time, so we can invert any nonsingluar matrix with complex entries in $O(M(n))$ time. \\
 
 \noindent\textbf{Exercise 28.3-1}\\
 
@@ -506,7 +516,7 @@ Since the asymptotics of performing the LU decomposition on a positive definite 
 
 \item
 
-The runtime of our $LUP$ decomposition algorithm drops to being $O(n)$ because we know there are only ever a constant number of nonzero entries in each row and column, as before. Once we have an $LUP decomposition, we also know that that decomposition have both $L$ and $U$ having only a constant number of non-zero entries in each row and column. This means that when we perform the forward and backward substitution, we only spend a constant amount of time per entry in $x$, and so, only takes $O(n)$ time.
+The runtime of our $LUP$ decomposition algorithm drops to being $O(n)$ because we know there are only ever a constant number of nonzero entries in each row and column, as before. Once we have an LUP decomposition, we also know that that decomposition have both $L$ and $U$ having only a constant number of non-zero entries in each row and column. This means that when we perform the forward and backward substitution, we only spend a constant amount of time per entry in $x$, and so, only takes $O(n)$ time.
 \end{enumerate}
 
 \noindent\textbf{Problem 28-2}\\
