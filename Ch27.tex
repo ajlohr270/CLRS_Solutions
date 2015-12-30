@@ -364,6 +364,7 @@ See the algorithm P-RECURSIVE-FFT. it parallelized over the two recursive calls,
 \State $a^{[1]} = (a_1,a_3, \ldots, a_{n-1})$
 \State $y^{[0]} =$ spawn P-RECURSIVE-FFT($a^{[0]}$)
 \State $y^{[1]} =$ P-RECURSIVE-FFT($a^{[1]}$)
+\State sync
 \ParFor{$ k= 0, \ldots, n/2-1$}
 \State $y_k = y_k^{[0]} + \omega y_k^{[1]}$
 \State $y_{k+ (n/2)} = y_k^{[0]} - \omega y_k^{[1]}$
