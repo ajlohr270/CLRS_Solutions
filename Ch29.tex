@@ -204,7 +204,7 @@ All we need to do to bring the number of constraints down from $O(V^2)$ to $O(V+
 
 \noindent\textbf{Exercise 29.2-6}\\
 
-Recall from section 26.3 that we can solve the maximum-bipartite-matching problem by viewing it as a network flow problem, where we append a source $s$ and sink $t$, each connected to every vertex is $L$ and $R$ respectively by an edge with capacity 1, and we give ever edge already in the bipartite graph capacity 1.  The integral maximum flows are in correspondence with maximum bipartite matchings. In this setup, the linear programming problem to solve is as follows:
+Recall from section 26.3 that we can solve the maximum-bipartite-matching problem by viewing it as a network flow problem, where we append a source $s$ and sink $t$, each connected to every vertex is $L$ and $R$ respectively by an edge with capacity 1, and we give every edge already in the bipartite graph capacity 1.  The integral maximum flows are in correspondence with maximum bipartite matchings. In this setup, the linear programming problem to solve is as follows:
 
 \begin{align*}
 \mbox{maximize \,\,\,} & \sum_{v \in L} f_{sv}\\
@@ -351,28 +351,60 @@ Every nonbasic variable now has negative coefficient in the objective function, 
 First, we convert this equation to the slack form. Doing so doesn't change the objective, but the constraints become
 
 \begin{align*}
+z &= -x_1-x_2-x_3\\
 x_4 & = -10000 + 2x_1 + 7.5x_2 + 3x_3\\
 x_5 & = -30000 + 20x_1 + 5x_2 + 10x_3 \\
 x_1,x_2,x_3,x_4,x_5 &\ge 0
 \end{align*}
 
-Also, since the objective is to minimize a given function, we'll change it over to maximizing the negative of that function. In particular maximize $-x_1 -x_2 -x_3$. Now, we note that the initial basic solution is not feasible, because it would leave $x_4$ and $x_5$ being negative. This means that finding an initial solution requires using the method of section 29.5. The auxiliary linear program is
+Also, since the objective is to minimize a given function, we'll change it over to maximizing the negative of that function. In particular maximize $-x_1 -x_2 -x_3$. Now, we note that the initial basic solution is not feasible, because it would leave $x_4$ and $x_5$ being negative. This means that finding an initial solution requires using the method of section 29.5. The auxiliary linear program in slack form is
 
 \begin{align*}
-\hbox{maximize } &-x_4-x_5\\ 
-x_4 & \ge -10000 + 2x_1 + 7.5x_2 + 3x_3\\
-x_5 & \ge -30000 + 20x_1 + 5x_2 + 10x_3 \\
+z &=-x_0\\ 
+x_4 & = -10000 + 2x_1 + 7.5x_2 + 3x_3 + x_0\\
+x_5 & = -30000 + 20x_1 + 5x_2 + 10x_3 + x_0 \\
+x_0,x_1,x_2,x_3,x_4,x_5 &\ge 0
+\end{align*}
+
+We choose $x_0$ as the entering variable and $x_5$ as the leaving variable, since it is the basic variable whose value in the basic solution is most negative.  After pivoting, we have the slack form 
+
+\begin{align*}
+z &=-30000 + 20x_1 + 5x_2 + 10x_3 - x_5\\ 
+x_0 & = 30000 - 20x_1 - 5x_2 - 10x_3 + x_5\\
+x_4 &= 20000 - 18x_1 + 2.5x_2 - 7x_3 + x_5\\
+x_0,x_1,x_2,x_3,x_4,x_5 &\ge 0
+\end{align*}
+
+The associated basic solution is feasible, so now we just need to repeatedly call PIVOT until we obtain an optimal solution to $L_{aux}$.  We'll choose $x_2$ as our entering variable.  This gives 
+
+\begin{align*}
+z &= -x_0\\ 
+x_2 & = 6000 - 4x_1 - 2x_3 + x_5/5 - x_0/5\\
+x_4 &= 35000 - 28x_1 - 12x_3 + (3/2)x_5 - x_0/2\\
+x_0,x_1,x_2,x_3,x_4,x_5 &\ge 0
+\end{align*}
+
+This slack form is the final solution to the auxiliary problem.  Since this solution has $x_0 = 0$, we know that our initial problem was feasible.  Furthermore, since $x_0=0$, we can just remove it from the set of constraints.  We then restore the oritinal objective function, with appropriate substitutions made to include only the nonbasic variables.  This yields
+
+\begin{align*}
+z &= -6000 + 3x_1 + x_3 - x_5/5\\
+x_2 & = 6000 - 4x_1 - 2x_3 + x_5/5\\
+x_4 &= 35000 - 28x_1 - 12x_3 + (3/2)x_5 \\
 x_1,x_2,x_3,x_4,x_5 &\ge 0
 \end{align*}
 
-If we can get a solution to the auxiliary that achieves the objective being zero, then, we will have our initial solution for the simplex method. One such solution is $x_1 = 5000$, $x_2=x_3=x_4=x_5=0$. Let's use this as our initial solution to the original LP. That is, it becomes
+This slack form has a feasible basic solution, and we can return it to SIMPLEX. We choose $x_1$ as our entering variable.  This gives
 
 \begin{align*}
-\hbox{minimize } &5000 + x_1 + x_2 + x_3\\ 
-x_4 & =  2x_1 + 7.5x_2 + 3x_3\\
-x_5 & = 70000 + 20x_1 + 5x_2 + 10x_3 \\
-x_1,x_2,x_3,x_4,x_5 &\ge 0
+z &= -2250 - (2/7)x_3 - (3/28)x_4 - (11/280)x_5\\
+x_1 &= 1250 - (3/7)x_3 - (1/28)x_4 + (3/56)x_5\\
+x_2 &= 1000 - (2/7)x_3 + (1/7)x_4 - (1/70)x_5 \\
+x_1,x_2,x_3,x_4,x_5 &\ge 0.
 \end{align*}
+
+At this point, all coefficients in the objective function are negative, so the basic solution is an optimal solution.  This solution is $(x_1, x_2, x_3) = (1250, 1000, 0)$. \\
+
+
 \noindent\textbf{Exercise 29.3-8}\\
 
 Consider the simple program
@@ -472,7 +504,8 @@ Suppose that our original linear program is in standard form for some $A,b,c$. T
 Corollary 26.5 from Chapter 26 can be interpreted as weak duality. \\
 
 \noindent\textbf{Exercise 29.5-1}\\
-%not done
+
+For line 5, first let $(N,B,A,b,c,v)$ be the result of calling PIVOT on $L_{aux}$ using $x_0$ as the entering variable.  Then repeatedly call PIVOT until an optimal solution to $L_{aux}$ is obtained, and return this to $(N,B,A,b,c,v)$.  To remove $x_0$ from the constraints, set $a_{i,0} = 0$ for all $i \in B$, and set $N = N \backslash \{0\}$.  To restore the original objective function of $L$, for each $j \in N$ and each $i \in B$, set $c_j = c_j - c_ia_{ij}$. \\
 
 \noindent\textbf{Exercise 29.5-2}\\
 
@@ -487,7 +520,78 @@ Since it is in standard form, the objective function has no constant term, it is
 Consider the linear program in which we wish to maximize $x_1$ subject to the constraint $x_1 < 1$ and $x_1 \geq 0$.  This has no optimal solution, but it is clearly bounded and has feasible solutions. Thus, the Fundamental theorem of linear programming does not hold in the case of strict inequalities. \\
 
 \noindent\textbf{Exercise 29.5-5}\\
-%notdone
+
+The initial basic solution isn't feasible, so we will need to form the auxiliary linear program:
+
+\begin{align*}
+\mbox{maximize \,\,\,} & -x_0\\
+\mbox{subject to \,} &x_1 - x_2 - x_0 \leq 8 \\
+& -x_1 - x_2 - x_0 \leq -3\\
+& -x_1 + 4x_2 - x_0 \leq 2 \\
+& x_1,x_2,x_0 \geq 0.
+\end{align*}
+
+Then we write this linear program in slack form:
+
+\begin{align*}
+z &= -x_0\\
+x_3 &= 8 -x_1 + x_2 + x_0 \\
+x_4&= -3 +x_1 + x_2 + x_0\\
+x_5&=2 +x_1 - 4x_2 + x_0 \\
+& x_1,x_2,x_3, x_4, x_5, x_0 \geq 0.
+\end{align*}
+
+Next we make one call to PIVOT where $x_0$ is the entering variable and $x_4$ is the leaving variable. This gives:
+
+\begin{align*}
+z &= -3 + x_1 + x_2 - x_4\\
+x_0 &= 3 - x_1 - x_2 + x_4 \\
+x_3 &= 11 - 2x_1 + x_4\\
+x_5 &= 5 - 5x_2 + x_4 \\
+& x_1,x_2,x_3, x_4, x_5, x_0 \geq 0.
+\end{align*}
+
+The basic solution is feasible, so we repeatedly call PIVOT to get the optimal solution to $L_{aux}$.  We'll choose $x_1$ to be our entering variable and $x_0$ to be the leaving variable.  This gives
+
+\begin{align*}
+z &= -x_0\\
+x_1 &= 3 - x_0 - x_2 + x_4 \\
+x_3 &= 5 + 2x_0 + 2x_2 - x_4\\
+x_5 &= 5 - 5x_2 + x_4 \\
+& x_1,x_2,x_3, x_4, x_5, x_0 \geq 0.
+\end{align*}
+
+The basic solution is now optimal for $L_{aux}$, so we return this slack form to SIMPLEX, set $x_0 = 0$, and update the objective function which yields
+
+\begin{align*}
+z &= 3 + 2x_2 + x_4\\
+x_1 &= 3 - x_2 + x_4 \\
+x_3 &= 5 + 2x_2 - x_4\\
+x_5 &= 5 - 5x_2 + x_4 \\
+& x_1,x_2,x_3, x_4, x_5, x_0 \geq 0.
+\end{align*}
+
+We'll choose $x_2$ as our entering variable, which makes $x_5$ our leaving variable.  PIVOT then gives 
+
+\begin{align*}
+z &= 5 + (7/5)x_4 - (2/5)x_5\\
+x_2 &= 1 + (1/5)x_4 - (1/5)x_5 \\
+x_1 &= 2 + (4/5)x_4 + (1/5)x_5\\
+x_3 &= 7 - (3/5)x_4 - (2/5)x_5 \\
+& x_1,x_2,x_3, x_4, x_5, x_0 \geq 0.
+\end{align*}
+
+We'll choose $x_4$ as our entering variable, which makes $x_3$ our leaving variable.  PIVOT then gives
+
+\begin{align*}
+z &= (64/3) - (7/3)x_3 - (4/3)x_5\\
+x_4 &=  (35/3) - (5/3)x_3 - (2/3)x_5 \\
+x_2 &= (10/3) - (1/3)x_3 - (1/3)x_5\\
+x_1 &= (34/3) - (4/3)x_3 - (1/3)x_5 \\
+& x_1,x_2,x_3, x_4, x_5, x_0 \geq 0.
+\end{align*}
+
+Now all coefficients in the objective function are negative, so the basic solution is the optimal solution.  It is $(x_1, x_2) = (34/3, 10/3)$. \\
 
 \noindent\textbf{Exercise 29.5-6}\\
 
@@ -495,17 +599,17 @@ The initial basic solution isn't feasible, so we will need to form the auxiliary
 
 \begin{align*}
 \mbox{maximize \,\,\,} & -x_0\\
-\mbox{subject to \,} &x_1 + x_2 - x_0 \leq 4 \\
+\mbox{subject to \,} &x_1 + 2x_2 - x_0 \leq 4 \\
 & -2x_1 - 6x_2 - x_0 \leq -12\\
 & x_2 - x_0 \leq 1 \\
 & x_1,x_2,x_0 \geq 0.
 \end{align*}
 
-The we write this linear program in slack form:
+Then we write this linear program in slack form:
 
 \begin{align*}
 z &= -x_0\\
-x_3 &= 4 - x_1 - x_2 + x_0  \\
+x_3 &= 4 - x_1 - 2x_2 + x_0  \\
 x_4 &= -12 + 2x_1 + 6x_2 + x_0 \\
 x_5 &= 1 - x_2 + x_0. \\
 \end{align*}
@@ -514,7 +618,7 @@ Next we make one call to PIVOT where $x_0$ is the entering variable and $x_4$ is
 
 \begin{align*}
 z &= -12 + 2x_1 + 6x_2 - x_4\\
-x_3 &= 16 - 3x_1 - 7x_2 + x_4  \\
+x_3 &= 16 - 3x_1 - 8x_2 + x_4  \\
 x_0 &= 12 + x_4 - 2x_1 - 6x_2 \\
 x_5 &= 13 - 2x_1 - 8x_2 + x_4. \\
 \end{align*}
@@ -522,16 +626,87 @@ x_5 &= 13 - 2x_1 - 8x_2 + x_4. \\
 The basic solution is $(x_0,x_1,x_2,x_3,x_4,x_5) = (12, 0,0,16,0,13)$ which is feasible for the auxiliary program.  Now we need to run SIMPLEX to find the optimal objective value to $L_{aux}$.  Let $x_1$ be our next entering variable.  It is most constrainted by $x_3$, which will be our leaving variable.  After PIVOT, the new linear program is
 
 \begin{align*}
-z &= -4/3 - (4/3)x_2 - (2/3)x_3 - (1/3)x_4 \\
-x_1 &= 16/3 - (7/3)x_2 - (1/3)x_3 + (1/3)x_4  \\
-x_0 &= 4/3 - (4/3)x_2 + (2/3)x_3 + (1/3)x_4 \\
-x_5 &= 7/3 - (10/3)x_2 + (2/3)x_3 + (1/3)x_4. \\
+z &= -4/3 + (2/3)x_2 - (2/3)x_3 - (1/3)x_4 \\
+x_1 &= 16/3 - (8/3)x_2 - (1/3)x_3 + (1/3)x_4  \\
+x_0 &= 4/3 - (2/3)x_2 + (2/3)x_3 + (1/3)x_4 \\
+x_5 &= 7/3 - (8/3)x_2 + (2/3)x_3 + (1/3)x_4. \\
 \end{align*}
 
 Every coefficient in the objective function is negative, so we take the basic solution $(x_0,x_1,x_2,x_3,x_4,x_5) = (4/3, 16/3, 0,0,0,7/3)$ which is also optimal.  Since $x_0 \neq 0$, the original linear program must be infeasible. \\
 
 \noindent\textbf{Exercise 29.5-7}\\
-%notdone
+
+The initial basic solution isn't feasible, so we will need to form the auxiliary linear program:
+
+\begin{align*}
+\mbox{maximize \,\,\,} & -x_0\\
+\mbox{subject to \,} & -x_1 + x_2 - x_0 \leq -1 \\
+& -x_1 - x_2 - x_0 \leq -3 \\
+& -x_1 + 4x_2 - x_0 \leq 2 \\
+& x_1,x_2,x_0 \geq 0.
+\end{align*}
+
+Then we write this linear program in slack form:
+
+\begin{align*}
+z &= -x_0\\
+x_3 &=-1 +x_1 - x_2 + x_0 \\
+x_4&= -3 + x_1 + x_2 + x_0 \\
+x_5 &= 2 + x_1 - 4x_2 + x_0\\
+& x_1,x_2,x_3,x_4,x_5,x_0 \geq 0.
+\end{align*}
+
+Next we make one call to PIVOT where $x_0$ is the entering variable and $x_4$ is the leaving variable. This gives:
+
+\begin{align*}
+z &= -3 + x_1 + x_2 - x_4\\
+x_0 &= 3 - x_1 - x_2 + x_4 \\
+x_3 &= 2 - 2x_2 + x_4 \\
+x_5 &= 5 - 5x_2 + x_4\\
+& x_1,x_2,x_3,x_4,x_5,x_0 \geq 0.
+\end{align*}
+
+Let $x_1$ be our entering variable.  Then $x_0$ is our leaving variable, and we have
+
+\begin{align*}
+z &= -x_0\\
+x_1 &= 3 - x_0 - x_2 + x_4 \\
+x_3 &= 2 - 2x_2 + x_4 \\
+x_5 &= 5 - 5x_2 + x_4\\
+& x_1,x_2,x_3,x_4,x_5,x_0 \geq 0.
+\end{align*}
+
+The basic solution is feasible, and optimal for $L_{aux}$, so we return this and run SIMPLEX.  Updating the objective function and setting $x_0 = 0$ gives
+
+\begin{align*}
+z &= 3 + 2x_2 + x_4\\
+x_1 &= 3 - x_2 + x_4 \\
+x_3 &= 2 - 2x_2 + x_4 \\
+x_5 &= 5 - 5x_2 + x_4\\
+& x_1,x_2,x_3,x_4,x_5,x_0 \geq 0.
+\end{align*}
+
+We'll choose $x_2$ as our entering variable, which makes $x_3$ our leaving variable.  This gives
+
+\begin{align*}
+z &= 5 - x_3 + 2x_4\\
+x_2 &= 1 - (1/2)x_3 + (1/2)x_4 \\
+x_1 &= 2 + (1/2)x_3 + (1/2)x_4 \\
+x_5 &= (5/2)x_3 - (3/2)x_4\\
+& x_1,x_2,x_3,x_4,x_5,x_0 \geq 0.
+\end{align*}
+
+Next we use $x_4$ as our entering variable, which makes $x_5$ our leaving variable. This gives
+
+\begin{align*}
+z &= 5 + (7/3)x_3 - (4/3)x_5\\
+x_4 &= (5/3)x_3 - (2/3)x_5 \\
+x_2 &= 1 + (1/3)x_3 - (1/3)x_5 \\
+x_1 &= 2 + (4/3)x_3 - (1/3)x_5\\
+& x_1,x_2,x_3,x_4,x_5,x_0 \geq 0.
+\end{align*}
+
+Finally, we would like to choose $x_3$ as our entering variable, but every coefficient on $x_3$ is positive, so SIMPLEX returns that the linear program is unbounded. \\
 
 \noindent\textbf{Exercise 29.5-8}\\
 
