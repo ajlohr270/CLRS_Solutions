@@ -402,6 +402,8 @@ The modifications work as follows:  Each time the if-condition of line 8 is sati
 
 \noindent\textbf{Exercise 22.3-13}\\
 
+This can be done in time $O(|V||E|)$. To do this, first perform a topological sort of the vertices. Then, we will contain for each vertex a list of it's ancestors with in degree 0. We compute these lists for each vertex in the order starting from the earlier ones topologically. Then, if we ever have a vertex that has the same degree 0 vertex appearing in the lists of two of its immediate parents, we know that the graph is not singly connected. however, if at each step we have that at each step all of the parents have disjoint sets of degree 0 vertices as ancestors, the graph is singly connected. Since, for each vertex, the amount of time required is bounded by the number of vertices times the in degree of the particular vertex, the total runtime is bounded by $O(|V||E|)$.\\
+\begin{comment}
 Samir Khuller reveals through personal communication with Cormen that at the time of writing, the best solution known to Cormen takes time $O(|V||E|)$. This is mentioned in his paper ``An $O(|V|^2)$ algorithm for single connectedness''. We here present an even better algorithm which only takes time $O(|E| + |V|\alpha(|V|))$.
 
 First, we construct the component graph for the given directed graph. Next, we check each of the strongly connected components to make sure that they are singly connected. To do this, we first obtain a ear decomposition of the component, which we are assure exists because it is strongly connected. So, we are given a sequence of directed graphs $G_1, \ldots,G_j$ where $G_j$ is equal to the whole component, $G_1$ is just a cycle, and each $G_{i+1}$ is obtained from $G_i$ by adding in a path on new vertices from one existing vertex of $G_i$ to another. Then, if and only if on each step in the ear decomposition, path that gets added in starts and ends on the same vertex in the previous step's graph, we have that the graph will be singly connected.
@@ -440,7 +442,7 @@ This last part that operates on the component graph takes time $O(|E|+ |V|\alpha
 \State \Return TRUE
 \end{algorithmic}
 \end{algorithm}
-
+\end{comment}
 \begin{comment}
 First, we check for the graph to be acyclic. This can be done with a DFS looking for black edges, as proven in lemma 22.11. Once we know it is  acyclic, we perform a topological sort. Both of these steps take time $O(|V|+|E|)$. Then, to check for single contentedness, we create a disjoint set structure in which each vertex is in its own set. Then, looking at the vertices from left to right in the topological sort, we will union together all the children of the vertex under consideration. Before this though, we check to make sure that the vertex under consideration is in a different set than all of its children. If we had that the current object were in the same set as it's children that means that there is some ancestor of the current vertex that is also a parent of the current vertex's child. This would mean that there are two paths from that ancestor to the child. One that's direct, and one that passes through the current vertex.\end{comment}
 
