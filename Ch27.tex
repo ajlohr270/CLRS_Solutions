@@ -349,7 +349,30 @@ Suppose that there are c different processors, and the array has length $n$ and 
 
 \noindent\textbf{Exercise 27.3-4}\\
 
-%Requires RECURSIVE-FFT.  Will complete after having read past page 911.
+See the algorithm P-RECURSIVE-FFT. it parallelized over the two recursive calls, having a parallel for works because each of the iterations of the for loop touch independent sets of variables. The span of the procedure is only $\Theta(\lg(n))$ giving it a parallelization of $\Theta(n)$
+
+\begin{algorithm}
+\caption{P-RECURSIVE-FFT(a)}
+\begin{algorithmic}
+\State $n = a.length$
+\If{$n==1$}
+\State \Return a
+\EndIf
+\State $\omega_n = e^{2\pi i/n}$
+\State $\omega =1$
+\State $a^{[0]} = (a_0,a_2, \ldots, a_{n-2})$
+\State $a^{[1]} = (a_1,a_3, \ldots, a_{n-1})$
+\State $y^{[0]} =$ spawn P-RECURSIVE-FFT($a^{[0]}$)
+\State $y^{[1]} =$ P-RECURSIVE-FFT($a^{[1]}$)
+\State sync
+\ParFor{$ k= 0, \ldots, n/2-1$}
+\State $y_k = y_k^{[0]} + \omega y_k^{[1]}$
+\State $y_{k+ (n/2)} = y_k^{[0]} - \omega y_k^{[1]}$
+\State $\omega = \omega \omega_n$
+\EndParFor
+\State \Return y
+\end{algorithmic}
+\end{algorithm}
 
 \noindent\textbf{Exercise 27.3-5}\\
 

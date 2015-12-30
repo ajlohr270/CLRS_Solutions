@@ -185,6 +185,9 @@ T(n) &= 3 T(n/3) + \Theta(n)\\
 
 \noindent\textbf{Exercise 30.2-6}\\
 
+Using this different value of $\omega$, and viewing the value modulo $m$, we will use the same definition of the DFT. First, notice that this choice of $\omega$ has the correct behavior, that is, $\omega^{n} = (2^{tn/2})^2 \equiv -1^2 =1$. To see that $DFT^{-1}$ is well defined, we can just notice that if we take two different sets of coefficients, say $\{a_k\}$ and $\{b_k\}$, if we get the same evaluations at each of the $n$ points, we get that the polynomial $\sum_{j=0}^{n-1} (a_j - b_j) x^k$ has $n$ zeroes, even though it is only degree $n-1$, a contradiction to the fundamental theorem of Algebra (which works over an arbitrary ring, so it works in $\mathbb{Z}_m$.
+
+Now, to see that the DFT is well defined, suppose we have a single set of coefficients then it has to give the same evaluations at the various points, so it has to give a single evaluation after being viewed mod $m$.
 %Finish! We need to know that we get the same result for DFT and inverse DFT regardless of which value of $t$ we choose.
 
 \noindent\textbf{Exercise 30.2-7}\\
@@ -366,8 +369,18 @@ T(n) = 2 T(n/2) +\Theta(n\lg(n))
 \end{enumerate}
 
 \noindent\textbf{Problem 30-6}\\
+\begin{enumerate}[a.]
+\item
+By the prime number theorem, the number of primes between 1 and N is approximately $\frac{1}{\ln(N)}$. This means that between 1 and $n\lg(n)$, we can expect that a random number will be prime with probability $\frac{1}{\lg(n\lg(n))} = \frac{1}{\lg(n) + \lg(\lg(n))} \approx \frac{1}{\lg(n)}$. Also, we are considering $\lg(n)$ numbers between $1$ and $n\lg(n)+1$ that are one more than a multiple of $n$, so, the expected number of prime numbers of that form with $k \le \lg(n)$ is one, so, by the poisson paradigm, we would think that with probability at least about $\frac{1}{e}$, there is a prime number of that form with $k\le\lg(n)$.
 
-%Requires chapter 31
+Sine the value of $p$ is expected to be about $n\lg(n)$, it has a length of about $\lg(n\lg(n))  = \lg(n) + \lg(\lg(n))$.
+\item
+
+
+\item
+
+\item
+\end{enumerate}
 
 
 \end{document}
