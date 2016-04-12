@@ -62,7 +62,7 @@ s=11&(11,0)&(12,1)&(13,2)&(14,3)&p(11)\\
 
 \noindent\textbf{Exercise 32.1-2}\\
 
-We know that one occurrence of $P$ in $T$ cannot overlap with another, so we don't need to double-check the way the naive algorithm does.  If we find an occurrence of $P_k$ in the text followed by a nonmatch, we can increment $s$ by $k$ instead of 1.  It can be modified in the following way:
+We know that one occurrence of $P$ in $T$ cannot overlap with another, so we don't need to double-check the way the naive algorithm does.  If we find an occurrence of $P_k$ in the text followed by a nonmatch, we can increment $s$ by $k$ instead of 1.  It can be modified in the following way:\\
 
 \begin{algorithm}
 \caption{DISTINCT-NAIVE-STRING-MATCHER$(T,P)$}
@@ -174,8 +174,9 @@ The sequence of states for $T$ is $0,1,2,2,3,4,5,1,2,3,4,2,3,4,5,1,2,3$, and so 
 
 \noindent\textbf{Exercise 32.3-2}\\
 
-%Need to finish InkScape drawing
+See picture below for the 22 state automaton.\\
 
+\includegraphics[scale=.1]{automaton.jpg}\\
 
 \noindent\textbf{Exercise 32.3-3}\\
 

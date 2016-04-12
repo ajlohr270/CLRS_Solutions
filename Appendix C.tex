@@ -1,0 +1,227 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{etoolbox}
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{graphicx}
+	
+\pagestyle{fancy}
+\title{Appendix C}
+\author{Michelle Bodnar, Andrew Lohr}
+
+\newcounter{curnum}
+\setcounter{curnum}{0}
+
+\newtheorem{th1}{Exercise} 
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calY}{\mathcal{Y}}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Exercise C.1-2}\\
+
+There are $2^{(2^n)}$ $n$-input, 1-output boolean functions and $(2^m)^{(2^n)}$ $n$-input, $m$-output boolean functions. \\
+
+\noindent\textbf{Exercise C.1-4}\\
+
+The sum of three numbers is even if and only if they are all even, or exactly two are odd and one is even.  For the first case, there are ${49 \choose 3}$ ways to pick them.  For the second case, there are ${50 \choose 2} {49 \choose 1}$ ways.  Thus, the total number of ways to select 3 distinct numbers so that their sum is even is 
+
+\[ {49 \choose 3} + {50 \choose 2}{49 \choose 1}.\]
+
+\noindent\textbf{Exercise C.1-6}\\
+
+We can prove this directly:
+
+\[ {n \choose k} = \frac{n!}{k!(n-k)!} = \frac{n}{n-k}\frac{(n-1)!}{k!(n-k-1)!} = \frac{n}{n-k} {n-1 \choose k}.\]
+
+\noindent\textbf{Exercise C.1-8}\\
+
+The following shows Pascal's triangle with $n$ increasing down columns and $k$ increasing across rows. \\
+
+\begin{tabular}{ccccccc}
+1 &&&&&& \\
+1 & 1 &&&&& \\
+1 & 2 & 1 &&&& \\
+1 & 3 & 3 & 1 &&& \\
+1 & 4 & 6 & 4 & 1 &&\\
+1 & 5  & 10 & 10 & 5 & 1 &\\
+1 & 6 & 15 & 20 & 15 & 6 & 1
+\end{tabular}\\
+
+\noindent\textbf{Exercise C.1-10}\\
+
+Fix $n$.  Then we have 
+
+\[{n \choose k} = \frac{n!}{k!(n-k)!} = \frac{n-k+1}{k} \frac{n!}{(k-1)!(n-k+1)!} = \frac{n-k+1}{k}{n \choose k-1}.\]
+
+Thus, we increase in $k$ if and only if $\frac{n-k+1}{k} \geq 1$, which happens only when $n+1 \geq 2k$, or $k \leq \lceil n/2 \rceil$.  On the other hand, we decrease in $k$ if and only if $\frac{n-k+1}{k} \leq 1$, so $k \geq \lfloor n/2 \rfloor$.  Thus, the function is maximized precisely when $k$ is equal to one of these. \\
+
+\noindent\textbf{Exercise C.1-12}\\
+
+We'll prove inequality C.6 for $k \leq n/2$ by induction on $k$. For $k=0$ we have ${n \choose 0} = 1 \leq \frac{n^n}{0^0 (n-0)^{(n-0)}} = 1$. Now suppose the claim holds for $k$, and that $k < n/2$.  Then we have 
+
+\begin{align*} 
+{n \choose k+1} &= \frac{n-k}{k+1} {n \choose k} \\
+&\leq \frac{n-k}{k+1} \frac{n^n}{k^k(n-k)^{(n-k)}} \\
+&=\frac{n^n}{(k+1)k^k(n-k)^{(n-k-1)}}.
+\end{align*}
+
+To show that this is bounded from above by $\frac{n^n}{(k+1)^{k+1}(n-k-1)^{(n-k-1)}}$ we need ony verify that $\left(\frac{k+1}{k}\right)^k \leq \left(\frac{n-k}{n-k-1}\right)^{n-k-1}$.  This follows from the fact that the left hand side, when viewed as a function of $k$, is increasing, and $k < n/2$ which implies that $k+1 \leq n-k$.  By induction, the claim holds.  Using equation $C.3$, we see that the claim extends to all $0 \leq k \leq n$ since the right hand side of the inequality is symmetric in $k$ and $n-k$. \\
+
+
+
+\noindent\textbf{Exercise C.1-14}\\
+
+Differentiating the entropy function and setting it equal to 0 we have 
+
+\[ H'(\lambda) = \lg(1-\lambda) - \lg(\lambda) = 0,\]
+
+or equivalently $\lg(1-\lambda) = \lg(\lambda)$.  This happens when $\lambda = 1/2$.  Moreover, $H''(1/2) = \frac{-4}{\ln(2)} < 0$, so this is a local maximum.  We have $H(1/2) = 1$, and since $H(0) = H(1) = 0$, this is in fact a global maximum for $H$. \\
+
+\noindent\textbf{Exercise C.2-2}\\
+
+Let $B_i = A_i \backslash (\cup_{k=1}^{i-1}A_i)$.  Then $B_1, B_2, \ldots $ are disjoint and $A_1 \cup A_2 \cup \ldots = B_1 \cup B_2 \cup \ldots$.  Moreover, $B_i \subseteq A_i$ for each $i$, so $Pr(B_i) \leq Pr(A_i)$.  By third axiom of probability we have 
+\[ Pr(A_1 \cup A_2 \cup \ldots = Pr(B_1 \cup B_2 \cup \ldots) = \sum_{i \geq 1} Pr(B_i) \leq \sum_{i \geq 1} Pr(A_i).\]
+
+\noindent\textbf{Exercise C.2-4}\\
+
+We can verify this directly from the definition of conditional probability as follows:
+\[Pr(A|B) + Pr(\overline{A} | B) = \frac{Pr(A \cap B)}{Pr(B)} + \frac{Pr(\overline{A} \cap B)}{Pr(B)} = \frac{Pr(B)}{Pr(B)} = 1.\]
+
+\noindent\textbf{Exercise C.2-6}\\
+
+Let $.a_1a_2a_3\ldots$ be the binary representation of $a/b$.  Flip the fair coin repeatedly, associating 1 with heads and 0 with tails, until the first time that the value of the $i^{th}$ flip differs from $a_i$.  If the value is greater than $a_i$, output tails.  If the value is less than $a_i$, output heads.  Every number between 0 and $.99999\ldots = 1$ has the possibility to be represented, and is created by randomly choosing its binary representation.  The probability that we output tails is the probability that our number is less than $a/b$, which is just $a/b$.  The expected number of flips is $\sum_{i=1}^\infty i2^{-i} = 2 = O(1)$. \\
+
+\noindent\textbf{Exercise C.2-8}\\
+
+Suppose we have a biased coin which always comes up heads, and a fair coin.  We pick one at random and flip it twice.  Let $A$ be the event that the first coin is heads, $B$ be the event that the second coin is heads, and $C$ be the event that the fair coin is the one chosen.  Then we have $Pr(A \cap B) = 5/8$ and $Pr(A) = Pr(B) = 3/4$ so $Pr(A \cap B) \neq Pr(A)Pr(B)$.  Thus, $A$ and $B$ are not independent.  However, 
+
+\[ Pr(A \cap B | C) = \frac{Pr(A \cap B \cap C)}{Pr(C)} = \frac{(1/2)(1/2)(1/2)}{1/2} = 1/4\]
+and
+\[ Pr(A|C)\cdot Pr(B|C) = \frac{Pr(A \cap C)}{Pr(C)} \frac{Pr(B \cap C)}{Pr(C)} = \frac{1/4}{1/2} \frac{1/4}{1/2} = 1/4.\]
+
+\noindent\textbf{Exercise C.2-10}\\
+
+His chances are still 1/3, because at least one of $Y$ or $Z$ would be executed, so hearing which one changes nothing about his own situation.  However, the probability that $Z$ is going free is now 2/3.  To see this, note that the probability that the free prisoner is among $Y$ and $Z$ is 2/3.  Since we are told that it is not $Y$, the 2/3 probability must apply exclusively to $Z$.  \\
+
+\noindent\textbf{Exercise C.3-2}\\
+
+The probability that the maximum or minimum element is in a particular spot is $1/n$ since the ordering is random.  Thus, the expected index of the maximum and minimum are the same, and given by:
+
+\[ E[X] = \sum_{i=1}^n i(1/n) = \frac{1}{n} \frac{n(n+1)}{2} = \frac{n+1}{2}.\]
+
+\noindent\textbf{Exercise C.3-4}\\
+
+Let $X$ and $Y$ be nonnegative random variables.  Let $Z = X+Y$.  Then $Z$ is a random variable, and since $X$ and $Y$ are nonnegative, we have $Z \geq \max(X,Y)$ for any outcome.  Thus, $E[\max(X,Y)] \leq E[Z] = E[X] + E[Y]$.\\
+
+
+\noindent\textbf{Exercise C.3-6}\\
+
+We can verify directly from the definition of expectation:
+
+\begin{align*}
+E[X] &= \sum_{i=0}^\infty i \cdot Pr(X = i) \\
+& \geq \sum_{i=t}^\infty i \cdot Pr(X=i) \\
+&\geq t\sum_{i=t}^\infty Pr(X=i) \\
+&= t\cdot Pr(X \geq t).
+\end{align*}
+
+Dividing both sides by $t$ gives the result. \\
+
+\noindent\textbf{Exercise C.3-8}\\
+
+The expectation of the square of a random variable is larger.  To see this, note that by (C.27) we have $E[X^2] - E^2[X] = E[(X-E[X])^2] \geq 0$ since the square of a random variable is a nonnegative random variable, so its expectation must be nonnegative. \\
+
+\noindent\textbf{Exercise C.3-10}\\
+
+Proceeding from (C.27) we have
+
+\begin{align*}
+Var[aX] &= E[(aX)^2] - E^2[aX] \\
+&= E[a^2X^2] - a^2E^2[X] \\
+&= a^2E[X^2] - a^2E^2[X]\\
+&=a^2(E[X^2] - E^2[X])\\
+&= a^2Var[X].
+\end{align*}
+
+\noindent\textbf{Exercise C.4-2}\\
+
+Let $X$ be the number of times we must flip 6 coins before we obtain 3 heads and 3 tails.  The probability that we obtain 3 heads and 3 tails is ${6 \choose 3}(1/2)^6 = 5/16$, so the probability that we don't is 11/16.  Moreover, $X$ has a geometric distribution, so by (C.32) we have
+
+\[ E[X] = 1/p = 16/5.\]
+
+\noindent\textbf{Exercise C.4-4}\\
+
+Using Stirling's approximation we have $b(k;n,p) \approx \frac{\sqrt{n}n^n}{\sqrt{2\pi}\sqrt{k(n-k)}k^k(n-k)^{n-k}}p^kq^{n-k}$.  The binomial distribution is maximized at its expectation.  Plugging in $k=np$ gives 
+\[ b(np;n,p) \approx \frac{\sqrt{n}n^np^{np}(1-p)^{n-np}}{\sqrt{np(n-np)}(np)^{np}(n-np)^{n-np}} = \frac{1}{\sqrt{2\pi n p q}}.\]
+
+\noindent\textbf{Exercise C.4-6}\\
+
+There are $2n$ total coin flips amongst the two professors.  They get the same number of heads if Professor Guildenstern flips $k$ heads and Professor Rosencrantz flips $n-k$ tails. If we imagine flipping a head as a success for Professor Rosencrantz and flipping a tail as a success for Professor Guildenstern, then the professors get the same number of heads if and only if the total number of successes achieved by the professors is $n$.  There are ${2n \choose n}$ ways to select which coins will be a successes for their flipper.  Since the outcomes are equally likely, and there are $2^{2n} = 4^n$ possible flip sequences, the probability is ${2n \choose n} / 4^n$.  \\
+
+To verify the identity, we can imagine counting successes in two ways.  The right hand side counts via our earlier method.  For the left hand side, we can imagine first choosing $k$ successes for Professor Guildenstern, then choosing the remaining $n-k$ successes for Professor Rosencrantz.  We sum over all $k$ to get the total number of possibilities.  Since the two sides of the equation count the same thing they must be equal. \\
+
+
+\noindent\textbf{Exercise C.4-8}\\
+
+Let $a_1, a_2, \ldots, a_n$ be uniformly chosen from $[0,1]$. Let $X_i$ be the indicator random variable that $a_i \leq p_i$ and $Y_i$ be the indicator random variable that $a_i \leq p$.  Let $X' = \sum_{i=1}^n X_i$ and $Y'=\sum_{i=1}^nY_i$.  Then for any event we have $X' \leq Y'$, which implies $P(X' < k) \geq P(Y'<k)$.  Let $Y$ be the number of successes in $n$ trials if each trial is successful with probability $p$.  Then $X$ has the same distribution as $X'$ and $Y$ has the same distribution of $Y'$, so we conclude that $P(X<k) \geq P(Y<k)$. \\
+
+\noindent\textbf{Exercise C.5-2}\\
+
+For Corollary C.6 we have $b(i;n,p)/b(i-1;n,p) \leq \frac{(n-k)p}{kq}$.  Let $x = \frac{(n-k)p}{kq}$.  Note that $x < 1$, so the infinite series below converges. Then we have
+
+\begin{align*}
+Pr(X > k) &= \sum_{i=k+1}^n b(i;n,p) \\
+&\leq \sum_{i=k+1}^n x^{i-k}b(k;n,p) \\
+&= b(k;n,p) \sum_{i=1}^{n-k} x^i \\
+&\leq b(k;n,p) \sum_{i=1}^\infty x^i \\
+&= b(k;n,p) \frac{x}{1-x} \\
+&= b(k;n,p) \frac{(n-k)p}{k-np}.
+\end{align*}
+
+For Corollary C.7, we use Corollary C.6 and the fact that $x < 1$ as follows:
+
+\[ \frac{Pr(X > k)}{Pr(X>k-1)} = \frac{Pr(X>k)}{Pr(X>k)+Pr(X=k-1)} \leq \frac{xb(k;n,p)}{xb(k;n,p) + b(k;n,p)}  < \frac{1}{2}.\]
+
+\noindent\textbf{Exercise C.5-4}\\
+
+Using Lemma C.1 and Corollary C.4 we have 
+
+\begin{align*} 
+\sum_{i=0}^{k-1} p^iq^{n-i} &\leq \sum_{i=0}^{k-1} {n \choose i}p^iq^{n-i} \\
+&= \sum_{i=0}^{k-1}b(i;n,p) \\
+&\leq \frac{kq}{np-k}b(k;n,p) \\
+&\leq \frac{kq}{np-k}\left(\frac{np}{k}\right)^k \left(\frac{nq}{n-k}\right)^{n-k}.
+\end{align*}
+
+\noindent\textbf{Exercise C.5-6}\\
+
+As in the proof of Theorem C.8, we'll bound $E[e^{\alpha(X-\mu)}$ and substitute a suitable value for $\alpha$.  First we'll prove (with a fair bit of work) that if $q = 1-p$ then $f(\alpha) = e^{\alpha^2/2} - pe^{\alpha q} - qe^{-\alpha p} \geq 0$ for $\alpha \geq 0$.  First observe that $f(0) = 0$.  Next we'll show $f'(\alpha) > 0$ for $\alpha > 0$.  To do this, we'll show that $f'(0) = 0$ and $f''(\alpha) > 0$.  We have
+\[f'(\alpha) = \alpha e^{\alpha^2/2} - pqe^{\alpha q} + pqe^{-\alpha p} \]
+so $f'(0) = 0$.  Moreover
+
+\[ f''(\alpha) = \alpha^2e^{\alpha^2/2} + e^{\alpha^2/2} - pq(qe^{\alpha q} + pe^{-\alpha p}).\]
+
+Since $ \alpha^2e^{\alpha^2/2} > 0$ it will suffice to show that $e^{\alpha^2/2} \geq pq(qe^{\alpha q} + pe^{-\alpha p})$.  Indeed, we have
+
+\[pq(qe^{\alpha q} + pe^{-\alpha p}) \leq (1/4)(qe^{\alpha q} + pe^{-\alpha p} \leq (1/4)e^{-\alpha p}(e^\alpha + 1) \leq (1/4)(e^\alpha + 1)\]
+so we need to show $4e^{\alpha^2/2} \geq e^{\alpha} + 1$.  Since $e^{\alpha^2/2} > 1$, it is enough to show $3e^{\alpha^2/2} \geq e^{\alpha}$.  Taking logs on both sides, we need $\alpha^2/2 - \alpha + \ln(3) \geq 0$.  By taking a derivative we see that this function is minimized when $\alpha = 1$, where it attains the value $\ln(3)-1/2 > 0$.  Thus, the original inequality holds.  Now can proceed with the rest of the proof.  As in the proof of Theorem C.8, $E[e^{\alpha(X-\mu)} = \prod_{i=1}^n E[e^{\alpha(X_i-p_i)}]$.  Using the inequality we just proved we have 
+
+\[ E[e^{\alpha(X_i-p_i)}] = p_ie^{\alpha q_i} + q_ie^{-\alpha p_i} \leq e^{\alpha^2/2}.\]
+
+Thus, $E[e^{\alpha(X-\mu)}] \leq \prod_{i=1}^n e^{\alpha^2/2} = e^{n\alpha^2/2}$.  By this and (C.43) and (C.44) we have 
+
+\[Pr(X-\mu \geq r) \leq E[e^{\alpha(X-\mu)]}e^{-\alpha r} \leq e^{n \alpha^2/2 - \alpha r}.\]
+
+Finally, taking $\alpha = r/n$ gives the desired result. \\
+\end{document}
