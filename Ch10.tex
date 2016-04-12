@@ -234,7 +234,7 @@ To insert, just do list insert before the current head, in constant time. To sea
 
 \noindent\textbf{Exercise 10.2-6}\\
 
-Let $L_1$ be a doubly linked list containing the elements of $S_1$ and $L_2$ be a doubly linked list containing the elements of $S_2$.  We implement UNION as follows: Set $L_1.nil.prev.next = L_2.nil.next$ and $L_2.nil.next.prev = L_1.nil.prev$ so that the last element of $L_1$ is followed by the first element of $L_2$.  Then set $L_1.nil.prev = L_2.nil.prev$ and $L_2.nil.prev.next = L_1.nil$, so that $L_1.nil$ is the sentinal for the doubly linked list containing all the elements of $L_1$ and $L_2$. \\
+Let $L_1$ be a doubly linked list containing the elements of $S_1$ and $L_2$ be a doubly linked list containing the elements of $S_2$.  We implement UNION as follows: Set $L_1.nil.prev.next = L_2.nil.next$ and $L_2.nil.next.prev = L_1.nil.prev$ so that the last element of $L_1$ is followed by the first element of $L_2$.  Then set $L_1.nil.prev = L_2.nil.prev$ and $L_2.nil.prev.next = L_1.nil$, so that $L_1.nil$ is the sentinel for the doubly linked list containing all the elements of $L_1$ and $L_2$. \\
 
 \noindent\textbf{ Exercise 10.2-7} \\
 
@@ -343,7 +343,7 @@ $
 
 \noindent\textbf{ Exercise 10.3-3} \\
 
-Allocate object just returns the index of some cells that it's guarenteed to not give out again until they've been freed. The prev attribute is not modified because only the next attribute is used by the memory manager, it's up to the code that calls allocate to use the prev and key attributes as it sees fit.\\
+Allocate object just returns the index of some cells that it's guaranteed to not give out again until they've been freed. The prev attribute is not modified because only the next attribute is used by the memory manager, it's up to the code that calls allocate to use the prev and key attributes as it sees fit.\\
 
 \noindent\textbf{Exercise 10.3-4}\\
 
@@ -544,12 +544,12 @@ In all three cases, MAKE-HEAP simply creates a new list $L$, sets $L.head = NIL$
 
 \begin{enumerate}[a.]
 \item 
-To insert, we perform a linear scan to see where to insert an element such that the list remains sorted. This takes linear time. The first element in the list is the minimum element, and we can find it in constant time. Extract-min returns the first elment of the list, then deletes it.  Union performs a merge operation between the two sorted lists, interleaving their entries such that the resulting list is sorted.  This takes time linear in the sum of the lengths of the two lists. 
+To insert, we perform a linear scan to see where to insert an element such that the list remains sorted. This takes linear time. The first element in the list is the minimum element, and we can find it in constant time. Extract-min returns the first element of the list, then deletes it.  Union performs a merge operation between the two sorted lists, interleaving their entries such that the resulting list is sorted.  This takes time linear in the sum of the lengths of the two lists. 
 
 \item 
-To insert an element $x$ into the heap, begin linearly scanning the list until the first instance of an element $y$ which is strictly larger than $x$.  If no such larger element exists, simply instert $x$ at the end of the list.  If $y$ does exist, replace $y$t by $x$.  This maintains the min-heap property beause $x \leq y$ and $y$ was smaller than each of its children, so $x$ must be as well.  Moreover, $x$ is larger than its parent because $y$ was the first element in the list to exceed $x$.  Now insert $y$, starting the scan at the node following $x$.   Since we check each node at most once, the time is linear in the size of the list.  To get the minimum element, return the key of the head of the list in constant time.  
+To insert an element $x$ into the heap, begin linearly scanning the list until the first instance of an element $y$ which is strictly larger than $x$.  If no such larger element exists, simply insert $x$ at the end of the list.  If $y$ does exist, replace $y$t by $x$.  This maintains the min-heap property because $x \leq y$ and $y$ was smaller than each of its children, so $x$ must be as well.  Moreover, $x$ is larger than its parent because $y$ was the first element in the list to exceed $x$.  Now insert $y$, starting the scan at the node following $x$.   Since we check each node at most once, the time is linear in the size of the list.  To get the minimum element, return the key of the head of the list in constant time.  
 
-To extract the minimum elemet, we first call MINIMUM.  Next, we'll replace the key of the head of the list by the key of the second smallest element $y$ in the list.  We'll take the key stored at the end of the list and use it to replace the key of $y$.  Finally, we'll delete the last element of the list, and call MIN-HEAPIFY on the list.  To implement this with linked lists, we need to step through the list to get from element $i$ to element $2i$.  We omit this detial from the code, but we'll consider it for runtime analysis.  Since the value of $i$ on which MIN-HEAPIFY is called is always increasing and we never need to step through elements multiple times, the runtime is linear in the length of the list.
+To extract the minimum element, we first call MINIMUM.  Next, we'll replace the key of the head of the list by the key of the second smallest element $y$ in the list.  We'll take the key stored at the end of the list and use it to replace the key of $y$.  Finally, we'll delete the last element of the list, and call MIN-HEAPIFY on the list.  To implement this with linked lists, we need to step through the list to get from element $i$ to element $2i$.  We omit this detail from the code, but we'll consider it for runtime analysis.  Since the value of $i$ on which MIN-HEAPIFY is called is always increasing and we never need to step through elements multiple times, the runtime is linear in the length of the list.
 
 \begin{algorithm}
 \caption{EXTRACT-MIN(L)}
@@ -620,7 +620,7 @@ The for loop on lines 2-7 will get run exactly t times, each of which is constan
 
 \item
 
-Using equation C.25, we have that $E[X_t] = \sum_{i=1}^{\infty} Pr(X_t\ge i)$. So, we need to show that $ Pr(X_t\ge i) \le (1-i/n)^t$. This can be seen because having $X_t$ being greater than $i$ means that each random choice will result in an element that is either at least $i$ steps before the desitred element, or is after the desired element. There are $n-i$ such elements, out of the total $n$ elements that we were pricking from. So, for a single one of the choices to be from such a range, we have a probability of $(n-i)/n = (1-i/n)$. Since each of the selections was independent, the total probability that all of them were is $(1-i/n)^t$, as desired. Lastle, we can note that since the linked list has length $n$, the probability that $X_t$ is greater than $n$ is equal to zero.
+Using equation C.25, we have that $E[X_t] = \sum_{i=1}^{\infty} Pr(X_t\ge i)$. So, we need to show that $ Pr(X_t\ge i) \le (1-i/n)^t$. This can be seen because having $X_t$ being greater than $i$ means that each random choice will result in an element that is either at least $i$ steps before the desired element, or is after the desired element. There are $n-i$ such elements, out of the total $n$ elements that we were pricking from. So, for a single one of the choices to be from such a range, we have a probability of $(n-i)/n = (1-i/n)$. Since each of the selections was independent, the total probability that all of them were is $(1-i/n)^t$, as desired. Lastly, we can note that since the linked list has length $n$, the probability that $X_t$ is greater than $n$ is equal to zero.
 
 \item
 
@@ -651,7 +651,7 @@ Since we have that for any number of iterations $t$ that the first algorithm tak
 
 %If the list contains repeated key values, then, we may randomly skip ahead at some point, then, jump backwards to a key that had the same value, but was further back in the list. The analysis will break down when we try to bound the probability that $X_t$ is greater than $i$. This is because we don't need that every single random choice was at least $i$ away from the correct position, just could of been to any element whoose key was the same as that spot as well.
 
-if we don't have distinct key values, then, we may randomly select an element that is further along than we had been before, but not jump to it because it has the same key as what we were currently at. The analysis will break when we try to bound the probability that $X_t \ge i$.
+If we don't have distinct key values, then, we may randomly select an element that is further along than we had been before, but not jump to it because it has the same key as what we were currently at. The analysis will break when we try to bound the probability that $X_t \ge i$.
 
 \end{enumerate}
 

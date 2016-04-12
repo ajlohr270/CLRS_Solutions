@@ -30,7 +30,7 @@
 
 \noindent\textbf{ Exercise 14.1-1} \\
 
-The call sequance is:
+The call sequence is:
 
 $
 \begin{array}{l}
@@ -178,11 +178,11 @@ Consider the usual interval search given, but, instead of breaking out of the lo
 \end{algorithmic}
 \end{algorithm}
 
-The algorithm examines each node at most twice and performs constant time checks so the runtime cannot excede $O(n)$.  If a recursive call is made on a branch of the tree, then that branch must contain an overlapping interval, so the runtime also cannot excede $O(k\lg n)$ since the height is at most $n$ and there are $k$ intervals in the output list.\\
+The algorithm examines each node at most twice and performs constant time checks so the runtime cannot exceed $O(n)$.  If a recursive call is made on a branch of the tree, then that branch must contain an overlapping interval, so the runtime also cannot exceed $O(k\lg n)$ since the height is at most $n$ and there are $k$ intervals in the output list.\\
 
 \noindent\textbf{ Exercise 14.3-5} \\
 
-We could modify the interval tree insertion procedure to, once you find a place to put the given interval, then we perforn an insertion procedure based on the right hand endpoints. Then, to perform INTERVAL-SEARCH-EXACTLY(T,i) first perform a search for the left hand endpoint, then, perform a search for the right hand endpoint based on the BST rooted at this node for the right hand endpoint, stopping the search if we ever come across a element with a different left hand endpoint.\\
+We could modify the interval tree insertion procedure to, once you find a place to put the given interval, then we perform an insertion procedure based on the right hand endpoints. Then, to perform INTERVAL-SEARCH-EXACTLY(T,i) first perform a search for the left hand endpoint, then, perform a search for the right hand endpoint based on the BST rooted at this node for the right hand endpoint, stopping the search if we ever come across a element with a different left hand endpoint.\\
 
 \noindent\textbf{Exercise 14.3-6}\\
 
@@ -206,7 +206,7 @@ We will present a simple solution to this problem that runs in time $O(n\lg(n))$
 
 \noindent\textbf{Problem 14-2}\\
 \begin{enumerate}[a.]
-\item Create a circular doubly linked list.  Continue to advance $m$ places in the list (not  counting the sentinal), followed by printing and deleting the current node, until the list is empty. Since $m$ is a constant and we advance at most $mn$ places, the runtime is $O(n)$.\\
+\item Create a circular doubly linked list.  Continue to advance $m$ places in the list (not  counting the sentinel), followed by printing and deleting the current node, until the list is empty. Since $m$ is a constant and we advance at most $mn$ places, the runtime is $O(n)$.\\
 
 \item Begin by creating an order statistic tree for the given elements, where rank starts at 0 and ends at $n-1$, the rank of a node is its position in the original order minus 1, and we store each element's value in an attribute $x.value$.  Print the element with rank $m(n) - 1$, then delete it from the tree.  Then proceed as follows:  If you've just printed the $k^{th}$ value which had rank $r$, delete that node from the tree, and the $(k+1)^{st}$ value to be printed will have rank $r - 1 + m(n) \mod (n-k)$.  Since deletion and lookup take $O(\lg n)$ and there are $n$ nodes, the runtime is $O(n\lg n)$.
 \end{enumerate}

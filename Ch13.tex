@@ -312,7 +312,7 @@ The possible degrees are 0 through 5, based on whether or not the black node was
 
 \noindent\textbf{ Exercise 13.1-5} \\
 
-Suppose we have the longest simple path $(a_1,a_2,\ldots a_s)$ and the shortest simple path $(b_1,b_2, \ldots, b_t)$. Then, by propery 5 we know they have equal numbers of black nodes. By property 4, we know that neither contains a repeated red node. This tells us that at most $\lfloor\frac{s-1}{2}\rfloor$ of the nodes in the longest path are red. This means that at least $\lceil \frac{s+1}{2} \rceil$ are black, so, $t\ge \lceil \frac{s+1}{2} \rceil$. So, if, by way of contradiction, we had that $s>t*2$, then $  t \ge \lceil \frac{s+1}{2} \rceil \ge \lceil\frac{2t+2}{2} \rceil = t+1$ a contradiction.\\
+Suppose we have the longest simple path $(a_1,a_2,\ldots a_s)$ and the shortest simple path $(b_1,b_2, \ldots, b_t)$. Then, by property 5 we know they have equal numbers of black nodes. By property 4, we know that neither contains a repeated red node. This tells us that at most $\lfloor\frac{s-1}{2}\rfloor$ of the nodes in the longest path are red. This means that at least $\lceil \frac{s+1}{2} \rceil$ are black, so, $t\ge \lceil \frac{s+1}{2} \rceil$. So, if, by way of contradiction, we had that $s>t*2$, then $  t \ge \lceil \frac{s+1}{2} \rceil \ge \lceil\frac{2t+2}{2} \rceil = t+1$ a contradiction.\\
 
 \noindent\textbf{Exercise 13.1-6}\\
 
@@ -322,7 +322,7 @@ In a path from root to leaf we can have at most one red node between any two bla
 
 Since each red node needs to have two black children, our only hope at getting a large number of internal red nodes relative to our number of black internal nodes is to make it so that the parent of every leaf is a red node. So, we would have a ratio of $\frac{2}{3}$ if we have the tree with a black root which has red children, and all of it's grandchildren be leaves. We can't do better than this because as we make the tree bigger, the ratio approaches $\frac{1}{2}$.
 
-The smallest ratio is acheived by having a complete tree that is balanced and black as a raven's feather. For example, see the last tree presented in the solution to 13.1-1. \\
+The smallest ratio is achieved by having a complete tree that is balanced and black as a raven's feather. For example, see the last tree presented in the solution to 13.1-1. \\
 
 \noindent\textbf{ Exercise 13.2-1} \\
 
@@ -352,7 +352,7 @@ See the algorithm for RIGHT-ROTATE.\\
 
 \noindent\textbf{Exercise 13.2-2}\\
 
-We proceed by induction.  In a tree with only one node, the root has neither a left nor a right child, so no rotations are valid.  Suppose that a tree on $n\geq 0$ nodes has exactly $n-1$ rotations.  Let $T$ be a binay search tree on $n+1$ nodes.  If $T.root$ has no right child then the root can only be involved in a right rotation, and the left child of $T$ has $n$ verties, so it has exactly $n-1$ rotations, yielding a total of $n$ for the whole tree.  The arugment is identical if $T.root$ has no left child.  Finally, suppose $T.root$ has two children, and let $k$ denote the number of nodes in the left subtree.  Then the root can be either left or right rotated, contributing 2 to the count.  By the induction hypothesis, $T.left$ has exactly $k-1$ rotations and $T.right$ has exactly $n-k-1-1$ rotations, so there are a total of $2 + k-1 + n-k-1-1 = n$ possible rotations, completing the proof. \\
+We proceed by induction.  In a tree with only one node, the root has neither a left nor a right child, so no rotations are valid.  Suppose that a tree on $n\geq 0$ nodes has exactly $n-1$ rotations.  Let $T$ be a binary search tree on $n+1$ nodes.  If $T.root$ has no right child then the root can only be involved in a right rotation, and the left child of $T$ has $n$ vertices, so it has exactly $n-1$ rotations, yielding a total of $n$ for the whole tree.  The argument is identical if $T.root$ has no left child.  Finally, suppose $T.root$ has two children, and let $k$ denote the number of nodes in the left subtree.  Then the root can be either left or right rotated, contributing 2 to the count.  By the induction hypothesis, $T.left$ has exactly $k-1$ rotations and $T.right$ has exactly $n-k-1-1$ rotations, so there are a total of $2 + k-1 + n-k-1-1 = n$ possible rotations, completing the proof. \\
 
 \noindent\textbf{ Exercise 13.2-3} \\
 
@@ -360,7 +360,7 @@ the depth of $c$ decreases by one, the depth of $b$ stays the same, and the dept
 
 \noindent\textbf{Exercise 13.2-4}\\
 
-Consider transforming an arbitrary $n$-node BT into a right-going chain as follows: Let the root and all successive right children of the root be the elements of the chain initial chain.  For any node $x$ which is a left child of a node on the chain, a single right rotation on the parent of $x$ will add that node to the chain and not remove any elements from the chain.  Thus, we can convert any BST to a right chain with at most $n-1$ right rotations.  Let $r_1, r_2, \ldots, r_k$ be the sequence of rotations required to convert some BST $T_1$ into a right-going chain, and let $s_1, s_2, \ldots, s_m$ be the sequence of rotations required to convert some other BST $T_2$ to a right-going chian.  Then $k < n$ and $m < n$, and we can convert $T_1$ to $T_2$ be performing the sequence $r_1, r_2, \ldots, r_k, s_m' s_{m-1}', \ldots, s_1'$ where $s_i'$ is the opposite rotation of $s_i$.  Since $k+m < 2n$, the number of rotations required is $O(n)$. \\
+Consider transforming an arbitrary $n$-node BT into a right-going chain as follows: Let the root and all successive right children of the root be the elements of the chain initial chain.  For any node $x$ which is a left child of a node on the chain, a single right rotation on the parent of $x$ will add that node to the chain and not remove any elements from the chain.  Thus, we can convert any BST to a right chain with at most $n-1$ right rotations.  Let $r_1, r_2, \ldots, r_k$ be the sequence of rotations required to convert some BST $T_1$ into a right-going chain, and let $s_1, s_2, \ldots, s_m$ be the sequence of rotations required to convert some other BST $T_2$ to a right-going chain.  Then $k < n$ and $m < n$, and we can convert $T_1$ to $T_2$ be performing the sequence $r_1, r_2, \ldots, r_k, s_m' s_{m-1}', \ldots, s_1'$ where $s_i'$ is the opposite rotation of $s_i$.  Since $k+m < 2n$, the number of rotations required is $O(n)$. \\
 
 \noindent\textbf{ Exercise 13.2-5} \\
 
@@ -520,7 +520,7 @@ First observe that RB-INSERT-FIXUP only modifies the child of a node if it is al
 
 \noindent\textbf{ Exercise 13.3-5} \\
 
-Suppose we just added the last element. Then, prior to calling RB-INSERT-FIXUP, we have that it is red. In all of the fixup cases for an execution of the while loop, we have that the resulting tree fragment contains a red non-root node. This node will not be later made black on line 16 becuse it isn't the root. \\
+Suppose we just added the last element. Then, prior to calling RB-INSERT-FIXUP, we have that it is red. In all of the fixup cases for an execution of the while loop, we have that the resulting tree fragment contains a red non-root node. This node will not be later made black on line 16 because it isn't the root. \\
 
 \noindent\textbf{Exercise 13.3-6}\\
 
@@ -528,7 +528,7 @@ We need to remove line 8 from RB-INSERT and modify RB-INSERT-FIXUP.  At any poin
 
 \noindent\textbf{ Exercise 13.4-1} \\
 
-There are two ways we may of left the while loop of RB-DELETE-FIXUP. The first is that we had $x = T.root$. In this case, we set $x.color = BLACK$ onl ine 23. So, we must have that the root is black. The other case is that we ended the while loop because we had $x.color == RED$, but had that $x\neq T.root$. This rules out case 4, because that has us setting $x=T.root$. In case 3, we don't set $x$ to be red, or change $x$ at all, so it coudn't of been the last case run. In case 2, we set nothing new to be $RED$, so this coudn't lead to exiting the while loop for this reason. In case 1, we make the sibling black and rotate it into the position of the parent. So, it wouln't be possible to make the root red in this step because the only node we set to be red, we then placed a black node above. 
+There are two ways we may of left the while loop of RB-DELETE-FIXUP. The first is that we had $x = T.root$. In this case, we set $x.color = BLACK$ on line 23. So, we must have that the root is black. The other case is that we ended the while loop because we had $x.color == RED$, but had that $x\neq T.root$. This rules out case 4, because that has us setting $x=T.root$. In case 3, we don't set $x$ to be red, or change $x$ at all, so it couldn't of been the last case run. In case 2, we set nothing new to be $RED$, so this couldn't lead to exiting the while loop for this reason. In case 1, we make the sibling black and rotate it into the position of the parent. So, it wouldn't be possible to make the root red in this step because the only node we set to be red, we then placed a black node above. 
 
 \noindent\textbf{Exercise 13.4-2}\\
 
@@ -705,14 +705,14 @@ See the algorithm, PERSISTENT-TREE-INSERT
 \end{algorithm}
 
 \item
-Since the while loop will only run at most $h$ times, since the distance from $x$ to the root is increasing by 1 each time and bounded by the height. Also, since each interation only takes a constant amount of time and uses a constant amount of additional space, we have that both the time and space complexity are $O(h)$.
+Since the while loop will only run at most $h$ times, since the distance from $x$ to the root is increasing by 1 each time and bounded by the height. Also, since each iteration only takes a constant amount of time and uses a constant amount of additional space, we have that both the time and space complexity are $O(h)$.
 
 
 \item
 When we insert an element, we need to make a new version of the root. So, any nodes that point to the root must have a new copy made so that they point to the new root. So, all nodes of depth 1 must be copied. Similarly, all nodes that point to those must have new copies so that have the correct version. So, all nodes of depth 2 must be copied. Similarly, all nodes must be copied. So, we have that we need at least $\Omega(n)$ time and additional space.
 
 \item
-Since the rebalancing operations can only change ancestors, and children of ancestors we only have to allocate at most $2h$ new nodes for each insertion, since the rest of the tree will be unchanged. This is of course assuming that we don't keep track of the parent pointers. This can be acheived by following the suggestions in 13.3-6 applied to both insert and delete. That is, we perform a search for the element where we store the $O(h)$ elements that are either ancestors or children of ancestors. Since these are the only nodes under consideration when doing the insertion and deletion procedure, then we can know their parents even though we aren't keeping track of the parent pointers for each node. Since the height stays $O(\lg(n))$, then, we have that everything can be done in $O(\lg(n))$.
+Since the rebalancing operations can only change ancestors, and children of ancestors we only have to allocate at most $2h$ new nodes for each insertion, since the rest of the tree will be unchanged. This is of course assuming that we don't keep track of the parent pointers. This can be achieved by following the suggestions in 13.3-6 applied to both insert and delete. That is, we perform a search for the element where we store the $O(h)$ elements that are either ancestors or children of ancestors. Since these are the only nodes under consideration when doing the insertion and deletion procedure, then we can know their parents even though we aren't keeping track of the parent pointers for each node. Since the height stays $O(\lg(n))$, then, we have that everything can be done in $O(\lg(n))$.
 
 
 \end{enumerate}
@@ -737,7 +737,7 @@ Since the rebalancing operations can only change ancestors, and children of ance
 
 \begin{enumerate}[a.]
 \item
-Let $T(h)$ denote the minimum size of an AVL tree of height $h$.  Since it is height $h$, it must have the max of it's children's heights is equal to $h-1$. Since we are trying to get as few notes total as possible, suppose that the other child has as small of a height as is allowed. Because of the restriction of AVL trees, we have that the smaller child must be at least one less than the larger one, so, we have that $T(h) \ge T(h-1) + T(h-2) +1$ where the +1 is coming from counting the root node. We can get inequality in the opposite direction by simply taking a tree that acheives the minimum number of number of nodes on height $h-1$ and on $h-2$ and join them together under another node. So, we have that $T(h) = T(h-1)+T(h-2)+1$. Also, $T(0) = 0$, $T(1) = 1$. This is both the same recurrence and initial conditions as the Fibonacci numbers. So, recalling equation (3.25), we have that
+Let $T(h)$ denote the minimum size of an AVL tree of height $h$.  Since it is height $h$, it must have the max of it's children's heights is equal to $h-1$. Since we are trying to get as few notes total as possible, suppose that the other child has as small of a height as is allowed. Because of the restriction of AVL trees, we have that the smaller child must be at least one less than the larger one, so, we have that $T(h) \ge T(h-1) + T(h-2) +1$ where the +1 is coming from counting the root node. We can get inequality in the opposite direction by simply taking a tree that achieves the minimum number of number of nodes on height $h-1$ and on $h-2$ and join them together under another node. So, we have that $T(h) = T(h-1)+T(h-2)+1$. Also, $T(0) = 0$, $T(1) = 1$. This is both the same recurrence and initial conditions as the Fibonacci numbers. So, recalling equation (3.25), we have that
 \[
 T(h) = \left\lfloor \frac{\phi^h}{\sqrt{5}} +\frac{1}{2} \right\rfloor \le n
 \]
@@ -750,7 +750,7 @@ h &\le \frac{\lg(\sqrt{5}) + \lg(n + \frac{1}{2})}{\lg(\phi)} \in O(\lg(n))
 \end{align*}
 
 \item
-Let UNBAL(x) deonte x.left.h - x.right.h. Then, the algorithm BALANCE does what is desired. Note that because we are only rotating a single element at a time, the value of UNBAL(x) can only change by at most 2 in each step. Also, it must eventually start to change as the tree that was shorter becomes saturated with elements. We also fix any breaking of the AVL property that rotating may of caused by our recursive calls to the children.
+Let UNBAL(x) denote x.left.h - x.right.h. Then, the algorithm BALANCE does what is desired. Note that because we are only rotating a single element at a time, the value of UNBAL(x) can only change by at most 2 in each step. Also, it must eventually start to change as the tree that was shorter becomes saturated with elements. We also fix any breaking of the AVL property that rotating may of caused by our recursive calls to the children.
 \begin{algorithm}
 \caption{BALANCE(x)}
 \begin{algorithmic}
@@ -827,7 +827,7 @@ Since both for loops only run for $O(h) = O(\lg(n))$ iterations, we have that th
 
 \item If $X_{ik} = 1$ then the properties must hold by the binary-search-tree property and the definition of treap.  On the other hand, suppose $y.key < z.key < x.key$ implies $y.priority < z.priority$.  If $y$ wasn't a child of $x$ then taking $z$ to be the lowest common ancestor of $x$ and $y$ would violate this.  Since $y.priority > x.priority$,$y$ must be a child of $x$.  Since $y.key < x.key$, $y$ is in the left subtree of $x$.  If $y$ is not in the right spine of the left subtree of $x$ then there must exist some $z$ such that $y.priority > z.priority > x.priority$ and $y.key < z.key <x.key$, a contradiction. \\
 
-\item We need to compute the probability that the conditions of part f are satisfied. For all $z \in [i+1, k-1]$ we must have $x.priority < y.priority < z.priority$.  There are $(k-i-1)!$ ways to permute the priorities corresponding to these $z$, out of $(k-i+1)!$ ways to permute the priorities corresponding to all elements in $[i,k]$.  Cancelation gives $P\{X_{ik}\} = \frac{1}{(k-i+1)(k-i)}$. \\
+\item We need to compute the probability that the conditions of part f are satisfied. For all $z \in [i+1, k-1]$ we must have $x.priority < y.priority < z.priority$.  There are $(k-i-1)!$ ways to permute the priorities corresponding to these $z$, out of $(k-i+1)!$ ways to permute the priorities corresponding to all elements in $[i,k]$.  Cancellation gives $P\{X_{ik}\} = \frac{1}{(k-i+1)(k-i)}$. \\
 
 \item We use part g then simplify the telescoping series:
 \begin{align*}

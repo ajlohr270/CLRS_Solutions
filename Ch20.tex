@@ -214,7 +214,7 @@ Similar to the analysis of (20.4), we will analyze:
 \[
 T(u) \le T(u^{1-1/k}) + T(u^{1/k}) + O(1)
 \]
-This is a good choice for analyis because for many operations we first check the summary vEB tree, which will have size $u^{1/k}$ (the second term). And then possible have to check a vEB tree somewhere in cluster, which will have size $u^{1-1/k}$(the first term). We let $T(2^m) = S(m)$, so the equation becomes
+This is a good choice for analysis because for many operations we first check the summary vEB tree, which will have size $u^{1/k}$ (the second term). And then possible have to check a vEB tree somewhere in cluster, which will have size $u^{1-1/k}$(the first term). We let $T(2^m) = S(m)$, so the equation becomes
 \[
 S(m) \le S(m(1-1/k)) + S(m/k) + O(1).
 \]
@@ -222,7 +222,7 @@ If $k>2$ the first term dominates, so by master theorem, we'll have that $S(m)$ 
 
 \noindent\textbf{Exercise 20.3-6}\\
 
-Set $n = u/\lg\lg u$.  Then performing $n$ operations takes $c(u + n\lg\lg u)$ time for some constant $c$.  Using the aggregate amoritzed analysis, we divide by $n$ to see that the amortized cost of each operations is $c(\lg \lg u + \lg \lg u) = O(\lg \lg u)$ per operation.  Thus we need $n \geq u/\lg\lg u$.\\
+Set $n = u/\lg\lg u$.  Then performing $n$ operations takes $c(u + n\lg\lg u)$ time for some constant $c$.  Using the aggregate amortized analysis, we divide by $n$ to see that the amortized cost of each operations is $c(\lg \lg u + \lg \lg u) = O(\lg \lg u)$ per operation.  Thus we need $n \geq u/\lg\lg u$.\\
 
 
 \noindent\textbf{Problem 20-1}\\
@@ -314,10 +314,10 @@ As in the previous problem, we just wait until just before either of the two thi
 \end{algorithm}
 
 \item
-Since the initiallizations performed only take constant time, those modifications don't ruin the the desired runtime bound for the original algorithms already had. So, our responses to parts c and d are $O(\lg(\lg(n)))$.
+Since the initialization performed only take constant time, those modifications don't ruin the the desired runtime bound for the original algorithms already had. So, our responses to parts c and d are $O(\lg(\lg(n)))$.
 
 \item
-As mentioned in the errata, this part should instead be changed to $O(n\lg(n))$ space. When we are adding an element, we may have to add an entry to a dynamic hash table, which means that a constant amount of extra space would be needed. If we are adding an element to that table, we also have to add an element to the RS-vEB tree in the summary, but the entry that we add in the cluster will be a constant size RS-vEB tree. We can charge the cost of that addition to the summary table to the making the minimum element entry that we added in the cluster table. Since we are always making at least one element be added as a new min entry somewhere, this ammortization will mean that it is only a constant amount of time in order to store the new entry.
+As mentioned in the errata, this part should instead be changed to $O(n\lg(n))$ space. When we are adding an element, we may have to add an entry to a dynamic hash table, which means that a constant amount of extra space would be needed. If we are adding an element to that table, we also have to add an element to the RS-vEB tree in the summary, but the entry that we add in the cluster will be a constant size RS-vEB tree. We can charge the cost of that addition to the summary table to the making the minimum element entry that we added in the cluster table. Since we are always making at least one element be added as a new min entry somewhere, this amortization will mean that it is only a constant amount of time in order to store the new entry.
 
 \item
 It only takes a constant amount of time to create an empty RS-vEB tree. This is immediate since the only dependence on u in CREATE-NEW-RS-vEB-TREE(u) is on line 2 when V.u is initialized, but this only takes a constant amount of time. Since nothing else in the procedure depends on u, it must take a constant amount of time.

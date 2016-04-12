@@ -29,7 +29,7 @@
 
 \noindent\textbf{Exercise 15.1-1}\\
 
-Procede by induction. The base case of $T(0) = 2^0 = 1$. Then, we apply the inductive hypothesis and recall equation (A.5) to get that
+Proceed by induction. The base case of $T(0) = 2^0 = 1$. Then, we apply the inductive hypothesis and recall equation (A.5) to get that
 \[
 T(n) = 1+ \sum_{j=0}^{n-1} T(j) = 1+  \sum_{j=0}^{n-1} 2^j = 1 + \frac{2^{n}-1}{2-1} = 1+ 2^n-1 = 2^n
 \]
@@ -179,7 +179,7 @@ The runtime of of enumerating is just $n*P(n)$, while is we were running RECURSI
 
 \noindent\textbf{Exercise 15.3-2}\\
 
-Let $[i..j]$ denote the call to Merge Sort to sort the elements in positions $i$ through $j$ of the original array. The recursion tree will have $[1..n]$ as its root, and at any node $[i..j]$ will have $[i..(j-i)/2]$ and $[(j-i)/2 + 1..j]$ as its left and right children, respectively.  If $j-i = 1$, there will be no children.  The memoization apprach fails to speed up Merge Sort because the subproblems aren't overlapping.  Sorting one list of size $n$ isn't the same as sorting another list of size $n$, so there is no savings in storing solutions to subproblems since each solution is used at most once.\\
+Let $[i..j]$ denote the call to Merge Sort to sort the elements in positions $i$ through $j$ of the original array. The recursion tree will have $[1..n]$ as its root, and at any node $[i..j]$ will have $[i..(j-i)/2]$ and $[(j-i)/2 + 1..j]$ as its left and right children, respectively.  If $j-i = 1$, there will be no children.  The memoization approach fails to speed up Merge Sort because the subproblems aren't overlapping.  Sorting one list of size $n$ isn't the same as sorting another list of size $n$, so there is no savings in storing solutions to subproblems since each solution is used at most once.\\
 
 \noindent\textbf{Exercise 15.3-3}\\
 
@@ -187,19 +187,19 @@ This modification of the matrix-chain-multiplication problem does still exhibit 
 
 \noindent\textbf{Exercise 15.3-4}\\
 
-Suppose that we are given matricies $A_1, A_2, A_3$, and $A_4$ with dimensions such that $p_0,p_1,p_2,p_3,p_4 = 1000,100,20,10,1000$.  Then $p_0 p_k p_4$ is minimized when $k=3$, so we need to solve the subproblem of multiplying $A_1A_2A_3$, and also $A_4$ which is solved automatically.  By her algorithm, this is solved by splitting at $k=2$.  Thus, the full parenthesization is $(((A_1 A_2)A_3)A_4)$.  This requires $1000\cdot 100 \cdot 20 + 1000 \cdot 20 \cdot 10 + 1000 \cdot 10 \cdot 1000 = 12,200,000$ scalar multiplications. On the other hand, suppose we had fully parenthesized the matricies to multiply as $((A_1 (A_2A_3))A_4)$.  Then we would only require $100\cdot 20 \cdot 10 + 1000 \cdot 100 \cdot 10 + 1000 \cdot 10 \cdot 1000= 11,020,000$ scalar multiplications, which is fewer than Professor Capulet's method.  Therefore her greedy approach yields a suboptimal solution. \\
+Suppose that we are given matrices $A_1, A_2, A_3$, and $A_4$ with dimensions such that $p_0,p_1,p_2,p_3,p_4 = 1000,100,20,10,1000$.  Then $p_0 p_k p_4$ is minimized when $k=3$, so we need to solve the subproblem of multiplying $A_1A_2A_3$, and also $A_4$ which is solved automatically.  By her algorithm, this is solved by splitting at $k=2$.  Thus, the full parenthesization is $(((A_1 A_2)A_3)A_4)$.  This requires $1000\cdot 100 \cdot 20 + 1000 \cdot 20 \cdot 10 + 1000 \cdot 10 \cdot 1000 = 12,200,000$ scalar multiplications. On the other hand, suppose we had fully parenthesized the matrices to multiply as $((A_1 (A_2A_3))A_4)$.  Then we would only require $100\cdot 20 \cdot 10 + 1000 \cdot 100 \cdot 10 + 1000 \cdot 10 \cdot 1000= 11,020,000$ scalar multiplications, which is fewer than Professor Capulet's method.  Therefore her greedy approach yields a suboptimal solution. \\
 
 \noindent\textbf{Exercise 15.3-5}\\
 
 The optimal substructure property doesn't hold because the number of pieces of length $i$ used on one side of the cut affects the number allowed on the other. That is, there is information about the particular solution on one side of the cut that changes what is allowed on the other.
 
-To make this more concrete, suppose the rod was length 4, the values were $l_1 = 2, l_2 = l_3= l_4 =1$, and each piece has the same worth regardless of length. Then, if we make our first cut in the middle, we have that the optimal soultion for the two rods left over is to cut it in the middle, which isn't allowed because it increases the total number of rods of length 1 to be too large.\\
+To make this more concrete, suppose the rod was length 4, the values were $l_1 = 2, l_2 = l_3= l_4 =1$, and each piece has the same worth regardless of length. Then, if we make our first cut in the middle, we have that the optimal solution for the two rods left over is to cut it in the middle, which isn't allowed because it increases the total number of rods of length 1 to be too large.\\
 
 \noindent\textbf{Exercise 15.3-6}\\
 
 First we assume that the commission is always zero.  Let $k$ denote a currency which appears in an optimal sequence $s$ of trades to go from currency 1 to currency $n$.  $p_k$ denote the first part of this sequence which changes currencies from 1 to $k$ and $q_k$ denote the rest of the sequence.  Then $p_k$ and $q_k$ are both optimal sequences for changing from 1 to $k$ and $k$ to $n$ respectively.  To see this, suppose that $p_k$ wasn't optimal but that $p_k'$ was.  Then by changing currencies according to the sequence $p_k' q_k$ we would have a sequence of changes which is better than $s$, a contradiction since $s$ was optimal.  The same argument applies to $q_k$.
 
-Now suppose that the commisions can take on arbitrary values.  Suppose we have currencies 1 through 6, and $r_{12} = r_{23} = r_{34} = r_{45} = 2$, $r_{13} = r_{35} = 6$, and all other exchanges are such that $r_{ij} = 100$.  Let $c_1 = 0$, $c_2 = 1$, and $c_k = 10$ for $k \geq 3$.  The optimal solution in this setup is to change 1 to 3, then 3 to 5, for a total cost of 13.  An optimal solution for changing 1 to 3 involves changing 1 to 2 then 2 to 3, for a cost of 5, and an optimal solution for changing 3 to 5 is to change 3 to 4 then 4 to 5, for a total cost of 5.  However, combining these optimal solutions to subproblems means making more exchanges overall, and the total cost of combining them is 18, which is not optimal. \\
+Now suppose that the commissions can take on arbitrary values.  Suppose we have currencies 1 through 6, and $r_{12} = r_{23} = r_{34} = r_{45} = 2$, $r_{13} = r_{35} = 6$, and all other exchanges are such that $r_{ij} = 100$.  Let $c_1 = 0$, $c_2 = 1$, and $c_k = 10$ for $k \geq 3$.  The optimal solution in this setup is to change 1 to 3, then 3 to 5, for a total cost of 13.  An optimal solution for changing 1 to 3 involves changing 1 to 2 then 2 to 3, for a cost of 5, and an optimal solution for changing 3 to 5 is to change 3 to 4 then 4 to 5, for a total cost of 5.  However, combining these optimal solutions to subproblems means making more exchanges overall, and the total cost of combining them is 18, which is not optimal. \\
 
 \noindent\textbf{Exercise 15.4-1}\\
 
@@ -272,7 +272,7 @@ Since we only use the previous row of the $c$ table to compute the current row, 
 
 \noindent\textbf{Exercise 15.4-5}\\
 
-Given a list of numbers $L$, make a copy of $L$ called $L'$ and then sort $L'$. Then, just run the LCS algorithm on these two lists. The longest common subsequnce must be monotone increasing because it is a subsequence of $L'$ which is sorted. It is also the longest monotonte increasing subsequence because being a subsequcene of $L'$ only adds the restriction that the subsequence must be monotone increasing. Since $|L|=|L'| =n$, and sorting $L$ can be done in $o(n^2)$ time, the final running time will be $O(|L||L'|) = O(n^2)$.\\
+Given a list of numbers $L$, make a copy of $L$ called $L'$ and then sort $L'$. Then, just run the LCS algorithm on these two lists. The longest common subsequence must be monotone increasing because it is a subsequence of $L'$ which is sorted. It is also the longest monotone increasing subsequence because being a subsequence of $L'$ only adds the restriction that the subsequence must be monotone increasing. Since $|L|=|L'| =n$, and sorting $L$ can be done in $o(n^2)$ time, the final running time will be $O(|L||L'|) = O(n^2)$.\\
 
 \noindent\textbf{Exercise 15.4-6}\\
 
@@ -305,7 +305,7 @@ The algorithm LONG-MONOTONIC(S) returns the longest monotonically increasing sub
 
 \noindent\textbf{Exercise 15.5-1}\\
 
-Run the given algorithm with the initial arguemnt of $i=1$ and $j= m[1].length$.
+Run the given algorithm with the initial argument of $i=1$ and $j= m[1].length$.
 
 \begin{algorithm}
 \caption{CONSTRUCT-OPTIMAL-BST(root,i,j)}
@@ -555,9 +555,9 @@ The subproblems will be indexed by contiguous subarrays of the arrays of cuts ne
 
 \noindent\textbf{Problem 15-10}\\
 \begin{enumerate}[a.]
-\item Without loss of generality, suppose that there exists an optimal solution $S$ which involves investing $d_1$ dollars into investment $k$ and $d_2$ dollars into investement $m$ in year 1.  Further, suppose in this optimal solution, you don't move your money for the first $j$ years.   If $r_{k1} + r_{k2} + \ldots + r_{kj} > r_{m1} + r_{m2} + \ldots + r_{mj}$ then we can perform the usual cut-and-paste maneauver and instead invest $d_1 + d_2$ dollars into investment $k$ for $j$ years.  Keeping all other investments the same, this results in a strategy which is at least as profitable as $S$, but has reduced the number of different investments in a given span of years by 1.  Continuing in this way, we can reduce the optimal strategy to consist of only a single investment each year.  \\
+\item Without loss of generality, suppose that there exists an optimal solution $S$ which involves investing $d_1$ dollars into investment $k$ and $d_2$ dollars into investement $m$ in year 1.  Further, suppose in this optimal solution, you don't move your money for the first $j$ years.   If $r_{k1} + r_{k2} + \ldots + r_{kj} > r_{m1} + r_{m2} + \ldots + r_{mj}$ then we can perform the usual cut-and-paste maneuver and instead invest $d_1 + d_2$ dollars into investment $k$ for $j$ years.  Keeping all other investments the same, this results in a strategy which is at least as profitable as $S$, but has reduced the number of different investments in a given span of years by 1.  Continuing in this way, we can reduce the optimal strategy to consist of only a single investment each year.  \\
 
-\item If a particular investment strategy is the year-one-plan for a optimal investement strategy, then we must solve two kinds of optimal suproblem: either we maintain the strategy for an additional year, not incurring the money-moving fee, or we move the money, which amounts to solving the problem where we ignore all information from year 1. Thus, the problem exhibits optimal substructure. \\
+\item If a particular investment strategy is the year-one-plan for a optimal investment strategy, then we must solve two kinds of optimal suproblem: either we maintain the strategy for an additional year, not incurring the money-moving fee, or we move the money, which amounts to solving the problem where we ignore all information from year 1. Thus, the problem exhibits optimal substructure. \\
 
 \item  The algorithm works as follows: We build tables $I$ and $R$ of size $10$ such that $I[i]$ tells which investment should be made (with all money) in year $i$, and $R[i]$ gives the total return on the investment strategy in years $i$ through $10$.  \\
 \begin{algorithm}
@@ -637,7 +637,7 @@ We will make an $N+1$ by $X+1$ by $P+1$ table. The runtime of the algorithm is $
 	\EndIf
 	\State $i = i - 1$
 \EndFor
-\State Print: The toal cost is $C$
+\State Print: The total cost is $C$
 \end{algorithmic}
 \end{algorithm}
 

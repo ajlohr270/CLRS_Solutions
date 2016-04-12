@@ -227,7 +227,7 @@ e^n&\\
 $
 
 
-The terms are in decreasing growth hrate by row. Functions in the same row are $\Theta$ of eachother.
+The terms are in decreasing growth rate by row. Functions in the same row are $\Theta$ of each other.
 \item
 
 \[
@@ -241,7 +241,7 @@ f(n) = \left\{\begin{array}{c c}g_1(n)!& n\mod 2=0 \\0 &n\mod 2 =1\end{array}\ri
 
 \item False.  Counterexample: $n + n^2 \neq \Theta(n)$. \\
 
-\item True.  Since $f(n) = O(g(n))$ there exist $c$ and $n_0$ sucht hat $n \geq n_0$ implies $f(n) \leq cg(n)$ and $f(n) \geq 1$.  This means that $\log(f(n)) \leq \log(cg(n)) = \log(c) + \log(g(n))$.  Note that the inequality is preserved after taking logs because $f(n) \geq 1$.  Now we need to find $d$ such that $f(n) \leq d\log(g(n))$.  It will suffice to make $\log(c) + \log(g(n)) \leq d\log(g(n))$, which is achieved by taking $d = \log(c) + 1$, since $\log(g(n)) \geq 1$.\\
+\item True.  Since $f(n) = O(g(n))$ there exist $c$ and $n_0$ such that $n \geq n_0$ implies $f(n) \leq cg(n)$ and $f(n) \geq 1$.  This means that $\log(f(n)) \leq \log(cg(n)) = \log(c) + \log(g(n))$.  Note that the inequality is preserved after taking logs because $f(n) \geq 1$.  Now we need to find $d$ such that $f(n) \leq d\log(g(n))$.  It will suffice to make $\log(c) + \log(g(n)) \leq d\log(g(n))$, which is achieved by taking $d = \log(c) + 1$, since $\log(g(n)) \geq 1$.\\
 
 \item False.  Counterexample: $2n = O(n)$ but $2^{2n} \neq 2^{n}$ as shown in exercise 3.1-4. \\
 
@@ -262,13 +262,13 @@ Suppose that we do not have that $f=O(g(n))$. This means that $\forall c>0,n_0, 
 This is not the case for the usual definition of $\Omega$. Suppose we had $f(n) = n^2(n\mod 2)$ and $g(n) = n$. On all the even values, $g(n)$ is larger, but on all the odd values, $f(n)$ grows more quickly.
 
 \item
-The advvantage is that you get the result of part a which is a nice property. A disadantage is that the infinite set of points on which you are making claims of the behavior could  be very sparse. Also, there is nothing said about the behavior when outside of this infinite set, it can do whatever it wants.
+The advantage is that you get the result of part a which is a nice property. A disadvantage is that the infinite set of points on which you are making claims of the behavior could  be very sparse. Also, there is nothing said about the behavior when outside of this infinite set, it can do whatever it wants.
 
 \item
-A function $f$ can only be in $\Theta(g(n))$ if $f(n)$ has an infinite tail that is non--negative. In this case, the definition of $O(g(n))$ agrees with $O'(g(n))$. Similarly, for a funtion to be in $\Omega(g(n))$, we need that $f(n)$ is non-negative for some infinite tail, on which $O(g(n))$ is identical to $O'(g(n))$. So, we have athat in both directions, changing $O$ to $O'$ does not change anything.
+A function $f$ can only be in $\Theta(g(n))$ if $f(n)$ has an infinite tail that is non--negative. In this case, the definition of $O(g(n))$ agrees with $O'(g(n))$. Similarly, for a function to be in $\Omega(g(n))$, we need that $f(n)$ is non-negative for some infinite tail, on which $O(g(n))$ is identical to $O'(g(n))$. So, we have that in both directions, changing $O$ to $O'$ does not change anything.
 
 \item
-Suppose $f(n)\in \overset{\sim}{\Theta}(g(n))$, then $\exists c_1,c_2,k_1,k_2,n_0, \forall n\ge n_0, 0\le \frac{c_1 g(n)}{\lg^{k_1}(n)} \le f(n) \le c_2 g(n)\lg^{k_2}(n)$, if we just look at these inequalities saparately, we have $\frac{c_1 g(n)}{\lg^{k_1}(n)} \le f(n)$ ($f(n) \in \overset{\sim}{\Omega}(g(n))$) and $f(n) \le c_2 g(n)\lg^{k_2}(n)$ ($f(n)\in \overset{\sim}{O}(g(n))$).
+Suppose $f(n)\in \overset{\sim}{\Theta}(g(n))$, then $\exists c_1,c_2,k_1,k_2,n_0, \forall n\ge n_0, 0\le \frac{c_1 g(n)}{\lg^{k_1}(n)} \le f(n) \le c_2 g(n)\lg^{k_2}(n)$, if we just look at these inequalities separately, we have $\frac{c_1 g(n)}{\lg^{k_1}(n)} \le f(n)$ ($f(n) \in \overset{\sim}{\Omega}(g(n))$) and $f(n) \le c_2 g(n)\lg^{k_2}(n)$ ($f(n)\in \overset{\sim}{O}(g(n))$).
 
 Now for the other direction. Suppose that we had $\exists n_1, c_1,k_1 \forall n\ge n_1, \frac{c_1 g(n)}{\lg^{k_1}(n)} \le f(n)$ and $\exists n_2,c_2,k_2, \forall n\ge n_2, f(n)\le c_2g(n)\lg^{k_2}(n)$. Putting these together, and letting $n_0 = \max(n_1,n_2)$, we have $\forall n\ge n_0, \frac{c_1 g(n)}{\lg^{k_1}(n)} \le f(n) \le c_2 g(n)\lg^{k_2}(n)$. 
 

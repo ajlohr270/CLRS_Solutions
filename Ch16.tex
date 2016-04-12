@@ -37,7 +37,7 @@ This becomes exactly the same as the original problem if we imagine time running
 
 \noindent\textbf{Exercise 16.1-3}\\
 
-As a counterexample to the omtimality of greedily selecting the shortest, suppose our activity times are $\{(1,9),(8,11),(10,20)\}$ then, picking the shortest first, we hahve to eliminate the other two, where if we picked the other two instead, we would have two tasks not one.
+As a counterexample to the optimality of greedily selecting the shortest, suppose our activity times are $\{(1,9),(8,11),(10,20)\}$ then, picking the shortest first, we have to eliminate the other two, where if we picked the other two instead, we would have two tasks not one.
 
 As a counterexample to the optimality of greedily selecting the task that conflicts with the fewest remaining activities, suppose the activity times are $\{(-1,1),(2,5),(0,3),(0,3),(0,3),(4,7),(6,9),(8,11),(8,11),(8,11),(10,12)\}$. Then, by this greedy strategy, we would first pick $(4,7)$ since it only has a two conflicts. However, doing so would mean that we would not be able to pick the only optimal solution of $(-1,1),(2,5),(6,9),(10,12)$.
 
@@ -98,7 +98,7 @@ First compute the value of each item, defined to be it's worth divided by its we
 
 \noindent\textbf{Exercise 16.2-7}\\
 
-Since an idential permutation of both sets doesn't affect this product, suppose that $A$ is sorted in ascending order. Then, we will prove that the product is maximized when $B$ is also sorted in ascending order. To see this, suppose not, that is, there is some $i < j$ so that $a_i<a_j$ and $b_i > b_j$. Then, consider only the contribution to the product from the indices $i$ and $j$. That is, $a_i^{b_i}a_j^{b_j}$, then, if we were to swap the order of $b_1$ and $b_j$, we would have that contribution be $a_i^{b_j}a_j^{b_i}$. we can see that this is larger than the previous expression because it differs by a factor of $(\frac{a_j}{a_i})^{b_i-b_j}$ which is bigger than one. So, we couldn't of maximized the product with this ordering on $B$.\\
+Since an identical permutation of both sets doesn't affect this product, suppose that $A$ is sorted in ascending order. Then, we will prove that the product is maximized when $B$ is also sorted in ascending order. To see this, suppose not, that is, there is some $i < j$ so that $a_i<a_j$ and $b_i > b_j$. Then, consider only the contribution to the product from the indices $i$ and $j$. That is, $a_i^{b_i}a_j^{b_j}$, then, if we were to swap the order of $b_1$ and $b_j$, we would have that contribution be $a_i^{b_j}a_j^{b_i}$. we can see that this is larger than the previous expression because it differs by a factor of $(\frac{a_j}{a_i})^{b_i-b_j}$ which is bigger than one. So, we couldn't of maximized the product with this ordering on $B$.\\
 
 \noindent\textbf{Exercise 16.3-1}\\
 
@@ -162,7 +162,7 @@ If every possible character is equally likely, then, when constructing the Huffm
 
 \noindent\textbf{Exercise 16.4-1}\\
 
-The first condition that $S$ is a finite set is a given. To prove the second condition we assume that $k\ge 0$, this gets us that $\mathcal{I}_k$ is nonempty. Also, to prove the hereditary property, suppose $A\in \mathcal{I}_k$ this means that $|A| \le k$. Then, if $B\subseteq A$, this means that $|B| \le |A| \le k$, so $B\in \mathcal{I}_k$. Lastly, we porove the exchange property by letting $A,B\in\mathcal{I}_k$ be such that $|A|<|B|$. Then, we can pick any element $x \in B\setminus A$, then, $|A\cup\{x\}|  = |A|+1 \le |B| \le k$, so, we can extend $A$ to $A\cup \{x\}\in \mathcal{I}_k$.\\
+The first condition that $S$ is a finite set is a given. To prove the second condition we assume that $k\ge 0$, this gets us that $\mathcal{I}_k$ is nonempty. Also, to prove the hereditary property, suppose $A\in \mathcal{I}_k$ this means that $|A| \le k$. Then, if $B\subseteq A$, this means that $|B| \le |A| \le k$, so $B\in \mathcal{I}_k$. Lastly, we prove the exchange property by letting $A,B\in\mathcal{I}_k$ be such that $|A|<|B|$. Then, we can pick any element $x \in B\setminus A$, then, $|A\cup\{x\}|  = |A|+1 \le |B| \le k$, so, we can extend $A$ to $A\cup \{x\}\in \mathcal{I}_k$.\\
 
 \noindent\textbf{Exercise 16.4-2}\\
 
@@ -201,7 +201,7 @@ w_i &10&20&30&40&50&60&70
 \end{array}
 $
 
-We begin by just greedily constructing the matroid, adding the most costly to leave incomplete tasks first. So, we add taks 7,6,5,4,3. Then, in order to schedule tasks $1$ or $2$ we need to leave incomplete more important tasks. So, our final scedule is $\langle 5,3,4,6,7,1,2\rangle$ to have a total penalty of only $w_1+w_2=30$.\\
+We begin by just greedily constructing the matroid, adding the most costly to leave incomplete tasks first. So, we add tasks 7,6,5,4,3. Then, in order to schedule tasks $1$ or $2$ we need to leave incomplete more important tasks. So, our final schedule is $\langle 5,3,4,6,7,1,2\rangle$ to have a total penalty of only $w_1+w_2=30$.\\
 
 \noindent\textbf{Exercise 16.5-2}\\
 

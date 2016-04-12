@@ -39,7 +39,7 @@ Start with a bit vector $b$ which contains a 1 in position $k$ if $k $ is in the
 
 \noindent\textbf{ Exercise 11.1-3} \\
 
-You could have each entry in the table be either a pointer to a doubly linked list containing all the objects with that key, or NIL if there are none. search just returns the first element in the list corresponding to the given key. Since all the elements in the list have that same key, it doesn't matter which search returns. Insert just adds to the start of teh doubly linked list. Finally, deletion can be done in constant time in a doubly linked list, see problem 10-1\\
+You could have each entry in the table be either a pointer to a doubly linked list containing all the objects with that key, or NIL if there are none. search just returns the first element in the list corresponding to the given key. Since all the elements in the list have that same key, it doesn't matter which search returns. Insert just adds to the start of the doubly linked list. Finally, deletion can be done in constant time in a doubly linked list, see problem 10-1\\
 
 \noindent\textbf{Exercise 11.1-4}\\
 
@@ -72,7 +72,7 @@ Both kinds of searches become expected runtime of $\Theta(1+ \lg(\alpha))$. Inse
 
 \noindent\textbf{Exercise 11.2-4}\\
 
-The flag in each slot of the hash table will be 1 if the element contains  a value, and 0 if it is free.  The free list must be doubly linked.  Seach is unmodified, so it has expected time $O(1)$. To insert an element $x$, first check if $T[h(x.key)]$ is free.  If it is, delete $T[h(x.key)]$ and change the flag of $T[h(x.key)]$ to 1.  If it wasn't free to begin with, simply insert $x.key$ at the start of the list stored there.  To delete, first check if $x.prev$ and $x.next$ are NIL.  If they are, then the list will be empty upon deletion of $x$, so insert $T[h(x.key)]$ into the free list, update the flag of $T[h(x.key)]$ to 0, and delete $x$ from the list it's stored in.  Since deletion of an element from a singly linked list isn't $O(1)$, we must use a doubly linked list.  All other operations are $O(1)$. \\
+The flag in each slot of the hash table will be 1 if the element contains  a value, and 0 if it is free.  The free list must be doubly linked.  Search is unmodified, so it has expected time $O(1)$. To insert an element $x$, first check if $T[h(x.key)]$ is free.  If it is, delete $T[h(x.key)]$ and change the flag of $T[h(x.key)]$ to 1.  If it wasn't free to begin with, simply insert $x.key$ at the start of the list stored there.  To delete, first check if $x.prev$ and $x.next$ are NIL.  If they are, then the list will be empty upon deletion of $x$, so insert $T[h(x.key)]$ into the free list, update the flag of $T[h(x.key)]$ to 0, and delete $x$ from the list it's stored in.  Since deletion of an element from a singly linked list isn't $O(1)$, we must use a doubly linked list.  All other operations are $O(1)$. \\
 
 \noindent\textbf{ Exercise 11.2-5} \\
 
@@ -159,7 +159,7 @@ $
 \end{array}
 $ 
 
-Note that there is no way to insert the element 59 now, because the offsets coming from $c_1 =1$ and $c_2 =3$ can only be even, and an odd offest would be required to insert 59 because $59 \mod 11 = 4$ and all the empty positions are at odd indices.
+Note that there is no way to insert the element 59 now, because the offsets coming from $c_1 =1$ and $c_2 =3$ can only be even, and an odd offset would be required to insert 59 because $59 \mod 11 = 4$ and all the empty positions are at odd indices.
 
 For double hashing, it is the same as linear probing. \\
 
@@ -177,9 +177,9 @@ We modify INSERT by changing line 4 to: \textbf{if} $T[j] ==NIL$ or $T[j] == DEL
 
 \noindent\textbf{ Exercise 11.4-3} \\
 
-For the $\alpha = 3/4$ case, we just plug into theorems 11.6 and 11.8 respectively to get that for a unsuccessfull search, the expected number of probes is bounded by $4$. And for a sucessfull search, the expected number of probes is bounded by $\frac{4}{3}\ln(4)$.
+For the $\alpha = 3/4$ case, we just plug into theorems 11.6 and 11.8 respectively to get that for a unsuccessful search, the expected number of probes is bounded by $4$. And for a successful search, the expected number of probes is bounded by $\frac{4}{3}\ln(4)$.
 
-For $\alpha = 7/8$. The bound for expected number of probes of unsucessfull is $8$, and for sucessfull is $\frac{8}{7}\ln(8)$.\\
+For $\alpha = 7/8$. The bound for expected number of probes of unsuccessful is $8$, and for successful is $\frac{8}{7}\ln(8)$.\\
 
 \noindent\textbf{Exercise 11.4-4}\\
 
@@ -192,7 +192,7 @@ We will try to find a rational solution, let $\alpha = m/n$. Using theorems 11.6
 \frac{1}{1-\alpha} = \frac{2}{\alpha}\ln(\frac{1}{1-\alpha}) 
 \]
 
-Unfortunately, this trancendental equation cannot be solved using simple techniques. There is an exact solution using the Lambert W function of 
+Unfortunately, this transcendental equation cannot be solved using simple techniques. There is an exact solution using the Lambert W function of 
 \[
 \frac{1}{2}\frac{1+2LambertW(-1, -(\frac{1}{2})*exp(-\frac{1}{2}))}{LambertW(-1, -(\frac{1}{2})*exp(-\frac{1}{2})) }
 \]
@@ -201,7 +201,7 @@ Which evaluates to approximately $\alpha = .7153$.\\
 
 \noindent\textbf{ Exercise 11.5-1} \\
 
-Let $A_{j,k}$ be the event that $j$ and $k$ hash to different things. Due to uniform hashing, $Pr(A_{j,k})  = \frac{m-1}{m}$. Also, we can say that there is a negative correlation between the events. That is, if we know that several pairs of elements hashed to the same thing, then we can only decrease the likelyhood that some other pair hashed to different things. This gets us that the probability that all events happen is $\le$ the probability that the all happened if they were independent, so,
+Let $A_{j,k}$ be the event that $j$ and $k$ hash to different things. Due to uniform hashing, $Pr(A_{j,k})  = \frac{m-1}{m}$. Also, we can say that there is a negative correlation between the events. That is, if we know that several pairs of elements hashed to the same thing, then we can only decrease the likelihood that some other pair hashed to different things. This gets us that the probability that all events happen is $\le$ the probability that the all happened if they were independent, so,
 \[
 Pr(\cap_{j,k} A_{j,k}) \le \left(\frac{m-1}{m}\right)^{\binom{n}{2}} \le \left( e^{-1/m}\right)^{\frac{n(n-1)}{2}} = e^{\frac{-n(n-1)}{2m}}
 \]
@@ -232,18 +232,20 @@ E[X] \le Pr\{X \le 2\lg(n)\} 2\lg(n) + Pr\{ X >\lg(n)\} n =  \frac{n-1}{n} 2\lg(
 \end{enumerate}
 
 \noindent\textbf{Problem 11-2}\\
-
-a. Let $Q_k$ denote the probability that exactly $k$ keys hash to a particular slot.  There are ${n \choose k}$ ways to select the $k$ keys, they hash to that spot with probability $\left(\frac{1}{n}\right)^k$, and the remaining $n-k$ keys hash to the remaining $n-1$ slots with probability $\left(\frac{n-1}{n}\right)^{n-k}$. Thus,
+\begin{enumerate}[a.]
+\item Let $Q_k$ denote the probability that exactly $k$ keys hash to a particular slot.  There are ${n \choose k}$ ways to select the $k$ keys, they hash to that spot with probability $\left(\frac{1}{n}\right)^k$, and the remaining $n-k$ keys hash to the remaining $n-1$ slots with probability $\left(\frac{n-1}{n}\right)^{n-k}$. Thus,
 \[ Q_k = \left(\frac{1}{n}\right)^k\left(\frac{n-1}{n}\right)^{n-k} {n \choose k}.\]
 
-b. The probability that the slot containing the most keys contains exactly $k$ is bounded above by the probability that some slot contains $k$ keys. There are $n$ slots which we could select to contain those $k$, so $P_k \leq nQ_k$. \\
+\item The probability that the slot containing the most keys contains exactly $k$ is bounded above by the probability that some slot contains $k$ keys. There are $n$ slots which we could select to contain those $k$, so $P_k \leq nQ_k$. 
 
-c.  Using the fact that ${n \choose k} \leq \left(\frac{ne}{k}\right)^k$ we have $Q_k \leq \frac{(n-1)^{n-k}}{n^n} \left(\frac{ne}{k}\right)^k \leq e^k/k^k$. \\
+\item Using the fact that ${n \choose k} \leq \left(\frac{ne}{k}\right)^k$ we have $Q_k \leq \frac{(n-1)^{n-k}}{n^n} \left(\frac{ne}{k}\right)^k \leq e^k/k^k$. 
 
-d.  %%%Need to finish, but once you've found c: 
-By part (b), we have $P_k \leq nQ_k < 1/n^2$.\\
+\item  %%%Need to finish, but once you've found c: 
+By part (b), we have $P_k \leq nQ_k < 1/n^2$.
 
-e. This comes from computing expectation by conditioning, and bounding $M$ from above by $n$ in the first term.  From the bound in (d) we have $nP(M > \frac{c \lg n}{\lg \lg n}) < 1$.  For the second term, $\sum_{i=1}^d P(M = i) \leq 1$ where $d = c\lg n/ \lg \lg n$, so the asymptotic expectation follows. \\
+\item This comes from computing expectation by conditioning, and bounding $M$ from above by $n$ in the first term.  From the bound in (d) we have $nP(M > \frac{c \lg n}{\lg \lg n}) < 1$.  For the second term, $\sum_{i=1}^d P(M = i) \leq 1$ where $d = c\lg n/ \lg \lg n$, so the asymptotic expectation follows. 
+
+\end{enumerate}
 
 \noindent\textbf{ Problem 11-3} \\
 
@@ -277,19 +279,20 @@ However, there are only $m$ rounds, so, we have that
 \[
 1 = i+i'
 \]
-Which is not possible because this would only corrsepond to having the first ($i=0$) and second($i=1$) rounds be probing the same position. This could only happen if $m=1$. and if $m=1$, then we wouldn't even have the second round occur. So, we have our contradiction and so every probe was to a distinct position, meaning every position was probed.
+Which is not possible because this would only correspond to having the first ($i=0$) and second($i=1$) rounds be probing the same position. This could only happen if $m=1$. and if $m=1$, then we wouldn't even have the second round occur. So, we have our contradiction and so every probe was to a distinct position, meaning every position was probed.
 \item
-
+%%%%%%not done
 \end{enumerate}
 
 \noindent\textbf{Problem 11-4}\\
+\begin{enumerate}[a.]
+\item Let $k, l \in U$ be arbitrary.  Then $P(h(k) = h(l)) = P(<h(k),h(l)> = <x,x>)$ for some $x \in [m]$.  Since $h$ comes from a set of 2-universal hash functions, this is equally likely to be any of the $m^2$ sequences.  There are $m$ possible values of $x$ which would cause a collision, so the probability of collision is $\frac{m}{m^2} = \frac{1}{m}$. 
 
-a. Let $k, l \in U$ be arbitrary.  Then $P(h(k) = h(l)) = P(<h(k),h(l)> = <x,x>)$ for some $x \in [m]$.  Since $h$ comes from a set of 2-unifersal hash functions, this is equally likely to be any of the $m^2$ sequences.  There are $m$ possible values of $x$ which would cause a collision, so the probability of collision is $\frac{m}{m^2} = \frac{1}{m}$. \\
+\item The probability of collision is $\frac{1}{p}$, so $\mathcal{H}$ is universal.  Now consider the tuple $z = <0,0,\ldots, 0>$.  Then $h_a(x) = h_b(x) = 0$ for any $a, b \in U$, so the sequence $<z, x^{(2)}>$ is equally likely to be any of $p$ sequences starting with $0$, but can't be any of the other $p^{2} - p$ sequences, so $\mathcal{H}$ is not 2-universal. 
 
-b. The probability of collision is $\frac{1}{p}$, so $\mathcal{H}$ is universal.  Now consider the tuple $z = <0,0,\ldots, 0>$.  Then $h_a(x) = h_b(x) = 0$ for any $a, b \in U$, so the sequence $<z, x^{(2)}>$ is equally likely to be any of $p$ sequences starting with $0$, but can't be any of the other $p^{2} - p$ sequences, so $\mathcal{H}$ is not 2-universal. \\
+\item Let $x, y \in U$ be fixed, distinct $n$-tuples.  As $a_i$ and $b$ range over $\mathbb{Z}_p$, $h_{ab}'(x)$ is equally likely to achieve every value from 1 to $p$ since for any sequence $a$, we can let $b$ vary from $1$ to $p-1$. Thus, $<h_{ab}'(x), h_{ab}'(y)>$ is equally likely to be any of the $p^2$ sequences, so $\mathcal{H}$ is 2-universal. 
 
-c. Let $x, y \in U$ be fixed, distinct $n$-tuples.  As $a_i$ and $b$ range over $\mathbb{Z}_p$, $h_{ab}'(x)$ is equally likely to achieve every value from 1 to $p$ since for any sequence $a$, we can let $b$ vary from $1$ to $p-1$. Thus, $<h_{ab}'(x), h_{ab}'(y)>$ is equally likely to be any of the $p^2$ sequences, so $\mathcal{H}$ is 2-universal. \\
-
-d. Since $\mathcal{H}$ is 2-universal, there are $p$ other functions which map $m$ to $h(m)$, and the adversary has no way of knowing which one of these Alice and Bob have agreed on in advance, so the best he can do is try one of them, which will succeed in fooling Bob with probability $1/p$. \\
+\item Since $\mathcal{H}$ is 2-universal, there are $p$ other functions which map $m$ to $h(m)$, and the adversary has no way of knowing which one of these Alice and Bob have agreed on in advance, so the best he can do is try one of them, which will succeed in fooling Bob with probability $1/p$. 
+\end{enumerate}
 
 \end{document} 

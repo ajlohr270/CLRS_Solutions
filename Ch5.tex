@@ -68,7 +68,7 @@ Each iteration of the while loop takes $n$ time to run. The probability that the
 \EndFor
 \end{algorithmic}
 \end{algorithm}
-Clearly since $a$ and $b$ are IID, the probability this algorithm returns one is equal to the probability it returns 0. Also, since there is a constant positive probabiltiy ($2 p(p-1)$) that the algorithm returns on each iteration of the for loop. This program will expect to go through the loop a number of times equal to:
+Clearly since $a$ and $b$ are IID, the probability this algorithm returns one is equal to the probability it returns 0. Also, since there is a constant positive probability ($2 p(p-1)$) that the algorithm returns on each iteration of the for loop. This program will expect to go through the loop a number of times equal to:
 
 \[
 \sum_{j=0}^{\infty} j (1 - 2 p(p-1))^j ( 2 p (p-1)) = \frac{2p(p-1) (1 - 2p(p-1))}{( 2p(p-1))^2} = \frac{1 - 2p(p-1)}{2p(p-1)}
@@ -83,7 +83,7 @@ You will hire exactly $n$ times if the candidates are presented in increasing or
 
 \noindent\textbf{Exercise 5.2-2}\\
 
-Since the first candidate is always hired, we need to compute the probability that that exactly one additional candidate is hired.  Since we view the cadidate ranking as reading an random permutation, this is equivalent to the probability that a random permutation is a decreasing sequence followed by an increase, followed by another decreasing sequence.  Such a permutation can be thought of as a partition of $[n]$ into 2 parts.  One of size $k$ and the other of size $n-k$, where $1 \leq k \leq n-1$.  For each such partition, we obtain a permutation with a single increase by ordering the numbers each partition in decreasing order, then concatenating these sequences.  The only thing that can go wrong is if the numbers $n$ through $n - k + 1$ are in the first partition.  Thus there are ${n \choose k} - 1$ permutations which correspond to hiring the second and final person on step $k+1$.  Summing, we see that the probability you hire exactly twice is
+Since the first candidate is always hired, we need to compute the probability that that exactly one additional candidate is hired.  Since we view the candidate ranking as reading an random permutation, this is equivalent to the probability that a random permutation is a decreasing sequence followed by an increase, followed by another decreasing sequence.  Such a permutation can be thought of as a partition of $[n]$ into 2 parts.  One of size $k$ and the other of size $n-k$, where $1 \leq k \leq n-1$.  For each such partition, we obtain a permutation with a single increase by ordering the numbers each partition in decreasing order, then concatenating these sequences.  The only thing that can go wrong is if the numbers $n$ through $n - k + 1$ are in the first partition.  Thus there are ${n \choose k} - 1$ permutations which correspond to hiring the second and final person on step $k+1$.  Summing, we see that the probability you hire exactly twice is
 \[ \frac{\sum_{k=1}^{n-1} {n \choose k} - 1}{n!} = \frac{2^n - 2 - (n-1)}{n!} = \frac{2^n - n - 1}{n!}.\]
 
 \noindent\textbf{Exercise 5.2-3}\\
@@ -152,7 +152,7 @@ Where we use the fact that any two indices will be equal with probability equal 
 
 \noindent\textbf{Exercise 5.3-6}\\
 
-After the completion of the for loop, check whether or not two or more priorities are identical.  Suppose that $k$ of them are identical.  Then call $RANDOM(1,k^3)$ $k$ times to introduce a relative ordering on the $k$ identical entries.  Some entries $m$ may still be identical, so simply call $RANDOM(1,m^3)$ that many times to introduce a relative ordering on these indentical entries.  For example, if the first sequence of numbers we get is $1, 1, 1, 3, 4, 5, 5$, we'll need to order the 1's and the 5's.  For the 1's, we'll call $RANDOM(1,27)$ 3 times.  Suppose it produces $23, 14, 23$.  Then we'll call $RANDOM(1,8)$ twice to sort the 23's.  Suppose it gives $3, 5$. Then the relative ordering of $23, 14, 23$ becomes $2, 1, 3$, so the new relative ordering on the original array is $2, 1, 3, 4, 5, 6, 6$.  Now we call $RANDOM(1,8)$ twice to sort the 6's.  If the first number is larger than the second, our final array will be $2, 1, 3, 4, 5, 7, 6$. \\
+After the completion of the for loop, check whether or not two or more priorities are identical.  Suppose that $k$ of them are identical.  Then call $RANDOM(1,k^3)$ $k$ times to introduce a relative ordering on the $k$ identical entries.  Some entries $m$ may still be identical, so simply call $RANDOM(1,m^3)$ that many times to introduce a relative ordering on these identical entries.  For example, if the first sequence of numbers we get is $1, 1, 1, 3, 4, 5, 5$, we'll need to order the 1's and the 5's.  For the 1's, we'll call $RANDOM(1,27)$ 3 times.  Suppose it produces $23, 14, 23$.  Then we'll call $RANDOM(1,8)$ twice to sort the 23's.  Suppose it gives $3, 5$. Then the relative ordering of $23, 14, 23$ becomes $2, 1, 3$, so the new relative ordering on the original array is $2, 1, 3, 4, 5, 6, 6$.  Now we call $RANDOM(1,8)$ twice to sort the 6's.  If the first number is larger than the second, our final array will be $2, 1, 3, 4, 5, 7, 6$. \\
 
 \noindent\textbf{Exercise 5.3-7}\\
 
@@ -162,7 +162,7 @@ We prove that it produces a rawndom $m$ subset by induction on $m$. It is obviou
 
 \noindent\textbf{Exercise 5.4-1}\\
 
-The probability that none of $n$ people have the same birthday as you is $(1-\frac{1}{365})^n= \frac{364^n}{365^n}$. This falls below zero when $n\ge \log_{\frac{364}{365}}(.5) \approx 252.6$ so, when $n=253$. Since you are also a person in the room, we add one to get the final anwer of $254$.
+The probability that none of $n$ people have the same birthday as you is $(1-\frac{1}{365})^n= \frac{364^n}{365^n}$. This falls below zero when $n\ge \log_{\frac{364}{365}}(.5) \approx 252.6$ so, when $n=253$. Since you are also a person in the room, we add one to get the final answer of $254$.
 
 The probability that k of the n people have july 4 as a birthday is $\binom{n}{k} \frac{364^{n-k}}{365}$. In particular, for $k=0$ it is $\frac{364^n}{365^n}$ and for $k=1$ it is $\frac{n364^{n-1}}{365^n}$. Adding these up and solving for $n$ to have the sum drop less than a half, we get
 \[
@@ -227,7 +227,7 @@ We split up the $n$ flips into $n/s$ groups where we pick $s = \lg(n) - 2\lg(\lg
 \[
 \Pr(A_{i,\lg(n)- 2\lg(\lg(n))}) =\frac{1}{2^{\lg(n)- 2\lg(\lg(n))}} = \frac{\lg(n)^2}{n}
 \]
-Since the groups are based of of disjoint sets of IID coinflips, these probabilities are indipendent. so, 
+Since the groups are based of of disjoint sets of IID coin flips, these probabilities are independent. so, 
 \[
 \Pr(\bigwedge_{i} \neg A_{i,\lg(n)- 2\lg(\lg(n))}) = \prod_i \Pr(\neg A_{i,\lg(n)- 2\lg(\lg(n))}) \]\[= \left(1 - \frac{\lg(n)^2}{n}\right)^{\frac{n}{\lg(n) - 2\lg(\lg(n))}} \le e^{-\frac{\lg(n)^2}{\lg(n) - 2\lg(\lg(n))}} = \frac{1}{n}e^{\frac{-2\lg(\lg(n))\lg(n)}{\lg(n) - 2\lg(\lg(n))}} 
 \]
@@ -243,7 +243,7 @@ Showing that the probability that there is no run of length at least $\lg(n) - 2
 \item
 We will show that the expected increase from each increment operation is equal to one. Suppose that the value of the counter is currently $i$. Then, we will increase the number represented from $n_{i}$ to $n_{i+1}$ with a probability of $\frac{1}{n_{i+1} - n_i}$, leaving the value alone otherwise. Multiplying these together, we get that the expected increase is $\frac{n_{i+1} - n_i}{n_{i+1} - n_i} - 1$.
 \item
-For this choice of $n_i$, we have that at each increment operation, the probability that we change the value of the counter is $\frac{1}{100}$. Since this is a constant with respect to the current value of the counter $i$, we can view the final result as a minomial distribution with a p value of $.01$. Since the variance of a binomial distribution is $np(1-p)$, and we have that each success is worth 100 instead, the variance is going to be equal to $.99n$.
+For this choice of $n_i$, we have that at each increment operation, the probability that we change the value of the counter is $\frac{1}{100}$. Since this is a constant with respect to the current value of the counter $i$, we can view the final result as a binomial distribution with a p value of $.01$. Since the variance of a binomial distribution is $np(1-p)$, and we have that each success is worth 100 instead, the variance is going to be equal to $.99n$.
 \end{enumerate}
 
 \noindent\textbf{Problem 5-2}\\

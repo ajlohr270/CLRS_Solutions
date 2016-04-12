@@ -56,7 +56,7 @@ Where the second inequality comes by noting that the middle expression, as a fun
 
 \noindent\textbf{Exercise 27.1-4}\\
 
-The computation is given in the image below.  Let vertex $u$ have degree $k$, and assume that there are $m$ vertices in each vertical chain.  Assume that this is executed on $k$ processors.  In one execution, each strand from among the $k$ on the left is executed concurrently, and then the $m$ strands on the right are executed one at a time.  If each strand takes unit time to execute, then the total computation takes $2m$ time.  On the other hand, suppose that on each time step of the computation, $k-1$ strands from the left (descendents of $u$) are executed, and one from the right (a descendent of $v$), is executed.  If each strand take unit time to executed, the total computation takes $m + m/k$.  Thus, the ratio of times is $2m/(m + m/k) = 2/(1+1/k)$.  As $k$ gets large, this approaches 2 as desired.  \\
+The computation is given in the image below.  Let vertex $u$ have degree $k$, and assume that there are $m$ vertices in each vertical chain.  Assume that this is executed on $k$ processors.  In one execution, each strand from among the $k$ on the left is executed concurrently, and then the $m$ strands on the right are executed one at a time.  If each strand takes unit time to execute, then the total computation takes $2m$ time.  On the other hand, suppose that on each time step of the computation, $k-1$ strands from the left (descendants of $u$) are executed, and one from the right (a descendant of $v$), is executed.  If each strand take unit time to executed, the total computation takes $m + m/k$.  Thus, the ratio of times is $2m/(m + m/k) = 2/(1+1/k)$.  As $k$ gets large, this approaches 2 as desired.  \\
 
 \includegraphics[scale=.1]{2CompDag.jpg}\\
 
@@ -148,7 +148,7 @@ See the computation dag in the image below.  Assuming each strand takes unit tim
 
 \noindent\textbf{Exercise 27.2-3}\\
 
-We perform a modification of the P-SQUARE-MATRIX-MULTIPLY algorithm. Basiglly, as hinted in the text, we will parallelize the innermost for loop in such a way that there aren't any data races formed. To do this, we will just define a parallelized dot product procedure. This means that lines 5-7 can be replaced by a single call to this procedure. P-DOT-PRODUCT computes the dot dot product of the two lists between the two bounds on indices.
+We perform a modification of the P-SQUARE-MATRIX-MULTIPLY algorithm. Basically, as hinted in the text, we will parallelize the innermost for loop in such a way that there aren't any data races formed. To do this, we will just define a parallelized dot product procedure. This means that lines 5-7 can be replaced by a single call to this procedure. P-DOT-PRODUCT computes the dot dot product of the two lists between the two bounds on indices.
 
 \begin{algorithm}
 \caption{P-DOT-PROD(v,w,low,high)}
@@ -180,7 +180,7 @@ Using this, we can use this to modify P-SQUARE-MATRIX-MULTIPLY
 \end{algorithmic}
 \end{algorithm}
 
-Since the runtime of the inner loop is $O(\lg(n))$, which is the depth of the recursion. Since the paralel for loops also take $O(\lg(n))$ time. So, since the runtimes are additive here, the total span of this procedure is $\Theta(\lg(n))$. The total work is still just $O(n^3)$ Since all the spawnging and recursing couls be replaced with the normal serial version once there anren't enough free processors to handle all of the spawned calls to P-DOT-PRODUCT. \\
+Since the runtime of the inner loop is $O(\lg(n))$, which is the depth of the recursion. Since the paralel for loops also take $O(\lg(n))$ time. So, since the runtimes are additive here, the total span of this procedure is $\Theta(\lg(n))$. The total work is still just $O(n^3)$ Since all the spawning and recursing call be replaced with the normal serial version once there aren't enough free processors to handle all of the spawned calls to P-DOT-PRODUCT. \\
 
 \noindent\textbf{Exercise 27.2-4}\\
 
@@ -201,7 +201,7 @@ Assume that the input is two matrices $A$ and $B$ to be multiplied.  For this al
 
 \noindent\textbf{Exercise 27.2-5}\\
 
-Split up the region into four sections. Then, this amounts to finding the transpose the uppoer left and lower right of the two submatrices. In adition to that, you also need to swap the elements in the upper right with their transpose position in the lower left. This dealing with the uppoer right swapping only takes time $O(\lg(n^2)) = O(\lg(n))$. In addition, there are two subproblems, each of half the size. This gets us the recursion:
+Split up the region into four sections. Then, this amounts to finding the transpose the upper left and lower right of the two submatrices. In addition to that, you also need to swap the elements in the upper right with their transpose position in the lower left. This dealing with the upper right swapping only takes time $O(\lg(n^2)) = O(\lg(n))$. In addition, there are two subproblems, each of half the size. This gets us the recursion:
 
 \[
 T_{\infty}(n) = T_{\infty}(n/2) + \lg(n)
@@ -266,7 +266,7 @@ The work is characterized by the recurrence $T_1(n) = O(\lg n) + 2T_1(n/2)$, who
 
 \noindent\textbf{Exercise 27.3-3}\\
 
-Suppose that there are c different processors, and the array has length $n$ and you are going to use its last element as a pivot. Then, look at each chunk of size $\lceil\frac{n}{c}\rceil$ of entries before the last element, give one to each processor. Then, each counts the number of elements that are less than the pivot. Then, we compute all the running sums of these values that are returned. This can be done easily by considering all of the subarrays placed aout along the leaves of a binary tree, and then summing up adjacent pairs. This computation can be done in time $\lg(\min\{c,n\})$ since it's the log of the number of leaves. From there, we can compute all the running sums for each of the subarrays also in logarithmic time. This is by keeping track of the sum of all more left cousins of each internal node, which is found by adding the left sibling's sum vale to the left cousing value of the parent, with the root's left cousing value initiated to 0. This also just takes time the depth of the tree, so is $\lg(\min\{c,n\})$. Once all of these values are computed at the root, it is the index that the subarray's elements less than the pivot should be put. To find the position where the subarray's elements larger than the root should be put, just put it at twice the sum value of the root minus the left cousin value for that subarray. Then, the time taken is just $O(\frac{n}{c})$. By doing this procedure, the total work is just $O(n)$, and the span is $O(\lg(n))$, and so has parallelization of $O(\frac{n}{\lg(n)})$. This whole process is split across the several algoithms appearing here.\\
+Suppose that there are c different processors, and the array has length $n$ and you are going to use its last element as a pivot. Then, look at each chunk of size $\lceil\frac{n}{c}\rceil$ of entries before the last element, give one to each processor. Then, each counts the number of elements that are less than the pivot. Then, we compute all the running sums of these values that are returned. This can be done easily by considering all of the subarrays placed along the leaves of a binary tree, and then summing up adjacent pairs. This computation can be done in time $\lg(\min\{c,n\})$ since it's the log of the number of leaves. From there, we can compute all the running sums for each of the subarrays also in logarithmic time. This is by keeping track of the sum of all more left cousins of each internal node, which is found by adding the left sibling's sum vale to the left cousin value of the parent, with the root's left cousin value initiated to 0. This also just takes time the depth of the tree, so is $\lg(\min\{c,n\})$. Once all of these values are computed at the root, it is the index that the subarray's elements less than the pivot should be put. To find the position where the subarray's elements larger than the root should be put, just put it at twice the sum value of the root minus the left cousin value for that subarray. Then, the time taken is just $O(\frac{n}{c})$. By doing this procedure, the total work is just $O(n)$, and the span is $O(\lg(n))$, and so has parallelization of $O(\frac{n}{\lg(n)})$. This whole process is split across the several algoithms appearing here.\\
 
 \begin{algorithm}
 \caption{PPartition(L)}
@@ -279,7 +279,7 @@ Suppose that there are c different processors, and the array has length $n$ and 
 \State Count[i] = spawn countnum($L[r_i,r_{i+1}-1]$,pivot)
 \EndFor
 \State sync
-\State let $T$ be a nearly complete binary tree whoose leaves are the elements of Count whoose vertices have the attributes sum and lc
+\State let $T$ be a nearly complete binary tree whose leaves are the elements of Count whose vertices have the attributes sum and lc
 \State for all the leaves, let their sum value be the corresponding entry in Count
 \State ComputeSums(T.root)
 \State T.root.lc = 0
@@ -385,7 +385,7 @@ So, the total span of this algorithm will still just be $O(\lg(n))$.\\
 
 \noindent\textbf{Exercise 27.3-6}\\
 
-Let MEDIAN$(A)$ denote a brute force method which returns the median element of the array $A$.  We will only use this to find the median of small arrays, in particular, those of size at most 5, so it will always run in constant time.  We also let $A[i..j]$ denote the array whose elements are $A[i], A[i+1], \ldots, A[j]$.  The function P-PARTITION$(A,x)$ is a multithreaded funciton which partitions $A$ around the input element $x$ and returns the number of elements in $A$ which are less than or equal to $x$. Using a parallel for-loop, its span is logarithmic in the number of elements in $A$.  The work is the same as the serialization, which is $\Theta(n)$ according to section 9.3.  The span satisfies the recurrence $T_\infty(n) = \Theta(\lg n/5) + T_\infty(n/5) + \Theta(\lg n) + T_\infty(7n/10 + 6) \leq \Theta(\lg n) + T_\infty(n/5) + T_\infty(7n/10 + 6)$.  Using the substitution method we can show that $T_\infty(n) = O(n^\varepsilon)$ for some $\varepsilon < 1$.  In particular, $\varepsilon = .9$ works.  This gives a parallelization of $\Omega(n^{.1})$.\\
+Let MEDIAN$(A)$ denote a brute force method which returns the median element of the array $A$.  We will only use this to find the median of small arrays, in particular, those of size at most 5, so it will always run in constant time.  We also let $A[i..j]$ denote the array whose elements are $A[i], A[i+1], \ldots, A[j]$.  The function P-PARTITION$(A,x)$ is a multithreaded function which partitions $A$ around the input element $x$ and returns the number of elements in $A$ which are less than or equal to $x$. Using a parallel for-loop, its span is logarithmic in the number of elements in $A$.  The work is the same as the serialization, which is $\Theta(n)$ according to section 9.3.  The span satisfies the recurrence $T_\infty(n) = \Theta(\lg n/5) + T_\infty(n/5) + \Theta(\lg n) + T_\infty(7n/10 + 6) \leq \Theta(\lg n) + T_\infty(n/5) + T_\infty(7n/10 + 6)$.  Using the substitution method we can show that $T_\infty(n) = O(n^\varepsilon)$ for some $\varepsilon < 1$.  In particular, $\varepsilon = .9$ works.  This gives a parallelization of $\Omega(n^{.1})$.\\
 
 
 %booo! that doesn't look like a tight solution to the recurrence for the span
@@ -484,11 +484,11 @@ So, to solve this, we set $g = \sqrt{n}$. This minimizes the quantity and makes 
 \begin{enumerate}[a.]
 \item For the algorithm LU-DECOMPOSITION(A) on page 821, the inner for loops can be parallelized, since they never update values that are read on later runs of those loops. However, the outermost for loop cannot be parallelized because across iterations of it the changes to the matrices from previous runs are used to affect the next. This means that the span will be $\Theta(n\lg(n))$, work will still be $\Theta(n^3)$ and, so, the parallelization will be $\Theta(\frac{n^3}{n\lg(n)}) = \Theta(\frac{n^2}{\lg(n)})$.
 \item
-The for loop on lines 7-10 is taking the max of a set of things, while recording the index that that max occurs. This for loop can therefor be replaced with a $\lg(n)$ span parallelized procedure in which we arrange the n elements into the leaves of an almost balanced binary tree, and we let each internal node be the max of its two children. Then, the span will just be the depth of this tree. This procedure can gracefully scale with the number of processors to make the span be linear, though even if it is $\Theta(n\lg(n))$ it will be less than the $\Theta(n^2)$ work later. The for loop on line 14-15 and the implicit for loop on line 15 have no concurrent editing, and so, can be made parallel to have a span of $\lg(n)$. While the for loop on lines 18-19 can be made parallel, the one containing it cannot without creating data races. Therefore, the total span of the naive parallized algorithm will be $\Theta(n^2\lg(n))$, with a work of $\Theta(n^3)$. So, the parallelization will be $\Theta(\frac{n}{\lg(n)})$. Not as parallized as part (a), but still a significant improvement. 
+The for loop on lines 7-10 is taking the max of a set of things, while recording the index that that max occurs. This for loop can therefor be replaced with a $\lg(n)$ span parallelized procedure in which we arrange the n elements into the leaves of an almost balanced binary tree, and we let each internal node be the max of its two children. Then, the span will just be the depth of this tree. This procedure can gracefully scale with the number of processors to make the span be linear, though even if it is $\Theta(n\lg(n))$ it will be less than the $\Theta(n^2)$ work later. The for loop on line 14-15 and the implicit for loop on line 15 have no concurrent editing, and so, can be made parallel to have a span of $\lg(n)$. While the for loop on lines 18-19 can be made parallel, the one containing it cannot without creating data races. Therefore, the total span of the naive parallelized algorithm will be $\Theta(n^2\lg(n))$, with a work of $\Theta(n^3)$. So, the parallelization will be $\Theta(\frac{n}{\lg(n)})$. Not as parallized as part (a), but still a significant improvement. 
 \item
 We can parallelize the computing of the sums on lines 4 and 6, but cannot also parallize the for loops containing them without creating an issue of concurrently modifying data that we are reading. This means that the span will be $\Theta(n\lg(n))$, work will still be $\Theta(n^2)$, and so the parallelization will be $\Theta(\frac{n}{\lg(n)})$.
 \item
-The recurrence governing the amount of work of implemeting this procedure is given by
+The recurrence governing the amount of work of implementing this procedure is given by
 \begin{align*}
 I(n) \le 2 I(n/2) + 4 M(n/2) + O(n^2)
 \end{align*}

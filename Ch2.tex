@@ -50,7 +50,7 @@ $ \\
 \noindent\textbf{ Exercise 2.1-2}\\
 
 \begin{algorithm}
-\caption{Nonincreasing Insertion-Sort(A)}
+\caption{Non-increasing Insertion-Sort(A)}
 \begin{algorithmic}[1]
 \For{$j=2$ to $A.length$}
 	\State $key = A[j]$
@@ -79,7 +79,7 @@ $ \\
  \EndFor
  \end{algorithmic}
 \end{algorithm}
-On each iteration of the loop body, the invariant upon entering is that there is no index $k<j$ so that $A[k]=v$. In order to procede to the next iteration of the loop, we need that for the current value of $j$, we do not have $A[j] =v$. If the loop is exited by line 5, then we have just placed an acceptable value in $i$ on the previous line. If the loop is exited by exhausting all possible values of $j$, then we know that there is no index that has value $j$, and so leaving $NIL$ in $i$ is correct. \\
+On each iteration of the loop body, the invariant upon entering is that there is no index $k<j$ so that $A[k]=v$. In order to proceed to the next iteration of the loop, we need that for the current value of $j$, we do not have $A[j] =v$. If the loop is exited by line 5, then we have just placed an acceptable value in $i$ on the previous line. If the loop is exited by exhausting all possible values of $j$, then we know that there is no index that has value $j$, and so leaving $NIL$ in $i$ is correct. \\
 
 \noindent\textbf{ Exercise 2.1-4} \\
 
@@ -133,18 +133,18 @@ The loop invariant of selection sort is as follows:  At each iteration of the fo
 
 \noindent\textbf{ Exercise 2.2-3}\\
 
-Suppose that every entry has probability $p$ of being the element looked for. Then, we will only check $k$ elements if the previous $k-1$ positiions were not the element being looked for, and the $k$th position is the desired value. Taking the expected value of this distribution we get it to be
+Suppose that every entry has probability $p$ of being the element looked for. Then, we will only check $k$ elements if the previous $k-1$ positions were not the element being looked for, and the $k$th position is the desired value. Taking the expected value of this distribution we get it to be
 \[
 (1-p)^{A.length} + \sum_{k=1}^{A.length} k(1-p)^{k-1}p^k
 \]
 
 \noindent\textbf{Exercise 2.2-4}\\
 
-For a good best-case running time, modify an algorithm to first randomly produce output and then check whether or not it satisfies the goal of the algorithm.  If so, produce this output and halt.  Otherwise, run the algorithm as usual.  It is unlikley that this will be successful, but in the best-case the running time will only be as long as it takes to check a solution.  For example, we could modify selection sort to first randomly permut the elements of $A$, then check if they are in sorted order.  If they are, output $A$.  Otherwise run selection sort as usual.  In the best case, this modified algorithm will have running time $\Theta(n)$. \\
+For a good best-case running time, modify an algorithm to first randomly produce output and then check whether or not it satisfies the goal of the algorithm.  If so, produce this output and halt.  Otherwise, run the algorithm as usual.  It is unlikely that this will be successful, but in the best-case the running time will only be as long as it takes to check a solution.  For example, we could modify selection sort to first randomly permute the elements of $A$, then check if they are in sorted order.  If they are, output $A$.  Otherwise run selection sort as usual.  In the best case, this modified algorithm will have running time $\Theta(n)$. \\
 
 \noindent\textbf{Exercise 2.3-1}\\
 
-If we start with reading accross the bottom of the tree and then go up level by level.
+If we start with reading across the bottom of the tree and then go up level by level.
 $
 \begin{array}{|c|c|c|c|c|c|c|c|}
 \hline
@@ -264,7 +264,7 @@ A binary search wouldn't improve the worst-case running time.  Insertion sort ha
  \end{algorithmic}
 \end{algorithm}
 
-We can see that the while loop gets run at most $O(n)$ times, as the quantity $j-i$ starts at $n-1$ and decreeases at each step. Also, since the body only consists of a constant amount of work, all of lines 2-15 takes only $O(n)$ time. So, the runtime is dominated by the time to perform the sort, which is $\Theta(n\lg(n))$. We will prove correctness by a mutual induction. Let $m_{i,j}$ be the proposition $A[i]+A[j]<S$ and $M_{i,j}$ be the proposition $A[i]+A[j]>S$. Note that because the array is sorted, $m_{i,j} \Rightarrow \forall k<j, m_{i,k}$, and $M_{i,j} \Rightarrow \forall k>i, M_{k,j}$. 
+We can see that the while loop gets run at most $O(n)$ times, as the quantity $j-i$ starts at $n-1$ and decreases at each step. Also, since the body only consists of a constant amount of work, all of lines 2-15 takes only $O(n)$ time. So, the runtime is dominated by the time to perform the sort, which is $\Theta(n\lg(n))$. We will prove correctness by a mutual induction. Let $m_{i,j}$ be the proposition $A[i]+A[j]<S$ and $M_{i,j}$ be the proposition $A[i]+A[j]>S$. Note that because the array is sorted, $m_{i,j} \Rightarrow \forall k<j, m_{i,k}$, and $M_{i,j} \Rightarrow \forall k>i, M_{k,j}$. 
 
 Our program will obviously only output true in the case that there is a valid $i$ and $j$. Now, suppose that our program output false, even though there were some $i,j$ that was not considered for which $A[i]+A[j]=S$. If we have $i>j$, then swap the two, and the sum will not change, so, assume $i\le j$. we now have two cases:
 
@@ -310,7 +310,7 @@ If we optimize the previous expression using our calculus 1 skills to get $k$, w
 \begin{enumerate}[a.]
 \item
 
-If we assume that the arithmeticcan all  be done in constant time, then since  the loop is being executed $n$ times, it has runtime $\Theta(n)$.
+If we assume that the arithmetic can all  be done in constant time, then since  the loop is being executed $n$ times, it has runtime $\Theta(n)$.
 
 \item
 \begin{algorithm}
@@ -349,7 +349,7 @@ We just showed that the algorithm evaluated $\Sigma_{k=0}^n a_kx^k$. This is the
 
 \item The running time of insertion sort is a constant times the number of inversions.  Let $I(i)$ denote the number of $j < i$ such that $A[j] > A[i]$.  Then $\sum_{i=1}^n I(i)$ equals the number of inversions in $A$.  Now consider the \textbf{while} loop on lines 5-7 of the insertion sort algorithm.  The loop will execute once for each element of $A$ which has index less than $j$ is larger than $A[j]$.  Thus, it will execute $I(j)$ times.  We reach this \textbf{while} loop once for each iteration of the \textbf{for} loop, so the number of constant time steps of insertion sort is $\sum_{j=1}^n I(j)$ which is exactly the inversion number of $A$.  \\
 
-\item We'll call our algorithm M.Merge-Sort for Modified Merge Sort.  In addition to sorting $A$, it will also keep track of the number of inversions.  The algorithm works as follows.  When we call M.Merge-Sort(A,p,q) it sorts $A[p..q]$ and returns the number of inversions amongst the elements of $A[p..q]$, so $left$ and $right$ track the number of inversions of the form $(i,j)$ where $i$ and $j$ are both in the same half of $A$.  When M.Merge(A,p,q,r) is called, it returns the number of inversions of the form $(i,j)$ where $i$ is in the first half of the array and $j$ is in the second half.  Summing these up gives the total number of inversions in $A$.  The runtime is the same as that of Merge-Sort because we only add an additional constant-time operation to some of the iterations of some of the loops.  Since Merge is $\Theta(n \log n)$, so is this algorithm.
+\item We'll call our algorithm M.Merge-Sort for Modified Merge Sort.  In addition to sorting $A$, it will also keep track of the number of inversions.  The algorithm works as follows.  When we call M.Merge-Sort(A,p,q) it sorts $A[p..q]$ and returns the number of inversions in the elements of $A[p..q]$, so $left$ and $right$ track the number of inversions of the form $(i,j)$ where $i$ and $j$ are both in the same half of $A$.  When M.Merge(A,p,q,r) is called, it returns the number of inversions of the form $(i,j)$ where $i$ is in the first half of the array and $j$ is in the second half.  Summing these up gives the total number of inversions in $A$.  The runtime is the same as that of Merge-Sort because we only add an additional constant-time operation to some of the iterations of some of the loops.  Since Merge is $\Theta(n \log n)$, so is this algorithm.
 
 \begin{algorithm}
 \caption{M.Merge-Sort(A, p, r)}

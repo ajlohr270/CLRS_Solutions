@@ -46,7 +46,7 @@ So, since to find the average, we divide by $n$, the average runtime of each com
 
 \noindent\textbf{Exercise 17.2-1}\\
 
-To every stack operation, we charge twice. First we charge the actual cost of the stack operation. Second we charge the coase of copying an element later on. Since we have the size of the stack never excede $k$, and there are always $k$ operations between backups, we always overpay by at least enough. So, the ammortized cost of the operation is constant. So, the cost of the n operation is $O(n)$.\\
+To every stack operation, we charge twice. First we charge the actual cost of the stack operation. Second we charge the cost of copying an element later on. Since we have the size of the stack never exceed $k$, and there are always $k$ operations between backups, we always overpay by at least enough. So, the ammortized cost of the operation is constant. So, the cost of the n operation is $O(n)$.\\
 
 \noindent\textbf{Exercise 17.2-2}\\
 
@@ -83,7 +83,7 @@ We'll use the accounting method for the analysis.  Assign cost 3 to the ENQUEUE 
 
 \noindent\textbf{Exercise 17.3-7}\\
 
-We'll store all our elements in an array, and if ever it is too large, we will copy all the elements out into an array of twice the length. To delete the larger half, we first find the element $m$ with order statistic $\lceil|S|/2\rceil$ by the algorithm presented in section 9.3. Then, scan through the array and copy out the elements that are smaller or equal to $m$ into an array of half the size. Since the delete half operation takes time $O(|S|)$ and reduces the number of elemnts by $\lfloor|S|/2\rfloor \in \Omega(|S|)$, we can make these operations take ammortized constant time by selecting our potential function to be linear in $|S|$. Since the insert operation only increases $|S|$ by one, we have that there is only a constant amount of work going towards satisfying the potential, so the total ammortized cost of an insertion is still constant. To output all the elements just iterate through the array and output each.\\
+We'll store all our elements in an array, and if ever it is too large, we will copy all the elements out into an array of twice the length. To delete the larger half, we first find the element $m$ with order statistic $\lceil|S|/2\rceil$ by the algorithm presented in section 9.3. Then, scan through the array and copy out the elements that are smaller or equal to $m$ into an array of half the size. Since the delete half operation takes time $O(|S|)$ and reduces the number of elements by $\lfloor|S|/2\rfloor \in \Omega(|S|)$, we can make these operations take ammortized constant time by selecting our potential function to be linear in $|S|$. Since the insert operation only increases $|S|$ by one, we have that there is only a constant amount of work going towards satisfying the potential, so the total ammortized cost of an insertion is still constant. To output all the elements just iterate through the array and output each.\\
 
 \noindent\textbf{Exercise 17.4-1}\\
 
@@ -151,7 +151,7 @@ Doing a bit reversed increment is the same thing as adding a one to the leftmost
 \end{algorithmic}
 \end{algorithm}
 
-By a similar analysis to the binary counter (just look at the problem in a mirror), this BIT-REVERSED-INCREMENT will take constant ammortized time. So, to perform the bit-reversed permutation, have a normal binary counter and a bit reversed counter, then, swap the values of the two counters and increment. Do not swap however if those pairs of elements have already been swapped, which can be kept track of in a auxillary array.
+By a similar analysis to the binary counter (just look at the problem in a mirror), this BIT-REVERSED-INCREMENT will take constant ammortized time. So, to perform the bit-reversed permutation, have a normal binary counter and a bit reversed counter, then, swap the values of the two counters and increment. Do not swap however if those pairs of elements have already been swapped, which can be kept track of in a auxiliary array.
 
 \item The BIT-REVERSED-INCREMENT procedure given in the previous part only uses single shifts to the right, not arbitrary shifts.
 
@@ -180,7 +180,7 @@ If we suppose that our tree is $1/2-$ balanced, then, for every node $x$, we'll 
  \item
 Suppose that we have a tree that has become no longer $\alpha$ balanced because it's left subtree has become too large. This means that $x.left.size > \alpha x.size = (\alpha -\frac{1}{2}) x.size + \frac{1}{2} \alpha.size$. This means that we had at least $c(\alpha -\frac{1}{2}) x.size$ units of potential. So, we need to select $c \ge \frac{1}{\alpha -\frac{1}{2}}$. 
  \item
- Suppose that our tree is $\alpha$ balanced. Then, we know that performing a search takes time $O(\lg(n))$. So, we perform that search and insert the element that we need to insert or delete the element we found. Then, we may have made the tree become unbalanced. However, we know that since we only changed one position, we have only changed the $\Delta$ value for all of the parents of the node that we either inserted or deleted. Therefore, we can rebuild the balanced properties starting at the lowest such unbalanced node and working up. Since each one only takes ammortized constant time, and there are $O(\lg(n))$ many trees made unbalaced, tot total time to rebalanced every subtree is $O(\lg(n))$ ammortized time.
+ Suppose that our tree is $\alpha$ balanced. Then, we know that performing a search takes time $O(\lg(n))$. So, we perform that search and insert the element that we need to insert or delete the element we found. Then, we may have made the tree become unbalanced. However, we know that since we only changed one position, we have only changed the $\Delta$ value for all of the parents of the node that we either inserted or deleted. Therefore, we can rebuild the balanced properties starting at the lowest such unbalanced node and working up. Since each one only takes ammortized constant time, and there are $O(\lg(n))$ many trees made unbalanced, tot total time to rebalanced every subtree is $O(\lg(n))$ ammortized time.
  
  
 \end{enumerate}
@@ -195,7 +195,7 @@ Suppose that we have a tree that has become no longer $\alpha$ balanced because 
 
 \item For case 1, there is a single decrease in the number of red nodes, and thus a decrease in the potential function.  However, a single call to RB-INSERT-FIXUP could result in $\Omega(\lg n)$ instances of case 1.  For cases 2 and 3, the colors stay the same and each performs a rotation.\\
 
-\item Since each instance of case 1 requires a specific node to be red, it can't decrease the number of red nodes by more than $\Phi(T)$.  Therefore the potential function is always non-negative. Any insert can increase the number of red nodes by at most 1, and one unit of potential can pay for any structural modifications of any of the 3 cases.  Note that in the worst case, the call to RB-INSERT has to perform $k$ case-1 operations, where $k$ is equal to $\Phi(T_i) - \Phi(T_{i-1})$. Thus, the total amoritzed cost is bounded above by $2(\Phi(T_n) - \Phi(T_0)) \leq n$, so the amortized cost of each insert is $O(1)$. \\
+\item Since each instance of case 1 requires a specific node to be red, it can't decrease the number of red nodes by more than $\Phi(T)$.  Therefore the potential function is always non-negative. Any insert can increase the number of red nodes by at most 1, and one unit of potential can pay for any structural modifications of any of the 3 cases.  Note that in the worst case, the call to RB-INSERT has to perform $k$ case-1 operations, where $k$ is equal to $\Phi(T_i) - \Phi(T_{i-1})$. Thus, the total amortized cost is bounded above by $2(\Phi(T_n) - \Phi(T_0)) \leq n$, so the amortized cost of each insert is $O(1)$. \\
 
 \item In case 1 of RB-INSERT, we reduce the number of black nodes with two red children by 1 and we at most increase the number of black nodes with no red children by 1, leaving a net loss of at most 1 to the potential function. In our new potential function, $\Phi(T_n) - \Phi(T_0) \leq n$.  Since one unit of potential pays for each operation and the terminating cases cause constant structural changes, the total amortized cost is $O(n)$ making the amortized cost of each RB-INSERT-FIXUP $O(1)$. \\
 
@@ -217,7 +217,7 @@ The cost of finding an element is $=rank_L(x)$ and since it needs to be swapped 
 Regardless of the heuristic used, we first need to locate the element, which is left where ever it was after the previous step, so, needs $rank_{L_{i-1}}(x)$. After that, by definition, there are $t_i$ transpositions made, so, $c_i^* = rank_{L_{i-1}}(x) + t_i^*$.
 
 \item
-If we perform a transposition of elements $y$ and $z$, where $y$ is towards the left. Then there are two cases. The first is that the final ordering of the list in $L_i^*$ is with $y$ in front of $z$, in which case we have just increased the number of inversions by 1, so the poitential increases by 2. The second is that in $L_I^*$ z occurs before $y$, in which case, we have just reduced the number of inversions by one, reducing the potential by 2. In both cases, whether or not there is an inversion between $y$ or $z$ and any other element has not changed, since the transposition only changed the relative ordering of those two elements.
+If we perform a transposition of elements $y$ and $z$, where $y$ is towards the left. Then there are two cases. The first is that the final ordering of the list in $L_i^*$ is with $y$ in front of $z$, in which case we have just increased the number of inversions by 1, so the potential increases by 2. The second is that in $L_I^*$ z occurs before $y$, in which case, we have just reduced the number of inversions by one, reducing the potential by 2. In both cases, whether or not there is an inversion between $y$ or $z$ and any other element has not changed, since the transposition only changed the relative ordering of those two elements.
 
 \item
 By definition, $A$ and $B$ are the only two of the four categories to place elements that precede $x$ in $L_{i-1}$, since there are $|A|+|B|$ elements preceding it, it's rank in $L_{i-1}$ is $|A|+|B|+1$. Similarly, the two categories in which an element can be if it precedes $x$ in $L_{i-1}^*$ are $A$ and $C$, so, in $L_{i-1}^*$, $x$ has rank $|A|+|C|+1$.
@@ -228,7 +228,7 @@ We have from part d that the potential increases by 2 if we transpose two elemen
 \item
 First, we apply parts b and f to the expression for $\hat{c}_i$ to get $\hat{c}_i \le 2\cdot rank_{L}(x) -1 + 2(|A|-|B|+t_i^*)$. Then, applying part e, we get this is $= 2(|A|+|B|+1) - 1+ 2(|A|-|B|+t_i^*) = 4|A| -1+2t_i^*\le 4(|A|+|C|+1) +4t_i^* = 4(rank_{L_{i-1}^*}(x) + t_i^*)$. Finally, by part c, this bound is equal to $4c_i^*$.
 \item
-We showed that the ammortized cost of each operation under the move to front heuristic was at most four times the cost of the operation using any other heuristic. Since the ammortized cost added up over all these operation is at most the total (real) cost, so we have that the total cost with movetofront is at most four times the total cost with an arbitrary other heuristic.
+We showed that the amortized cost of each operation under the move to front heuristic was at most four times the cost of the operation using any other heuristic. Since the amortized cost added up over all these operation is at most the total (real) cost, so we have that the total cost with movetofront is at most four times the total cost with an arbitrary other heuristic.
 
 \end{enumerate}
 

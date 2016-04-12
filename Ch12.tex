@@ -328,7 +328,7 @@ We will assume for the deletion procedure that all the keys are distinct, as tha
 \end{algorithmic}
 \end{algorithm}
 
-It can use this TREE-PRED procedure to comput $u.p$ and $v.p$ in the TRANSPLANT procedure. Since TREE-DELETE only calls TRANSPLANT a constant number of times, increasing the runtime of TRANSPLANT to $O(h)$ in this way causes the runtime of the new TREE-DELETE procedure to be $O(h)$.\\
+It can use this TREE-PRED procedure to compute $u.p$ and $v.p$ in the TRANSPLANT procedure. Since TREE-DELETE only calls TRANSPLANT a constant number of times, increasing the runtime of TRANSPLANT to $O(h)$ in this way causes the runtime of the new TREE-DELETE procedure to be $O(h)$.\\
 
 \noindent\textbf{Exercise 12.3-6}\\
 
@@ -355,15 +355,15 @@ The second derivative is $2^x \ln^2(2)$ which is always positive, so the functio
 
 \noindent\textbf{ Exercise 12.4-5} \\
 
-Suppose that when quikcksort always selects it's elements to be in the middle $n^{1-k/2}$ of the elements each time. Then, the size of the problem shrinks by a power of at least $(1-k/2)$ each time. So, the greatest depth of recursion $d$ will be so that $n^{(1-k/2)^d} \le2$, solving for $d$, we get $(1-k/2)^d \le \log_n(2) = \lg(2)/\lg(n)$, so, $d \le \log_{1-k/2}(\lg(2)) - \log_{1-k/2}(\lg(n) = \log_{1-k/2}(\lg(2)) - \lg(\lg(n))/ \lg(1-k/2)$.
+Suppose that when quicksort always selects it's elements to be in the middle $n^{1-k/2}$ of the elements each time. Then, the size of the problem shrinks by a power of at least $(1-k/2)$ each time. So, the greatest depth of recursion $d$ will be so that $n^{(1-k/2)^d} \le2$, solving for $d$, we get $(1-k/2)^d \le \log_n(2) = \lg(2)/\lg(n)$, so, $d \le \log_{1-k/2}(\lg(2)) - \log_{1-k/2}(\lg(n) = \log_{1-k/2}(\lg(2)) - \lg(\lg(n))/ \lg(1-k/2)$.
 
-Let A(n) deonte the probabiltiy that when quicksorting a list of length $n$, some pivot is selected to not be in  the middle $n^{1-k/2}$ of the numbers. This doesn't happen with probability $\frac{1}{n^{k/2}}$. Then, we have that the two subproblems are of size$n_1,n_2$ with $n_1+n_2 = n-1$ and $\max\{n_1,n_2\} \le n^{1-k/2}$. So, $A(n) \le \frac{1}{n^{k/2}} + T(n_1)+T(n_2)$ So, since we bounded the depth by $O(1/\lg(n))$ let $\{a_{i,j}\}_i$ be all the subproblem sizes left at depth $j$. So, $A(n) \le \frac{1}{n^{k/2}}\sum_{j} \sum_i \frac{1}{a}$
+Let A(n) denote the probability that when quicksorting a list of length $n$, some pivot is selected to not be in  the middle $n^{1-k/2}$ of the numbers. This doesn't happen with probability $\frac{1}{n^{k/2}}$. Then, we have that the two subproblems are of size$n_1,n_2$ with $n_1+n_2 = n-1$ and $\max\{n_1,n_2\} \le n^{1-k/2}$. So, $A(n) \le \frac{1}{n^{k/2}} + T(n_1)+T(n_2)$ So, since we bounded the depth by $O(1/\lg(n))$ let $\{a_{i,j}\}_i$ be all the subproblem sizes left at depth $j$. So, $A(n) \le \frac{1}{n^{k/2}}\sum_{j} \sum_i \frac{1}{a}$
 
 \noindent\textbf{Problem 12-1} \\
 
 \begin{enumerate}[a.]
 \item
-Each insertion will add the elemement to the right of the rightmost leaf because the inequality on line 11 will always evaluate to false. This will result in the runtime being $\sum_{i=1}^n i \in \Theta(n^2)$
+Each insertion will add the element to the right of the rightmost leaf because the inequality on line 11 will always evaluate to false. This will result in the runtime being $\sum_{i=1}^n i \in \Theta(n^2)$
 
 \item
 This strategy will result in each of the two children subtrees having a difference in size at most one. This means that the height will be $\Theta(\lg(n))$. So, the total runtime will be $\sum_{i=1}^n \lg(n) \in \Theta(n\lg(n))$
@@ -397,7 +397,7 @@ P(T) = \sum_{x\in T} d(x,T) = \sum_{x\in T_L} d(x,T) + \sum_{x\in T_R} d(x,T) =\
 \]
 
 \item
-When we are randomly building our tree on n keys, we have $n$ possibilities for the first element that we add to the tree, the key that will belong to the eventual root. Suppose that it had order statistic $i+1$ for some $i$ in $\{0,\ldots  n-1\}$. Then, we have that all the smaller elements will be to the left and all the larger elements will be in the subree to the right. However, they will all be in random order relative to eachother, so, we will have $P(i) = E[P(T_L)]$ and $P(n-i-1) = E[P(T_R)]$. So, we have have the deisred ineqality by averaging over the order statistic of the first term put into the BST.
+When we are randomly building our tree on n keys, we have $n$ possibilities for the first element that we add to the tree, the key that will belong to the eventual root. Suppose that it had order statistic $i+1$ for some $i$ in $\{0,\ldots  n-1\}$. Then, we have that all the smaller elements will be to the left and all the larger elements will be in the subree to the right. However, they will all be in random order relative to each other, so, we will have $P(i) = E[P(T_L)]$ and $P(n-i-1) = E[P(T_R)]$. So, we have have the desired inequality by averaging over the order statistic of the first term put into the BST.
 
 \item
 \[

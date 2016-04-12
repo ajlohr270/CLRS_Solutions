@@ -75,7 +75,7 @@ The for loop makes exactly $r-p$ iterations, each of which takes at most constan
 
 \noindent\textbf{Exercise 7.1-4}\\
 
-To modify QUICKSORT to run in nonincreasing order we need only modify line 4 of PARTITION, changing $\leq$ to $\geq$. \\
+To modify QUICKSORT to run in non-increasing order we need only modify line 4 of PARTITION, changing $\leq$ to $\geq$. \\
 
 \noindent\textbf{Exercise 7.2-1}\\
 
@@ -97,7 +97,7 @@ Let's say that by ``almost sorted'' we mean that $A[i]$ is at most $c$ positions
 
 \noindent\textbf{Exercise 7.2-5}\\
 
-The minimum depth corresponds to repeatedly taking the smaller subproblem, that is, the branch whoose size is proportional to $\alpha$. Then, this will fall to 1 in $k$ steps where $1 \approx (\alpha)^k n$. So, $k \approx \log_{\alpha}(1/n) = - \frac{\lg(n)}{\lg(\alpha)} $. The longest depth corresponds to always taking the larger subproblem. we then have and identical expression, replacing $\alpha$ with $1-\alpha$.\\
+The minimum depth corresponds to repeatedly taking the smaller subproblem, that is, the branch whose size is proportional to $\alpha$. Then, this will fall to 1 in $k$ steps where $1 \approx (\alpha)^k n$. So, $k \approx \log_{\alpha}(1/n) = - \frac{\lg(n)}{\lg(\alpha)} $. The longest depth corresponds to always taking the larger subproblem. we then have and identical expression, replacing $\alpha$ with $1-\alpha$.\\
 
 \noindent\textbf{Exercise 7.2-6}\\
 
@@ -105,7 +105,7 @@ Without loss of generality, assume that the entries of the input array are disti
 
 \noindent\textbf{Exercise 7.3-1}\\
 
-We analyize the exprected run time because it represents the more typical time cost. Also, we are doing the expected run time over the possible randomness used during computation because it can't be produced adversatially, unlike when doing expected run time over all possible inputs to the algorithm.\\
+We analyze the expected run time because it represents the more typical time cost. Also, we are doing the expected run time over the possible randomness used during computation because it can't be produced adversarially, unlike when doing expected run time over all possible inputs to the algorithm.\\
 
 \noindent\textbf{Exercise 7.3-2}\\
 
@@ -139,7 +139,7 @@ Taking a derivative with respect to $q$ shows that the minimum is obtained when 
 
 \noindent\textbf{Exercise 7.4-3}\\
 
-We will treat the given expression to be continuous in $q$, and then, any extremal values must be either adjacent to a critical point, or one of the endpoints. The second derivative with respect to $q$ is $4$, So, we have that any ciritcal points we find will be minima. The expression has a derivative with respect to q of $2q - 2 (n-q-2) = -2n + 4q +4$ which is zero when we have $2q+2 =n$. So, there will be a minima at $q= \frac{n-2}{2}$. So, the maximal values must only be the endpoints. We can see that the endpoints are equally large because at $q=0$, it is $(n-1)^2$, and at $q=n-1$, it is $(n-1)^2+ (n-n+1 -1)^2 = (n-1)^2$.
+We will treat the given expression to be continuous in $q$, and then, any extremal values must be either adjacent to a critical point, or one of the endpoints. The second derivative with respect to $q$ is $4$, So, we have that any critical points we find will be minima. The expression has a derivative with respect to q of $2q - 2 (n-q-2) = -2n + 4q +4$ which is zero when we have $2q+2 =n$. So, there will be a minima at $q= \frac{n-2}{2}$. So, the maximal values must only be the endpoints. We can see that the endpoints are equally large because at $q=0$, it is $(n-1)^2$, and at $q=n-1$, it is $(n-1)^2+ (n-n+1 -1)^2 = (n-1)^2$.
 
 
 \noindent\textbf{Exercise 7.4-4}\\
@@ -160,7 +160,7 @@ for some constant $c$ since $\lg(n!) = \Theta(n \lg n)$ by Exercise 3.2-3. There
 
 If we are only doing quick-sort until the problem size becomes $\le k$, then, we will have to take $\lg(n/k)$ steps, since, as in the original analysis of randomized quick sort, we expect there to be $\lg(n)$ levels to the recursion tree. Since we then just call quicksort on the entire array, we know that each element is within $k$ of its final position. This means that an insertion sort will take the shifting of at most $k$ elements for every element that needed to change position. This gets us the running time described.
 
-In theory, we should pick $k$ to minimze this expression, that is, taking a derivative with respect to $k$, we want it to be evaluating to zero. So, $n - \frac{n}{k} =0$, so $k \sim \frac{1}{n^2} $. The constant of proportianality will depend on the relative size of the constants in the $nk$ term and in the $n\lg(n/k)$ term. In practice, we would try it with a large number of input sizes for various values of $k$, because there are gritty properites of the machine not considered here such as cache line size.
+In theory, we should pick $k$ to minimize this expression, that is, taking a derivative with respect to $k$, we want it to be evaluating to zero. So, $n - \frac{n}{k} =0$, so $k \sim \frac{1}{n^2} $. The constant of proportionality will depend on the relative size of the constants in the $nk$ term and in the $n\lg(n/k)$ term. In practice, we would try it with a large number of input sizes for various values of $k$, because there are gritty properties of the machine not considered here such as cache line size.
 \\
 
 \noindent\textbf{Exercise 7.4-6}\\
@@ -206,7 +206,7 @@ We will show the loop invariant that all the elements in $A[p .. i]$ are less th
 
 \item
 
-After running Hoare-partition, we don't have the guarentee that the pivot value will be in the position $j$, so, we will scan through the list to find the pivot value, place it between the two subarrays, and recurse
+After running Hoare-partition, we don't have the guarantee that the pivot value will be in the position $j$, so, we will scan through the list to find the pivot value, place it between the two subarrays, and recurse
 
 \begin{algorithm}
 Quicksort(A,p,r)
@@ -234,7 +234,7 @@ Quicksort(A,p,r)
 
 \noindent\textbf{Problem 7-2}\\
 \begin{enumerate}[a.]
-\item  Since all elements are the same, the initial random choice of index and swap change nothing.  Thus, randomized quicksort's running time will be the same as that of quicksort.  Since all elements are equal, PARTITION$(A,P,r)$ will always return $r-1$.  This is worst-case partitinoing, so the runtime is $\Theta(n^2)$. \\
+\item  Since all elements are the same, the initial random choice of index and swap change nothing.  Thus, randomized quicksort's running time will be the same as that of quicksort.  Since all elements are equal, PARTITION$(A,P,r)$ will always return $r-1$.  This is worst-case partitioning, so the runtime is $\Theta(n^2)$. \\
 
 \item  See the PARTITION' algorithm for modifications.
 \begin{algorithm}
@@ -289,10 +289,10 @@ Quicksort(A,p,r)
 \noindent\textbf{Problem 7-3}\\
 \begin{enumerate}[a.]
 \item
-Since the pivot is selected as a ranom element in the array, which has size $n$, the probabilities of any particular element being selected are all equal, and add to one, so, are all $\frac{1}{n}$. As such, $E[X_i] = \Pr[\hbox{i smallest is picked }] = \frac{1}{n}$.
+Since the pivot is selected as a random element in the array, which has size $n$, the probabilities of any particular element being selected are all equal, and add to one, so, are all $\frac{1}{n}$. As such, $E[X_i] = \Pr[\hbox{i smallest is picked }] = \frac{1}{n}$.
 
 \item
-We can apply linearity of expectation over all of the events $X_i$. Suppose we have a particular $X_i$ be true, then, we will have one of the sub arrays be length $i-1$, and the other be $n-i$, and will of couse still need linear time to run the partition procedure. This corresponds exactly to the summand in equation $(7.5)$.
+We can apply linearity of expectation over all of the events $X_i$. Suppose we have a particular $X_i$ be true, then, we will have one of the sub arrays be length $i-1$, and the other be $n-i$, and will of course still need linear time to run the partition procedure. This corresponds exactly to the summand in equation $(7.5)$.
 
 \item
 \[
@@ -300,7 +300,7 @@ E\left[\sum_{q=1}^{n}X_q(T(q-1) + T(n-q) + \Theta(n))\right] = \sum_{q=1}^{n} E\
 
 \item
 
-We will prove this inequality in a different way than suggested by the hint. If we let $f(k) = k\lg(k)$ treated as a continuous function, then $f'(k) = \lg(k) + 1$. Note now that the summation written out is the left hand approximation of the integral of $f(k)$ from 2 to $n$ with step size 1. By integration by parts, the antiderivative of $k\lg k$ is 
+We will prove this inequality in a different way than suggested by the hint. If we let $f(k) = k\lg(k)$ treated as a continuous function, then $f'(k) = \lg(k) + 1$. Note now that the summation written out is the left hand approximation of the integral of $f(k)$ from 2 to $n$ with step size 1. By integration by parts, the anti-derivative of $k\lg k$ is 
 \[
 \frac{1}{\ln(2)}\left(\frac{k^2}{2}\ln(k) - \frac{k^2}{4} \right)
 \]
@@ -368,7 +368,7 @@ To save the messiness, suppose $n$ is a multiple of 3. We will approximate the s
 \[
 \sum_{i=n/3}^{2n/3} p_i \approx \int_{n/3}^{2n/3} \frac{6(-x^2+nx+x-n)}{n(n-1)(n-2)}dx = \frac{6(-7n^3/81 + 3n^3/18 + 3n^2/18- n^2/3)}{n(n-1)(n-2)}
 \]
-Which, in the limit n goes to infinity, is $\frac{13}{27}$ which is a constant that is larger than $1/3$ as it was in the original ranomized quicksort implementation.
+Which, in the limit n goes to infinity, is $\frac{13}{27}$ which is a constant that is larger than $1/3$ as it was in the original randomized quicksort implementation.
 
 \item
 Since the new algorithm always has a ``bad'' choice that is within a constant factor of the original quicksort, it will still have a reasonable probability that the randomness leads us into a bad situation, so, it will still be $n\lg n$.
