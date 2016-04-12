@@ -102,7 +102,7 @@ For any particular value of $s$, the probability that the $i$th character will n
 
 \noindent\textbf{Exercise 32.1-4}\\
 
-We can decompose a pattern with $g-1$ gap characters into the form $a_1 \diamond a_2 \diamond \cdots \diamond a_g$.  Since we only care whether or not the pattern appears somewhere, it will suffice to look for the first occurrance of $a_1$, followed by the first occurrance of $a_2$ which comes anywhere after $a_1$, and so on.  If the pattern $P$ has length $m$ and the text has length $n$ then the runtime of the naive strategy is $O(nm)$.\\
+We can decompose a pattern with $g-1$ gap characters into the form $a_1 \diamond a_2 \diamond \cdots \diamond a_g$.  Since we only care whether or not the pattern appears somewhere, it will suffice to look for the first occurrence of $a_1$, followed by the first occurrence of $a_2$ which comes anywhere after $a_1$, and so on.  If the pattern $P$ has length $m$ and the text has length $n$ then the runtime of the naive strategy is $O(nm)$.\\
 
 \noindent\textbf{Exercise 32.2-1}\\
 
@@ -138,7 +138,7 @@ Since there were 4 hits, three of them must of been spurious.\\
 
 \noindent\textbf{Exercise 32.2-2}\\
 
-We first tackle the case where each of the $k$ patterns has the same length $m$.  We first compute the number associated to each pattern in $O(m)$ time, which contributes $O(km)$ to the runtime.  In line 10 we make $k$ checks, one for each pattern, which contributes $O(n-m+1)km$ time.  Thus, the total runtime is $O(km(n-m+1)$. For patterns of different lenghts $l_1, l_2, \ldots, l_k$, keep an array $A$ such that $A[i]$ holds the number associated to the first $l_i$ digits of $T$, mod $q$.  We'll have to update each of these each time the outer for-loop is executed, but it will allow us to immediately compare any of the pattern numbers to the appropriate text number, as done in line 10. \\
+We first tackle the case where each of the $k$ patterns has the same length $m$.  We first compute the number associated to each pattern in $O(m)$ time, which contributes $O(km)$ to the runtime.  In line 10 we make $k$ checks, one for each pattern, which contributes $O(n-m+1)km$ time.  Thus, the total runtime is $O(km(n-m+1)$. For patterns of different lengths $l_1, l_2, \ldots, l_k$, keep an array $A$ such that $A[i]$ holds the number associated to the first $l_i$ digits of $T$, mod $q$.  We'll have to update each of these each time the outer for-loop is executed, but it will allow us to immediately compare any of the pattern numbers to the appropriate text number, as done in line 10. \\
 
 \noindent\textbf{Exercise 32.2-3}\\
 
@@ -247,7 +247,7 @@ To show that the running time of KMP-MATCHER is $O(n)$, we'll show that the tota
 
 Basically, each time that we have to execute line 7, we have that we are decreasing $q$ by at least 1. Since the only place that we ever increase the value of $q$ is on line 9, and then we are only increasing it by 1, each of these runs of line 5 are paid for by the times we ran 9.
 
-Using this as our motivation, we let the potential function be proportional to the value of $q$. This means that when we execute line 9, we pay a constant amount to raise up the potential function. And when we run line 7, we decrease the potential function which reduces the ammortized cost of an iteration of the while loop on line 6 to a zero ammortized cost. The only other time that we change the value of q is on line 12, which only gets run once per execution of the outer for loop anyways and the ammortization is in our favor there.
+Using this as our motivation, we let the potential function be proportional to the value of $q$. This means that when we execute line 9, we pay a constant amount to raise up the potential function. And when we run line 7, we decrease the potential function which reduces the ammortized cost of an iteration of the while loop on line 6 to a zero amortized cost. The only other time that we change the value of q is on line 12, which only gets run once per execution of the outer for loop anyways and the amortization is in our favor there.
 
 Since the ammortized cost under this potential function of each iteration of the outermost for loop is constant, and that loop runs $n$ times, the total cost of the algorithm is $\Theta(n)$.\\
 

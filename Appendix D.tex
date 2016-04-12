@@ -87,7 +87,7 @@ C&=B
 
 \noindent\textbf{Exercise D.2-2}\\
 
-Let $L$ be a lower triangular matrix.  We'll prove by induction on the size of the matrix that the determinant is the product of its diagonal entries. For $n=1$, the determinant is just equal to the matrix entry, which is the product of the only diagonal element.  Now suppose the claim holds for $n$, and let $L$ be $(n+1) \times (n+1)$.  Let $L'$ be the $n \times n$ submatrix obtained from $L$ by deleting the first row and column.  Then we have $\det(L) = L_{11} \det(L')$, since $L_{1j} = 0$ for all $j \neq 1$.  By the indution hypothesis, $\det(L')$ is the product of the diagonal entries of $L'$, which are all the diagonal entries of $L$ except $L_{11}$.  The claim follows since we multiply this by $L_{11}$.  
+Let $L$ be a lower triangular matrix.  We'll prove by induction on the size of the matrix that the determinant is the product of its diagonal entries. For $n=1$, the determinant is just equal to the matrix entry, which is the product of the only diagonal element.  Now suppose the claim holds for $n$, and let $L$ be $(n+1) \times (n+1)$.  Let $L'$ be the $n \times n$ submatrix obtained from $L$ by deleting the first row and column.  Then we have $\det(L) = L_{11} \det(L')$, since $L_{1j} = 0$ for all $j \neq 1$.  By the induction hypothesis, $\det(L')$ is the product of the diagonal entries of $L'$, which are all the diagonal entries of $L$ except $L_{11}$.  The claim follows since we multiply this by $L_{11}$.  
 
 We will prove that the inverse of a lower triangular matrix is lower triangular by induction on the size of the matrix.  For $n=1$ every matrix is lower triangular, so the claim holds.  Let $L$ be $(n+1) \times (n+1)$ and let $L'$ be the submatrix obtained from $L$ by deleting the first row and column.  By our induction hypothesis, $L'$ has an inverse which is lower triangular, call it $L'^{-1}$.  We will construct a lower triangular inverse for $L$:
 
@@ -109,7 +109,7 @@ Assume first that $j\neq i$.  Let $C_{ij}$ be the matrix with a 1 in position $(
 
 \noindent\textbf{Exercise D.2-5}\\
 
-To see that the inverse of a marix that has only real entries must be real. Imagine instead that that matrix was a matrix over $\mathbb{R}$. Then, it will have a inverse in this ring of matrices so long as it is non-singular. This inverse will also be an inverse of the matrix when viewed as a matrix of $\mathbb{C}$. Since inverses are distinct, this must be its inverse, and is all real entries because it was originally computed as a matrix that was in the set of real entry matrices.
+To see that the inverse of a matrix that has only real entries must be real. Imagine instead that that matrix was a matrix over $\mathbb{R}$. Then, it will have a inverse in this ring of matrices so long as it is non-singular. This inverse will also be an inverse of the matrix when viewed as a matrix of $\mathbb{C}$. Since inverses are distinct, this must be its inverse, and is all real entries because it was originally computed as a matrix that was in the set of real entry matrices.
 
 To see the converse implication, just swap the roles, computing the inverse of the inverse. This will be the original matrix.\\
 
