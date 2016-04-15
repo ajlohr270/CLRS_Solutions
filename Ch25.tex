@@ -160,7 +160,44 @@ We can express finding the shortest path from a single vertex with the modified 
 For each source vertex $v_i$ we need to compute the shortest-paths tree for $v_i$.  To do this, we need to compute the predecessor for each $j \neq i$.  For fixed $i$ and $j$, this is the value of $k$ such that $L_{i,k} + w(k,j) = L_{i,j}$. Since there are $n$ vertices whose trees need computing, $n$ vertices for each such tree whose predecessors need computing, and it takes $O(n)$ to compute this for each one (checking each possible $k$), the total time is $O(n^3)$. \\
 
 \noindent\textbf{Exercise 25.1-7}\\
-%notdone
+To have the procedure compute the predecessor along the shortest path, see the modified procedures, EXTEND-SHORTEST-PATH-MOD and SLOW-ALL-PAIRS-SHORTEST-PATHS-MOD
+
+\begin{algorithm}
+\caption{EXTEND-SHORTEST-PATH-MOD($\Pi$, L,W)}
+\begin{algorithmic}
+\State n= L.rows
+\State Let $L' = (l_{ij}')$ be a new $n\times n$ matrix.
+\State $\Pi' = (\pi_{ij}')$ is a new $n\times n$ matrix
+\For{i=1 to n}
+\For{j = 1 to n}
+\State $l_{ij}' = \infty$
+\State $\pi_{ij} = NIL$
+\For{ k=1 to n}
+\If{$l_{ik}+l_{jk} < l_{ij}$}
+\State $l_{ij} = l_{ik}+l_{jk}$
+\State $\pi_{ij}' = \pi_{kj}$
+\EndIf
+\EndFor
+\EndFor
+\EndFor
+\State \Return $\Pi', L'$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{SLOW-ALL-PAIRS-SHORTEST-PATHS-MOD(W)}
+\begin{algorithmic}
+\State n= W.rows
+\State $L^{(1)} = W$
+\State $\Pi^{(1)} = (\pi_{ij}^{(1)})$ where $\pi_{ij}^{(1)} = i$ if there is an edge from i to j, and NIL otherwise. 
+\For{m=2 to n-1}
+\State $\Pi^{(m)},L^{(m)} = $ EXTEND-SHORTEST-PATH-MOD($\Pi^{(m-1)},L^{(m-1)}$,W)
+\EndFor
+\State \Return $\Pi^{(n-1)},L^{(n-1)}$
+\end{algorithmic}
+\end{algorithm}
+
+
 
 \noindent\textbf{Exercise 25.1-8}\\
 

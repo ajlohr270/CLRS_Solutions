@@ -165,8 +165,8 @@ Which is an improper integral that doesn't have a finite value.\\
 \item
 Applying the integral approximation to this, we get that
 \begin{align*}
-\int_{1}^{n+1} x^r dx &\le \sum_{k=1}^n k^r &\le \int_0^{n} x^r dx
-\frac{(n+1)^{r+1} -1}{r+1} &\le \sum_{k=1}^n k^r &\le \frac{n^{r+1}}{r+1}
+\int_{1}^{n+1} x^r dx &\le \sum_{k=1}^n k^r \le \int_0^{n} x^r dx\\
+\frac{(n+1)^{r+1} -1}{r+1} &\le \sum_{k=1}^n k^r \le \frac{n^{r+1}}{r+1}
 \end{align*}
 
 So, the given sum is $n^{r+1}(\frac{1}{r+1} + o(1))$.
@@ -186,17 +186,28 @@ Now, we try to bound the sum from above.
 \sum_{k=2}^n (\lg(k))^s \le 
 \]
 \end{comment}
-
+\begin{comment}
 We'll split up the domain into $\lg(n)$ pieces. based on being between $1/2^i$ and $1/2^{i+1}$. This gets us
 \begin{align*}
 \sum_{k=1}^{k=n} &\ge(k)^s \ge \sum_{k=1}^{\lfloor \lg(n) \rfloor} \sum_{i=1}^{2^k} (\lg(2^{k} +i))^s 
 &\ge \sum_{k=1}^{\lfloor \lg(n) \rfloor}  \sum_{i=1}^{2^k} (\lg(2^{k+1}))^s
 & = \sum_{k=1}^{\lfloor \lg(n) \rfloor} 2^k (k+1)^s
 \end{align*}
-%not done
+\end{comment}
 
+We will first show that  we can approximate the integral well by $g(x) = x \ln(x)^s( \frac{1}{\ln(2)^s}+ f(x))$ where $f(x)$ is $O(1/\ln(x))$. The derivative of the RHS is $\ln(x)^s( \frac{1}{\ln(2)^s}+ f(x)) + \ln(x)^{r-1}( \frac{1}{\ln(2)^s}+ f(x)) +  x \ln(x)^s f'(x)$. Since $f(x)$ is going to zero at least as fast as $\frac{1}{\ln(x)}$, we have that $f'(x) \in O(\frac{1}{x\ln(x)^2})$, this means that $\frac{d}{dx} g(x) = \lg(x)^s ( 1+ O(1/\ln(x)))$. So, since the integral of the derivative is the original function, 
+
+\begin{align*}
+g(x) & = \int_1^x \lg(x)^s ( 1+ O(1/\ln(x))) dx\\
+&=\int_1^x \lg(x)^s dx +  \int_1^x O(\ln(x)^{r-1})) dx\\
+&=\int_1^x \lg(x)^s dx +   O(x\ln(x)^{r-1}))\\
+\end{align*}
+but this second term is insignificant enough to be absorbed into our $f(x)$ in how we defined $g(x)$. Then, since we can bound the sum above and below by the integral, just with shifted endpoints, and the derivative of the main term of the integral is small enough to fit in the remainder term, shifting it by one will not cause it's value to change asymptotically. So, we have that the sum is $ n \ln(n)^s( \frac{1}{\ln(2)^s}+ O(\frac{1}{\ln(n)})) =  n \lg(n)^s( 1+ O(\frac{1}{\ln(n)})$ which is asymptotically tight.
 \item
-%not done
+For this problem we show that the integral is well approximated by $g(n) = n^{r+1}/(r+1) \lg(n)^s ( 1 + O(\frac{1}{\ln(n)}))$. Then, we have $g'(x) = n^r \lg(n)^s ( 1 + O(\frac{1}{\ln(n)})) + n^{r}/(r+1)\lg(n)^{s-1} ( \frac{1}{\ln(2)} + O(\frac{1}{\ln(n)})) + n^r\lg(n)^s  O(\frac{1}{n\ln(n)^2})) =  n^r \lg(n)^s + O( n^r \lg(n)^{s-1})$. So, the exact same approximation goes through as in the previous problem. So, we get that the sum is asymptotically equal to 
+\[
+\frac{n^{r+1} \lg(n)^s}{n+1} \left(1 + O\left(\frac{1}{\ln(n)}\right)\right)
+\]
 \end{enumerate}
 
 
