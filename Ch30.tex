@@ -185,10 +185,7 @@ T(n) &= 3 T(n/3) + \Theta(n)\\
 
 \noindent\textbf{Exercise 30.2-6}\\
 
-Using this different value of $\omega$, and viewing the value modulo $m$, we will use the same definition of the DFT. First, notice that this choice of $\omega$ has the correct behavior, that is, $\omega^{n} = (2^{tn/2})^2 \equiv -1^2 =1$. To see that $DFT^{-1}$ is well defined, we can just notice that if we take two different sets of coefficients, say $\{a_k\}$ and $\{b_k\}$, if we get the same evaluations at each of the $n$ points, we get that the polynomial $\sum_{j=0}^{n-1} (a_j - b_j) x^k$ has $n$ zeroes, even though it is only degree $n-1$, a contradiction to the fundamental theorem of Algebra (which works over an arbitrary ring, so it works in $\mathbb{Z}_m$.
-
-Now, to see that the DFT is well defined, suppose we have a single set of coefficients then it has to give the same evaluations at the various points, so it has to give a single evaluation after being viewed mod $m$.
-%Finish! We need to know that we get the same result for DFT and inverse DFT regardless of which value of $t$ we choose.
+It will suffice to show that each power of omega is distinct and that our new definition satisfies all the relevant properties of omega that made DFT and inverse DFT work in the first place.  To start, note that $2^t, 2^{2t}, \ldots, 2^{nt/2}$ are all distinct and even since they are each less than $m$.  Further, for $1 \leq k < n/2$ we have that $2^{kt}2^{nt/2}$ is equivalent to $-2^{kt}$, which is equivalent to $2^{nt/2} + 1 - 2^{kt}$ which is odd, so we conclude that all powers of $\omega$ are distinct, $\omega^n = 2^nt = (-1)^2 = 1$, $\omega^{k + n/2} = -\omega^k$.  Finally, $\sum_{i=0}^{n-1} \omega^i = \sum_{i=0}^{n-1} 2^{ti} = (1-2^{tn})/(1-2^t) = 0$.  Thus, our new definition of $\omega$ satisfies all the requisite properties to make the DFT work, and since the values are distinct it is well-defined and behaves identically. \\
 
 \noindent\textbf{Exercise 30.2-7}\\
 
