@@ -240,8 +240,12 @@ E[X] \le Pr\{X \le 2\lg(n)\} 2\lg(n) + Pr\{ X >\lg(n)\} n =  \frac{n-1}{n} 2\lg(
 
 \item Using the fact that ${n \choose k} \leq \left(\frac{ne}{k}\right)^k$ we have $Q_k \leq \frac{(n-1)^{n-k}}{n^n} \left(\frac{ne}{k}\right)^k \leq e^k/k^k$. 
 
-\item  %%%Need to finish, but once you've found c: 
-By part (b), we have $P_k \leq nQ_k < 1/n^2$.
+\item  
+We'd like to make $Q_{k_0} < n^3$.  Taking the log of both sides and expanding using log rules this becomes
+\[ \frac{c\lg n}{\lg \lg n}(\lg e + \lg \lg \lg n - \lg c - \lg \lg n) < - 3\lg n.\]
+dividing both sides by $-\lg\lg n$ this is equivalent to
+\[ 3 < -\frac{c\lg e}{\lg \lg n}  - \frac{\lg \lg \lg n}{\lg \lg n} + \frac{\lg c}{\lg \lg n} + c.\]
+As $n \to \infty$, all terms except the last go to 0, so choosing $c = 4$ works for all $n > N$ for some fixed value of $N$.  Let $c_i$ denote the value that works for $n = i$.  Then by letting $c = \max_i(c_i, 4)$ we obtain the desired value of $c$. By part (b), we have $P_{k_0} \leq nQ_{k_0} < n/n^3 = 1/n^2$.  Since $ Q_k$ is a decreasing function of $k$, we conclude that $P_k < 1/n^2$ for all $k \geq k_0$. 
 
 \item This comes from computing expectation by conditioning, and bounding $M$ from above by $n$ in the first term.  From the bound in (d) we have $nP(M > \frac{c \lg n}{\lg \lg n}) < 1$.  For the second term, $\sum_{i=1}^d P(M = i) \leq 1$ where $d = c\lg n/ \lg \lg n$, so the asymptotic expectation follows. 
 
