@@ -28,9 +28,21 @@
 \begin{document}
 \maketitle
 
+\noindent\textbf{Exercise C.1-1}\\
+
+Since we consider identical substrings at different locations to be different, we have that this problem is really asking how to pick some collection of $k$ positions inside of string of length $n$. That is $\binom{n}{k}$. The total number of substrings is the sum of the number of substrings of each valid length, which is $\sum_{i=0}^n \binom{n}{k} = 2^n$ by the equation following (C.4).\\
+
 \noindent\textbf{Exercise C.1-2}\\
 
 There are $2^{(2^n)}$ $n$-input, 1-output boolean functions and $(2^m)^{(2^n)}$ $n$-input, $m$-output boolean functions. \\
+
+
+
+\noindent\textbf{Exercise C.1-3}\\
+
+First seat one of the professors, then there are $n-1$ choices for the person sitting immediately to his right. Then, $n-2$ choices for the person immediately to that person's right. Continue this until there is only a single person left. Multiplying together all of these choices, we get that there are $(n-1)(n-2)\cdots 1 = (n-1)!$ ways.\\
+
+
 
 \noindent\textbf{Exercise C.1-4}\\
 
@@ -38,11 +50,30 @@ The sum of three numbers is even if and only if they are all even, or exactly tw
 
 \[ {49 \choose 3} + {50 \choose 2}{49 \choose 1}.\]
 
+
+
+\noindent\textbf{Exercise C.1-5}\\
+
+We'll just do an algebraic proof, even though ``nicer'' combinatorial proofs do exist
+
+\begin{align*}
+\binom{n}{k} &= \frac{n!}{k!(n-k)!}\\
+&= \frac{n}{k} \frac{(n-1)!}{(k-1)!((n-1)-(k-1))!}\\
+&= \frac{n}{k} \binom{n-1}{k-1}
+\end{align*}
+
 \noindent\textbf{Exercise C.1-6}\\
 
 We can prove this directly:
 
 \[ {n \choose k} = \frac{n!}{k!(n-k)!} = \frac{n}{n-k}\frac{(n-1)!}{k!(n-k-1)!} = \frac{n}{n-k} {n-1 \choose k}.\]
+
+\noindent\textbf{Exercise C.1-7}\\
+
+Distinguish one of the objects. In the case that you do select this object, then you only need to pick $k-1$ more objects from the remaining $n-1$ items, which there are $\binom{n-1}{k-1}$ ways of doing. If you do not select the distinguished object, you still need to pick all $k$ items, and there are only $n-1$ items left to pick from, since you know you can't pick the distinguished object. This gets us $\binom{n-1}{k}$ ways. Since these two cases are disjoint and cover all possibilities, we have that 
+\[
+\binom{n}{k} = \binom{n-1}{k} + \binom{n-1}{k-1}
+\]
 
 \noindent\textbf{Exercise C.1-8}\\
 
@@ -58,6 +89,14 @@ The following shows Pascal's triangle with $n$ increasing down columns and $k$ i
 1 & 6 & 15 & 20 & 15 & 6 & 1
 \end{tabular}\\
 
+\noindent\textbf{Exercise C.1-9}\\
+
+There is a simple algebraic proof that can be done by induction based on the fact that $\binom{n}{2} = \frac{n^2-n}{2}$. There is a more interesting combinatorial proof as follows. Suppose that you are picking two items from a set of $n+1$ items. Then, spit into $n$ different cases based on what the last item you pick is. Suppose that you pick position $i$ as your last one. Notice that we must have that $i$ is from $2$ to $n+1$. Then, for the other thing we pick, we could pick anything occurring before $i$, so we have $i-1$ choices. From there, we just to a simple change of variables to get
+
+\[
+\binom{n}{k} = \sum_{i=2}^{n+1} i-1 = \sum_{i=1}^{n} i
+\]
+
 \noindent\textbf{Exercise C.1-10}\\
 
 Fix $n$.  Then we have 
@@ -65,6 +104,21 @@ Fix $n$.  Then we have
 \[{n \choose k} = \frac{n!}{k!(n-k)!} = \frac{n-k+1}{k} \frac{n!}{(k-1)!(n-k+1)!} = \frac{n-k+1}{k}{n \choose k-1}.\]
 
 Thus, we increase in $k$ if and only if $\frac{n-k+1}{k} \geq 1$, which happens only when $n+1 \geq 2k$, or $k \leq \lceil n/2 \rceil$.  On the other hand, we decrease in $k$ if and only if $\frac{n-k+1}{k} \leq 1$, so $k \geq \lfloor n/2 \rfloor$.  Thus, the function is maximized precisely when $k$ is equal to one of these. \\
+
+\noindent\textbf{Exercise C.1-11}\\
+
+\begin{align*}
+\binom{n}{j+k} &= \frac{n!}{(j+k)!(n-j-k)!}\\
+&=\frac{n!}{j! (n-j)!} \frac{j! (n-j)!}{(j+k)! (n-j-k)!}\\
+&=\binom{n}{j}\frac{j! (n-j)!}{(j+k)! (n-j-k)!}\\
+&= \binom{n}{j} \frac{(n-j)!}{(j+k)(j+k-1)\cdots (j+1) (n-j-k)!}\\
+&\le\binom{n}{j} \frac{(n-j)!}{k! (n-j-k)!}\\
+&=\binom{n}{k}\binom{n-j}{k}
+\end{align*}
+
+For a combinatorial (not algebraic) proof, we can see that if we fisrt pick $j$ items, and then from the remaining pick $k$ more, we have the quantity on the right. However, for each of the selections of $j+k$ items on the right, there is at least one way of picking $j$ then picking $k$, giving us our inequality.
+
+To see it is not tight, consider when $n=2$, and $j=k=1$. Then, we have that the left is $\binom{2}{2} = 1$. The right, however, is $\binom{2}{1}\binom{1}{1} = 2$ which is strictly greater.\\
 
 \noindent\textbf{Exercise C.1-12}\\
 
@@ -78,7 +132,14 @@ We'll prove inequality C.6 for $k \leq n/2$ by induction on $k$. For $k=0$ we ha
 
 To show that this is bounded from above by $\frac{n^n}{(k+1)^{k+1}(n-k-1)^{(n-k-1)}}$ we need only verify that $\left(\frac{k+1}{k}\right)^k \leq \left(\frac{n-k}{n-k-1}\right)^{n-k-1}$.  This follows from the fact that the left hand side, when viewed as a function of $k$, is increasing, and $k < n/2$ which implies that $k+1 \leq n-k$.  By induction, the claim holds.  Using equation $C.3$, we see that the claim extends to all $0 \leq k \leq n$ since the right hand side of the inequality is symmetric in $k$ and $n-k$. \\
 
+\noindent\textbf{Exercise C.1-13}\\
 
+We start with $\binom{2n}{n} = \frac{(2n)!}{n!n!}$, then, applying Stirling's approximation, we get that this is
+\begin{align*}
+\frac{\sqrt{4\pi n}\left(\frac{2n}{e}\right)^{2n}\left(1 + \Theta\left(\frac{1}{n}\right)\right)}{\left(\sqrt{2\pi n}\left(\frac{n}{e}\right)^{n}\left(1 + \Theta\left(\frac{1}{n}\right)\right)\right)\cdot\left(\sqrt{2\pi n}\left(\frac{n}{e}\right)^{n}\left(1 + \Theta\left(\frac{1}{n}\right)\right)\right)} &= \frac{\sqrt{4\pi n}\left(\frac{2n}{e}\right)^{2n}\left(1 + \Theta\left(\frac{1}{n}\right)\right)}{\left(2\pi n\left(\frac{n}{e}\right)^{2n}\right)\cdot\left(\left(1 + \Theta\left(\frac{1}{n}\right)\right)\right)}\\
+&= \frac{\sqrt{4\pi n}}{2\pi n} 2^{2n} \left(1 + \Theta\left(\frac{1}{n}\right)\right)\\
+&= \frac{2^{2n}}{\sqrt{\pi n}} \left(1 + \Theta\left(\frac{1}{n}\right)\right)
+\end{align*}
 
 \noindent\textbf{Exercise C.1-14}\\
 
@@ -88,19 +149,60 @@ Differentiating the entropy function and setting it equal to 0 we have
 
 or equivalently $\lg(1-\lambda) = \lg(\lambda)$.  This happens when $\lambda = 1/2$.  Moreover, $H''(1/2) = \frac{-4}{\ln(2)} < 0$, so this is a local maximum.  We have $H(1/2) = 1$, and since $H(0) = H(1) = 0$, this is in fact a global maximum for $H$. \\
 
+\noindent\textbf{Exercise C.1-15}\\
+
+\begin{align*}
+\sum_{k=0}^n \binom{n}{k}k &= \sum_{k=0}^n \frac{n!}{k!(n-k)!}k\\
+&=\sum_{k=0}^n \frac{(n-1)!}{(k-1)!((n-1)-(k-1))!} n\\
+&= n \sum_{k=0}^{n}\frac{(n-1)!}{(k-1)!((n-1)-(k-1))!}\\
+&=n \sum_{k=0}^n \binom{n-1}{k-1}\\
+&=n \sum_{k=0}^{n-1} \binom{n-1}{k}\\
+&=n2^{n-1}
+\end{align*}
+
+\noindent\textbf{Exercise C.2-1}\\
+
+The only way that Rosencrantz could of obtained more heads than Guildenstern is if he got a hears and Guildenstern got no heads, so, two tails. This event has proscribed outcomes for all three coin flips, and so it happens with probability $\frac{1}{2^3} = \frac{1}{8}$.\\
+
+
 \noindent\textbf{Exercise C.2-2}\\
 
 Let $B_i = A_i \backslash (\cup_{k=1}^{i-1}A_i)$.  Then $B_1, B_2, \ldots $ are disjoint and $A_1 \cup A_2 \cup \ldots = B_1 \cup B_2 \cup \ldots$.  Moreover, $B_i \subseteq A_i$ for each $i$, so $Pr(B_i) \leq Pr(A_i)$.  By third axiom of probability we have 
 \[ Pr(A_1 \cup A_2 \cup \ldots = Pr(B_1 \cup B_2 \cup \ldots) = \sum_{i \geq 1} Pr(B_i) \leq \sum_{i \geq 1} Pr(A_i).\]
+
+\noindent\textbf{Exercise C.2-3}\\
+
+If we first ignore the order we remove them, this is asking, out of all the size three subsets of $\{1,2,\ldots,10\}$, how many are all adjacent elements. There are a total of $\binom{10}{3}$ size three subsets, and for any set of three consecutive, it is determined by its smallest element, for which there are 8 options. Now, however, we need to worry about the ordering, and there is only a $\frac{1}{3!} = \frac{1}{6}$ likelyhood that even if we select a consecutive set, we do it in the correct order. Putting it all together, we get that the probability of this event is 
+
+\[
+\frac{8}{6\binom{10}{3}} = \frac{8\cdot7!}{10!} = \frac{1}{10\cdot 9} = \frac{1}{90}
+\]
+which is just better than a 1 percent likelyhood.\\
 
 \noindent\textbf{Exercise C.2-4}\\
 
 We can verify this directly from the definition of conditional probability as follows:
 \[Pr(A|B) + Pr(\overline{A} | B) = \frac{Pr(A \cap B)}{Pr(B)} + \frac{Pr(\overline{A} \cap B)}{Pr(B)} = \frac{Pr(B)}{Pr(B)} = 1.\]
 
+\noindent\textbf{Exercise C.2-5}\\
+
+We will proceed by induction on $n$. If $n=2$, this is equation (C.16). Suppose that $n>2$. Let $C = \cap{i=1}^{n-1} A_i$. Then, we will use equation (C.16) followed by the inductive hypothesis to get
+
+\begin{align*}
+\Pr(A_1 \cap A_2 \cap \cdots \cap A_n) &= \Pr(C \cap A_n)\\
+&= \Pr(A_n | C) \Pr(C)\\
+&= \Pr(A_n | A_1 \cap A_2 \cap \cdots \cap A_{n-1}) \Pr( A_1 \cap A_2 \cap \cdots \cap A_{n-1})\\
+&= \Pr(A_n | A_1 \cap A_2 \cap \cdots \cap A_{n-1}) \cdots \Pr(A_3 | A_1 \cap A_2)\Pr(A_2 | A_1) \Pr(A_1)\\
+\end{align*}
+
 \noindent\textbf{Exercise C.2-6}\\
 
 Let $.a_1a_2a_3\ldots$ be the binary representation of $a/b$.  Flip the fair coin repeatedly, associating 1 with heads and 0 with tails, until the first time that the value of the $i^{th}$ flip differs from $a_i$.  If the value is greater than $a_i$, output tails.  If the value is less than $a_i$, output heads.  Every number between 0 and $.99999\ldots = 1$ has the possibility to be represented, and is created by randomly choosing its binary representation.  The probability that we output tails is the probability that our number is less than $a/b$, which is just $a/b$.  The expected number of flips is $\sum_{i=1}^\infty i2^{-i} = 2 = O(1)$. \\
+
+\noindent\textbf{Exercise C.2-7}\\
+
+Select $n$ random colinear points. Seeing any one of them, you know nothing new about the distribution of the others. However, given two of them, you know the line that the third point would need to lie on.\\
+
 
 \noindent\textbf{Exercise C.2-8}\\
 
@@ -110,9 +212,29 @@ Suppose we have a biased coin which always comes up heads, and a fair coin.  We 
 and
 \[ Pr(A|C)\cdot Pr(B|C) = \frac{Pr(A \cap C)}{Pr(C)} \frac{Pr(B \cap C)}{Pr(C)} = \frac{1/4}{1/2} \frac{1/4}{1/2} = 1/4.\]
 
+\noindent\textbf{Exercise C.2-9}\\
+
+This problem has many explanations. I'll give a concise one, as there are versions online that really hold your hand through the whole thing.
+
+First, supposing that you don't switch, then the likelyhood of winning will just be $\frac{1}{3}$, since the original decision was made before any additional information leaked in by way of lifting a curtain, so it must just be uniformly random.
+
+Now, suppose that you do switch, your likelyhood of winning will increase to $\frac{2}{3}$. To see this, we split into two cases. Suppose you guessed correctly initially, which happens with probability $\frac{1}{3}$, then you will fail. However, if you picked incorrectly originally, which happens with probability $\frac{2}{3}$, you will then win by switching. Therefore, you will win with probability $\frac{2}{3}$.
+
+So, your chances of winning double by adopting the switching strategy instead of the staying strategy.\\
+
 \noindent\textbf{Exercise C.2-10}\\
 
 His chances are still 1/3, because at least one of $Y$ or $Z$ would be executed, so hearing which one changes nothing about his own situation.  However, the probability that $Z$ is going free is now 2/3.  To see this, note that the probability that the free prisoner is among $Y$ and $Z$ is 2/3.  Since we are told that it is not $Y$, the 2/3 probability must apply exclusively to $Z$.  \\
+
+\noindent\textbf{Exercise C.3-1}\\
+
+The expectation of a single dice roll is $\frac{1}{6}(1+2+3+4+5+6) = \frac{21}{6} = 3.5$. So, by linearity of expectation, the expectation of their sum is 7.
+
+We have that the probability that the maximum of the two dice results is $\le i$ is the probability that both dice results lie in the range $1,2,..,i$. This happens with probability $\frac{i^2}{36}$. Then, to get the probability that a particular value of the maximum occurs, we take the difference of successive values of this cumulative density function. This gets us that the probability of a max of $i$ is $\frac{i^2 - (i-1)^2}{36} = \frac{2i -1}{36}$. So, the expected value of this max is 
+
+\[
+\frac{1}{36}( 1 + 6 + 15 + 28 + 45 + 66) = \frac{161}{36} \approx 4.47
+\]
 
 \noindent\textbf{Exercise C.3-2}\\
 
@@ -120,9 +242,25 @@ The probability that the maximum or minimum element is in a particular spot is $
 
 \[ E[X] = \sum_{i=1}^n i(1/n) = \frac{1}{n} \frac{n(n+1)}{2} = \frac{n+1}{2}.\]
 
+\noindent\textbf{Exercise C.3-3}\\
+
+The probability that you loose your dollar is $(5/6)^3 =\frac{125}{216}$. The probability you gain exactly one dollar is $\binom{3}{1} (1/6)(5/6)^2 = \frac{75}{216}$. The probability you gain exactly two dollars is $\binom{3}{2} (1/6)^2 (5/6) = \frac{15}{216}$. The probability that you win 3 dollars is $(1/6)^3\frac{1}{216}$. putting it all together, the payoff is
+
+ \[
+ \frac{3}{216} + \frac{30}{216} + \frac{75}{216} - \frac{125}{216} = -\frac{17}{216}
+  \] 
+  So, you are expected to loose $\frac{17}{216}$ of a dollar.\\
+
+
 \noindent\textbf{Exercise C.3-4}\\
 
 Let $X$ and $Y$ be nonnegative random variables.  Let $Z = X+Y$.  Then $Z$ is a random variable, and since $X$ and $Y$ are nonnegative, we have $Z \geq \max(X,Y)$ for any outcome.  Thus, $E[\max(X,Y)] \leq E[Z] = E[X] + E[Y]$.\\
+
+
+\noindent\textbf{Exercise C.3-5}\\
+
+the value of $f(X)$ is only a function of $X$, and, so it may only leak information about the state of $X$. Similarly $g(Y)$ can only depend on and leak information about the state of $Y$. Since the states of $X$ and $Y$ don't affect each other, knowing the value of functions of the two random varaibles also will not affect each other.\\
+
 
 
 \noindent\textbf{Exercise C.3-6}\\
@@ -138,9 +276,26 @@ E[X] &= \sum_{i=0}^\infty i \cdot Pr(X = i) \\
 
 Dividing both sides by $t$ gives the result. \\
 
+\noindent\textbf{Exercise C.3-7}\\
+
+Let $S' \subseteq S$ be the states of the sample space for whcih $X'$ takes a value that is $\ge t$.  For any of these states, we will also have that $X$ takes a value that is at least $t$. This gets us that the set of states for which $X$ is at least $t$ is a superset of $S'$. Then, by monotonicity of probability, we have the desired inequality on the probabilities.\\
+
+
 \noindent\textbf{Exercise C.3-8}\\
 
 The expectation of the square of a random variable is larger.  To see this, note that by (C.27) we have $E[X^2] - E^2[X] = E[(X-E[X])^2] \geq 0$ since the square of a random variable is a nonnegative random variable, so its expectation must be nonnegative. \\
+
+\noindent\textbf{Exercise C.3-9}\\
+
+Since $X$ only takes the values 0 and 1, we will always have that $X^2 = X$. Then, the probability that $X$ takes the value of 1 is equal to the expected value of $X$. So,
+
+\begin{align*}
+Var[X ] &=E[X^2] - (E[X])^2\\
+&= E[X] - (E[X])^2 \\
+&= E[X] (1-E[X])\\
+&= E[X] (E[1]-E[X])\\
+&= E[X] (E[1-X])
+\end{align*}
 
 \noindent\textbf{Exercise C.3-10}\\
 
@@ -154,16 +309,53 @@ Var[aX] &= E[(aX)^2] - E^2[aX] \\
 &= a^2Var[X].
 \end{align*}
 
+\noindent\textbf{Exercise C.4-1}\\
+
+Axiom 2 states that the probability of the entire space should be one. This is saying that if we add up the probabilities of each $i$ occurring over all $i$, we should get one. This is easy to see because
+
+\[
+\sum_{i=1}^{\infty} (1-p)^{i-1} p = \frac{p}{1-(1-p)} = \frac{p}{p} = 1
+\]
+
 \noindent\textbf{Exercise C.4-2}\\
 
 Let $X$ be the number of times we must flip 6 coins before we obtain 3 heads and 3 tails.  The probability that we obtain 3 heads and 3 tails is ${6 \choose 3}(1/2)^6 = 5/16$, so the probability that we don't is 11/16.  Moreover, $X$ has a geometric distribution, so by (C.32) we have
 
 \[ E[X] = 1/p = 16/5.\]
 
+\noindent\textbf{Exercise C.4-3}\\
+
+To go from the first line to the second, we use the fact that picking $k$ items is identical to selecting the $n-k$ items you aren't picking.
+
+\begin{align*}
+b(k;n,p) &= \binom{n}{k} p^k (1-p)^{n-k}\\
+&= \binom{n}{n-k}p^{k}(1-p)^{n-k}\\
+&= b(n-k;n,1-p)
+\end{align*}
+
 \noindent\textbf{Exercise C.4-4}\\
 
 Using Stirling's approximation we have $b(k;n,p) \approx \frac{\sqrt{n}n^n}{\sqrt{2\pi}\sqrt{k(n-k)}k^k(n-k)^{n-k}}p^kq^{n-k}$.  The binomial distribution is maximized at its expectation.  Plugging in $k=np$ gives 
 \[ b(np;n,p) \approx \frac{\sqrt{n}n^np^{np}(1-p)^{n-np}}{\sqrt{np(n-np)}(np)^{np}(n-np)^{n-np}} = \frac{1}{\sqrt{2\pi n p q}}.\]
+
+
+\noindent\textbf{Exercise C.4-5}\\
+
+The probability that there will be no successes is equal to 
+\begin{align*}
+\lim_{n\rightarrow\infty}b(0;n,1/n) &= \lim_{n\rightarrow \infty} \binom{n}{0} \frac{1}{n}^0 (1- \frac{1}{n})^{n-0}\\
+ &= \lim_{n\rightarrow\infty}(1-\frac{1}{n})^n\\
+ &= \lim_{n\rightarrow\infty} ((1 + \frac{1}{-n})^{-n})^{-1}\\
+ &= e^{-1} = \frac{1}{e}
+\end{align*}
+
+Similarly, the probability of one success is equal to
+\begin{align*}
+\lim_{n\rightarrow\infty}b(1;n,1/n) &= \lim_{n\rightarrow \infty} \binom{n}{1} \frac{1}{n}^1 (1- \frac{1}{n})^{n-1}\\
+&=\lim_{n\rightarrow \infty} \frac{n}{n(1-\frac{1}{n})} (1- \frac{1}{n})^{n}\\
+&=\left(\lim_{n\rightarrow \infty} \frac{n}{n(1-\frac{1}{n})}\right) \cdot \left( \lim_{n\rightarrow\infty} (1- \frac{1}{n})^{n}\right)\\
+&= 1 \cdot \frac{1}{e} = \frac{1}{e}
+\end{align*}
 
 \noindent\textbf{Exercise C.4-6}\\
 
@@ -171,10 +363,38 @@ There are $2n$ total coin flips amongst the two professors.  They get the same n
 
 To verify the identity, we can imagine counting successes in two ways.  The right hand side counts via our earlier method.  For the left hand side, we can imagine first choosing $k$ successes for Professor Guildenstern, then choosing the remaining $n-k$ successes for Professor Rosencrantz.  We sum over all $k$ to get the total number of possibilities.  Since the two sides of the equation count the same thing they must be equal. \\
 
+\noindent\textbf{Exercise C.4-7}\\
+We apply (C.7) with $\lambda = \frac{k}{n}$, then,
+
+\begin{align*}
+b(k;n,1/2) &= \binom{n}{k} (1/2)^k (1-1/2)^{n-k}\\
+&= \binom{n}{k} 2^{-n}\\
+&\le 2^{nH(k/n) 2^{-n}}\\
+& = 2^{nH(k/n) - n}
+\end{align*}
 
 \noindent\textbf{Exercise C.4-8}\\
 
 Let $a_1, a_2, \ldots, a_n$ be uniformly chosen from $[0,1]$. Let $X_i$ be the indicator random variable that $a_i \leq p_i$ and $Y_i$ be the indicator random variable that $a_i \leq p$.  Let $X' = \sum_{i=1}^n X_i$ and $Y'=\sum_{i=1}^nY_i$.  Then for any event we have $X' \leq Y'$, which implies $P(X' < k) \geq P(Y'<k)$.  Let $Y$ be the number of successes in $n$ trials if each trial is successful with probability $p$.  Then $X$ has the same distribution as $X'$ and $Y$ has the same distribution of $Y'$, so we conclude that $P(X<k) \geq P(Y<k)$. \\
+
+\noindent\textbf{Exercise C.4-9}\\
+
+Consider having the underlying state space be $n$ copies of the unit interval. Then, a particular state will be a sequence of $n$ numbers in $[0,1]$. Then, $X'$ will be the number of times the $i$th coordinate is less than or equal to $p_i$. Similarly, $X$ is the number of times that the $i$th coordinate is less than or equal to $p_i'$. Since $p_i \le p_i'$, we have that for any particular state, $X\le X'$. Then we can directly apply the results of C.3-7 to get the desired result.\\
+
+
+\noindent\textbf{Exercise C.5-1}\\
+
+The probability that you obtain no head when flipping $n$ times is just $2^{-n}$, straight from the definition of the binomial distribution. We can use corollary C.3 and equation C.5 to obtain a bound on the probability that fewer than $n$ heads are obtained when flipping $4n$ times. 
+
+\begin{align*}
+\Pr\{X \le n\} &\le \binom{4n}{4n-n}2^{n-4n}\\
+& = \binom{4n}{3n}2^{-3n}\\
+& \le \left(\frac{e4n}{3n}\right)^{3n} 2^{-3n}\\
+& = \left(\frac{8e}{3}\right)^{-3n} \\
+& \le (308)^{-n}
+\end{align*}
+
+Since this is smaller than $2^{-n}$, we have that the probability of getting no heads with $n$ tosses is higher than getting at most $n$ heads after making $4n$ tosses.\\
 
 \noindent\textbf{Exercise C.5-2}\\
 
@@ -193,6 +413,27 @@ For Corollary C.7, we use Corollary C.6 and the fact that $x < 1$ as follows:
 
 \[ \frac{Pr(X > k)}{Pr(X>k-1)} = \frac{Pr(X>k)}{Pr(X>k)+Pr(X=k-1)} \leq \frac{xb(k;n,p)}{xb(k;n,p) + b(k;n,p)}  < \frac{1}{2}.\]
 
+\noindent\textbf{Exercise C.5-3}\\
+
+Divide both sides of the expression through by $(a+1)^n$. Since $a>0$, this quantity is $>1$, so the inequalities remain the way they are. This means that it is equivalent to show that
+
+\[
+\sum_{i=0}^{k-1} \binom{n}{i} a^i (a+1)^{-n} < \frac{kb(k;n,a/(a+1))}{na - k(a+1)}
+\]
+
+So, we do some algebra, and apply Theorem C.4.
+
+\begin{align*}
+\sum_{i=0}^{k-1} \binom{n}{i} a^i (a+1)^{-n} & = \sum_{i=0}^{k-1}\binom{n}{i} \left(\frac{a}{a+1}\right)^i \left( \frac{1}{a+1}\right)^{n-i}\\
+&= \sum_{i=0}^{k-1}\binom{n}{i} \left(\frac{a}{a+1}\right)^i \left(1 - \frac{a}{a+1}\right)^{n-i}\\
+&= \sum_{i=0}^{k-1}b(i;n,\frac{a}{a+1})\\
+&< \frac{k\left(1-\frac{a}{a+1}\right)}{n \frac{a}{a+1} - k}b(k;n,\frac{a}{a+1})\\
+&= \frac{k\left(\frac{1}{a+1}\right)}{n \frac{a}{a+1} - k}b(k;n,\frac{a}{a+1})\\
+&= \frac{k}{n a - k(a+1)}b(k;n,\frac{a}{a+1})
+\end{align*}
+
+completing the proof.\\
+
 \noindent\textbf{Exercise C.5-4}\\
 
 Using Lemma C.1 and Corollary C.4 we have 
@@ -203,6 +444,22 @@ Using Lemma C.1 and Corollary C.4 we have
 &\leq \frac{kq}{np-k}b(k;n,p) \\
 &\leq \frac{kq}{np-k}\left(\frac{np}{k}\right)^k \left(\frac{nq}{n-k}\right)^{n-k}.
 \end{align*}
+
+\noindent\textbf{Exercise C.5-5}\\
+
+(note that this problem had extensive bugs prior to the third printing of the third edition, see errata.)
+
+Since the values of $p_i$ and $q_i$ appear nowhere in this expression, we can swap the two. This has the effect of changing the mean to $n-\mu$. This means that the condition $r>\mu$ becomes $r > n-\mu$ which we have. Then, the right hand side becomes $\Pr\{(n-X) (b-\mu)\ge r\} = \Pr\{\mu-X \ge r\}$. Then, just replacing the $\mu$ occurring in the left, we obtain that
+\[
+\Pr\{\mu- X\} \le \left(\frac{(n-\mu)e}{r}\right)^r
+\]
+
+Similarly, we can apply corollary C.9 to this distribution counting the number of failures (swapping $p$ and $q$). This has the result of making
+
+\[
+\Pr\{ np -X\} =  \Pr\{ n - X - n(1-p)\} = \Pr\{X - nq\ge r\}   \le \left(\frac{nqe}{r}\right)^r
+\]
+again, the restriction on $r$ changes exactly into what we are given.\\
 
 \noindent\textbf{Exercise C.5-6}\\
 
@@ -224,4 +481,30 @@ Thus, $E[e^{\alpha(X-\mu)}] \leq \prod_{i=1}^n e^{\alpha^2/2} = e^{n\alpha^2/2}$
 \[Pr(X-\mu \geq r) \leq E[e^{\alpha(X-\mu)]}e^{-\alpha r} \leq e^{n \alpha^2/2 - \alpha r}.\]
 
 Finally, taking $\alpha = r/n$ gives the desired result. \\
+
+\noindent\textbf{Exercise C.5-7}\\
+
+We put on our freshman calculus hats. With them securely affixed, we take a derivative of the expression with respect to $\alpha$. This gets us $(\mu e^{\alpha} - r)\exp(\mu e^{\alpha}- \alpha r)$. Since a minima of the original expression will occur when the derivative is zero, and the end behavior of the expression is increasing without bound, we set this derivative equal to zero. The second factor is an exponential and so can never be zero. So, we are trying to solve $\mu e^{\alpha} - r = 0$. This means that $\alpha = \ln(r/\mu)$. at the minimum.\\
+
+
+
+\noindent\textbf{Problem C-1}\\
+\begin{enumerate}[a.]
+\item For each of the $n$ balls, we can make one of $b$ different decisions about where to place it. Since this number of possible decisions is independent of the previous choices, the total number of possibilities is just $b^n$.
+\item 	
+First, we pretend that we can distingush the sticks. This means that we want to arrange a total of $n$ balls and $b-1$ sticks, that is, $n+b-1$ total things. There are exactly $(b+n-1)!$ ways of doing this. Then, we realize that a bunch of these are the same, in particular, no matter how we permute the $b-1$ sticks in some arrangement, we end up with the same answer. Therefore, we can arrange n distinguishable balls and $b-1$ indistinguishable sticks in $\frac{(n+b-1)!}{(b-1)!}$ many ways.
+
+Once we have such an arrangement, we can relate it back to the original statement, where we imagine the sticks as being the dividing lines between bins, and the ordered balls between them being the ordered balls in each bin.
+\item
+Taking the result from before, we notice that any of the $n$ permutations of the balls will result in the same configuration, so, we must divide our count from the previous part by $n!$. This means that we are left with $\frac{(n+b-1)!}{n!(b-1)!} = \binom{n+b-1}{n}$.
+\item
+Since each bin can either contain a bin or not, we are selecting a set of bins to contain balls in the part. The number of non-empty bins must be equal to the number of balls, so we are selecting $n$ bins. That is, we are selecting a subset of size $n$ of the bins from the set of all bins, which there are $n$ of. This is then exactly the combinatorial definition of $\binom{b}{n}$ defined in terms of selecting subsets.
+\item
+Since no bin may be left empty, this means that we need to put one ball into each bin. This means that we have $n-b$ balls left, and, since each bin now contains at least one, we can put them into the bins with no further restriction. This means we are in the case of part c. The only difference is that the number of balls that we have to distribute it $n-b$ not $n$. This means that the answer is
+
+\[
+\binom{(n-b)+b-1}{n-b} = \binom{n-1}{n-b} = \binom{n-1}{(n-1)-(n-b)} = \binom{n-1}{b-1}
+\]
+\end{enumerate}
+
 \end{document}
