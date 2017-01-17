@@ -172,12 +172,23 @@ Let $B_i = A_i \backslash (\cup_{k=1}^{i-1}A_i)$.  Then $B_1, B_2, \ldots $ are 
 
 \noindent\textbf{Exercise C.2-3}\\
 
-If we first ignore the order we remove them, this is asking, out of all the size three subsets of $\{1,2,\ldots,10\}$, how many are all adjacent elements. There are a total of $\binom{10}{3}$ size three subsets, and for any set of three consecutive, it is determined by its smallest element, for which there are 8 options. Now, however, we need to worry about the ordering, and there is only a $\frac{1}{3!} = \frac{1}{6}$ likelyhood that even if we select a consecutive set, we do it in the correct order. Putting it all together, we get that the probability of this event is 
+It is a 1/6 likelyhood. Here are two ways that you can show this fact. The first kind of messy, the second much more elegant.
 
-\[
-\frac{8}{6\binom{10}{3}} = \frac{8\cdot7!}{10!} = \frac{1}{10\cdot 9} = \frac{1}{90}
-\]
-which is just better than a 1 percent likelyhood.\\
+This first is a direct counting argument. There are $10\cdot 9 \cdot 8=720$ differerent sequences of cards picked, since we can at each step pick any card that is left. To count the number of sequences that are in increasing order, we choose the first card(call its value i), then any number larger than that for the second(say j) and any number larger than the second for the third(say k). This can be expressed by the summation:
+\begin{align*}
+&\sum_{i=1}^{10} \sum_{j=i+1}^{10} \sum_{k=j+1}^{10} 1=\\
+&\sum_{i=1}^{10} \sum_{j=i+1}^{10} 10-j=\\
+&\sum_{i=1}^{10} 10(10-i) - \frac{10\cdot11}{2} + \frac{(i)(i+1)}{2}=\\
+&\sum_{i=1}^{10} 45  - 9.5i +i^2/2=\\
+&450 - \frac{9.5\cdot 10 \cdot 11}{2} + \frac{10\cdot11\cdot21}{2\cdot 6}=\\
+&450 - 522.5 + 192.5 = \\
+&120
+\end{align*}
+Where we have arrived at this count only using the formula for sum of kth powers. Then this gives us our final probability of $120/720 =1/6$. Note also that it is unimportant to rule out the cases i=9, 10 and j=10. They are impossible cases, but if they occur then the sum will come out to be equal to zero anyways, I just figured that having it all go to 10 was more aesthetically pleasing. 
+
+The second way to show this probability is to first fix the three elements that you happened to pick and use symmetry. The set of values that are among the cards has no bearing on whether the cards are in order. Since the numerical value on these cards is independent of the random the selection process, all possible orders for those three elements are equally likely. There are six different orderings on three elements, so the likelyhood they are ordered numerically is $1/6$.
+
+Thank you to Eric Richardson for pointing out that the originally posted solution for this exercise was misinterpreting the question.
 
 \noindent\textbf{Exercise C.2-4}\\
 
