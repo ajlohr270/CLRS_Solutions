@@ -67,7 +67,7 @@ $
 \hline
 27&17&10&16&13&3&1&5&7&12&4&8&9&0\\
 \hline
-27&17&10&16&13&8&1&5&7&12&4&3&9&0\\
+27&17&10&16&13&9&1&5&7&12&4&8&3&0\\
 \hline
 \end{array}
 $\\
@@ -88,7 +88,7 @@ $\\
 \EndIf
 \If{$smallest \neq i$}
 	\State exchange $A[i]$ with $A[smallest]$
-	\State MAX-HEAPIFY($A, smallest$)
+	\State MIN-HEAPIFY($A, smallest$)
 \EndIf
 \end{algorithmic}
 \end{algorithm}
