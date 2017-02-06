@@ -165,8 +165,8 @@ Which is an improper integral that doesn't have a finite value.\\
 \item
 Applying the integral approximation to this, we get that
 \begin{align*}
-\int_{1}^{n+1} x^r dx &\le \sum_{k=1}^n k^r \le \int_0^{n} x^r dx\\
-\frac{(n+1)^{r+1} -1}{r+1} &\le \sum_{k=1}^n k^r \le \frac{n^{r+1}}{r+1}
+\int_{0}^{n} x^r dx &\le \sum_{k=1}^n k^r \le \int_{1}^{n+1} x^r dx\\
+\frac{n^{r+1} }{r+1} &\le \sum_{k=1}^n k^r \le \frac{(n+1)^{r+1}-1}{r+1}
 \end{align*}
 
 So, the given sum is $n^{r+1}(\frac{1}{r+1} + o(1))$.
