@@ -281,10 +281,14 @@ Construct a vertex constrained flow network from the instance of the escape prob
 \item
 Suppose to a contradiction that there were some $J_i\in T$, and some $A_k\in R_i$ so that $A_k \not \in T$. However, by the definition of the flow network, there is an edge of infinite capacity going from $A_k$ to $J_i$ because $A_k \in R_i$. This means that there is an edge of inifinite capacity that is going across the given cut. This means that the capacity of the cut is infinite, a contradiction to the given fact that the cut was finite capacity.
 \item
-Let $T = \sum_i c_i$. This is the total possible gross revenue if we accept all jobs and hire all experts. In the cut that corresponds to this, we we need to pat %not done
+%Let $T = \sum_i c_i$. This is the total possible gross revenue if we accept all jobs and hire all experts. In the cut that corresponds to this, we we need to pat %not done
+%We know that there is a finite-capacity cut, because we could simply cut the source from all of the nodes it is adjacent to, which has capacity $\sum_i a_i$. This means that the minimum cut must be finite, so, by the previous part, the cut must 
+
+This flow network cannot be used in this way. Suppose there is some $A_i$ which is required for every task. Then, any finite capacity cut that contains $A_i$ must also contain all tasks, because otherwise it would cut one of the infinite capacity edges coming out of $A_i$. This means that it would then need to hire the experts to do all of these tasks by part (a).
+
 \item%not done
 
-(Of course if he just wanted to get the book done he could of used Michelle and I and not had to pay anything)
+(Of course if he just needed experts in topics contained in this book, he could of just hired either Michelle or me)
 %aww boo <3
 \end{enumerate}
 

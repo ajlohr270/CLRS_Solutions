@@ -117,7 +117,7 @@ which contradicts the fact that $T$ was optimal.  Therefore every binary tree co
 
 An optimal huffman code would be 
 \begin{align*}
-00000001 &\rightarrow a\\
+0000000 &\rightarrow a\\
 0000001 &\rightarrow b\\
 000001 &\rightarrow c\\
 00001 &\rightarrow d\\
@@ -127,7 +127,7 @@ An optimal huffman code would be
 1 &\rightarrow h\\
 \end{align*}
 
-This generalizes to having the first $n$ Fibonacci numbers as the frequencies in that the $n$th most frequent letter has codeword $0^{n-1}1$. To see this holds, we will prove the recurrence 
+This generalizes to having the first $n$ Fibonacci numbers as the frequencies in that the $k<n$th most frequent letter has codeword $0^{k-1}1$, and the $n$th most frequent letter having codeword $0^{n-1}$. To see this holds, we will prove the recurrence 
 \[
 \sum_{i=0}^{n-1} F(i) = F(n+1)-1
 \]
@@ -136,6 +136,8 @@ This will show that we should join together the letter with frequency $F(n)$ wit
 F(n+1) - 1 = F(n) + F(n-1) -1 = F(n-1) + \sum_{i=0}^{n-2} F(i) = \sum_{i=0}^{n-1} F(i)
 \]
 See also Lemma 19.2.
+
+To use this fact, to show the desired huffman code is optimal, we claim that as we are greedily combining nodes, that at each stage we can maintain one node which contains all of the least frequent letters. Initially, this consists of just the least frequent letter. Then, at stage $k$, inductively, we assume that it contains the $k$ least frequent letters. This means that it has weight $\sum_{i=0}^{k-1} F(i) = F(k-1)-1$. All of the other nodes at this stage have weights $\{F(k), F(k+1), ... F(n-1)\}$. So, clearly the two lowest weight nodes are this node containing the $k$ least frequent letters and the node containing the $k$ least frequent letter. Therefore, the greedy algorithm tells us that we should combine those nodes leaving us with a node containing the $k+1$ least frequent letters for stage $k+1$, completing the induction. Of course, the code that we have given is not uniquely optimal, because left and right children (represented by 0 and 1 respectively) are an artifical choice, we could assume that at each stage we are adding in the singleton as the 1 child of the new parent, getting us our code.\\
 
 \noindent\textbf{Exercise 16.3-4}\\
 
