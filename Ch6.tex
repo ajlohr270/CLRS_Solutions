@@ -557,14 +557,15 @@ Have a field in the structure that is just a count of the total number of elemen
 
 \noindent\textbf{Exercise 6.5-8}\\
 
-The algorithm works as follows:  Replace the node to be deleted by the last node of the heap.  Update the size of the heap, then call MAX-HEAPIFY to move that node into its proper position and maintain the max-heap property.  This has running time $O(\lg n)$ since the number of times MAX-HEAPIFY is recursively called is as most the height of the heap, which is $\lfloor \lg n \rfloor$.
+The algorithm works as follows:  Replace the key of the node to be deleted by $\infty$, ie a value which will be interpreted as greater than all other keys stored in the max-heap.  Calling HEAP-INCREASE-KEY will float that node to the top of the max-heap.  We then replace the value of the root node with the value of the last element in the heap, known to be smaller than $A[1]$ by the max-heap property.  We update the size of the heap, then call MAX-HEAPIFY to restore the max-heap property.  This has running time $O(\lg n)$ since INCREASE-KEY runs in $O(\lg n)$ and the number of times MAX-HEAPIFY is recursively called is as most the height of the heap, which is $\lfloor \lg n \rfloor$.
 
 \begin{algorithm}
 \caption{HEAP-DELETE(A,i)}
 \begin{algorithmic}[1]
-\State $A[i] = A[A.heap-size]$ 
-\State $A.heap-size = A.heap-size + 1$
-\State MAX-HEAPIFY(A,i)
+\State HEAP-INCREASE-KEY(A, i, $\infty$)
+\State A[1] = A[A.heap-size] 
+\State A.heap-size = A.heap-size - 1
+\State MAX-HEAPIFY(A,1)
 \end{algorithmic}
 \end{algorithm}
 
