@@ -30,7 +30,7 @@
 
 \noindent\textbf{Exercise 18.1-1}\\
 
-If we allow $t=0$, then, since we only know that internal nodes have to have at least $t-1$ keys, it may be the case that some internal nodes represent no keys, a bad situation indeed.\\
+If we allow $t=0$, then, since we only know that internal nodes have to have at least $t-1$ keys, it may be the case that some internal nodes represent no keys. This means that for any given set of keys, we could have arbitrarily large $t=0$ B-Trees representing those keys, a bad situation indeed.\\
 
 \noindent\textbf{Exercise 18.1-2}\\
 
@@ -90,6 +90,9 @@ The maximum number of nodes is achieved when every node has $2t$ children.  In t
 We would get a t=2 B-tree. It would have one, two, or three keys depending on if it has zero, one, or two red children respectively. Suppose that the left child is red, then it's keys becomes the first one, and that red node's children become the first and second children of the new node. Similarly, if it is the right child that is red, that key becomes the last key listed with the new node, and the red nodes children become the second to last and last children of the new node.\\
 
 \noindent\textbf{Exercise 18.2-1}\\
+
+We're going to show more intermediate steps than the problem asks for:
+
 
 \begin{tikzpicture}[level/.style={sibling distance=50mm/#1}]
 \node [circle,draw] (a){F}
@@ -194,301 +197,372 @@ We would get a t=2 B-tree. It would have one, two, or three keys depending on if
 \end{tikzpicture}
 
 \begin{tikzpicture}[level/.style={sibling distance=30mm/#1}]
-\node [circle,draw] (a){FQT}
+\node [circle,draw] (a){Q}
+ child {
+  node [circle,draw] (e){F}
   child {
   node [circle,draw] (b) {C}
   }
   child{
-  node[circle,draw] (c){K}
-  child{
-  node[circle,draw] (e){H}
+  node[circle,draw] (c){HKL}
   }
-  child{
-  node[circle,draw] (f){LM}
-    }
-  }
+}
+child {
+ node [circle,draw] (f){T}
   child {
   node [circle,draw] (i) {S}
   }  child {
   node [circle,draw] (d) {VW}
-  };
+  }
+};
 \end{tikzpicture}
 
-\begin{tikzpicture}[level/.style={sibling distance=30mm/#1}]
-\node [circle,draw] (a){FQT}
+\begin{tikzpicture}[level/.style={sibling distance=40mm/#1}]
+\node [circle,draw] (a){Q}
+ child {
+  node [circle,draw] (e){FK}
   child {
   node [circle,draw] (b) {C}
   }
   child{
-  node[circle,draw] (c){K}
-  child{
-  node[circle,draw] (e){H}
+  node[circle,draw] (c){H}
   }
   child{
-  node[circle,draw] (f){LM}
-    }
+  node[circle,draw] (c){LM}
   }
+}
+child {
+ node [circle,draw] (f){T}
   child {
-  node [circle,draw] (i) {RS}
+  node [circle,draw] (i) {S}
   }  child {
   node [circle,draw] (d) {VW}
-  };
+  }
+};
 \end{tikzpicture}
 
-\begin{tikzpicture}[level/.style={sibling distance=30mm/#1}]
-\node [circle,draw] (a){FQT}
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1/#1}]
+\node [circle,draw] (a){Q}
+ child {
+  node [circle,draw] (e){FK}
   child {
   node [circle,draw] (b) {C}
   }
   child{
-  node[circle,draw] (c){K}
-  child{
-  node[circle,draw] (e){H}
+  node[circle,draw] (c){H}
   }
   child{
-  node[circle,draw] (f){LMN}
-    }
+  node[circle,draw] (c){LM}
   }
+}
+child {
+ node [circle,draw] (f){T}
   child {
   node [circle,draw] (i) {RS}
   }  child {
   node [circle,draw] (d) {VW}
-  };
+  }
+};
 \end{tikzpicture}
 
-\begin{tikzpicture}[level/.style={sibling distance=30mm/#1}]
-\node [circle,draw] (a){FQT}
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1/#1}]
+\node [circle,draw] (a){Q}
+ child {
+  node [circle,draw] (e){FK}
   child {
   node [circle,draw] (b) {C}
   }
   child{
-  node[circle,draw] (c){KM}
-  child{
-  node[circle,draw] (e){H}
+  node[circle,draw] (c){H}
   }
   child{
-  node[circle,draw] (f){L}
-    }
-  child{
-  node[circle,draw] (g){NP}
-    }
-    }
+  node[circle,draw] (c){LMN}
+  }
+}
+child {
+ node [circle,draw] (f){T}
   child {
   node [circle,draw] (i) {RS}
   }  child {
   node [circle,draw] (d) {VW}
-  };
+  }
+};
 \end{tikzpicture}
 
-\begin{tikzpicture}[level/.style={sibling distance=30mm/#1}]
-\node [circle,draw] (a){FQT}
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1/#1}]
+\node [circle,draw,style={sibling distance = 50mm}] (a){Q}
+ child {
+  node [circle,draw] (e){FKM}
+  child {
+  node [circle,draw] (b) {C}
+  }
+  child{
+  node[circle,draw] (c){H}
+  }
+  child{
+  node[circle,draw] (c){L}
+  }
+  child{
+  node[circle,draw] (c){NP}
+  }
+}
+child {
+ node [circle,draw] (f){T}
+  child {
+  node [circle,draw] (i) {RS}
+  }  child {
+  node [circle,draw] (d) {VW}
+  }
+};
+\end{tikzpicture}
+
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1/#1}]
+\node [circle,draw] (a){Q}
+ child {
+  node [circle,draw] (e){FKM}
   child {
   node [circle,draw] (b) {AC}
   }
   child{
-  node[circle,draw] (c){KM}
-  child{
-  node[circle,draw] (e){H}
+  node[circle,draw] (c){H}
   }
   child{
-  node[circle,draw] (f){L}
-    }
+  node[circle,draw] (c){L}
+  }
   child{
-  node[circle,draw] (g){NP}
-    }
-    }
+  node[circle,draw] (c){NP}
+  }
+}
+child {
+ node [circle,draw] (f){T}
   child {
   node [circle,draw] (i) {RS}
   }  child {
   node [circle,draw] (d) {VW}
-  };
+  }
+};
 \end{tikzpicture}
 
-\begin{tikzpicture}[level/.style={sibling distance=30mm/#1}]
-\node [circle,draw] (a){FQT}
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1/#1}]
+\node [circle,draw] (a){Q}
+ child {
+  node [circle,draw] (e){FKM}
   child {
   node [circle,draw] (b) {ABC}
   }
   child{
-  node[circle,draw] (c){KM}
-  child{
-  node[circle,draw] (e){H}
+  node[circle,draw] (c){H}
   }
   child{
-  node[circle,draw] (f){L}
-    }
+  node[circle,draw] (c){L}
+  }
   child{
-  node[circle,draw] (g){NP}
-    }
-    }
+  node[circle,draw] (c){NP}
+  }
+}
+child {
+ node [circle,draw] (f){T}
   child {
   node [circle,draw] (i) {RS}
   }  child {
   node [circle,draw] (d) {VW}
-  };
+  }
+};
 \end{tikzpicture}
 
-\begin{tikzpicture}[level/.style={sibling distance=30mm/#1}]
-\node [circle,draw] (a){FQT}
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1/#1}]
+\node [circle,draw] (a){Q}
+ child {
+  node [circle,draw] (e){FKM}
   child {
   node [circle,draw] (b) {ABC}
   }
   child{
-  node[circle,draw] (c){KM}
-  child{
-  node[circle,draw] (e){H}
+  node[circle,draw] (c){H}
   }
   child{
-  node[circle,draw] (f){L}
-    }
+  node[circle,draw] (c){L}
+  }
   child{
-  node[circle,draw] (g){NP}
-    }
-    }
+  node[circle,draw] (c){NP}
+  }
+}
+child {
+ node [circle,draw] (f){T}
   child {
   node [circle,draw] (i) {RS}
   }  child {
   node [circle,draw] (d) {VWX}
-  };
+  }
+};
 \end{tikzpicture}
 
-\begin{tikzpicture}[level/.style={sibling distance=30mm/#1}]
-\node [circle,draw] (a){FQT}
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1/#1}]
+\node [circle,draw] (a){Q}
+ child {
+  node [circle,draw] (e){FKM}
   child {
   node [circle,draw] (b) {ABC}
   }
   child{
-  node[circle,draw] (c){KM}
-  child{
-  node[circle,draw] (e){H}
+  node[circle,draw] (c){H}
   }
   child{
-  node[circle,draw] (f){L}
-    }
+  node[circle,draw] (c){L}
+  }
   child{
-  node[circle,draw] (g){NP}
-    }
-    }
+  node[circle,draw] (c){NP}
+  }
+}
+child {
+ node [circle,draw] (f){TW}
   child {
   node [circle,draw] (i) {RS}
   }  child {
-  node [circle,draw] (d) {W}
-  child{
-  node [circle,draw] (h) {V}
+  node [circle,draw] (d) {V}
+  }  child {
+  node [circle,draw] (d) {XY}
   }
-  child{
-  node [circle,draw] (i) {XY}  
-  }
-  };
+};
 \end{tikzpicture}
 
-\begin{tikzpicture}[level/.style={sibling distance=30mm/#1}]
-\node [circle,draw] (a){FQT}
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1/#1}]
+\node [circle,draw] (a){KQ}
+ child {
+  node [circle,draw] (b){F}
   child {
-  node [circle,draw] (b) {B}
-  child{
-  node [circle,draw] (j) {A}
-    }
-  child{
-  node [circle,draw] (k) {CD}
-  }
+  node [circle,draw] (c) {ABC}
   }
   child{
-  node[circle,draw] (c){KM}
-  child{
-  node[circle,draw] (e){H}
+  node[circle,draw] (d){H}
   }
+}
+child{
+  node[circle,draw] (e){M}
   child{
   node[circle,draw] (f){L}
-    }
+  }
   child{
   node[circle,draw] (g){NP}
-    }
-    }
+  }
+}
+child {
+ node [circle,draw] (h){TW}
   child {
   node [circle,draw] (i) {RS}
   }  child {
-  node [circle,draw] (d) {W}
-  child{
-  node [circle,draw] (h) {V}
+  node [circle,draw] (j) {V}
+  }  child {
+  node [circle,draw] (k) {XY}
   }
-  child{
-  node [circle,draw] (i) {XY}  
-  }
-  };
+};
 \end{tikzpicture}
 
-\begin{tikzpicture}[level/.style={sibling distance=30mm/#1}]
-\node [circle,draw] (a){FQT}
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1/#1}]
+\node [circle,draw] (a){KQ}
+ child {
+  node [circle,draw] (b){BF}
   child {
-  node [circle,draw] (b) {B}
-  child{
-  node [circle,draw] (j) {A}
-    }
-  child{
-  node [circle,draw] (k) {CD}
+  node [circle,draw] (c) {A}
   }
+  child {
+  node [circle,draw] (l) {CD}
   }
   child{
-  node[circle,draw] (c){KM}
-  child{
-  node[circle,draw] (e){H}
+  node[circle,draw] (d){H}
   }
+}
+child{
+  node[circle,draw] (e){M}
   child{
   node[circle,draw] (f){L}
-    }
+  }
   child{
   node[circle,draw] (g){NP}
-    }
-    }
+  }
+}
+child {
+ node [circle,draw] (h){TW}
   child {
   node [circle,draw] (i) {RS}
   }  child {
-  node [circle,draw] (d) {W}
-  child{
-  node [circle,draw] (h) {V}
+  node [circle,draw] (j) {V}
+  }  child {
+  node [circle,draw] (k) {XY}
   }
-  child{
-  node [circle,draw] (i) {XYZ}  
-  }
-  };
+};
 \end{tikzpicture}
 
-\begin{tikzpicture}[level/.style={sibling distance=33mm/#1}]
-\node [circle,draw] (a){FQT}
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1/#1}]
+\node [circle,draw] (a){KQ}
+ child {
+  node [circle,draw] (b){BF}
   child {
-  node [circle,draw] (b) {B}
-  child{
-  node [circle,draw] (j) {A}
-    }
-  child{
-  node [circle,draw] (k) {CDE}
+  node [circle,draw] (c) {A}
   }
+  child {
+  node [circle,draw] (l) {CD}
   }
   child{
-  node[circle,draw] (c){KM}
-  child{
-  node[circle,draw] (e){H}
+  node[circle,draw] (d){H}
   }
+}
+child{
+  node[circle,draw] (e){M}
   child{
   node[circle,draw] (f){L}
-    }
+  }
   child{
   node[circle,draw] (g){NP}
-    }
-    }
+  }
+}
+child {
+ node [circle,draw] (h){TW}
   child {
   node [circle,draw] (i) {RS}
   }  child {
-  node [circle,draw] (d) {W}
-  child{
-  node [circle,draw] (h) {V}
+  node [circle,draw] (j) {V}
+  }  child {
+  node [circle,draw] (k) {XYZ}
   }
-  child{
-  node [circle,draw] (i) {XYZ}  
-  }
-  };
+};
 \end{tikzpicture}
+
+\begin{tikzpicture}[level/.style={sibling distance=50mm/#1/#1}]
+\node [circle,draw] (a){KQ}
+ child {
+  node [circle,draw] (b){BF}
+  child {
+  node [circle,draw] (c) {A}
+  }
+  child {
+  node [circle,draw] (l) {CDE}
+  }
+  child{
+  node[circle,draw] (d){H}
+  }
+}
+child{
+  node[circle,draw] (e){M}
+  child{
+  node[circle,draw] (f){L}
+  }
+  child{
+  node[circle,draw] (g){NP}
+  }
+}
+child {
+ node [circle,draw] (h){TW}
+  child {
+  node [circle,draw] (i) {RS}
+  }  child {
+  node [circle,draw] (j) {V}
+  }  child {
+  node [circle,draw] (k) {XYZ}
+  }
+};
+\end{tikzpicture}
+
 
 \noindent\textbf{Exercise 18.2-2}\\
 

@@ -259,7 +259,7 @@ At each step, we are increasing the amount we increase by by 1, so, this leads t
 
 \item
 
-To show that this algorithm examines every number, we will show that every number that it examines is distinct. Then, since it examines $m$ numbers total, this will imply that every number is visited. Suppose that we visited the same position on rounds $i$ and $i'$, then,
+To show that this algorithm examines every number, we will show that every number that it examines is distinct. Then, since it examines $m$ numbers total, this will imply that every number is visited. Suppose that we visited the same position on two  distinct rounds $i<i'<m$, then,
 \[
 h(k) + \frac{i+i^2}{2} \equiv h(k) + \frac{i'+i'^2}{2} \mod m
 \]
@@ -273,17 +273,21 @@ So,
 \]
 Rearranging,
 \[
- i - i' \equiv i^2 - i'^2 = (i+i')(i-i') \mod 2m
+i'^2 - i^2 = (i+i')(i'-i) \equiv  i' - i \mod 2m
 \]
-Which would mean,
+So,
 \[
-1 \equiv(i+i') \mod 2m
+(i'-i)(i'+i-1) \equiv 0 \mod 2m
 \]
-However, there are only $m$ rounds, so, we have that
+
+Now, we split into two cases based on whether $i-i'$ is even or odd. If $i'-i$ is odd, then we can cancel it on both sides, because it has no common factor with 2m (because m is a power of 2). This leaves us with 
 \[
-1 = i+i'
+i+i'+1 \equiv 0 \mod 2m
 \]
-Which is not possible because this would only correspond to having the first ($i=0$) and second($i=1$) rounds be probing the same position. This could only happen if $m=1$. and if $m=1$, then we wouldn't even have the second round occur. So, we have our contradiction and so every probe was to a distinct position, meaning every position was probed.
+Since $i<i'$, we have $i+i'+1 \le 2i' < 2m$, so, we must have $i+i'+1 = 0$, a contradiction to our assumption that such $i$ and $i'$ existed.
+
+If we have that $i'-i$ is even, then $i+i'+1$ is odd, so it has no factors in common with 2m. Similarly, this means that we can cancel out that factor to get $i'-i \equiv 0 \mod 2m$. However, we have that $|i'-i| \le i'+i <2i' <2m$. So, we must have $i'-i=0$, a contradiction to how we picked $i$ and $i'$.
+
 \end{enumerate}
 
 \noindent\textbf{Problem 11-4}\\

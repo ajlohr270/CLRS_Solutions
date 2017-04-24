@@ -30,7 +30,14 @@
 
 \noindent\textbf{Exercise C.1-1}\\
 
-Since we consider identical substrings at different locations to be different, we have that this problem is really asking how to pick some collection of $k$ positions inside of string of length $n$. That is $\binom{n}{k}$. The total number of substrings is the sum of the number of substrings of each valid length, which is $\sum_{i=0}^n \binom{n}{k} = 2^n$ by the equation following (C.4).\\
+Since a substring is indexed by a pair of integers $i,j$ such that $1\le i \le j \le n$. Since we want the length of the substring to be $k$, then, $j-i = k-1$. Rearranging this, we can solve for j and plug it into the original set of inequalities to get that we need $1\le i$ and $i \le n-k-1$. So, i can be precicely any of $\{1.. n-k+1\}$. So, there are $n-k+1$ substrings of length k. To get the total number of substrings, we can just add this formula over all $k$. Here we are assuming that a string needs to be nonempty, a point that was left undeclared in the definition given in this section.
+\begin{align*}
+\sum_{k=1}^n n-k+1&= n^2 - \frac{n(n+1)}{2} + n\\
+&= \frac{n(n+1)}{2}\\
+&=  {{n+1}\choose{2}}\\
+\end{align*}
+
+Such a lovely formula deserves a combinatorial explaination instead of just a bunch of algebraic symbol pushing. And it turns out that we don't need to look far. Given a string of length n, and pair of distinct indices in $\{1..n+1\}$, we get a uniques subtring starting at the first index and ending the position before the second index. Put in other words, pairs of these indices are in bijection with substrings. Since there are n indices to begin with, there are ${n+1}\choose{2}$ pairs of indices picked from $\{1..n+1\}$, and so ${n+1}\choose{2}$ substrings. 
 
 \noindent\textbf{Exercise C.1-2}\\
 

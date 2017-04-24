@@ -290,11 +290,11 @@ Let $t(k,n)$ be the time required to $k$-sort arrays of length n. Then, we have 
 \noindent\textbf{Problem 8-7}
 \begin{enumerate}[a.]
 \item
-Since we claim that $A[p]$ is the smallest value placed at a wrong location, everything that has value less than or equal to $A[p]$ is in it's correct spot, and so, cannot be placed where $A[p]$ should of been. This means that $A[q] \ge A[p]$. Also, if we had that $A[q]=A[p]$. Then it wouldn't be an error to have $A[q]$ in the spot that should of had $A[q]$. This gets us $A[q] > A[p]$. Since we are only considering arrays with 0-1 values, this means that we must have $0=A[p]$ and $1=A[q]$.
+Since we claim that $A[p]$ is the smallest value placed at a wrong location, everything that has value less than or equal to $A[p]$ is in it's correct spot, and so, cannot be placed where $A[p]$ should of been. This means that $A[q] \ge A[p]$. Also, if we had that $A[q]=A[p]$. Then it wouldn't be an error to have $A[q]$ in the spot that should of had $A[q]$. This gets us $A[q] > A[p]$ so $1=B[q]$. Since equality puts us in the 0 case, we have $0=B[p]$.
 
 \item
 
-It fails to sort $B$ correctly because there is some position that $A[p]$ was moved to that was greater than where it should of been, this means that $A[q]$ is to the left of it, which shows the array is unsorted.
+Let $p=p_1, \ldots p_k $ be the sequence of positions that the value that started in position $p$ was compared against. Similarly for $q = q_q, \ldots q_k$. Since $B[p]=0$, we have that for each of these comparisons, $B[p]$ will end up in position$
 
 \item
 
