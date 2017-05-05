@@ -213,9 +213,9 @@ T(2^{k+1}) = 2T\left(\frac{2^{k+1}}{2}\right) + 2^{k+1} = 2T\left(2^{k}\right) +
 \noindent\textbf{Exercise 2.3-4}\\
 
 Let $T(n)$ denote the running time for insertion sort called on an array of size $n$.  We can express $T(n)$ recursively as 
-\[ T(n) = \left\{ \begin{array}{l} \Theta(1) \hspace{2cm} \mbox{if } n \leq c \\ T(n-1)I(n) \hspace{.6cm} \mbox{otherwise}\end{array} \right. \]
+\[ T(n) = \left\{ \begin{array}{l} \Theta(1) \hspace{2cm} \mbox{if } n \leq c \\ T(n-1) + I(n) \hspace{.6cm} \mbox{otherwise}\end{array} \right. \]
 
-where $I(n)$ denotes the amount of time it takes to insert $A[n]$ into the sorted array $A[1..n-1]$.  As seen in exercise 2.3-5, $I(n)$ is $\Theta(\log n)$. \\
+where $I(n)$ denotes the amount of time it takes to insert $A[n]$ into the sorted array $A[1..n-1]$.  Since we may have to shift as many as $n-1$ elements once we find the correct place to insert $A[n]$, we have $I(n) = \theta(n)$. \\
 
 
 \noindent\textbf{Exercise 2.3-5} \\

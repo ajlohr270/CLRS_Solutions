@@ -192,16 +192,16 @@ See algorithms TREE-MINIMUM and TREE-MAXIMUM. \\
 
 \noindent\textbf{Exercise 12.2-4}\\
 
-Suppose we search for 10 in this tree.  Then $A = \{9\}$, $B = \{8,10\}$ and $C = \emptyset$, and Professor Bunyan's claim fails since $8 < 9$.
+Suppose we search for 4 in this tree.  Then $A = \{2\}$, $B = \{1,3,4\}$ and $C = \emptyset$, and Professor Bunyan's claim fails since $1 < 2$.
 
 \begin{tikzpicture}[level/.style={sibling distance=75mm/#1}]
-\node [circle,draw] (a){8}
+\node [circle,draw] (a){1}
   child{ node [circle,draw] (e) {NIL}}
   child {
-  node [circle,draw] (b) {10}
-    child {node [circle,draw] (c) {9}
+  node [circle,draw] (b) {3}
+    child {node [circle,draw] (c) {2}
     }
-      child {node [circle,draw] (d) {NIL}
+      child {node [circle,draw] (d) {4}
       }
   };
 \end{tikzpicture}
