@@ -294,15 +294,34 @@ Since we claim that $A[p]$ is the smallest value placed at a wrong location, eve
 
 \item
 
-Let $p=p_1, \ldots p_k $ be the sequence of positions that the value that started in position $p$ was compared against. Similarly for $q = q_q, \ldots q_k$. Since $B[p]=0$, we have that for each of these comparisons, $B[p]$ will end up in position$
+Let $A_i$ be $A$ after the first $i$ operations, and $B_i$ being $B$ after the first $i$ operations. So, $A=A_0$ and $B=B_0$. We are able to maintain the following invariant for all $j$ and $i$
+\[
+A_i[j]> A[p] \Leftrightarrow B_i[j]>0=B[p]\tag{*}
+\]
+Initially (at $i=0$) it is true because we defined those elements larger the $A[p]$ to make a $1$ at the corresponding position in $B$, similarly, those that aren't larger have a $0$ at the corresponding position in $B$. Now, suppose at step $i+1$ that we perform some compare swap operation between positions $j_1$ and $j_2$ with $j_1<j_2$. By induction, it is not possible that $A_i[j_1]\le A_i[j_2]$ while $B_i[j_1] >B_i[j_2]$ because this relation in $B$ would mean that $A_i[j_1] > A[p] \ge A_i[j_2]$, a contradiction to our assumption on $A$. This leaves us with four cases:
+
+Case 1: $A_i[j_1]\le A_i[j_2]$ and $B_i[j_1] \le B_i[j_2]$. Then no swap occurs in either array, that is $A_{i+1} = A_{i}$ and $B_{i+1} = B_i$. Clearly, the desired property continues to hold.
+
+Case 2: $A_i[j_1] > A_i[j_2]$ and $B_i[j_1] \le B_i[j_2]$. Then, a swap will occur in $A$ but not in $B$. We also know that either $A_i[j_1]$ and $A_i[j_2]$ are both larger or both at most $A[p]$. Otherwise we would have $B_i[j_1] \neq B_i[j_2]$, which would mean $0= B_i[j_1]  < B_i[j_2] =1$, which means $A_i[j_1] \le A[p] <A_i[j_2]$, a contradiction to the case that we're in. Suppose we are in the both of $A_i[j_1]$ and $A_i[j_2]$ larger than $A[p]$ case, the both smaller case will be identical except for having the positions in the B array equal to 0 instead of 1. Since both are larger, we have $B_i[j_1] = B_i[j_2]=1$, which means $A_{i+1}[j_2] = A_i[j_1] > A[p]$ and $A_{i+1}[j_2] = A_i[j_1] > A[p]$ check out.
+
+Case 3: $A_i[j_1] > A_i[j_2]$ and $B_i[j_1] > B_i[j_2]$. A swap occurs in both $A$ and $B$. If $j$ is neither $j_1$ nor $j_2$, it is unchanged, so we don't need to consider it. So, for $j_2$ we have 
+\begin{align*}
+A_i[j_1]>A[p] \Leftrightarrow B_i[j_1] &> 0\\
+A_{i+1}[j_2]>A[p] \Leftrightarrow B_{i+1}[j_2] &> 0\\
+\end{align*}
+With the $j_1$ case almost identical. Completing our proof of claim (*).
+
+To put it all together, let $i$ be the total number of operations, and let $j$ be the position that $A[p]$ ends up at, and $k$ be the position that it should of ended up at. We know that $k<j$ because $A[p]$ was the smallest incorrectly sorted element. If it were in a lower position than it should of been it would be taking the spot belonging to a smaller value. If it were in a position that should belong to something with an equal value than it wouldn't be incorrectly sorted.  By definition $A[q] = A_i[k]$, $A[p] = A_i[j]$. By part a, we have $A_i[j] > A[p]$. By the invariant we just proved, $B_i[j]>0$, and $B[k]=0$. Therefore, $B$ is not sorted. 
+
+
 
 \item
 
-All of the even steps in the algorithm do not even look at the values of the cells, they just push them around. The odd steps are also oblivious because we can just use the oblivious compare exchange version of insertion sort givin at the beginning of the problem.
+All of the even steps in the algorithm do not even look at the values of the cells, they just push them around. The odd steps are also oblivious because we can just use the oblivious compare exchange version of insertion sort giving at the beginning of the problem.
 
 \item
 
-After step 1, we know that each column looks like some number of zeroes followed by some number of ones. Suppose that column $i$ had $z_i$ zeroes in it. Then, after the reshaping step, we know that each of the columns will contribute $\lceil z_i / (r/s) \rceil$ zeroes to the first $z_i \mod s$ columns, and one less to the rest. In particular, since the number of zeros contributed to each of the columns after step 2 only has a single jump by one, the sum over each must only change by at most $s$. Then, after sorting, this means that there will only be $s$ dirty rows. 
+After step 1, we know that each column looks like some number of zeros followed by some number of ones. Suppose that column $i$ had $z_i$ zeros in it. Then, after the reshaping step, we know that each of the columns will contribute $\lceil z_i / (r/s) \rceil$ zeros to the first $z_i \mod s$ columns, and one less to the rest. In particular, since the number of zeros contributed to each of the columns after step 2 only has a single jump by one, the sum over each must only change by at most $s$. Then, after sorting, this means that there will only be $s$ dirty rows. 
 
 \item
 

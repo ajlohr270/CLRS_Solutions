@@ -117,6 +117,7 @@ Fix $b \in \mathbb{Z}_p$.  By exercise 31.4-4, $h_b(x)$ collides with $h_b(y)$ f
 \noindent\textbf{ Exercise 11.4-1} \\
 
 This is what the array will look like after each insertion when using linear probing:
+
 $
 \begin{array}{|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
@@ -146,6 +147,14 @@ For quadradic probing, it will look identical until there is a collision on inse
 $
 \begin{array}{|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
+&&&&&&&&&&10\\
+\hline
+22&&&&&&&&&&10\\
+\hline
+22&&&&&&&&&31&10\\
+\hline
+22&&&&4&&&&&31&10\\
+\hline
 22&&&&4&&&&15&31&10\\
 \hline
 22&&&&4&&28&&15&31&10\\
@@ -154,14 +163,36 @@ $
 \hline
 22&&88&17&4&&28&&15&31&10\\
 \hline
-22&&88&17&4&&28&&15&31&10\\
+22&&88&17&4&&28&59&15&31&10\\
 \hline
 \end{array}
 $ 
 
-Note that there is no way to insert the element 59 now, because the offsets coming from $c_1 =1$ and $c_2 =3$ can only be even, and an odd offset would be required to insert 59 because $59 \mod 11 = 4$ and all the empty positions are at odd indices.
+Lastly, for double hashing, we have:
 
-For double hashing, it is the same as linear probing. \\
+$
+\begin{array}{|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+&&&&&&&&&&10\\
+\hline
+22&&&&&&&&&&10\\
+\hline
+22&&&&&&&&&31&10\\
+\hline
+22&&&&4&&&&&31&10\\
+\hline
+22&&&&4&15&&&&31&10\\
+\hline
+22&&&&4&15&28&&&31&10\\
+\hline
+22&&&17&4&15&28&&&31&10\\
+\hline
+22&&&17&4&15&28&88&&31&10\\
+\hline
+22&&59&17&4&15&28&88&&31&10\\
+\hline
+\end{array}
+$ 
 
 \noindent\textbf{Exercise 11.4-2}\\
 
