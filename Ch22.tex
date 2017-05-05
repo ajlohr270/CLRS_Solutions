@@ -42,7 +42,7 @@ The adjacency list representation:
 2&: 1,4,5 \\
 3&: 1,6,7\\
 4&: 2\\
-5&: 5\\
+5&: 2\\
 6&: 3\\
 7&: 3.\\
 \end{align*}
@@ -88,7 +88,7 @@ Each term in this sum is $-1$ if $k$ goes between  $i$ and $j$, or $0$ if it doe
 
 \noindent\textbf{Exercise 22.1-8}\\
 
-The expected loopup time is $O(1)$, but in the worst case it could take $O(V)$. If we first sorted vertices in each adjacency list then we could perform a binary search so that the worst case lookup time is $O(\lg V)$, but this has the disadvantage of having a much worse expected lookup time.  \\
+The expected lookup time is $O(1)$, but in the worst case it could take $O(V)$. If we first sorted vertices in each adjacency list then we could perform a binary search so that the worst case lookup time is $O(\lg V)$, but this has the disadvantage of having a much worse expected lookup time.  \\
 
 \noindent\textbf{Exercise 22.2-1}\\
 
