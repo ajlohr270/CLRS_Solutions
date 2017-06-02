@@ -238,9 +238,13 @@ After the final iteration, the loop invariant says that the subarray $A[2..n]$ c
 
 \noindent\textbf{Exercise 6.4-3}\\
 
-If it's already sorted in increasing order, doing the build max heap-max-heap call on line 1 will take $\Theta(n\lg(n))$ time. There will be $n$ iterations of the for loop, each taking $\Theta(\lg(n))$ time because the element that was at position $i$ was the smallest and so will have $\lfloor \lg(n)\rfloor$ steps when doing max-heapify on line 5. So, it will be $\Theta(n\lg(n))$ time.
+If it's already sorted in increasing order, doing the BUILD-MAX-HEAP call on line 1 will take $\Theta(n\lg(n))$ time. As we call MAX-HEAPIFY(A,i) in BUILD-HEAP, we know that $A[i]$ is larger than all elements to its right. This means that the time it takes will be $\lfloor \lg(n) - \lg(i) \rfloor$. So the total time to build the heap will be 
+\[
+\sum_{i=1}^{i=\lfloor n/2\rfloor} \lg(n) - \lg(i) \in \Theta(n\lg(n))
+\]
+ There will be $n$ iterations of the for loop in HEAPSORT, each taking $\Theta(\lg(n))$ time because the element that was at position $i$ was the smallest and so will have $\lfloor \lg(n)\rfloor$ steps when doing MAX-HEAPIFY on line 5. So, it will be $\Theta(n\lg(n))$ time.
 
-If it's already sorted in decreasing order, then the call on line one will only take $\Theta(n)$ time, since it was already a heap to begin with, but it will still take $n\lg(n)$ peel off the elements from the heap and re-heapify. \\
+If it's already sorted in decreasing order, then the call on line one will only take $\Theta(n)$ time, since it was already a max heap to begin with. This is because elements in earlier positions correspond to begin further up in the heap, and since the array is descending, those have larger values. So, each of the MAX-HEAPIFY calls in the BUILD-MAX-HEAP procedure will only take constant time since the check on line 8 of MAX-HEAPIFY will always be false. It will still take $n\lg(n)$ peel off the elements from the heap and re-heapify. This is because each time we swap the head of the heap with the last element, we now have the smallest element at the head, so it will have to have as many recursive calls of MAX-HEAPIFY as the depth of the heap, which is about $\lg(n)$. \\
 
 \noindent\textbf{Exercise 6.4-4}\\
 

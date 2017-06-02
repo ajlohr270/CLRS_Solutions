@@ -492,7 +492,39 @@ So, we again are having the birthday paradox going on, but, instead of hoping fo
 
 \noindent\textbf{Exercise 31.9-4}\\
 
- %Not done
+ %By Andrew
+Taking the idea suggested in the exercise statement, suppose that we store the product of a batch of B consecutive values of $x_i$. We should also recall that the number of recursive calls that GCD makes is on the order of the log of the smaller of the two numbers. Since we don't have control over what value between 0 and n is taken by $x_i$, we should consider that our product of consecutive terms is larger than $n$. So, we will make $O(\beta)$ many recursive calls. We will compute The $B$ many values of $x_i$ all before computing GCD, or checking against $k$. However, this means that we need to change line Line 11 of POLLARD-RHO to checking ig $i>k$, and setting y equal to $x_k$, which will still be remembered as it has to of been in the last $B$ computed. The part that needs justification is that 
+\[
+\gcd\left( \prod_{k=0}^{B-1} y - x_{i+k} , n\right)
+\]
+will be non-trivial iff one of  $\gcd(y-x_{i+k},n)$ are nontrivial. We need show that for all $a,b$, we have $1<\gcd(ab,n)$ if and only if $1<\gcd(a,n)$ or $1<\gcd(b,n)$. Once we have that then we will be able to easily show what we originally needed by induction. For the ``if" direction, suppose that, without loss of generality, $d = \gcd(a,n)$ and $1<d<n$. This means that $d|n$, and $d|a$, but $a|ab$, so, by 31.1-3, we have $d|ab$. Any divisor is a lower bound for the $\gcd$, so we have that $1<\gcd(ab,n)$. For the ``only if" direction, suppose that we have $\gcd(ab,n) =d>1$. Then, there is some prime number dividing $d$. This prime has to belong to either $a$ or $b$. So, we have a positive divisor for one of $a$ or $b$. Since the prime also divides $n$, we again get a lower bound on either $\gcd(a,n)$ or $\gcd(b,n)$. In picking $B$, we need to balance the cost of computing $\gcd$ more times with the cost of computing it on larger number. Since we want to think of $x_i$ being (pseudo) randomly distributed, the only control we have on the value of $y-x_i$ is that it is at most $n$. This means that the value of $P$ in our algorithm can be as large as $n^B$. There was also some extra cost in multiplying together the values of $x_i$. The fastest we can multiply to $m$ bit numbers is $O(m\lg(m))$, so, to compute $P$, we take up time $\sum_m O(m\lg(m)) = O(Bm\lg(m))$. We would then have to balance this cost against the fact that regardless of $B$, there will be at most $O(\lg(n))$ many recursive calls to compute the $\gcd$. Another consideration, not on runtime, but on space complexity is that we need to store the $b$ most recent values of $x_i$, so that when we try to set $y$ to a new value, the $x_k$ that it is referring to is still stored.
+
+\begin{algorithm}
+\caption{BATCH-POLLARD-RHO(n,B)}
+\begin{algorithmic}
+\State $i=1$
+\State $x_1 = \text{RANDOM}(0,n-1)$
+\State $y=x_1$
+\State $k=B$
+\While{TRUE}
+\State $P = 1$
+\For{$k=1$ to $k=B$}
+\State $x_{i+k} = (x_{i+k-1}^2-1) \mod n$
+\State $P = P \cdot (y- x_{i+k})$
+\EndFor
+\State $i = i+B$
+\State $d = \gcd(P,n)$
+\If{$d\neq 1$ and $d\neq n$}
+\State print $d$
+\EndIf
+\If{$i>=k$}
+\State $y = x_k$
+\State $k = 2k$
+\EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
 
 \noindent\textbf{Problem 31-1}\\
 
@@ -500,7 +532,7 @@ So, we again are having the birthday paradox going on, but, instead of hoping fo
 \item If $a$ and $b$ are both even, then we can write them as $a = 2 (a/2)$ and $b=2(b/2)$ where both factors in each are integers. This means that, by Corollary 31.4, $\gcd(a,b) = 2 \gcd(a/2,b/2)$.
 \item If $a$ is odd, and $b$ is even, then we can write $b = 2 (b/2)$, where $b/2$ is an integer, so, since we know that 2 does not divide $a$, the factor of two that is in $b$ cannot be part of the gcd of the two numbers. This means that we have $\gcd(a,b) = \gcd(a,b/2)$. More formally, suppose that $d= \gcd(a,b)$. Since $d$ is a common divisor, it must divide $a$, and so, it must not have any even factors. This means that it also divides $a$ and $b/2$. This means that $\gcd(a,b) \le \gcd(a,b/2)$. To see the reverse, suppose that $d' = \gcd(a,b/2)$, then it is also a divisor of $a$ and $b$, since we can just double whatever we need to multiply it by to get $b/2$. Since we have inequalities both ways, we have equality.
 \item
-If $a$ and $b$ are both odd, then, first, in analoge to theorem 31.9, we show that $\gcd(a,b) = \gcd(a-b,b)$. Let $d$ and $d'$ be the gcd's on the left and right respectively. Then, we have that there exists $n_1,n_2$ so that $n_1 a + n_2 b = d$, but then, we can rewrite to get $n_1( a- b) + (n_1+n_2)b = d$. This gets us $d \ge d'$. To see the reverse, let $n_1',n_2'$ so that $n_1' (a-b) + n_2' b = d'$. We rewrite to get $n_1' a + (n_2' - n_1') b = d'$, so we have $d'\ge d$. This means that $\gcd(a,b) = \gcd(a-b,b) = \gcd(b,a-b)$. From there, we fall into the case of part b. This is because the first argument is odd, and the second is the difference of two odd numbers, hence is even. This means we can halve the second argument without changing the quantity. So, $\gcd(a,b) = \gcd(b, (a-b)/2) =\gcd((a-b)/2,b)$.
+If $a$ and $b$ are both odd, then, first, in analog to theorem 31.9, we show that $\gcd(a,b) = \gcd(a-b,b)$. Let $d$ and $d'$ be the gcd's on the left and right respectively. Then, we have that there exists $n_1,n_2$ so that $n_1 a + n_2 b = d$, but then, we can rewrite to get $n_1( a- b) + (n_1+n_2)b = d$. This gets us $d \ge d'$. To see the reverse, let $n_1',n_2'$ so that $n_1' (a-b) + n_2' b = d'$. We rewrite to get $n_1' a + (n_2' - n_1') b = d'$, so we have $d'\ge d$. This means that $\gcd(a,b) = \gcd(a-b,b) = \gcd(b,a-b)$. From there, we fall into the case of part b. This is because the first argument is odd, and the second is the difference of two odd numbers, hence is even. This means we can halve the second argument without changing the quantity. So, $\gcd(a,b) = \gcd(b, (a-b)/2) =\gcd((a-b)/2,b)$.
 \item
 See the algorithm BINARY-GCD(a,b)
 

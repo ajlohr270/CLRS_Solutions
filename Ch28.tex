@@ -263,10 +263,7 @@ This is an LUP decomposition of $A$.  To achieve it, we computed two LUP decompo
 
 From problem 28.2-2, we can find a LU-decomposition algorithm that only takes time $O(M(n))$. So, we run that algorithm and multiply together all of the entries along the diagonal of $U$, this will be the determinant of the original matrix.
 
-Now, suppose that we have a determinant algorithm that takes time $D(n)$, we will show that we can find a matrix multiplication algorithm that takes time $O(D(n))$.  By the previous problem, it is enough to show that we can find matrix inverses using at most 3 determinants and an additional $\Theta(n^2)$ work. 
-%notdone
-
-Authors note on the second half of this problem: Typically we strive to complete all the exercises independently as a way of gaining a greater understanding ourselves. For the second half of this problem, this was unfortunately not something that we achieved. After been stuck for several weeks, I asked a number of other graduate students, and even two professors, none were able to help with how the proof went. One did however refer me to the book \underline{Algebraic Complexity Theory} by Burgisser, Claussen, and Shokrollahi. The proof given here for the second half of the exercise was lifted from their section 16.4. This was one of the hardest exercises in the book.
+We have no short answer for the second direction of this problem. Typically we strive to complete all the exercises independently as a way of gaining a greater understanding ourselves. For the second half of this problem, this was unfortunately not something that we achieved. After being stuck for several weeks, I asked a number of other graduate students, and even two professors, none were able to help with how the proof went. One did however refer me to the book \underline{Algebraic Complexity Theory} by Burgisser, Claussen, and Shokrollahi. They have the proof in their section 16.4. This however is not at all self contained and so would be very long to try and include here as a solution. This was the hardest exercise in the book. If you know a good proof of this fact, I would love to hear it, please let me know by emailing ajl213 ``at" math.rutger.edu.
 
 \noindent\textbf{Exercise 28.2-4}\\
 
