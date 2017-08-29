@@ -215,7 +215,7 @@ e^n&\\
   (\sqrt{2})^{\lg(n)}&\\
   2^{\sqrt{2\lg(n)}}&\\
   \lg^2(n)&\\
-  \lg(n)&\\
+  \ln(n)&\\
   \sqrt{\lg(n)}&\\
   \ln(\ln(n))&\\
   2^{\lg^*(n)}&\\
@@ -229,10 +229,33 @@ $
 
 The terms are in decreasing growth rate by row. Functions in the same row are $\Theta$ of each other.
 \item
-
+If we define the function
 \[
-f(n) = \left\{\begin{array}{c c}g_1(n)!& n\mod 2=0 \\0 &n\mod 2 =1\end{array}\right.
+f(n) = \left\{\begin{array}{c c}g_1(n)!& n\mod 2=0 \\ \frac{1}{n} &n\mod 2 =1\end{array}\right.
 \]
+Note that $f(n)$ meets the asymptotically positive that this chapter puts on the functions analyzed.
+
+Then, for even $n$, we have
+\begin{align*}
+\lim_{n\rightarrow\infty} \frac{f(2n)}{g_i(2n)} &\ge \lim_{n\rightarrow\infty} \frac{f(2n)}{g_1(2n)}\\
+&= \lim_{n\rightarrow\infty} (g_1(2n) -1)!\\
+&=\infty
+\end{align*}
+
+And for odd $n$, we have
+
+\begin{align*}
+\lim_{n\rightarrow\infty} \frac{f(2n+1)}{g_i(2n+1)} &\le \lim_{n\rightarrow\infty} \frac{f(2n+1)}{1}\\
+&= \lim_{n\rightarrow\infty}\frac{1}{2n+1}\\
+&=0
+\end{align*}
+
+By looking at the even $n$ we have that $f(n)$ is not $O(g_i(n))$ for any $n$. By looking at the odd $n$, we have that $f(n)$ is not $\Omega(g_i(n))$ for any $n$.
+
+
+
+
+
 \end{enumerate}
 
 \noindent\textbf{Problem 3-4}\\
