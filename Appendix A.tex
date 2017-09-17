@@ -69,15 +69,15 @@ Using formula A.8 we have
 
 First, we'll start with the equation 
 \[
-\sum_{k=0}^\infty y^k = \frac{1}{1-y}
+\sum_{k=1}^\infty y^k = \frac{y}{1-y}
 \]
 So long as $|y|<1$. Then, we'll let $y = x^2$ to get 
 \begin{align*}
-\sum_{k=0}^\infty (x^2)^k &= \frac{1}{1-x^2}\\
-\sum_{k=0}^\infty xx^{2k} &= \frac{x}{1-x^2}\\
-\sum_{k=0}^\infty x^{2k+1} &= \frac{x}{1-x^2}\\
-\sum_{k=0}^\infty (2k+1) x^{2k} &= \frac{(1-x^2) +2 x^2 }{(1-x^2)^2}\\
-\sum_{k=0}^\infty (2k+1) x^{2k} &= \frac{1 +x^2 }{(1-x^2)^2}
+\sum_{k=1}^\infty (x^2)^k &= \frac{x^2}{1-x^2}\\
+\sum_{k=1}^\infty xx^{2k} &= \frac{x^3}{1-x^2}\\
+\sum_{k=1}^\infty x^{2k+1} &= \frac{x^3}{1-x^2}\\
+\sum_{k=1}^\infty (2k+1) x^{2k} &= \frac{3x^2(1-x^2) +2 x^4 }{(1-x^2)^2}\\
+\sum_{k=1}^\infty (2k+1) x^{2k} &= \frac{3x^2 - x^4 }{(1-x^2)^2}
 \end{align*}
 so long as $|x|<1$.\\
 
