@@ -109,7 +109,7 @@ We analyze the expected run time because it represents the more typical time cos
 
 \noindent\textbf{Exercise 7.3-2}\\
 
-In the worst case, RANDOM returns the index of the largest element each time it's called, so $\Theta(n)$ calls are made.  In the best case, RANDOM returns the index of the element in the middle of the array and the array has distinct elements, so $\Theta(\lg n)$ calls are made. \\
+In either case, $\Theta(n)$ calls are made to RANDOM.  PARTITION will run faster in the best case because the inputs will generally be smaller, but RANDOM is called every single time RANDOMIZED-PARTITION is called, which happens $\Theta(n)$ times. \\
 
 \noindent\textbf{Exercise 7.4-1}\\
 

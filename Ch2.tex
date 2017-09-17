@@ -90,15 +90,15 @@ On each iteration of the loop body, the invariant upon entering is that there is
 \caption{Adding $n$-bit Binary Integers}
 \begin{algorithmic}[1]
 \State carry = 0
-\For{i=1 to n}
-	\State $C[i] = (A[i] + B[i] + carry)$ (mod 2)
+\For{i=n to 1}
+	\State $C[i+1] = (A[i] + B[i] + carry)$ (mod 2)
 	\If{$A[i] + B[i] + carry \geq 2$}
 		\State carry = 1
 	\Else
 	\State carry = 0
 	\EndIf
 \EndFor
-\State C[n+1] = carry
+\State C[1] = carry
 \end{algorithmic}
 \end{algorithm}
 
