@@ -161,7 +161,10 @@ By a similar analysis to the binary counter (just look at the problem in a mirro
 \begin{enumerate}[a.]
 \item We linearly go through the lists and binary search each one since we don't know the relationship between one list an another.  In the worst case, every list is actually used.  Since list $i$ has length $2^i$ and it's sorted, we can search it in $O(i)$ time.  Since $i$ varies from 0 to $O(\lg n)$, the runtime of SEARCH is $O((\lg n)^2)$. \\
 
-\item To insert, suppose we must change the first $m$ 1's in a row to 0's, followed by changing a 0 to a 1 in the binary representation of $n$.  Then we must combine lists $A_0, A_1, \ldots, A_{m-1}$ into list $A_m$, then insert the new item into list $A_m$.  Since merging two sorted lists can be done linearly in the total length of the lists, the time this takes is $O(2^m)$.  In the worst case, this takes time $O(n)$ since $m$ could equal $k$.  However, since there are a total of $2^m$ items the amortized cost per item is $O(1)$. \\
+\item To insert, we put the new element into $A_0$ and update the lists accordingly.  In the worst case, we must combine lists $A_0, A_1, \ldots, A_{m-1}$ into list $A_m$.  Since merging two sorted lists can be done linearly in the total length of the lists, the time this takes is $O(2^m)$.  In the worst case, this takes time $O(n)$ since $m$ could equal $k$. \\
+
+ We'll use the accounting method to analyse the amoritized cost.  Assign a cost of $\lg(n)$ to each insertion.  Thus, each item carries $\lg(n)$ credit to pay for its later merges as additional items are inserted.  Since an individual item can only be merged into a larger list and there are only $\lg(n)$ lists, the credit pays for all future costs the item might incur.  Thus, the amortized cost is $O(\lg(n))$. \\
+
 
 \item Find the smallest $m$ such that $n_m \neq 0$ in the binary representation of $n$.  If the item to be deleted is not in list $A_m$, remove it from its list and swap in an item from $A_m$, arbitrarily.  This can be done in $O(\lg n)$ time since we may need to search list $A_k$ to find the element to be deleted.  Now simply break list $A_m$ into lists $A_0, A_1, \ldots, A_{m-1}$ by index.  Since the lists are already sorted, the runtime comes entirely from making the splits, which takes $O(m)$ time.  In the worst case, this is $O(\lg n)$. \\
 \end{enumerate}

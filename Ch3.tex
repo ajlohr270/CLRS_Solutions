@@ -264,7 +264,7 @@ By looking at the even $n$ we have that $f(n)$ is not $O(g_i(n))$ for any $n$. B
 
 \item False.  Counterexample: $n + n^2 \neq \Theta(n)$. \\
 
-\item True.  Since $f(n) = O(g(n))$ there exist $c$ and $n_0$ such that $n \geq n_0$ implies $f(n) \leq cg(n)$ and $f(n) \geq 1$.  This means that $\log(f(n)) \leq \log(cg(n)) = \log(c) + \log(g(n))$.  Note that the inequality is preserved after taking logs because $f(n) \geq 1$.  Now we need to find $d$ such that $f(n) \leq d\log(g(n))$.  It will suffice to make $\log(c) + \log(g(n)) \leq d\log(g(n))$, which is achieved by taking $d = \log(c) + 1$, since $\log(g(n)) \geq 1$.\\
+\item True.  Since $f(n) = O(g(n))$ there exist $c$ and $n_0$ such that $n \geq n_0$ implies $f(n) \leq cg(n)$ and $f(n) \geq 1$.  This means that $\log(f(n)) \leq \log(cg(n)) = \log(c) + \log(g(n))$.  Note that the inequality is preserved after taking logs because $f(n) \geq 1$.  Now we need to find $d$ such that $\log(f(n)) \leq d\log(g(n))$.  It will suffice to make $\log(c) + \log(g(n)) \leq d\log(g(n))$, which is achieved by taking $d = \log(c) + 1$, since $\log(g(n)) \geq 1$.\\
 
 \item False.  Counterexample: $2n = O(n)$ but $2^{2n} \neq 2^{n}$ as shown in exercise 3.1-4. \\
 
