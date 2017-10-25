@@ -134,10 +134,36 @@ The loop invariant of selection sort is as follows:  At each iteration of the fo
 
 \noindent\textbf{ Exercise 2.2-3}\\
 
-Suppose that every entry has probability $p$ of being the element looked for. Then, we will only check $k$ elements if the previous $k-1$ positions were not the element being looked for, and the $k$th position is the desired value. Taking the expected value of this distribution we get it to be
+Suppose that every entry has probability $p$ of being the element looked for. Then, we will only check $k$ elements if the previous $k-1$ positions were not the element being looked for, and the $k$th position is the desired value. This means that the probabilty that the number of steps taken is $k$ is $p(1-p)^k$. The last possibility is that none of the elements in the array match what we are looking for, in which case we look at all $A.length$ many positions, and it happens with probability $(1-p)$.
+
+By multiplying the number of steps in each case by the probability that that case happens, we get the expected value of:
 \[
-(1-p)^{A.length} + \sum_{k=1}^{A.length} k(1-p)^{k-1}p^k
+\mathbf{E}(steps) = A.length(1-p)^{A.length} + \sum_{k=1}^{A.length} k(1-p)^{k-1}p
 \]
+
+The worst case is obviously if you have to check all of the possible positions, in which case, it will take exactly $A.length$ steps, so it is $\Theta(A.length)$.
+
+Now, we analyze the asyptotic behavior of the average-case. Consider the following manipulations, where first, we rewrite the single summation as a double summation, and then use the geometric sum formula twice.
+
+\begin{align*}
+\mathbf{E}(steps) &= A.length(1-p)^{A.length} + \sum_{k=1}^{A.length} k(1-p)^{k-1}p\\
+&= A.length(1-p)^{A.length} + \sum_{s=1}^{A.length} \sum_{k=s}^{A.length} (1-p)^{k-1} p\\
+&= A.length(1-p)^{A.length} + \sum_{s=1}^{A.length} p \sum_{k=s}^{A.length} (1-p)^{k-1} \\
+&= A.length(1-p)^{A.length} + \sum_{s=1}^{A.length} p \frac{(1-p)^{s-1} - (1-p)^{A.length}}{1-(1-p)} \\
+&= A.length(1-p)^{A.length} + \sum_{s=1}^{A.length} (1-p)^{s-1} - (1-p)^{A.length} \\
+&= A.length(1-p)^{A.length} + \sum_{s=1}^{A.length} (1-p)^{s-1} - \sum_{s=1}^{A.length}(1-p)^{A.length} \\
+&= \sum_{s=1}^{A.length} (1-p)^{s-1} \\
+&= \frac{1 - (1-p)^{A.length}}{1-(1-p)} \\
+&= \frac{1}{p} - \frac{(1-p)^{A.length}}{p}\\
+\end{align*}
+
+Since $\frac{(1-p)^{A.length}}{p}>0$, we have that $\mathbf{E}(steps) < \frac{1}{p}$. Also, since $A.length\ge1$, we have 
+\[
+\mathbf{E}(steps) > \frac{1}{p} - \frac{1-p}{p} = 1
+\]
+
+Therefore, since we have bounded above and below by a constant, we get the somewhat unintuitive result that the expected runtime as a function of $A.length$, where $p$ is held constant is $\Theta(1)$.\\
+
 
 \noindent\textbf{Exercise 2.2-4}\\
 
