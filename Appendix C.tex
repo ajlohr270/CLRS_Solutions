@@ -402,17 +402,74 @@ Consider having the underlying state space be $n$ copies of the unit interval. T
 
 \noindent\textbf{Exercise C.5-1}\\
 
-The probability that you obtain no head when flipping $n$ times is just $2^{-n}$, straight from the definition of the binomial distribution. We can use corollary C.3 and equation C.5 to obtain a bound on the probability that fewer than $n$ heads are obtained when flipping $4n$ times. 
+Which one is less likely depends on the value of $n$.
+
+The probability that you obtain no head when flipping $n$ times is just $2^{-n}$, straight from the definition of the binomial distribution. 
+
+The probability $P$ that we will have fewer than $n$ heads from $4n$ flips is exactly
+ 
+\[
+P = \Pr\{X < n\} = \sum_{k=0}^{k=n-1} b(k,4n,1/2) = 2^{-4n}\sum_{k=0}^{k=n-1} \binom{4n}{k}
+\]
+In particular, since all the terms in the sum are positive, the probability is at least the value of the largest term, so
 
 \begin{align*}
-\Pr\{X \le n\} &\le \binom{4n}{4n-n}2^{n-4n}\\
-& = \binom{4n}{3n}2^{-3n}\\
-& \le \left(\frac{e4n}{3n}\right)^{3n} 2^{-3n}\\
-& = \left(\frac{8e}{3}\right)^{-3n} \\
-& \le (308)^{-n}
+P \ge \binom{4n}{n-1} 2^{-4n}\\
 \end{align*}
 
-Since this is smaller than $2^{-n}$, we have that the probability of getting no heads with $n$ tosses is higher than getting at most $n$ heads after making $4n$ tosses.\\
+So, if we can just show that the quantity $\binom{4n}{n-1} 2^{-3n} >1$, then we have that $P$ is greater than the probability that we have no head when flipping $n$ times.
+
+This is in fact not true in general, but we will show it is true for $n\ge 20$. We can then show by explicit computation what happens for $n=1\ldots 19$. As in inductive step, we can confirm that $\binom{80}{19} 2^{-60} \approx 1.005 > 1$.
+
+Now, suppose that we have $\binom{4n}{n-1} 2^{-3n} >1$.
+
+\begin{align*}
+\binom{4n+4}{n} 2^{-3n-3} &= \frac{(4n+4)!}{8(n)!(3n+4)!} 2^{-3n}\\
+&=\frac{(4n+4)(4n+3)(4n+2)(4n+1)}{8n(3n+4)(3n+3)(3n+2)}\frac{(4n)!}{(n-1)!((3n+1)!}2^{-3n}\\
+&=\frac{(4n+4)(4n+3)(4n+2)(4n+1)}{8n(3n+4)(3n+3)(3n+2)} \binom{4n}{n-1} 2^{-3n}\\
+&> \frac{(4n+4)(4n+3)(4n+2)(4n+1)}{8n(3n+4)(3n+3)(3n+2)}\\
+&= \frac{32}{27} \frac{(n+1)(n+3/4)(n+1/2)(n+1/4)}{8n(n+4/3)(n+1)(n+2/3)}
+\end{align*}
+Using elementary calculus, we can see that the limit of this rational expression in $n$ is equal to $\frac{32}{27}$, so, there is some $n$ so that for all $n$ past there, it will be greater than $1$, so, we will have $ \binom{4n+4}{n} 2^{-3n-3}>1$. 
+
+More concretely, we can show that the rational function is an increasing function on $n$ for $n>0$ by taking it's derivative:
+
+\[
+\frac{-24 - 108 n - 93 n^2 + 116 n^3 + 144 n^4}{3 n^2 (2 + 3 n)^2 (4 + 3 n)^2}
+\]
+ and noticing it is positive for $n\ge 1$ because the numerator has real roots at $\approx -.368$ and $\approx .937$ and end behavor of $+\infty$ as $n\rightarrow \infty$. Then, since $n=3$ causes the original rational expression to be $\frac{35}{33}$, we have that it is greater than $1$ for all $n\ge 3$. Since we are only considering $n\ge 20$ here, we definitly have that the expression is $>1$.
+
+Lastly, we turn our attention to the finitely many values of $n$ that we left out before. Since we only need to consider $n=1\ldots 19$, we can just perform the explicit computation for $P$ as $ \sum_{k=0}^{k=n-1} b(k,4n,1/2)$ at each value of $n$ and compare it to $2^{-n}$.
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+n&P&$2^{-n}$\\
+\hline
+1&1/16& 1/2\\
+2&9/256& 1/4\\
+3&79/4096& 1/8\\
+4&697/65536& 1/16\\
+5&1549/262144& 1/32\\
+6&55455/16777216& 1/64\\
+7&249589/134217728& 1/128\\
+8&4514873/4294967296& 1/256\\
+9&10249879/17179869184& 1/512\\
+10&93396401/274877906944& 1/1024\\
+11&3414035527/17592186044416& 1/2048\\
+12&31278197839/281474976710656& 1/4096\\
+13&71797952431/1125899906842624& 1/8192\\
+14&1321035185597/36028797018963968& 1/16384\\
+15&6086999773681/288230376151711744& 1/32768\\
+16&224723513577529/18446744073709551616& 1/65536\\
+17&519244699305955/73786976294838206464& 1/131072\\
+18&4805026093205835/1180591620717411303424& 1/262144\\
+19&44515314355630363/18889465931478580854784& 1/524288\\
+\hline
+\end{tabular}
+\end{center}
+
+We can stop the table here since our inductive proof that $P$ was larger was starting at a base case of $n=20$. So, by looking at the numerical values in the table, we can see that if $n<18$, then it is more unlikely that you have fewer than $n$ heads out of $4n$ flips and if $n\ge 18$, then it more unlikely to have no heads after flipping n times.\\
 
 \noindent\textbf{Exercise C.5-2}\\
 
