@@ -162,9 +162,9 @@ Since $\frac{(1-p)^{A.length}}{p}>0$, we have that $\mathbf{E}(steps) < \frac{1}
 \mathbf{E}(steps) > \frac{1}{p} - \frac{1-p}{p} = 1
 \]
 
-Therefore, since we have bounded above and below by a constant, we get the somewhat unintuitive result that the expected runtime as a function of $A.length$, where $p$ is held constant is $\Theta(1)$.\\
+Therefore, since we have bounded above and below by a constant, we get the somewhat unintuitive result that the expected runtime as a function of $A.length$, where $p$ is held constant is $\Theta(1)$.
 
-A different way of interpreting this statement of this question is that there is exactly one element in the array that is the one you are looking for, and then each position is equally likely to be the one containing that element. In this case, the worst case behavior is unchanged, and the expected runtime is $\sum_{i=1}^{A.length} \frac{i}{A.length} = \frac{A.length+1}{2}$. This makes the asymptotics for the expected case $\Theta(A.length)$. 
+A different way of interpreting this statement of this question is that there is exactly one element in the array that is the one you are looking for, and then each position is equally likely to be the one containing that element. In this case, the worst case behavior is unchanged, and the expected runtime is $\sum_{i=1}^{A.length} \frac{i}{A.length} = \frac{A.length+1}{2}$. This makes the asymptotics for the expected case $\Theta(A.length)$. \\
 
 
 \noindent\textbf{Exercise 2.2-4}\\
