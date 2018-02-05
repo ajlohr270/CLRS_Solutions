@@ -172,13 +172,9 @@ Let $c_1, \ldots, c_m$ be the columns of $T$.  Suppose $C = \{c_{i_1}, \ldots, c
 
 \noindent\textbf{Exercise 16.4-3}\\
 
-Condition one of being a matroid is still satisfied because the base set hasn't changed. Next we show that $\mathcal{I}'$ is nonempty. Let $A$ be any maximal element of $\mathcal{I}$ then, we have that $S - A \in \mathcal{I}'$ because $S - (S-A) = A\subseteq A$ which is maximal in $\mathcal{I}$. Next we show the hereditary property, suppose that $B \subseteq A \in \mathcal{I}'$, then, there exists some $A'\in\mathcal{I}$ so that $S - A \subseteq A'$, however, $S-B \supseteq S-A \subseteq A'$ so $B\in \mathcal{I}'$.
+Condition one of being a matroid is still satisfied because the base set hasn't changed. Next we show that $\mathcal{I}'$ is nonempty. Let $A$ be any maximal element of $\mathcal{I}$ then, we have that $S - A \in \mathcal{I}'$ because $S - (S-A) = A\supseteq A$ and $\mathcal{I}$ is hereditary. Next we show the hereditary property of $\mathcal{I}'$, suppose that $B \subseteq A \in \mathcal{I}'$, then, there exists some maximal $A'\in\mathcal{I}$ so that $S - A \supseteq A'$, However, $S-B \supseteq S-A \supseteq A'$, so $B\in \mathcal{I}'$.
 
-Lastly we prove the exchange property. That is, if we have $B,A \in \mathcal{I}'$ and $|B|<|A|$ we can find an element $x$ in $A-B$ to add to $B$ so that it stays independent. We will split into two cases. 
-
-Our first case is that $|A| = |B|+1$. We clearly need to select $x$ to be the single element in $A-B$. Since $S-B$ contains a maximal independent set
-
-Our second case is if the first case does not hold. Let $C$ be a maximal independent set of $\mathcal{I}$ contained in $S-A$. Pick an aribitrary set of size $|C|-1$ from some maximal independent set contained in $S-B$, call it $D$. Since $D$ is a subset of a maximal independent set, it is also independent, and so, by the exchange property, there is some $y\in C-D$ so that $D\cup\{y\}$ is a maximal independent set in $\mathcal{I}$. Then, we select $x$ to be any element other than $y$ in $A-B$. Then, $S - (B\cup\{x\})$ will still contain $D\cup\{y\}$. This means that $B\cup \{x\}$ is independent in $\mathcal(I)'$\\
+Lastly we prove the exchange property. That is, if we have $B,A \in \mathcal{I}'$ and $|B|<|A|$ we can find an element $x$ in $A-B$ to add to $B$ so that it stays independent. Let $A'$ be a maximal independent set of $\mathcal{I}$ contained in $S-A$ and Let $B'$ be a maximal independent set of $\mathcal{I}$ contained in $S-B$. Since $A'$ and $B'$ are maximal in $\mathcal{I}$, we must have that $|A'|=|B'|$ by theorem 16.6. Since $|A'| \le |S-A| < |S-B|$, this means that $|S-B| > |B'|$. So, we can pick some $x \in (S-B) -B'$. Then, we will still have that $B'\subseteq S-(B\cup\{x\})$. Restating this, we have extended $B$ by a single element $x$ without loosing that its complement contained $B'$, hence, $B\cup\{x\}$ is an independent set of $\mathcal{I}'$. 	
 
 \noindent\textbf{Exercise 16.4-4}\\
 

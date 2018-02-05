@@ -569,8 +569,10 @@ T(b^m) &= aT(b^m/b) + f(b^m) \\
 &\leq a(a^{m-1} \lg^{k+1}(b^{m-1}) - da^{m-1}\lg^k b^{m-1}) + c_1 a^m\lg^k (b^m) \\
 &= \leq a^m \lg^{k+1}(b^{m-1}) - da^m\lg^k b^{m-1} + c_1 a^m\lg^k (b^m) \\
 &= \leq a^m [\lg(b^m) - \lg b]^{k+1} -  da^m[\lg b^m - \lg b]^k + c_1 a^m\lg^k (b^m)\\
-&= a^m\lg^{k+1}(b^m) -  da^md\lg^k b^m -a^m \left(d \sum_{r=0}^{k-1}{k \choose r}\lg^r(b^m)(-\lg b)^{k-r} + \sum_{r = 0}^k {k+1 \choose r} \lg^r(b^m)(-\lg(b))^{k+1-r}  + c_1 \lg^k (b^m)\right) \\
-&=  a^m\lg^{k+1}(b^m) -  da^m\lg^k b^m - a^m\left((c_1 - k\lg b)\lg^k(b^m) + \sum_{r = 0}^{k-1} {k+1 \choose r} \lg^r(b^m)(-\lg(b))^{k+1-r} + d \sum_{r=0}^{k-1}{k \choose r}\lg^r(b^m)(-\lg b)^{k-r}\right) \\
+&= a^m\lg^{k+1}(b^m) -  da^md\lg^k b^m \\
+&\ldots -a^m \left(d \sum_{r=0}^{k-1}{k \choose r}\lg^r(b^m)(-\lg b)^{k-r} + \sum_{r = 0}^k {k+1 \choose r} \lg^r(b^m)(-\lg(b))^{k+1-r}  + c_1 \lg^k (b^m)\right) \\
+&=  a^m\lg^{k+1}(b^m) -  da^m\lg^k b^m \\
+&\ldots- a^m\left((c_1 - k\lg b)\lg^k(b^m) + \sum_{r = 0}^{k-1} {k+1 \choose r} \lg^r(b^m)(-\lg(b))^{k+1-r} + d \sum_{r=0}^{k-1}{k \choose r}\lg^r(b^m)(-\lg b)^{k-r}\right) \\
 & \leq a^m\lg^{k+1}(b^m) -  da^m\lg^k b^m
 \end{align*}
 for $c_1 \geq k \lg b$.  Thus $T(n) = O(n^{\log_b a}\lg^{k+1}n)$.  A similar analysis shows $T(n) = \Omega(n^{\log_b a}\lg^{k+1}n)$.\\

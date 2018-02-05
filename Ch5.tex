@@ -193,7 +193,7 @@ We can compute "likely" in two ways.  The probability that at least three people
 
 Next we compute the probability that exactly $i$ pairs of people share a birthday.  There are ${k \choose 2}{k-2 \choose 2} \cdots {k-2i+2 \choose 2}$ ways to choose an ordered collection of $i$ pairs from the $k$ people, ${n \choose i}$ ways to select the set of birthdays the pairs will share, and the probability that any such ordered subset has these precise birthdays is $(1/n^2)^i$.  Multiplying by the probability that the rest of the birthdays are different and unique we have
 \begin{align*}
- P(\mbox{exactly $i$ pairs of people share birthdays}) &= \frac{{k \choose 2}{k-2 \choose 2} \cdots {k-2i+2 \choose 2}{n \choose i}}{n^{2i}} \left(\frac{n-i}{n}\right)\left(\frac{n-i-1}{n}\right) \cdots \left(\frac{n-k+i+1}{n}\right)\\
+ P(\mbox{exactly $i$ pairs of people same}) &= \frac{{k \choose 2}{k-2 \choose 2} \cdots {k-2i+2 \choose 2}{n \choose i}}{n^{2i}} \left(\frac{n-i}{n}\right)\left(\frac{n-i-1}{n}\right) \cdots \left(\frac{n-k+i+1}{n}\right)\\
 &\leq \frac{k! {n \choose i}}{2^i (k-2i)! n^{2i}}\left(1 - \frac{i}{n} \right)\left(1 - \frac{i+1}{n} \right) \cdots \left(1 - \frac{k-i-1}{n}\right) \\
 &\leq \frac{k! {n \choose i}}{2^i (k-2i)! n^{2i}} e^{-(k-1)(k-2i-1)/2n}
 \end{align*}
