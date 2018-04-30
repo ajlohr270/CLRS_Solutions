@@ -682,7 +682,8 @@ The algorithm B-TREE-DELETE$(x,k)$ is a recursive procedure which deletes key $k
 		\STATE B-TREE-DELETE$(x.c_i, k')$
 		\STATE Return
 	\STATE DISK-READ$(x.c_{i+1})$
-	\ElsIf{$x.c_{i+1}.n \geq t$}
+	\ENDIF
+	\IF{$x.c_{i+1}.n \geq t$}
 		\STATE $k' = SUCC(k,x.c_i)$
 		\STATE $x.key_i = k'$
 		\STATE DISK-WRITE$(x)$

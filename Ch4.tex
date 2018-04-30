@@ -284,16 +284,21 @@ $T(n) = T((n+1)/2) + T((n-1)/2) + \Theta(n)$. However, shifting the argument in 
 
 \noindent\textbf{Exercise 4.3-6}\\
 
-Choose $n_1$ such that $n \geq n_1$ implies $n/2 + 17 \leq 3n/4$.  We'll find $c$ and $d$ such that $T(n) \leq cn\log n - d$.
+Choose $n_1$ such that $n \geq n_1$ implies $n/2 + 17 \leq 3n/4$.  We'll find $c$ such that $T(n) \leq cn\log n$.
 \begin{align*}
 T(n) &= 2T(\lfloor n/2 \rfloor + 17) + n \\
-&\leq 2(c(n/2 + 17)\log(n/2 + 17) - d) + n \\
-&\leq cn\log(n/2 + 17) + 17c\log(n/2 + 17) - 2d + n \\
-&\leq cn\log(3n/4) + 17c\log(3n/4) - 2d + n\\
-&= cn\log n - d +cn\log(3/4) + 17c\log(3n/4) - d + n.
+&\leq 2(c(n/2 + 17)\log(n/2 + 17)) + n \\
+&\leq cn\log(n/2 + 17) + 34c\log(n/2 + 17)+ n \\
+&\leq cn\log(3n/4) + 34c\log(3n/4) + n\\
+&= cn\log n +cn\log(3/4) + 34c\log(3n/4) + n.
 \end{align*}
 
-Take $c = -2/\log(3/4)$ and $d =34$.  Then we have $T(n) \leq cn\log n - d + 17c\log(n) - n$.  Since $\log(n) = o(n)$, there exists $n_2$ such that $n \geq n_2$ implies $n \geq 17c\log(n)$.  Letting $n_0 = \max\{n_1, n_2\}$ we have that $n \geq n_0$ implies $T(n) \leq cn\log n - d$.  Therefore $T(n) = O(n \log n)$. \\
+Take $c = -2/\log(3/4)$.  Then we have 
+\begin{align*}
+T(n) & \leq cn\log n +cn\log(3/4) + 34c\log(3n/4) + n \\
+&= cn\log n -n - 68 + 34c\log(n).
+\end{align*}
+Since $\log(n) = o(n)$, there exists $n_2$ such that $n \geq n_2$ implies $n \geq 34c\log(n)$.  Letting $n_0 = \max\{n_1, n_2\}$ we have that $n \geq n_0$ implies $T(n) \leq cn\log n $.  Therefore $T(n) = O(n \log n)$. \\
 
 \noindent\textbf{Exercise 4.3-7}\\
 
