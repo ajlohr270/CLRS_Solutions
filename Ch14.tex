@@ -159,26 +159,11 @@ Change the weak inequality on line 3 to be strict. \\
 
 \noindent\textbf{ Exercise 14.3-3} \\
 
-Consider the usual interval search given, but, instead of breaking out of the loop asa soon as we have an overlap, we just keep track of the most recently seen overlap, and keep going in the loop until we hit $T.nil$. We then return the most recently seen overlap. We have that this is the overlapping interval with minimum left end point because the search always goes to the left it contains an overlapping interval, and the left children are the ones with smaller left endpoint.\\
+Consider the usual interval search given, but, instead of breaking out of the loop as soon as we have an overlap, we just keep track of the most recently seen overlap, and keep going in the loop until we hit $T.nil$. We then return the most recently seen overlap. We have that this is the overlapping interval with minimum left end point because the search always goes to the left it contains an overlapping interval, and the left children are the ones with smaller left endpoint.\\
 
 \noindent\textbf{Exercise 14.3-4}\\
 
-\begin{algorithm}
-\caption{INTERVAL(T,i)}
-\begin{algorithmic}
-\If{$T.root$ overlaps $i$}
-	\State Print $T.root$
-\EndIf
-\If{$T.root.left \neq T.nil$ and $T.root.left.max \geq i.low$}
-	\State INTERVAL(T.root.left,i)
-\EndIf
-\If{$T.root.right \neq T.nil$ and $T.root.right.max \geq i.low$ and $T.root.right.key \leq i.high$}
-	\State INTERVAL(T.root.right,i)
-\EndIf
-\end{algorithmic}
-\end{algorithm}
-
-The algorithm examines each node at most twice and performs constant time checks so the runtime cannot exceed $O(n)$.  If a recursive call is made on a branch of the tree, then that branch must contain an overlapping interval, so the runtime also cannot exceed $O(k\lg n)$ since the height is at most $n$ and there are $k$ intervals in the output list.\\
+Simply continue to run SEARCH to locate an overlapping interval, print it, then delete that interval.  Each run takes $O(\lg n)$ to find an delete an overlapping interval so the total runtime is at most $O(k \lg n)$. If we have already found $\theta(n/\lg n)$ overlapping intervals then we stop deleting and simply search the remainig tree, checking each node, in $O(n)$ time.  Thus, the total runtime is $O(\min(n, k\lg n))$.\\
 
 \noindent\textbf{ Exercise 14.3-5} \\
 
