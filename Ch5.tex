@@ -83,8 +83,12 @@ You will hire exactly $n$ times if the candidates are presented in increasing or
 
 \noindent\textbf{Exercise 5.2-2}\\
 
-Since the first candidate is always hired, we need to compute the probability that that exactly one additional candidate is hired.  Since we view the candidate ranking as reading an random permutation, this is equivalent to the probability that a random permutation is a decreasing sequence followed by an increase, followed by another decreasing sequence.  Such a permutation can be thought of as a partition of $[n]$ into 2 parts.  One of size $k$ and the other of size $n-k$, where $1 \leq k \leq n-1$.  For each such partition, we obtain a permutation with a single increase by ordering the numbers each partition in decreasing order, then concatenating these sequences.  The only thing that can go wrong is if the numbers $n$ through $n - k + 1$ are in the first partition.  Thus there are ${n \choose k} - 1$ permutations which correspond to hiring the second and final person on step $k+1$.  Summing, we see that the probability you hire exactly twice is
-\[ \frac{\sum_{k=1}^{n-1} {n \choose k} - 1}{n!} = \frac{2^n - 2 - (n-1)}{n!} = \frac{2^n - n - 1}{n!}.\]
+Since the first candidate is always hired, we need to compute the probability that that exactly one additional candidate is hired.  Suppose the $k+1^{st}$ candidate is the second one hired.  This happens when the best of the first $k$ candidates appears in position 1 and the best of the last $n-k$ candidates appears in position $k$.  In fact, it must be the case that the $k+1^{st}$ candidate is the most highly ranked of them all.  There are ${n-1 \choose k}$ ways to partition the candidates, $(k-1)!$ ways to arrange the non-best candidates in the first partition, and $(n-k-1)!$ ways to arrange the non-best candidates in the second partition.   Thus, the probability is given by 
+\begin{align*}
+ \frac{\sum_{k=1}^{n-1} {n-1 \choose k}(k-1)!(n-k-1)!}{n!} &=  \frac{\sum_{k=1}^{n-1} \frac{(n-1)!}{k}}{n!} \\
+&= \sum_{k=1}^{n-1} \frac{1}{nk}.
+\end{align*}
+
 
 \noindent\textbf{Exercise 5.2-3}\\
 
