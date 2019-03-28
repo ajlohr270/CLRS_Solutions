@@ -149,8 +149,16 @@ Suppose that $u = v_0, v_1, \ldots, v_k = v$ is a path $p$ from $u$ to $v$.  If 
 
 
 \noindent\textbf{Exercise B.4-3}\\
-We proceed by induction on the number of vertices. If there is a single vertex, then the inequality trivially holds since the left hand side is the size of a set and the right hand side is zero. For the inductive case, pick one vertex in particular. We know that that vertex must have at least one edge to the rest of the vertices because the graph is connected. So, when we take the induced subgraph on the rest of the vertices, we are decreasing the number of edges by at least one. So, $|E| \ge 1+ |E'| \ge 1+ |V'| -1 = |V| -1$.\\
+We proceed by induction on the number of vertices. If there is a single vertex, then the inequality trivially holds since the left hand side is the size of a set and the right hand side is zero. For the inductive case,call the edges $E$ and vertices $V$. First find any spanning tree of your graph. One can always be shown to exist for a connected graph, because removing the edge from a cycle cannot disconnect that cycle, and if there are no cycles remaining, then it is a tree. Then, pick any vertex $v$ that is a leaf of that spanning tree. Removing $v$ from the original graph cannot cause that to become disconnected, since removing it doesn't cause the spanning tree to become disconnected, and the spanning tree is a subgraph of the original graph. Denoting $E'$ and $V'$ the edges and vertices of the subgraph induced on removing $v$, and $S$ the set of edges which have one end at $v$ we have
 
+\begin{align*}
+|E'| &\ge |V'|-1\\
+|E'| + |S| &\ge |V'|-1 +1\\
+|E' \cup S| &\ge |V' \cup \{v\}| -1\\
+|E| &\ge |V|-1
+\end{align*}\\
+
+ 
 \noindent\textbf{Exercise B.4-4}\\
 
 Every graph is reachable from itself by the empty path so the relation is reflexive.  If $v$ is reachable from $u$ then there exists a path $u = v_0, v_1, \ldots, v_k = v$.  Thus, $v_k, v_{k-1}, \ldots, v_0$ is a path from $v$ to $u$, so $u$ is reachable from $v$ and the relation is symmetric.  If $v$ is reachable from $u$ and $w$ is reachable from $v$ then by concatenation of paths, $w$ is reachable from $u$, so the relation is transitive.  Therefore the ``is reachable from'' relation is an equivalence relation. \\
